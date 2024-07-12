@@ -3,10 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-ePowConv
+ePowCoRe
 ========
 
-ePowConv aims to provide a transparent and tweakable conversion path between open and commercial power system modeling formats.
+ePowCoRe aims to provide a transparent and tweakable conversion path between open and commercial power system modeling formats.
 It achieves this by introducing a flexible, generic data format that acts as a common ground for the various supported platforms.
 In the vast domain of power system modeling, this project focuses on the most important components.
 

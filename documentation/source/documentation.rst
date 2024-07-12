@@ -28,7 +28,7 @@ Writing the Documentation
   Outdated documentation is harmful! Perform regular checks to identify outdated parts and update them accordingly.
   This could be implemented with a GitLab issue whose due date is updated on every check.
 
-ePowConv uses `Sphinx <https://www.sphinx-doc.org/en/master/index.html>`_ for its documentation:
+ePowCoRe uses `Sphinx <https://www.sphinx-doc.org/en/master/index.html>`_ for its documentation:
 
 .. code-block:: shell
 
