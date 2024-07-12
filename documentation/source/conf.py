@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "generic-model-converter"
-copyright = "2023, IAI"
-author = "IAI"
+project = "ePowCoRe"
+copyright = "2024, Karlsruhe Institute of Technology (KIT) - Institute for Automation and Applied Informatics (IAI)"
+author = "KIT-IAI-ESA"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
