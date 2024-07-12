@@ -12,8 +12,9 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 for p in sys.path:
     print(p, ":")
-    for f in os.listdir(p):
-        print(f)
+    if os.path.isdir(p):
+        for f in os.listdir(p):
+            print(f)
     print("----")
 
 
