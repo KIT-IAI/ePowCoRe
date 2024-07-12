@@ -1,0 +1,49 @@
+backgroundWidth: 100.0
+backgroundHeight: 60.0
+JmdlModel:
+  base_frequency: 50.0
+  base_mva: 100.0
+Switch:
+  rate_a: 100.0
+  rate_b: 105.0
+  rate_c: 110.0
+TLine:
+  rating_short_term_factor: 1.1
+  rating_emergency_factor: 1.2
+  angle_min: -360.0
+  angle_max: 360.0
+TwoWindingTransformer:
+  rating_short_term_factor: 1.1
+  rating_emergency_factor: 1.2
+  angle_min: -360.0
+  angle_max: 360.0
+VoltageSource:
+  PMin: -1e10
+  PMax: 1e10
+  QMin: -1e9
+  QMax: 1e9
+  QC1Min: 0.0
+  QC1Max: 0.0
+  QC2Min: 0.0
+  QC2Max: 0.0
+  ramp10: 0.0
+  ramp30: 0.0
+  rampQ: 0.0
+  costStartUp: 0.0
+  costShutDown: 0.0
+Import:
+  center:
+    - 0
+    - 0
+  size:
+    - 10
+    - 10
+  backgroundColor: "#d3d3d3ff"
+  border:
+    color: "#000000ff"
+    thickness: "5.0%"
+  radius: "0.0px"
+  Cable:
+    borderPos: 0.0
+    diameter: "7.0%"
+    color: "#000000ff"

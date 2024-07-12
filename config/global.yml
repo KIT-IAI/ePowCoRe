@@ -1,0 +1,27 @@
+DataStructure:
+  base_mva: 100.0
+ExternalGrid:
+  p_min: 0.0
+  p_max: 100_000
+Impedance:
+  # line susceptances are used for conversion to TLine
+  b1_line: 1.e-10
+  b0_line: 1.e-10
+Switch:
+  in_service: True
+TLine:
+  zero_sequence_factor: 3.0
+TwoWindingTransformer:
+  tap_ratio: 1.0
+  # max voltage per step; used for tap detail calculation
+  max_tap_voltage: 0.05  
+  tap_changer_voltage: 0.0
+  tap_min: 0
+  tap_max: 0
+  tap_neutral: 0
+  tap_initial: 0
+  # default value in case of zero division error (xm_pu or rm_pu-> +inf)
+  rm_pu: 1.e+8
+  xm_pu: 1.e+8
+SUBSYSTEM_GROUPINGS:
+  - SM_CONTROLLERS

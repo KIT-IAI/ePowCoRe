@@ -1,0 +1,15 @@
+HierarchySize:
+  - 750
+  - 500
+PiSection:
+  r1_min: 1e-10
+  x1_min: 1e-10
+  r0_min: 1e-10
+  x0_min: 1e-10
+TLine:
+  r1_min: 1e-10
+  x1_min: 1e-10
+  xc1_min: 1e-10
+  r0_min: 1e-10
+  x0_min: 1e-10
+  xc0_min: 1e-10

@@ -1,0 +1,511 @@
+{
+  "base_frequency": 60,
+  "graph": {
+    "('epowcore.gdf.bus.Bus', 0, 'Bus 1')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 21, 'G1')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 12, 'T1')": {
+        "12": "LV"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 1, 'Bus 2')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 22, 'G2')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 13, 'T2')": {
+        "13": "LV"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 2, 'Bus 3')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 23, 'G3')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 14, 'T3')": {
+        "14": "LV"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 3, 'Bus 4')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 12, 'T1')": {
+        "12": "HV"
+      },
+      "('epowcore.gdf.tline.TLine', 15, 'Line 4-5')": {
+        "15": "B"
+      },
+      "('epowcore.gdf.tline.TLine', 16, 'Line 4-6')": {
+        "16": "B"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 4, 'Bus 5')": {
+      "('epowcore.gdf.tline.TLine', 15, 'Line 4-5')": {
+        "15": "A"
+      },
+      "('epowcore.gdf.load.Load', 9, 'Load A')": {},
+      "('epowcore.gdf.tline.TLine', 17, 'Line 5-7')": {
+        "17": "A"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 5, 'Bus 6')": {
+      "('epowcore.gdf.load.Load', 10, 'Load B')": {},
+      "('epowcore.gdf.tline.TLine', 18, 'Line 6-9')": {
+        "18": "B"
+      },
+      "('epowcore.gdf.tline.TLine', 16, 'Line 4-6')": {
+        "16": "A"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 6, 'Bus 7')": {
+      "('epowcore.gdf.tline.TLine', 17, 'Line 5-7')": {
+        "17": "B"
+      },
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 13, 'T2')": {
+        "13": "HV"
+      },
+      "('epowcore.gdf.tline.TLine', 19, 'Line 7-8')": {
+        "19": "A"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 7, 'Bus 8')": {
+      "('epowcore.gdf.tline.TLine', 19, 'Line 7-8')": {
+        "19": "B"
+      },
+      "('epowcore.gdf.load.Load', 11, 'Load C')": {},
+      "('epowcore.gdf.tline.TLine', 20, 'Line 8-9')": {
+        "20": "A"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 8, 'Bus 9')": {
+      "('epowcore.gdf.tline.TLine', 20, 'Line 8-9')": {
+        "20": "B"
+      },
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 14, 'T3')": {
+        "14": "HV"
+      },
+      "('epowcore.gdf.tline.TLine', 18, 'Line 6-9')": {
+        "18": "A"
+      }
+    },
+    "('epowcore.gdf.load.Load', 9, 'Load A')": {
+      "('epowcore.gdf.bus.Bus', 4, 'Bus 5')": {}
+    },
+    "('epowcore.gdf.load.Load', 10, 'Load B')": {
+      "('epowcore.gdf.bus.Bus', 5, 'Bus 6')": {}
+    },
+    "('epowcore.gdf.load.Load', 11, 'Load C')": {
+      "('epowcore.gdf.bus.Bus', 7, 'Bus 8')": {}
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 12, 'T1')": {
+      "('epowcore.gdf.bus.Bus', 0, 'Bus 1')": {
+        "12": "LV"
+      },
+      "('epowcore.gdf.bus.Bus', 3, 'Bus 4')": {
+        "12": "HV"
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 13, 'T2')": {
+      "('epowcore.gdf.bus.Bus', 1, 'Bus 2')": {
+        "13": "LV"
+      },
+      "('epowcore.gdf.bus.Bus', 6, 'Bus 7')": {
+        "13": "HV"
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 14, 'T3')": {
+      "('epowcore.gdf.bus.Bus', 2, 'Bus 3')": {
+        "14": "LV"
+      },
+      "('epowcore.gdf.bus.Bus', 8, 'Bus 9')": {
+        "14": "HV"
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 15, 'Line 4-5')": {
+      "('epowcore.gdf.bus.Bus', 3, 'Bus 4')": {
+        "15": "B"
+      },
+      "('epowcore.gdf.bus.Bus', 4, 'Bus 5')": {
+        "15": "A"
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 16, 'Line 4-6')": {
+      "('epowcore.gdf.bus.Bus', 3, 'Bus 4')": {
+        "16": "B"
+      },
+      "('epowcore.gdf.bus.Bus', 5, 'Bus 6')": {
+        "16": "A"
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 17, 'Line 5-7')": {
+      "('epowcore.gdf.bus.Bus', 4, 'Bus 5')": {
+        "17": "A"
+      },
+      "('epowcore.gdf.bus.Bus', 6, 'Bus 7')": {
+        "17": "B"
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 18, 'Line 6-9')": {
+      "('epowcore.gdf.bus.Bus', 5, 'Bus 6')": {
+        "18": "B"
+      },
+      "('epowcore.gdf.bus.Bus', 8, 'Bus 9')": {
+        "18": "A"
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 19, 'Line 7-8')": {
+      "('epowcore.gdf.bus.Bus', 6, 'Bus 7')": {
+        "19": "A"
+      },
+      "('epowcore.gdf.bus.Bus', 7, 'Bus 8')": {
+        "19": "B"
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 20, 'Line 8-9')": {
+      "('epowcore.gdf.bus.Bus', 7, 'Bus 8')": {
+        "20": "A"
+      },
+      "('epowcore.gdf.bus.Bus', 8, 'Bus 9')": {
+        "20": "B"
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 21, 'G1')": {
+      "('epowcore.gdf.bus.Bus', 0, 'Bus 1')": {}
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 22, 'G2')": {
+      "('epowcore.gdf.bus.Bus', 1, 'Bus 2')": {}
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 23, 'G3')": {
+      "('epowcore.gdf.bus.Bus', 2, 'Bus 3')": {}
+    }
+  },
+  "components": {
+    "('epowcore.gdf.bus.Bus', 0, 'Bus 1')": {
+      "uid": 0,
+      "name": "Bus 1",
+      "connector_names": [],
+      "lf_bus_type": "SL",
+      "nominal_voltage": 16.5,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 1, 'Bus 2')": {
+      "uid": 1,
+      "name": "Bus 2",
+      "connector_names": [],
+      "lf_bus_type": "PV",
+      "nominal_voltage": 18.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 2, 'Bus 3')": {
+      "uid": 2,
+      "name": "Bus 3",
+      "connector_names": [],
+      "lf_bus_type": "PV",
+      "nominal_voltage": 13.800000190734863,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 3, 'Bus 4')": {
+      "uid": 3,
+      "name": "Bus 4",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 230.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 4, 'Bus 5')": {
+      "uid": 4,
+      "name": "Bus 5",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 230.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 5, 'Bus 6')": {
+      "uid": 5,
+      "name": "Bus 6",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 230.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 6, 'Bus 7')": {
+      "uid": 6,
+      "name": "Bus 7",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 230.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 7, 'Bus 8')": {
+      "uid": 7,
+      "name": "Bus 8",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 230.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 8, 'Bus 9')": {
+      "uid": 8,
+      "name": "Bus 9",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 230.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.load.Load', 9, 'Load A')": {
+      "uid": 9,
+      "name": "Load A",
+      "connector_names": [],
+      "active_power": 125.0,
+      "reactive_power": 50.0
+    },
+    "('epowcore.gdf.load.Load', 10, 'Load B')": {
+      "uid": 10,
+      "name": "Load B",
+      "connector_names": [],
+      "active_power": 90.0,
+      "reactive_power": 30.0
+    },
+    "('epowcore.gdf.load.Load', 11, 'Load C')": {
+      "uid": 11,
+      "name": "Load C",
+      "connector_names": [],
+      "active_power": 100.0,
+      "reactive_power": 35.0
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 12, 'T1')": {
+      "uid": 12,
+      "name": "T1",
+      "connector_names": [],
+      "rating": 250.0,
+      "voltage_hv": 230.0,
+      "voltage_lv": 16.5,
+      "copper_losses": 0.0,
+      "no_load_losses": 0.0,
+      "no_load_current": 0.0,
+      "positive_reactance": 0.14399999380111694,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "tap_changer_voltage": 0.0,
+      "tap_min": 0,
+      "tap_max": 0,
+      "tap_neutral": 0,
+      "tap_initial": 0
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 13, 'T2')": {
+      "uid": 13,
+      "name": "T2",
+      "connector_names": [],
+      "rating": 200.0,
+      "voltage_hv": 230.0,
+      "voltage_lv": 18.0,
+      "copper_losses": 0.0,
+      "no_load_losses": 0.0,
+      "no_load_current": 0.0,
+      "positive_reactance": 0.125,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "tap_changer_voltage": 0.0,
+      "tap_min": 0,
+      "tap_max": 0,
+      "tap_neutral": 0,
+      "tap_initial": 0
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 14, 'T3')": {
+      "uid": 14,
+      "name": "T3",
+      "connector_names": [],
+      "rating": 150.0,
+      "voltage_hv": 230.0,
+      "voltage_lv": 13.800000190734863,
+      "copper_losses": 0.0,
+      "no_load_losses": 0.0,
+      "no_load_current": 0.0,
+      "positive_reactance": 0.08789999783039093,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "tap_changer_voltage": 0.0,
+      "tap_min": 0,
+      "tap_max": 0,
+      "tap_neutral": 0,
+      "tap_initial": 0
+    },
+    "('epowcore.gdf.tline.TLine', 15, 'Line 4-5')": {
+      "uid": 15,
+      "name": "Line 4-5",
+      "connector_names": [],
+      "length": 1.0,
+      "r1": 5.289999961853027,
+      "x1": 44.96500015258789,
+      "b1": 332.70001220703125,
+      "r0": 0.0,
+      "x0": 0.0,
+      "b0": 0.0,
+      "rating": 230.0
+    },
+    "('epowcore.gdf.tline.TLine', 16, 'Line 4-6')": {
+      "uid": 16,
+      "name": "Line 4-6",
+      "connector_names": [],
+      "length": 1.0,
+      "r1": 8.993000030517578,
+      "x1": 48.667999267578125,
+      "b1": 298.69000244140625,
+      "r0": 0.0,
+      "x0": 0.0,
+      "b0": 0.0,
+      "rating": 230.0
+    },
+    "('epowcore.gdf.tline.TLine', 17, 'Line 5-7')": {
+      "uid": 17,
+      "name": "Line 5-7",
+      "connector_names": [],
+      "length": 1.0,
+      "r1": 16.92799949645996,
+      "x1": 85.16899871826172,
+      "b1": 578.4500122070312,
+      "r0": 0.0,
+      "x0": 0.0,
+      "b0": 0.0,
+      "rating": 230.0
+    },
+    "('epowcore.gdf.tline.TLine', 18, 'Line 6-9')": {
+      "uid": 18,
+      "name": "Line 6-9",
+      "connector_names": [],
+      "length": 1.0,
+      "r1": 20.631000518798828,
+      "x1": 89.93000030517578,
+      "b1": 676.75,
+      "r0": 0.0,
+      "x0": 0.0,
+      "b0": 0.0,
+      "rating": 230.0
+    },
+    "('epowcore.gdf.tline.TLine', 19, 'Line 7-8')": {
+      "uid": 19,
+      "name": "Line 7-8",
+      "connector_names": [],
+      "length": 1.0,
+      "r1": 4.496500015258789,
+      "x1": 38.0880012512207,
+      "b1": 281.6600036621094,
+      "r0": 0.0,
+      "x0": 0.0,
+      "b0": 0.0,
+      "rating": 230.0
+    },
+    "('epowcore.gdf.tline.TLine', 20, 'Line 8-9')": {
+      "uid": 20,
+      "name": "Line 8-9",
+      "connector_names": [],
+      "length": 1.0,
+      "r1": 6.295100212097168,
+      "x1": 53.32320022583008,
+      "b1": 395.0799865722656,
+      "r0": 0.0,
+      "x0": 0.0,
+      "b0": 0.0,
+      "rating": 230.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 21, 'G1')": {
+      "uid": 21,
+      "name": "G1",
+      "connector_names": [],
+      "rated_apparent_power": 247.5,
+      "rated_active_power": 71.5999984741211,
+      "rated_voltage": 16.5,
+      "active_power": 71.5999984741211,
+      "reactive_power": 27.0,
+      "voltage_set_point": 1.0399999618530273,
+      "inertia_constant": 9.551515579223633,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.10000000149011612,
+      "stator_leakage_reactance": 0.08316,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 0.36134999990463257,
+      "transient_reactance_x": 0.1504800021648407,
+      "subtransient_reactance_x": 0.10000000149011612,
+      "synchronous_reactance_q": 0.239827498793602,
+      "transient_reactance_q": 0.239827498793602,
+      "subtransient_reactance_q": 0.10000000149011612,
+      "tds0": 8.960000038146973,
+      "tqs0": 0.0,
+      "tdss0": 0.07500000298023224,
+      "tqss0": 0.15000000596046448,
+      "p_min": 60.0,
+      "p_max": 247.5,
+      "q_min": -247.5,
+      "q_max": 247.5,
+      "pc1": 60.0,
+      "pc2": 247.5,
+      "qc1_min": -198.0,
+      "qc1_max": 198.0,
+      "qc2_min": -198.0,
+      "qc2_max": 198.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 22, 'G2')": {
+      "uid": 22,
+      "name": "G2",
+      "connector_names": [],
+      "rated_apparent_power": 192.0,
+      "rated_active_power": 163.0,
+      "rated_voltage": 18.0,
+      "active_power": 163.0,
+      "reactive_power": 6.699999809265137,
+      "voltage_set_point": 1.024999976158142,
+      "inertia_constant": 3.3333332538604736,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.10000000149011612,
+      "stator_leakage_reactance": 0.100032,
+      "stator_resistance": 0.004999999888241291,
+      "synchronous_reactance_x": 1.7199360132217407,
+      "transient_reactance_x": 0.23001599311828613,
+      "subtransient_reactance_x": 0.20000000298023224,
+      "synchronous_reactance_q": 1.6598399877548218,
+      "transient_reactance_q": 0.37804800271987915,
+      "subtransient_reactance_q": 0.20000000298023224,
+      "tds0": 6.0,
+      "tqs0": 0.5350000262260437,
+      "tdss0": 0.057500001043081284,
+      "tqss0": 0.09449999779462814,
+      "p_min": 40.0,
+      "p_max": 163.20001220703125,
+      "q_min": -192.0,
+      "q_max": 192.0,
+      "pc1": 40.0,
+      "pc2": 163.1999969482422,
+      "qc1_min": -76.80000305175781,
+      "qc1_max": 115.20000457763672,
+      "qc2_min": -76.80000305175781,
+      "qc2_max": 115.20000457763672
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 23, 'G3')": {
+      "uid": 23,
+      "name": "G3",
+      "connector_names": [],
+      "rated_apparent_power": 128.0,
+      "rated_active_power": 85.0,
+      "rated_voltage": 13.800000190734863,
+      "active_power": 85.0,
+      "reactive_power": -10.899999618530273,
+      "voltage_set_point": 1.024999976158142,
+      "inertia_constant": 2.3515625,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.10000000149011612,
+      "stator_leakage_reactance": 0.094976,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 1.6799999475479126,
+      "transient_reactance_x": 0.23206399381160736,
+      "subtransient_reactance_x": 0.20000000298023224,
+      "synchronous_reactance_q": 1.609984040260315,
+      "transient_reactance_q": 0.3199999928474426,
+      "subtransient_reactance_q": 0.20000000298023224,
+      "tds0": 5.889999866485596,
+      "tqs0": 0.6000000238418579,
+      "tdss0": 0.057500001043081284,
+      "tqss0": 0.07999999821186066,
+      "p_min": 25.0,
+      "p_max": 108.80000305175781,
+      "q_min": -128.0,
+      "q_max": 128.0,
+      "pc1": 25.0,
+      "pc2": 108.80000305175781,
+      "qc1_min": -51.20000076293945,
+      "qc1_max": 76.80000305175781,
+      "qc2_min": -51.20000076293945,
+      "qc2_max": 76.80000305175781
+    }
+  }
+}

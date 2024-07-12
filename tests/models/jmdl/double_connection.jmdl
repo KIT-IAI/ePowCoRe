@@ -1,0 +1,3314 @@
+{
+  "version": "0.6",
+  "geoMode": false,
+  "data": {
+    "description": "",
+    "type": "group",
+    "entries": {
+      "baseMVA": {
+        "description": "",
+        "type": "float64",
+        "value": 100.0
+      },
+      "frequency": {
+        "description": "",
+        "type": "int64",
+        "value": 50
+      },
+      "mpcVersion": {
+        "description": "",
+        "type": "string",
+        "value": "2"
+      }
+    }
+  },
+  "/": {
+    "ports": {},
+    "type": "SuperBlock",
+    "blocks": {
+      "LN_0_1002": {
+        "ports": {
+          "from": {
+            "type": "ConservingPort",
+            "layout": {
+              "borderPos": 0.0,
+              "diameter": "7.0000000000000009%",
+              "color": "0x000000ff"
+            }
+          },
+          "to": {
+            "type": "ConservingPort",
+            "layout": {
+              "borderPos": 0.4145034513180688,
+              "diameter": "7.0000000000000009%",
+              "color": "0x000000ff"
+            }
+          }
+        },
+        "type": "BasicBlock",
+        "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowLine",
+        "comment": "",
+        "url": "",
+        "tags": [ "Line" ],
+        "data": {
+          "description": "",
+          "type": "group",
+          "entries": {
+            "EPowLine": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "R": {
+                  "description": "resistance (p.u.)",
+                  "type": "float64",
+                  "value": 0.0807500034570694
+                },
+                "X": {
+                  "description": "reactance (p.u.)",
+                  "type": "float64",
+                  "value": 0.03290817514061928
+                },
+                "B": {
+                  "description": "total line charging susceptance (p.u.)",
+                  "type": "float64",
+                  "value": 0.00027143365478515623
+                },
+                "rateA": {
+                  "description": "MVA rating A (long term rating)",
+                  "type": "float64",
+                  "value": 5.040000081062317
+                },
+                "rateB": {
+                  "description": "MVA rating B (shot term rating)",
+                  "type": "float64",
+                  "value": 5.292000085115433
+                },
+                "rateC": {
+                  "description": "MVA rating C (emergency rating)",
+                  "type": "float64",
+                  "value": 5.5440000891685495
+                },
+                "angleMin": {
+                  "description": "Minimum angle difference, angle_from - angle_to (degrees)",
+                  "type": "float64",
+                  "value": -360.0
+                },
+                "angleMax": {
+                  "description": "Maximum angle difference, angle_from - angle_to (degrees)",
+                  "type": "float64",
+                  "value": 360.0
+                },
+                "inService": {
+                  "description": "",
+                  "type": "bool",
+                  "value": true
+                },
+                "parallelLines": {
+                  "description": "information value: The amount of parallel lines of which this line consists",
+                  "type": "int64",
+                  "value": 1
+                }
+              }
+            },
+            "geoData": {
+              "description": "Geographic Data and Shape of the real world object represented by this block.",
+              "type": "group",
+              "entries": {
+                "label": {
+                  "description": "A meaningful label text.",
+                  "type": "string",
+                  "value": ""
+                },
+                "labelColor": {
+                  "description": "Label text color.",
+                  "type": "string",
+                  "value": ""
+                },
+                "center": {
+                  "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                  "type": "string",
+                  "value": "48.98613399662823,8.444685000000002,0.0"
+                },
+                "path": {
+                  "description": "Geographic shape.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineColor": {
+                  "description": "Color of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineThickness": {
+                  "description": "Thickness of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "fillColor": {
+                  "description": "The enclosed area's fill color, provided the path is closed.",
+                  "type": "string",
+                  "value": ""
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "center": [ 360.0, 310.0 ],
+          "size": [ 10.0, 10.0 ],
+          "backgroundColor": "0xd3d3d3ff",
+          "borderColor": "0x000000ff",
+          "borderThickness": "5.0%",
+          "radiusNW": "0.0px",
+          "radiusNE": "0.0px",
+          "radiusSW": "0.0px",
+          "radiusSE": "0.0px"
+        }
+      },
+      "Sub_30000000000_IN": {
+        "ports": {
+          "Port777": {
+            "type": "ConservingPort",
+            "layout": {
+              "borderPos": 0.9239036314225153,
+              "diameter": "7.0000000000000009%",
+              "color": "0x000000ff"
+            },
+            "internal": {
+              "layout": {
+                "x": 1118.7032270698278,
+                "y": 896.5766549817512,
+                "diameter": 20.0,
+                "color": "0x000000ff"
+              }
+            }
+          },
+          "Port780": {
+            "type": "ConservingPort",
+            "layout": {
+              "borderPos": 0.0,
+              "diameter": "7.0000000000000009%",
+              "color": "0x000000ff"
+            },
+            "internal": {
+              "layout": {
+                "x": 1646.1735106158283,
+                "y": 962.6883983231986,
+                "diameter": 20.0,
+                "color": "0x000000ff"
+              }
+            }
+          }
+        },
+        "type": "SuperBlock",
+        "blocks": {
+          "30000000000_IN": {
+            "ports": {
+              "to_Port780": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8970110703470092,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1508": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.41589688394059865,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "PQ",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 20.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 2114.133277128322, 1078.6608051941953 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "30000000000_OUT": {
+            "ports": {
+              "to_Port777": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.9231424860659421,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1509": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.44826336729187233,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "PQ",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 20.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1238.208801759377, 942.1023212788928 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "40MVA110_20_kV_Trf_1": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.462196244585931,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.13287866352491165,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowTransformer",
+            "comment": "",
+            "url": "",
+            "tags": [ "Transformer" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowTransformer": {
+                  "description": "MatPower transformer data.",
+                  "type": "group",
+                  "entries": {
+                    "tapRatio": {
+                      "description": "Transformer off nominal turns ratio, (tap=|V_from|/|V_to|",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "phaseShift": {
+                      "description": "Transformer phase shift angle (degrees), positive ⇒ delay",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "R": {
+                      "description": "resistance (p.u.)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "X": {
+                      "description": "reactance (p.u.)",
+                      "type": "float64",
+                      "value": 0.03749999916180968
+                    },
+                    "B": {
+                      "description": "total line charging susceptance (p.u.)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 40.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 42.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 44.0
+                    },
+                    "angleMin": {
+                      "description": "Minimum angle difference, angle_from - angle_to (degrees)",
+                      "type": "float64",
+                      "value": -360.0
+                    },
+                    "angleMax": {
+                      "description": "Maximum angle difference, angle_from - angle_to (degrees)",
+                      "type": "float64",
+                      "value": 360.0
+                    },
+                    "inService": {
+                      "description": "",
+                      "type": "bool",
+                      "value": true
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1224.495255563647, 1351.5424186731877 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "40MVA110_20_kV_Trf_2": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.3724874662107086,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.5075538491932263,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowTransformer",
+            "comment": "",
+            "url": "",
+            "tags": [ "Transformer" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowTransformer": {
+                  "description": "MatPower transformer data.",
+                  "type": "group",
+                  "entries": {
+                    "tapRatio": {
+                      "description": "Transformer off nominal turns ratio, (tap=|V_from|/|V_to|",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "phaseShift": {
+                      "description": "Transformer phase shift angle (degrees), positive ⇒ delay",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "R": {
+                      "description": "resistance (p.u.)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "X": {
+                      "description": "reactance (p.u.)",
+                      "type": "float64",
+                      "value": 0.03749999916180968
+                    },
+                    "B": {
+                      "description": "total line charging susceptance (p.u.)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 40.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 42.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 44.0
+                    },
+                    "angleMin": {
+                      "description": "Minimum angle difference, angle_from - angle_to (degrees)",
+                      "type": "float64",
+                      "value": -360.0
+                    },
+                    "angleMax": {
+                      "description": "Maximum angle difference, angle_from - angle_to (degrees)",
+                      "type": "float64",
+                      "value": 360.0
+                    },
+                    "inService": {
+                      "description": "",
+                      "type": "bool",
+                      "value": true
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1426.8722522180879, 1347.0078438880014 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_0": {
+            "ports": {
+              "to_ExternalGrid1501": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8713053604865727,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1502": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.39496296621660465,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "REF",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 110.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1458.1776459371351, 1568.2701214498559 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_1": {
+            "ports": {
+              "to_Switch1502": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8491667850798535,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1503": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.877641777345849,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1504": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.9006103887478105,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "REF",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 110.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 2342.745473056756, 1531.7276086126778 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_2": {
+            "ports": {
+              "to_Switch1503": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.39271541356654693,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Transformer769": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.9539919493501543,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "REF",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 110.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1350.7801700071593, 1429.0982283156582 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_3": {
+            "ports": {
+              "to_Switch1504": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.38972373008179556,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Transformer770": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8688227210250773,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "REF",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 110.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1531.5446863647576, 1344.8484042706286 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_4": {
+            "ports": {
+              "to_Switch1505": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.3016877861686794,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Transformer769": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.6536136095271388,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "PQ",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 20.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1247.3495620483222, 1210.467435285655 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_5": {
+            "ports": {
+              "to_Switch1506": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.4397144200705384,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Transformer770": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.9888593128456397,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "PQ",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 20.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1544.4499441603157, 1474.577624590791 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_6": {
+            "ports": {
+              "to_Switch1505": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8704565164983649,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1507": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8696167595000247,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1508": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.3775757042989746,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "PQ",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 20.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1667.7232516448364, 1106.4004674133625 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "bus_7": {
+            "ports": {
+              "to_Switch1506": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.5198340558346842,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1507": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.10986752869174074,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to_Switch1509": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.032015213291483435,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowBus",
+            "comment": "",
+            "url": "",
+            "tags": [ "Bus" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowBus": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "busType": {
+                      "description": "Determines which of the bus' electrical quantities are a simulation input and which ones are an output.\nPV:  Bus type for usual Generators. It regulates Voltage V and produces a set amount of Power P.\nPQ:  Bus Type for pure Loads. It defines the real and reactive power demand.\nREF: Also known ad Vδ or Slack Bus. The biggest generator usually has this bus type.\n       It regulates the Voltage and determines the voltage phase angle offset for the simulation.\n       It compensates all power shortcommings and surpluses (which is why it should be the strongest generator)\nISOLATED: All Generators, Branches and Loads are disconnected from the bus and therefore isolated from one another.",
+                      "type": "enum",
+                      "value": "PQ",
+                      "enumClass": "edu.kit.iai.easimov.modeler.model.matpower.BusType"
+                    },
+                    "baseKV": {
+                      "description": "base voltage [kV]",
+                      "type": "float64",
+                      "value": 20.0
+                    },
+                    "VMagnitude": {
+                      "description": "Voltage Magnitude [p.u.].",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "VAngle": {
+                      "description": "Voltage angle [°].",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "V_min": {
+                      "description": "Minimum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 0.9
+                    },
+                    "V_max": {
+                      "description": "Maximum voltage magnitude [p.u.]",
+                      "type": "float64",
+                      "value": 1.1
+                    },
+                    "Area": {
+                      "description": "area number (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    },
+                    "Zone": {
+                      "description": "loss zone (positive integer)",
+                      "type": "int64",
+                      "value": 0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1545.8077030683726, 1233.39043252348 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "hundred_kV_Ext_Grid": {
+            "ports": {
+              "powerOut": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.354651816940185,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowExternalGrid",
+            "comment": "",
+            "url": "",
+            "tags": [ "ExternalGrid" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowExternalGrid": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "V": {
+                      "description": "The Voltagesetpoint in p.u.",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "P": {
+                      "description": "The real power input.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Q": {
+                      "description": "The reactive power input.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Pmin": {
+                      "description": "The minimum real power output.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Pmax": {
+                      "description": "The maximum real power output.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Qmin": {
+                      "description": "Minimum reactive power output (MVAr)",
+                      "type": "float64",
+                      "value": -9999.0
+                    },
+                    "Qmax": {
+                      "description": "Maximum reactive power output (MVAr)",
+                      "type": "float64",
+                      "value": 9999.0
+                    },
+                    "type": {
+                      "description": "Determines if the ExternalGrid is defined as PQ, PV or SL(REF).\nThe BusType of the connected bus must be accordingly.\nPQ: P and Q must be defined. Min and Max values are strict.\nPV: P and V must be defined. QMin and QMax are optional\nSL: V must be defined. Min and Max values must be supplied.",
+                      "type": "enum",
+                      "value": "SL",
+                      "enumClass": "edu.kit.iai.easimov.modeler.util.ExternalGridType"
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1311.408184542329, 1580.4062920312651 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_0": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8928934812878936,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.36543630384753534,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1727.6958626642815, 1625.641562649601 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_1": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.38440289249581383,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8948010404862985,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1655.3066628767658, 1480.0017901385193 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_2": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.40104899928994175,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8926180240732947,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1676.8339774990702, 1359.2222561341619 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_3": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8138969945860879,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.35992069739614446,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1392.9975386937078, 1138.0216580363656 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_4": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.9389904101377681,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.03224538195739675,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1844.9883154997465, 1605.4002616993218 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_5": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.35223619092048464,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.6150148367697625,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1527.465123877665, 1123.3081919599954 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_6": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.9135526654744013,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.8939095412333415,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 2573.822827529932, 1198.2486635481168 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          },
+          "switch_7": {
+            "ports": {
+              "from": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.9563202235090922,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              },
+              "to": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.5300370652688855,
+                  "diameter": "7.0000000000000009%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowSwitch",
+            "comment": "",
+            "url": "",
+            "tags": [ "Switch" ],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowSwitch": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "on": {
+                      "description": "If set to true, the switch connects.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "inService": {
+                      "description": "If set to true, the switch has no failure.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "rateA": {
+                      "description": "MVA rating A (long term rating)",
+                      "type": "float64",
+                      "value": 100.0
+                    },
+                    "rateB": {
+                      "description": "MVA rating B (shot term rating)",
+                      "type": "float64",
+                      "value": 105.0
+                    },
+                    "rateC": {
+                      "description": "MVA rating C (emergency rating)",
+                      "type": "float64",
+                      "value": 110.0
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 1360.0, 1020.0 ],
+              "size": [ 10.0, 10.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "5.0%",
+              "radiusNW": "0.0px",
+              "radiusNE": "0.0px",
+              "radiusSW": "0.0px",
+              "radiusSE": "0.0px"
+            }
+          }
+        },
+        "connections": [
+          {
+            "start": "switch_5.from",
+            "end": "bus_6.to_Switch1507",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_4.to",
+            "end": "bus_7.to_Switch1506",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "40MVA110_20_kV_Trf_2.to",
+            "end": "bus_5.to_Transformer770",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_2.to",
+            "end": "bus_3.to_Switch1504",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "40MVA110_20_kV_Trf_2.from",
+            "end": "bus_3.to_Transformer770",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_6.to",
+            "end": "bus_6.to_Switch1508",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_7.to",
+            "end": "bus_7.to_Switch1509",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_1.to",
+            "end": "bus_2.to_Switch1503",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "40MVA110_20_kV_Trf_1.from",
+            "end": "bus_2.to_Transformer769",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "40MVA110_20_kV_Trf_1.to",
+            "end": "bus_4.to_Transformer769",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": ".Port777",
+            "end": "30000000000_OUT.to_Port777",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_2.from",
+            "end": "bus_1.to_Switch1504",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_1.from",
+            "end": "bus_1.to_Switch1503",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_6.from",
+            "end": "30000000000_IN.to_Switch1508",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_7.from",
+            "end": "30000000000_OUT.to_Switch1509",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_0.from",
+            "end": "bus_0.to_Switch1502",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_4.from",
+            "end": "bus_5.to_Switch1506",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "hundred_kV_Ext_Grid.powerOut",
+            "end": "bus_0.to_ExternalGrid1501",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_0.to",
+            "end": "bus_1.to_Switch1502",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": ".Port780",
+            "end": "30000000000_IN.to_Port780",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_3.to",
+            "end": "bus_6.to_Switch1505",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_5.to",
+            "end": "bus_7.to_Switch1507",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          },
+          {
+            "start": "switch_3.from",
+            "end": "bus_4.to_Switch1505",
+            "layout": {
+              "thickness": 1.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          }
+        ],
+        "comment": "",
+        "url": "",
+        "tags": [],
+        "data": {
+          "description": "",
+          "type": "group",
+          "entries": {
+            "SuperBlock": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "backgroundImage": {
+                  "description": "",
+                  "type": "image",
+                  "filename": ""
+                },
+                "backgroundWidth": {
+                  "description": "",
+                  "type": "float64",
+                  "value": 0.0
+                },
+                "backgroundHeight": {
+                  "description": "",
+                  "type": "float64",
+                  "value": 0.0
+                }
+              }
+            },
+            "geoData": {
+              "description": "Geographic Data and Shape of the real world object represented by this block.",
+              "type": "group",
+              "entries": {
+                "label": {
+                  "description": "A meaningful label text.",
+                  "type": "string",
+                  "value": ""
+                },
+                "labelColor": {
+                  "description": "Label text color.",
+                  "type": "string",
+                  "value": ""
+                },
+                "center": {
+                  "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                  "type": "string",
+                  "value": "48.98613399662823,8.444685000000002,0.0"
+                },
+                "path": {
+                  "description": "Geographic shape.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineColor": {
+                  "description": "Color of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineThickness": {
+                  "description": "Thickness of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "fillColor": {
+                  "description": "The enclosed area's fill color, provided the path is closed.",
+                  "type": "string",
+                  "value": ""
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "center": [ 530.0, 340.0 ],
+          "size": [ 100.0, 60.0 ],
+          "backgroundColor": "0xd3d3d3ff",
+          "borderColor": "0x000000ff",
+          "borderThickness": "5.0%",
+          "radiusNW": "0.0px",
+          "radiusNE": "0.0px",
+          "radiusSW": "0.0px",
+          "radiusSE": "0.0px"
+        }
+      }
+    },
+    "connections": [
+      {
+        "start": "Sub_30000000000_IN.Port780",
+        "end": "LN_0_1002.from",
+        "layout": {
+          "thickness": 3.0,
+          "color": "0x000000ff",
+          "points": [],
+          "geoPoints": []
+        }
+      },
+      {
+        "start": "Sub_30000000000_IN.Port777",
+        "end": "LN_0_1002.to",
+        "layout": {
+          "thickness": 1.0,
+          "color": "0x000000ff",
+          "points": [],
+          "geoPoints": []
+        }
+      }
+    ],
+    "comment": "",
+    "url": "",
+    "tags": [ "Group" ],
+    "data": {
+      "description": "",
+      "type": "group",
+      "entries": {
+        "SuperBlock": {
+          "description": "",
+          "type": "group",
+          "entries": {
+            "backgroundImage": {
+              "description": "",
+              "type": "image",
+              "filename": ""
+            },
+            "backgroundWidth": {
+              "description": "",
+              "type": "float64",
+              "value": 0.0
+            },
+            "backgroundHeight": {
+              "description": "",
+              "type": "float64",
+              "value": 0.0
+            }
+          }
+        },
+        "geoData": {
+          "description": "Geographic Data and Shape of the real world object represented by this block.",
+          "type": "group",
+          "entries": {
+            "label": {
+              "description": "A meaningful label text.",
+              "type": "string",
+              "value": ""
+            },
+            "labelColor": {
+              "description": "Label text color.",
+              "type": "string",
+              "value": ""
+            },
+            "center": {
+              "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+              "type": "string",
+              "value": ""
+            },
+            "path": {
+              "description": "Geographic shape.",
+              "type": "string",
+              "value": ""
+            },
+            "lineColor": {
+              "description": "Color of the path line.",
+              "type": "string",
+              "value": ""
+            },
+            "lineThickness": {
+              "description": "Thickness of the path line.",
+              "type": "string",
+              "value": ""
+            },
+            "fillColor": {
+              "description": "The enclosed area's fill color, provided the path is closed.",
+              "type": "string",
+              "value": ""
+            }
+          }
+        },
+        "backgroundHeight": {
+          "description": "",
+          "type": "float64",
+          "value": 0.0
+        },
+        "backgroundImage": {
+          "description": "",
+          "type": "string",
+          "value": ""
+        },
+        "backgroundWidth": {
+          "description": "",
+          "type": "float64",
+          "value": 0.0
+        }
+      }
+    },
+    "layout": {
+      "center": [ 0.0, 0.0 ],
+      "size": [ 100.0, 60.0 ],
+      "backgroundColor": "0xd3d3d3ff",
+      "borderColor": "0x000000ff",
+      "borderThickness": "5.0%",
+      "radiusNW": "0.0px",
+      "radiusNE": "0.0px",
+      "radiusSW": "0.0px",
+      "radiusSE": "0.0px"
+    }
+  },
+  "tagDatabase": [
+    {
+      "label": "Bus",
+      "color": "#FFFFFF"
+    },
+    {
+      "label": "ExternalGrid",
+      "color": "#FFFFFF"
+    },
+    {
+      "label": "Group",
+      "color": "#FFFFFF"
+    },
+    {
+      "label": "Line",
+      "color": "#FFFFFF"
+    },
+    {
+      "label": "Switch",
+      "color": "#FFFFFF"
+    },
+    {
+      "label": "Transformer",
+      "color": "#FFFFFF"
+    }
+  ]
+}

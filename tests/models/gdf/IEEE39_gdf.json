@@ -1,0 +1,4022 @@
+{
+  "base_frequency": 60,
+  "base_mva": null,
+  "version": 1,
+  "graph": {
+    "('epowcore.gdf.bus.Bus', 0, 'Bus 01')": {
+      "('epowcore.gdf.tline.TLine', 71, 'Line 01 - 39')": {
+        "71": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 70, 'Line 01 - 02')": {
+        "70": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 1, 'Bus 02')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 59, 'Trf 02 - 30')": {
+        "59": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 72, 'Line 02 - 03')": {
+        "72": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 70, 'Line 01 - 02')": {
+        "70": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 73, 'Line 02 - 25')": {
+        "73": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 2, 'Bus 03')": {
+      "('epowcore.gdf.load.Load', 39, 'Load 03')": {},
+      "('epowcore.gdf.tline.TLine', 74, 'Line 03 - 04')": {
+        "74": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 72, 'Line 02 - 03')": {
+        "72": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 75, 'Line 03 - 18')": {
+        "75": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 3, 'Bus 04')": {
+      "('epowcore.gdf.load.Load', 40, 'Load 04')": {},
+      "('epowcore.gdf.tline.TLine', 77, 'Line 04 - 14')": {
+        "77": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 74, 'Line 03 - 04')": {
+        "74": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 76, 'Line 04 - 05')": {
+        "76": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 4, 'Bus 05')": {
+      "('epowcore.gdf.tline.TLine', 79, 'Line 05 - 08')": {
+        "79": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 78, 'Line 05 - 06')": {
+        "78": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 76, 'Line 04 - 05')": {
+        "76": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 5, 'Bus 06')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 60, 'Trf 06 - 31')": {
+        "60": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 78, 'Line 05 - 06')": {
+        "78": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 80, 'Line 06 - 07')": {
+        "80": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 81, 'Line 06 - 11')": {
+        "81": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 6, 'Bus 07')": {
+      "('epowcore.gdf.load.Load', 41, 'Load 07')": {},
+      "('epowcore.gdf.tline.TLine', 82, 'Line 07 - 08')": {
+        "82": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 80, 'Line 06 - 07')": {
+        "80": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 7, 'Bus 08')": {
+      "('epowcore.gdf.load.Load', 42, 'Load 08')": {},
+      "('epowcore.gdf.tline.TLine', 83, 'Line 08 - 09')": {
+        "83": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 82, 'Line 07 - 08')": {
+        "82": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 79, 'Line 05 - 08')": {
+        "79": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 8, 'Bus 09')": {
+      "('epowcore.gdf.tline.TLine', 83, 'Line 08 - 09')": {
+        "83": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 84, 'Line 09 - 39')": {
+        "84": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 9, 'Bus 10')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 61, 'Trf 10 - 32')": {
+        "61": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 86, 'Line 10 - 13')": {
+        "86": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 85, 'Line 10 - 11')": {
+        "85": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 10, 'Bus 11')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 62, 'Trf 11 - 12')": {
+        "62": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 81, 'Line 06 - 11')": {
+        "81": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 85, 'Line 10 - 11')": {
+        "85": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 11, 'Bus 12')": {
+      "('epowcore.gdf.load.Load', 43, 'Load 12')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 62, 'Trf 11 - 12')": {
+        "62": [
+          "LV"
+        ]
+      },
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 63, 'Trf 13 - 12')": {
+        "63": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 12, 'Bus 13')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 63, 'Trf 13 - 12')": {
+        "63": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 87, 'Line 13 - 14')": {
+        "87": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 86, 'Line 10 - 13')": {
+        "86": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 13, 'Bus 14')": {
+      "('epowcore.gdf.tline.TLine', 77, 'Line 04 - 14')": {
+        "77": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 88, 'Line 14 - 15')": {
+        "88": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 87, 'Line 13 - 14')": {
+        "87": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 14, 'Bus 15')": {
+      "('epowcore.gdf.load.Load', 44, 'Load 15')": {},
+      "('epowcore.gdf.tline.TLine', 89, 'Line 15 - 16')": {
+        "89": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 88, 'Line 14 - 15')": {
+        "88": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {
+      "('epowcore.gdf.load.Load', 45, 'Load 16')": {},
+      "('epowcore.gdf.tline.TLine', 91, 'Line 16 - 19')": {
+        "91": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 92, 'Line 16 - 21')": {
+        "92": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 93, 'Line 16 - 24')": {
+        "93": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 90, 'Line 16 - 17')": {
+        "90": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 89, 'Line 15 - 16')": {
+        "89": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 16, 'Bus 17')": {
+      "('epowcore.gdf.tline.TLine', 94, 'Line 17 - 18')": {
+        "94": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 95, 'Line 17 - 27')": {
+        "95": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 90, 'Line 16 - 17')": {
+        "90": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 17, 'Bus 18')": {
+      "('epowcore.gdf.load.Load', 46, 'Load 18')": {},
+      "('epowcore.gdf.tline.TLine', 94, 'Line 17 - 18')": {
+        "94": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 75, 'Line 03 - 18')": {
+        "75": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 18, 'Bus 19')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 58, 'Grid Transformer 2W')": {
+        "58": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 64, 'Trf 19 - 33')": {
+        "64": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 91, 'Line 16 - 19')": {
+        "91": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 19, 'Bus 20')": {
+      "('epowcore.gdf.load.Load', 47, 'Load 20')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 58, 'Grid Transformer 2W')": {
+        "58": [
+          "LV"
+        ]
+      },
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 65, 'Trf 20 - 34')": {
+        "65": [
+          "HV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 20, 'Bus 21')": {
+      "('epowcore.gdf.load.Load', 48, 'Load 21')": {},
+      "('epowcore.gdf.tline.TLine', 92, 'Line 16 - 21')": {
+        "92": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 96, 'Line 21 - 22')": {
+        "96": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 21, 'Bus 22')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 66, 'Trf 22 - 35')": {
+        "66": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 97, 'Line 22 - 23')": {
+        "97": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 96, 'Line 21 - 22')": {
+        "96": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 22, 'Bus 23')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 67, 'Trf 23 - 36')": {
+        "67": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 97, 'Line 22 - 23')": {
+        "97": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 98, 'Line 23 - 24')": {
+        "98": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.load.Load', 49, 'Load 23')": {}
+    },
+    "('epowcore.gdf.bus.Bus', 23, 'Bus 24')": {
+      "('epowcore.gdf.load.Load', 50, 'Load 24')": {},
+      "('epowcore.gdf.tline.TLine', 93, 'Line 16 - 24')": {
+        "93": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 98, 'Line 23 - 24')": {
+        "98": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 24, 'Bus 25')": {
+      "('epowcore.gdf.load.Load', 51, 'Load 25')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 68, 'Trf 25 - 37')": {
+        "68": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 99, 'Line 25 - 26')": {
+        "99": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 73, 'Line 02 - 25')": {
+        "73": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 25, 'Bus 26')": {
+      "('epowcore.gdf.load.Load', 52, 'Load 26')": {},
+      "('epowcore.gdf.tline.TLine', 99, 'Line 25 - 26')": {
+        "99": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 100, 'Line 26 - 27')": {
+        "100": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 101, 'Line 26 - 28')": {
+        "101": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 102, 'Line 26 - 29')": {
+        "102": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 26, 'Bus 27')": {
+      "('epowcore.gdf.load.Load', 53, 'Load 27')": {},
+      "('epowcore.gdf.tline.TLine', 100, 'Line 26 - 27')": {
+        "100": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 95, 'Line 17 - 27')": {
+        "95": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 27, 'Bus 28')": {
+      "('epowcore.gdf.load.Load', 54, 'Load 28')": {},
+      "('epowcore.gdf.tline.TLine', 101, 'Line 26 - 28')": {
+        "101": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 103, 'Line 28 - 29')": {
+        "103": [
+          "A"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 28, 'Bus 29')": {
+      "('epowcore.gdf.load.Load', 55, 'Load 29')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 69, 'Trf 29 - 38')": {
+        "69": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 102, 'Line 26 - 29')": {
+        "102": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 103, 'Line 28 - 29')": {
+        "103": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 29, 'Bus 30')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 59, 'Trf 02 - 30')": {
+        "59": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 30, 'Bus 31')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {},
+      "('epowcore.gdf.load.Load', 56, 'Load 31')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 60, 'Trf 06 - 31')": {
+        "60": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 31, 'Bus 32')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 61, 'Trf 10 - 32')": {
+        "61": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 32, 'Bus 33')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 64, 'Trf 19 - 33')": {
+        "64": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 33, 'Bus 34')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 65, 'Trf 20 - 34')": {
+        "65": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 34, 'Bus 35')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 66, 'Trf 22 - 35')": {
+        "66": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 35, 'Bus 36')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 67, 'Trf 23 - 36')": {
+        "67": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 36, 'Bus 37')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 68, 'Trf 25 - 37')": {
+        "68": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 37, 'Bus 38')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {},
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 69, 'Trf 29 - 38')": {
+        "69": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 38, 'Bus 39')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {},
+      "('epowcore.gdf.load.Load', 57, 'Load 39')": {},
+      "('epowcore.gdf.tline.TLine', 71, 'Line 01 - 39')": {
+        "71": [
+          "B"
+        ]
+      },
+      "('epowcore.gdf.tline.TLine', 84, 'Line 09 - 39')": {
+        "84": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.load.Load', 39, 'Load 03')": {
+      "('epowcore.gdf.bus.Bus', 2, 'Bus 03')": {}
+    },
+    "('epowcore.gdf.load.Load', 40, 'Load 04')": {
+      "('epowcore.gdf.bus.Bus', 3, 'Bus 04')": {}
+    },
+    "('epowcore.gdf.load.Load', 41, 'Load 07')": {
+      "('epowcore.gdf.bus.Bus', 6, 'Bus 07')": {}
+    },
+    "('epowcore.gdf.load.Load', 42, 'Load 08')": {
+      "('epowcore.gdf.bus.Bus', 7, 'Bus 08')": {}
+    },
+    "('epowcore.gdf.load.Load', 43, 'Load 12')": {
+      "('epowcore.gdf.bus.Bus', 11, 'Bus 12')": {}
+    },
+    "('epowcore.gdf.load.Load', 44, 'Load 15')": {
+      "('epowcore.gdf.bus.Bus', 14, 'Bus 15')": {}
+    },
+    "('epowcore.gdf.load.Load', 45, 'Load 16')": {
+      "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {}
+    },
+    "('epowcore.gdf.load.Load', 46, 'Load 18')": {
+      "('epowcore.gdf.bus.Bus', 17, 'Bus 18')": {}
+    },
+    "('epowcore.gdf.load.Load', 47, 'Load 20')": {
+      "('epowcore.gdf.bus.Bus', 19, 'Bus 20')": {}
+    },
+    "('epowcore.gdf.load.Load', 48, 'Load 21')": {
+      "('epowcore.gdf.bus.Bus', 20, 'Bus 21')": {}
+    },
+    "('epowcore.gdf.load.Load', 49, 'Load 23')": {
+      "('epowcore.gdf.bus.Bus', 22, 'Bus 23')": {}
+    },
+    "('epowcore.gdf.load.Load', 50, 'Load 24')": {
+      "('epowcore.gdf.bus.Bus', 23, 'Bus 24')": {}
+    },
+    "('epowcore.gdf.load.Load', 51, 'Load 25')": {
+      "('epowcore.gdf.bus.Bus', 24, 'Bus 25')": {}
+    },
+    "('epowcore.gdf.load.Load', 52, 'Load 26')": {
+      "('epowcore.gdf.bus.Bus', 25, 'Bus 26')": {}
+    },
+    "('epowcore.gdf.load.Load', 53, 'Load 27')": {
+      "('epowcore.gdf.bus.Bus', 26, 'Bus 27')": {}
+    },
+    "('epowcore.gdf.load.Load', 54, 'Load 28')": {
+      "('epowcore.gdf.bus.Bus', 27, 'Bus 28')": {}
+    },
+    "('epowcore.gdf.load.Load', 55, 'Load 29')": {
+      "('epowcore.gdf.bus.Bus', 28, 'Bus 29')": {}
+    },
+    "('epowcore.gdf.load.Load', 56, 'Load 31')": {
+      "('epowcore.gdf.bus.Bus', 30, 'Bus 31')": {}
+    },
+    "('epowcore.gdf.load.Load', 57, 'Load 39')": {
+      "('epowcore.gdf.bus.Bus', 38, 'Bus 39')": {}
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 58, 'Grid Transformer 2W')": {
+      "('epowcore.gdf.bus.Bus', 18, 'Bus 19')": {
+        "58": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 19, 'Bus 20')": {
+        "58": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 59, 'Trf 02 - 30')": {
+      "('epowcore.gdf.bus.Bus', 1, 'Bus 02')": {
+        "59": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 29, 'Bus 30')": {
+        "59": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 60, 'Trf 06 - 31')": {
+      "('epowcore.gdf.bus.Bus', 5, 'Bus 06')": {
+        "60": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 30, 'Bus 31')": {
+        "60": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 61, 'Trf 10 - 32')": {
+      "('epowcore.gdf.bus.Bus', 9, 'Bus 10')": {
+        "61": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 31, 'Bus 32')": {
+        "61": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 62, 'Trf 11 - 12')": {
+      "('epowcore.gdf.bus.Bus', 10, 'Bus 11')": {
+        "62": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 11, 'Bus 12')": {
+        "62": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 63, 'Trf 13 - 12')": {
+      "('epowcore.gdf.bus.Bus', 11, 'Bus 12')": {
+        "63": [
+          "LV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 12, 'Bus 13')": {
+        "63": [
+          "HV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 64, 'Trf 19 - 33')": {
+      "('epowcore.gdf.bus.Bus', 18, 'Bus 19')": {
+        "64": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 32, 'Bus 33')": {
+        "64": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 65, 'Trf 20 - 34')": {
+      "('epowcore.gdf.bus.Bus', 19, 'Bus 20')": {
+        "65": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 33, 'Bus 34')": {
+        "65": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 66, 'Trf 22 - 35')": {
+      "('epowcore.gdf.bus.Bus', 21, 'Bus 22')": {
+        "66": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 34, 'Bus 35')": {
+        "66": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 67, 'Trf 23 - 36')": {
+      "('epowcore.gdf.bus.Bus', 22, 'Bus 23')": {
+        "67": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 35, 'Bus 36')": {
+        "67": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 68, 'Trf 25 - 37')": {
+      "('epowcore.gdf.bus.Bus', 24, 'Bus 25')": {
+        "68": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 36, 'Bus 37')": {
+        "68": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 69, 'Trf 29 - 38')": {
+      "('epowcore.gdf.bus.Bus', 28, 'Bus 29')": {
+        "69": [
+          "HV"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 37, 'Bus 38')": {
+        "69": [
+          "LV"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 70, 'Line 01 - 02')": {
+      "('epowcore.gdf.bus.Bus', 0, 'Bus 01')": {
+        "70": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 1, 'Bus 02')": {
+        "70": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 71, 'Line 01 - 39')": {
+      "('epowcore.gdf.bus.Bus', 0, 'Bus 01')": {
+        "71": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 38, 'Bus 39')": {
+        "71": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 72, 'Line 02 - 03')": {
+      "('epowcore.gdf.bus.Bus', 1, 'Bus 02')": {
+        "72": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 2, 'Bus 03')": {
+        "72": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 73, 'Line 02 - 25')": {
+      "('epowcore.gdf.bus.Bus', 1, 'Bus 02')": {
+        "73": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 24, 'Bus 25')": {
+        "73": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 74, 'Line 03 - 04')": {
+      "('epowcore.gdf.bus.Bus', 2, 'Bus 03')": {
+        "74": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 3, 'Bus 04')": {
+        "74": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 75, 'Line 03 - 18')": {
+      "('epowcore.gdf.bus.Bus', 2, 'Bus 03')": {
+        "75": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 17, 'Bus 18')": {
+        "75": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 76, 'Line 04 - 05')": {
+      "('epowcore.gdf.bus.Bus', 3, 'Bus 04')": {
+        "76": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 4, 'Bus 05')": {
+        "76": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 77, 'Line 04 - 14')": {
+      "('epowcore.gdf.bus.Bus', 3, 'Bus 04')": {
+        "77": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 13, 'Bus 14')": {
+        "77": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 78, 'Line 05 - 06')": {
+      "('epowcore.gdf.bus.Bus', 4, 'Bus 05')": {
+        "78": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 5, 'Bus 06')": {
+        "78": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 79, 'Line 05 - 08')": {
+      "('epowcore.gdf.bus.Bus', 4, 'Bus 05')": {
+        "79": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 7, 'Bus 08')": {
+        "79": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 80, 'Line 06 - 07')": {
+      "('epowcore.gdf.bus.Bus', 5, 'Bus 06')": {
+        "80": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 6, 'Bus 07')": {
+        "80": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 81, 'Line 06 - 11')": {
+      "('epowcore.gdf.bus.Bus', 5, 'Bus 06')": {
+        "81": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 10, 'Bus 11')": {
+        "81": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 82, 'Line 07 - 08')": {
+      "('epowcore.gdf.bus.Bus', 6, 'Bus 07')": {
+        "82": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 7, 'Bus 08')": {
+        "82": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 83, 'Line 08 - 09')": {
+      "('epowcore.gdf.bus.Bus', 7, 'Bus 08')": {
+        "83": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 8, 'Bus 09')": {
+        "83": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 84, 'Line 09 - 39')": {
+      "('epowcore.gdf.bus.Bus', 8, 'Bus 09')": {
+        "84": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 38, 'Bus 39')": {
+        "84": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 85, 'Line 10 - 11')": {
+      "('epowcore.gdf.bus.Bus', 9, 'Bus 10')": {
+        "85": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 10, 'Bus 11')": {
+        "85": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 86, 'Line 10 - 13')": {
+      "('epowcore.gdf.bus.Bus', 9, 'Bus 10')": {
+        "86": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 12, 'Bus 13')": {
+        "86": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 87, 'Line 13 - 14')": {
+      "('epowcore.gdf.bus.Bus', 12, 'Bus 13')": {
+        "87": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 13, 'Bus 14')": {
+        "87": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 88, 'Line 14 - 15')": {
+      "('epowcore.gdf.bus.Bus', 13, 'Bus 14')": {
+        "88": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 14, 'Bus 15')": {
+        "88": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 89, 'Line 15 - 16')": {
+      "('epowcore.gdf.bus.Bus', 14, 'Bus 15')": {
+        "89": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {
+        "89": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 90, 'Line 16 - 17')": {
+      "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {
+        "90": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 16, 'Bus 17')": {
+        "90": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 91, 'Line 16 - 19')": {
+      "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {
+        "91": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 18, 'Bus 19')": {
+        "91": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 92, 'Line 16 - 21')": {
+      "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {
+        "92": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 20, 'Bus 21')": {
+        "92": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 93, 'Line 16 - 24')": {
+      "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {
+        "93": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 23, 'Bus 24')": {
+        "93": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 94, 'Line 17 - 18')": {
+      "('epowcore.gdf.bus.Bus', 16, 'Bus 17')": {
+        "94": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 17, 'Bus 18')": {
+        "94": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 95, 'Line 17 - 27')": {
+      "('epowcore.gdf.bus.Bus', 16, 'Bus 17')": {
+        "95": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 26, 'Bus 27')": {
+        "95": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 96, 'Line 21 - 22')": {
+      "('epowcore.gdf.bus.Bus', 20, 'Bus 21')": {
+        "96": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 21, 'Bus 22')": {
+        "96": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 97, 'Line 22 - 23')": {
+      "('epowcore.gdf.bus.Bus', 21, 'Bus 22')": {
+        "97": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 22, 'Bus 23')": {
+        "97": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 98, 'Line 23 - 24')": {
+      "('epowcore.gdf.bus.Bus', 22, 'Bus 23')": {
+        "98": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 23, 'Bus 24')": {
+        "98": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 99, 'Line 25 - 26')": {
+      "('epowcore.gdf.bus.Bus', 24, 'Bus 25')": {
+        "99": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 25, 'Bus 26')": {
+        "99": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 100, 'Line 26 - 27')": {
+      "('epowcore.gdf.bus.Bus', 25, 'Bus 26')": {
+        "100": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 26, 'Bus 27')": {
+        "100": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 101, 'Line 26 - 28')": {
+      "('epowcore.gdf.bus.Bus', 25, 'Bus 26')": {
+        "101": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 27, 'Bus 28')": {
+        "101": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 102, 'Line 26 - 29')": {
+      "('epowcore.gdf.bus.Bus', 25, 'Bus 26')": {
+        "102": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 28, 'Bus 29')": {
+        "102": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 103, 'Line 28 - 29')": {
+      "('epowcore.gdf.bus.Bus', 27, 'Bus 28')": {
+        "103": [
+          "A"
+        ]
+      },
+      "('epowcore.gdf.bus.Bus', 28, 'Bus 29')": {
+        "103": [
+          "B"
+        ]
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {
+      "('epowcore.gdf.bus.Bus', 38, 'Bus 39')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 144, 'AVR 01')": {
+        "144": [],
+        "104": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {
+      "('epowcore.gdf.bus.Bus', 30, 'Bus 31')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 146, 'AVR 02')": {
+        "146": [],
+        "108": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {
+      "('epowcore.gdf.bus.Bus', 31, 'Bus 32')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 148, 'AVR 03')": {
+        "148": [],
+        "112": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {
+      "('epowcore.gdf.bus.Bus', 32, 'Bus 33')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 150, 'AVR 04')": {
+        "150": [],
+        "116": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {
+      "('epowcore.gdf.bus.Bus', 33, 'Bus 34')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 152, 'AVR 05')": {
+        "152": [],
+        "120": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {
+      "('epowcore.gdf.bus.Bus', 34, 'Bus 35')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 154, 'AVR 06')": {
+        "154": [],
+        "124": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {
+      "('epowcore.gdf.bus.Bus', 35, 'Bus 36')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 156, 'AVR 07')": {
+        "156": [],
+        "128": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {
+      "('epowcore.gdf.bus.Bus', 36, 'Bus 37')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 158, 'AVR 08')": {
+        "158": [],
+        "132": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {
+      "('epowcore.gdf.bus.Bus', 37, 'Bus 38')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 160, 'AVR 09')": {
+        "160": [],
+        "136": []
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {
+      "('epowcore.gdf.bus.Bus', 29, 'Bus 30')": {},
+      "('epowcore.gdf.subsystem.Subsystem', 162, 'AVR 10')": {
+        "162": [],
+        "140": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 144, 'AVR 01')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {
+        "144": [],
+        "104": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 146, 'AVR 02')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {
+        "146": [],
+        "108": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 148, 'AVR 03')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {
+        "148": [],
+        "112": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 150, 'AVR 04')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {
+        "150": [],
+        "116": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 152, 'AVR 05')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {
+        "152": [],
+        "120": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 154, 'AVR 06')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {
+        "154": [],
+        "124": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 156, 'AVR 07')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {
+        "156": [],
+        "128": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 158, 'AVR 08')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {
+        "158": [],
+        "132": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 160, 'AVR 09')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {
+        "160": [],
+        "136": []
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 162, 'AVR 10')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {
+        "162": [],
+        "140": []
+      }
+    }
+  },
+  "components": {
+    "('epowcore.gdf.bus.Bus', 0, 'Bus 01')": {
+      "uid": 0,
+      "name": "Bus 01",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 1, 'Bus 02')": {
+      "uid": 1,
+      "name": "Bus 02",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 2, 'Bus 03')": {
+      "uid": 2,
+      "name": "Bus 03",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 3, 'Bus 04')": {
+      "uid": 3,
+      "name": "Bus 04",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 4, 'Bus 05')": {
+      "uid": 4,
+      "name": "Bus 05",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 5, 'Bus 06')": {
+      "uid": 5,
+      "name": "Bus 06",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 6, 'Bus 07')": {
+      "uid": 6,
+      "name": "Bus 07",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 7, 'Bus 08')": {
+      "uid": 7,
+      "name": "Bus 08",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 8, 'Bus 09')": {
+      "uid": 8,
+      "name": "Bus 09",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 9, 'Bus 10')": {
+      "uid": 9,
+      "name": "Bus 10",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 10, 'Bus 11')": {
+      "uid": 10,
+      "name": "Bus 11",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 11, 'Bus 12')": {
+      "uid": 11,
+      "name": "Bus 12",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 25.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 12, 'Bus 13')": {
+      "uid": 12,
+      "name": "Bus 13",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 13, 'Bus 14')": {
+      "uid": 13,
+      "name": "Bus 14",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 14, 'Bus 15')": {
+      "uid": 14,
+      "name": "Bus 15",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 15, 'Bus 16')": {
+      "uid": 15,
+      "name": "Bus 16",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 16, 'Bus 17')": {
+      "uid": 16,
+      "name": "Bus 17",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 17, 'Bus 18')": {
+      "uid": 17,
+      "name": "Bus 18",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 18, 'Bus 19')": {
+      "uid": 18,
+      "name": "Bus 19",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 19, 'Bus 20')": {
+      "uid": 19,
+      "name": "Bus 20",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 300.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 20, 'Bus 21')": {
+      "uid": 20,
+      "name": "Bus 21",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 21, 'Bus 22')": {
+      "uid": 21,
+      "name": "Bus 22",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 22, 'Bus 23')": {
+      "uid": 22,
+      "name": "Bus 23",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 23, 'Bus 24')": {
+      "uid": 23,
+      "name": "Bus 24",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 24, 'Bus 25')": {
+      "uid": 24,
+      "name": "Bus 25",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 25, 'Bus 26')": {
+      "uid": 25,
+      "name": "Bus 26",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 26, 'Bus 27')": {
+      "uid": 26,
+      "name": "Bus 27",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 27, 'Bus 28')": {
+      "uid": 27,
+      "name": "Bus 28",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 28, 'Bus 29')": {
+      "uid": 28,
+      "name": "Bus 29",
+      "coords": null,
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 29, 'Bus 30')": {
+      "uid": 29,
+      "name": "Bus 30",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 30, 'Bus 31')": {
+      "uid": 30,
+      "name": "Bus 31",
+      "coords": null,
+      "lf_bus_type": "SL",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 31, 'Bus 32')": {
+      "uid": 31,
+      "name": "Bus 32",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 32, 'Bus 33')": {
+      "uid": 32,
+      "name": "Bus 33",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 33, 'Bus 34')": {
+      "uid": 33,
+      "name": "Bus 34",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 34, 'Bus 35')": {
+      "uid": 34,
+      "name": "Bus 35",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 35, 'Bus 36')": {
+      "uid": 35,
+      "name": "Bus 36",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 36, 'Bus 37')": {
+      "uid": 36,
+      "name": "Bus 37",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 37, 'Bus 38')": {
+      "uid": 37,
+      "name": "Bus 38",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 20.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 38, 'Bus 39')": {
+      "uid": 38,
+      "name": "Bus 39",
+      "coords": null,
+      "lf_bus_type": "PV",
+      "nominal_voltage": 345.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.load.Load', 39, 'Load 03')": {
+      "uid": 39,
+      "name": "Load 03",
+      "coords": null,
+      "active_power": 322.0,
+      "reactive_power": 2.4000000953674316
+    },
+    "('epowcore.gdf.load.Load', 40, 'Load 04')": {
+      "uid": 40,
+      "name": "Load 04",
+      "coords": null,
+      "active_power": 500.0,
+      "reactive_power": 184.0
+    },
+    "('epowcore.gdf.load.Load', 41, 'Load 07')": {
+      "uid": 41,
+      "name": "Load 07",
+      "coords": null,
+      "active_power": 233.8000030517578,
+      "reactive_power": 84.0
+    },
+    "('epowcore.gdf.load.Load', 42, 'Load 08')": {
+      "uid": 42,
+      "name": "Load 08",
+      "coords": null,
+      "active_power": 522.0,
+      "reactive_power": 176.0
+    },
+    "('epowcore.gdf.load.Load', 43, 'Load 12')": {
+      "uid": 43,
+      "name": "Load 12",
+      "coords": null,
+      "active_power": 7.5,
+      "reactive_power": 88.0
+    },
+    "('epowcore.gdf.load.Load', 44, 'Load 15')": {
+      "uid": 44,
+      "name": "Load 15",
+      "coords": null,
+      "active_power": 320.0,
+      "reactive_power": 153.0
+    },
+    "('epowcore.gdf.load.Load', 45, 'Load 16')": {
+      "uid": 45,
+      "name": "Load 16",
+      "coords": null,
+      "active_power": 329.0,
+      "reactive_power": 32.29999923706055
+    },
+    "('epowcore.gdf.load.Load', 46, 'Load 18')": {
+      "uid": 46,
+      "name": "Load 18",
+      "coords": null,
+      "active_power": 158.0,
+      "reactive_power": 30.0
+    },
+    "('epowcore.gdf.load.Load', 47, 'Load 20')": {
+      "uid": 47,
+      "name": "Load 20",
+      "coords": null,
+      "active_power": 628.0,
+      "reactive_power": 103.0
+    },
+    "('epowcore.gdf.load.Load', 48, 'Load 21')": {
+      "uid": 48,
+      "name": "Load 21",
+      "coords": null,
+      "active_power": 274.0,
+      "reactive_power": 115.0
+    },
+    "('epowcore.gdf.load.Load', 49, 'Load 23')": {
+      "uid": 49,
+      "name": "Load 23",
+      "coords": null,
+      "active_power": 247.5,
+      "reactive_power": 84.5999984741211
+    },
+    "('epowcore.gdf.load.Load', 50, 'Load 24')": {
+      "uid": 50,
+      "name": "Load 24",
+      "coords": null,
+      "active_power": 308.6000061035156,
+      "reactive_power": 0.0
+    },
+    "('epowcore.gdf.load.Load', 51, 'Load 25')": {
+      "uid": 51,
+      "name": "Load 25",
+      "coords": null,
+      "active_power": 224.0,
+      "reactive_power": 47.20000076293945
+    },
+    "('epowcore.gdf.load.Load', 52, 'Load 26')": {
+      "uid": 52,
+      "name": "Load 26",
+      "coords": null,
+      "active_power": 139.0,
+      "reactive_power": 17.0
+    },
+    "('epowcore.gdf.load.Load', 53, 'Load 27')": {
+      "uid": 53,
+      "name": "Load 27",
+      "coords": null,
+      "active_power": 281.0,
+      "reactive_power": 75.5
+    },
+    "('epowcore.gdf.load.Load', 54, 'Load 28')": {
+      "uid": 54,
+      "name": "Load 28",
+      "coords": null,
+      "active_power": 206.0,
+      "reactive_power": 27.600000381469727
+    },
+    "('epowcore.gdf.load.Load', 55, 'Load 29')": {
+      "uid": 55,
+      "name": "Load 29",
+      "coords": null,
+      "active_power": 283.5,
+      "reactive_power": 26.899999618530273
+    },
+    "('epowcore.gdf.load.Load', 56, 'Load 31')": {
+      "uid": 56,
+      "name": "Load 31",
+      "coords": null,
+      "active_power": 9.199999809265137,
+      "reactive_power": 4.599999904632568
+    },
+    "('epowcore.gdf.load.Load', 57, 'Load 39')": {
+      "uid": 57,
+      "name": "Load 39",
+      "coords": null,
+      "active_power": 1104.0,
+      "reactive_power": 250.0
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 58, 'Grid Transformer 2W')": {
+      "uid": 58,
+      "name": "Grid Transformer 2W",
+      "coords": null,
+      "rating": 1400.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 300.0,
+      "r1pu": 0.002199999988079071,
+      "x1pu": 0.19298745691776276,
+      "pfe_kw": 0.0,
+      "no_load_current": 0.0,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "YN",
+      "phase_shift_30": 0.0,
+      "tap_changer_voltage": 0.0,
+      "tap_min": 0,
+      "tap_max": 0,
+      "tap_neutral": 0,
+      "tap_initial": 0,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 59, 'Trf 02 - 30')": {
+      "uid": 59,
+      "name": "Trf 02 - 30",
+      "coords": null,
+      "rating": 1000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.003000000026077032,
+      "x1pu": 0.1799750030040741,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.025,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 1,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 60, 'Trf 06 - 31')": {
+      "uid": 60,
+      "name": "Trf 06 - 31",
+      "coords": null,
+      "rating": 10000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.003000000026077032,
+      "x1pu": 0.25,
+      "pfe_kw": 0.0001500000071246177,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.01,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 0,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 61, 'Trf 10 - 32')": {
+      "uid": 61,
+      "name": "Trf 10 - 32",
+      "coords": null,
+      "rating": 1000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.003000000026077032,
+      "x1pu": 0.20000000298023224,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.01,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 2,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 62, 'Trf 11 - 12')": {
+      "uid": 62,
+      "name": "Trf 11 - 12",
+      "coords": null,
+      "rating": 200.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 25.0,
+      "r1pu": 0.0020000000949949026,
+      "x1pu": 0.10000000149011612,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.006000000238418579,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 1,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 63, 'Trf 13 - 12')": {
+      "uid": 63,
+      "name": "Trf 13 - 12",
+      "coords": null,
+      "rating": 200.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 25.0,
+      "r1pu": 0.0020000000949949026,
+      "x1pu": 0.10000000149011612,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.006000000238418579,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 1,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 64, 'Trf 19 - 33')": {
+      "uid": 64,
+      "name": "Trf 19 - 33",
+      "coords": null,
+      "rating": 1000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.007000000216066837,
+      "x1pu": 0.1420000046491623,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.01,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 2,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 65, 'Trf 20 - 34')": {
+      "uid": 65,
+      "name": "Trf 20 - 34",
+      "coords": null,
+      "rating": 1200.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 300.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.004999999888241291,
+      "x1pu": 0.10999999195337296,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.008999999761581421,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 1,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 66, 'Trf 22 - 35')": {
+      "uid": 66,
+      "name": "Trf 22 - 35",
+      "coords": null,
+      "rating": 1000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.003000000026077032,
+      "x1pu": 0.14300000667572021,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.025,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 1,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 67, 'Trf 23 - 36')": {
+      "uid": 67,
+      "name": "Trf 23 - 36",
+      "coords": null,
+      "rating": 1000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.004999999888241291,
+      "x1pu": 0.27000001072883606,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.01,
+      "tap_min": -10,
+      "tap_max": 10,
+      "tap_neutral": 0,
+      "tap_initial": 0,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 68, 'Trf 25 - 37')": {
+      "uid": 68,
+      "name": "Trf 25 - 37",
+      "coords": null,
+      "rating": 1000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.006000000052154064,
+      "x1pu": 0.22999998927116394,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.025,
+      "tap_min": -5,
+      "tap_max": 5,
+      "tap_neutral": 0,
+      "tap_initial": 1,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 69, 'Trf 29 - 38')": {
+      "uid": 69,
+      "name": "Trf 29 - 38",
+      "coords": null,
+      "rating": 1000.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "voltage_hv": 345.0,
+      "voltage_lv": 20.0,
+      "r1pu": 0.00800000037997961,
+      "x1pu": 0.15600000321865082,
+      "pfe_kw": 150.0,
+      "no_load_current": 0.10000000149011612,
+      "connection_type_hv": "YN",
+      "connection_type_lv": "D",
+      "phase_shift_30": 1.0,
+      "tap_changer_voltage": 0.025,
+      "tap_min": -5,
+      "tap_max": 5,
+      "tap_neutral": 0,
+      "tap_initial": 1,
+      "tap_ratio": null,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 70, 'Line 01 - 02')": {
+      "uid": 70,
+      "name": "Line 01 - 02",
+      "coords": null,
+      "length": 163.0642547607422,
+      "r1": 0.033211685717105865,
+      "x1": 0.39000001549720764,
+      "b1": 4.679903507232666,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 71, 'Line 01 - 39')": {
+      "uid": 71,
+      "name": "Line 01 - 39",
+      "coords": null,
+      "length": 99.1875,
+      "r1": 0.012000000104308128,
+      "x1": 0.29999998211860657,
+      "b1": 6.352828025817871,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 72, 'Line 02 - 03')": {
+      "uid": 72,
+      "name": "Line 02 - 03",
+      "coords": null,
+      "length": 59.90924835205078,
+      "r1": 0.033576153218746185,
+      "x1": 0.39000001549720764,
+      "b1": 4.689019680023193,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 73, 'Line 02 - 25')": {
+      "uid": 73,
+      "name": "Line 02 - 25",
+      "coords": null,
+      "length": 34.12049865722656,
+      "r1": 0.31744185090065,
+      "x1": 0.39000001549720764,
+      "b1": 4.673483848571777,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 74, 'Line 03 - 04')": {
+      "uid": 74,
+      "name": "Line 03 - 04",
+      "coords": null,
+      "length": 84.50775146484375,
+      "r1": 0.028685446828603745,
+      "x1": 0.4700000286102295,
+      "b1": 3.4483907222747803,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 75, 'Line 03 - 18')": {
+      "uid": 75,
+      "name": "Line 03 - 18",
+      "coords": null,
+      "length": 52.76774978637695,
+      "r1": 0.032255638390779495,
+      "x1": 0.39000001549720764,
+      "b1": 4.425302505493164,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 76, 'Line 04 - 05')": {
+      "uid": 76,
+      "name": "Line 04 - 05",
+      "coords": null,
+      "length": 50.784000396728516,
+      "r1": 0.029374999925494194,
+      "x1": 0.4700000286102295,
+      "b1": 3.478276014328003,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 77, 'Line 04 - 14')": {
+      "uid": 77,
+      "name": "Line 04 - 14",
+      "coords": null,
+      "length": 51.18075180053711,
+      "r1": 0.029147284105420113,
+      "x1": 0.4700000286102295,
+      "b1": 3.5541703701019287,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 78, 'Line 05 - 06')": {
+      "uid": 78,
+      "name": "Line 05 - 06",
+      "coords": null,
+      "length": 7.934999942779541,
+      "r1": 0.029999995604157448,
+      "x1": 0.39000001549720764,
+      "b1": 4.595216274261475,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 79, 'Line 05 - 08')": {
+      "uid": 79,
+      "name": "Line 05 - 08",
+      "coords": null,
+      "length": 44.43600082397461,
+      "r1": 0.03357142582535744,
+      "x1": 0.4700000286102295,
+      "b1": 4.372119426727295,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 80, 'Line 06 - 07')": {
+      "uid": 80,
+      "name": "Line 06 - 07",
+      "coords": null,
+      "length": 36.500999450683594,
+      "r1": 0.030652178451418877,
+      "x1": 0.4700000286102295,
+      "b1": 4.074860572814941,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 81, 'Line 06 - 11')": {
+      "uid": 81,
+      "name": "Line 06 - 11",
+      "coords": null,
+      "length": 32.53350067138672,
+      "r1": 0.03329268842935562,
+      "x1": 0.39000001549720764,
+      "b1": 4.663142681121826,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 82, 'Line 07 - 08')": {
+      "uid": 82,
+      "name": "Line 07 - 08",
+      "coords": null,
+      "length": 18.250499725341797,
+      "r1": 0.03391304984688759,
+      "x1": 0.39000001549720764,
+      "b1": 4.667945384979248,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 83, 'Line 08 - 09')": {
+      "uid": 83,
+      "name": "Line 08 - 09",
+      "coords": null,
+      "length": 144.02024841308594,
+      "r1": 0.02977960743010044,
+      "x1": 0.4700000286102295,
+      "b1": 3.4766223430633545,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 84, 'Line 09 - 39')": {
+      "uid": 84,
+      "name": "Line 09 - 39",
+      "coords": null,
+      "length": 99.1875,
+      "r1": 0.012000000104308128,
+      "x1": 0.29999998211860657,
+      "b1": 10.164509773254395,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 85, 'Line 10 - 11')": {
+      "uid": 85,
+      "name": "Line 10 - 11",
+      "coords": null,
+      "length": 17.06024932861328,
+      "r1": 0.03627907484769821,
+      "x1": 0.39000001549720764,
+      "b1": 4.667112350463867,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 86, 'Line 10 - 13')": {
+      "uid": 86,
+      "name": "Line 10 - 13",
+      "coords": null,
+      "length": 17.06024932861328,
+      "r1": 0.03627907484769821,
+      "x1": 0.39000001549720764,
+      "b1": 4.667112350463867,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 87, 'Line 13 - 14')": {
+      "uid": 87,
+      "name": "Line 13 - 14",
+      "coords": null,
+      "length": 40.07175064086914,
+      "r1": 0.03475246950984001,
+      "x1": 0.39000001549720764,
+      "b1": 4.696272373199463,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 88, 'Line 14 - 15')": {
+      "uid": 88,
+      "name": "Line 14 - 15",
+      "coords": null,
+      "length": 86.0947494506836,
+      "r1": 0.03235022723674774,
+      "x1": 0.39000001549720764,
+      "b1": 4.643097877502441,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 89, 'Line 15 - 16')": {
+      "uid": 89,
+      "name": "Line 15 - 16",
+      "coords": null,
+      "length": 37.294498443603516,
+      "r1": 0.037340421229600906,
+      "x1": 0.39000001549720764,
+      "b1": 5.007919788360596,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 90, 'Line 16 - 17')": {
+      "uid": 90,
+      "name": "Line 16 - 17",
+      "coords": null,
+      "length": 35.31074905395508,
+      "r1": 0.03067416325211525,
+      "x1": 0.39000001549720764,
+      "b1": 4.151000499725342,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 91, 'Line 16 - 19')": {
+      "uid": 91,
+      "name": "Line 16 - 19",
+      "coords": null,
+      "length": 77.36624908447266,
+      "r1": 0.031999994069337845,
+      "x1": 0.39000001549720764,
+      "b1": 4.291655540466309,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 92, 'Line 16 - 21')": {
+      "uid": 92,
+      "name": "Line 16 - 21",
+      "coords": null,
+      "length": 53.561248779296875,
+      "r1": 0.023111114278435707,
+      "x1": 0.39000001549720764,
+      "b1": 5.195819854736328,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 93, 'Line 16 - 24')": {
+      "uid": 93,
+      "name": "Line 16 - 24",
+      "coords": null,
+      "length": 23.40825080871582,
+      "r1": 0.023898309096693993,
+      "x1": 0.4700000286102295,
+      "b1": 3.8236701488494873,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 94, 'Line 17 - 18')": {
+      "uid": 94,
+      "name": "Line 17 - 18",
+      "coords": null,
+      "length": 32.53350067138672,
+      "r1": 0.03329268842935562,
+      "x1": 0.39000001549720764,
+      "b1": 4.428096294403076,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 95, 'Line 17 - 27')": {
+      "uid": 95,
+      "name": "Line 17 - 27",
+      "coords": null,
+      "length": 68.63774871826172,
+      "r1": 0.029306355863809586,
+      "x1": 0.39000001549720764,
+      "b1": 5.117503643035889,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 96, 'Line 21 - 22')": {
+      "uid": 96,
+      "name": "Line 21 - 22",
+      "coords": null,
+      "length": 55.54499816894531,
+      "r1": 0.022285718470811844,
+      "x1": 0.39000001549720764,
+      "b1": 5.043696403503418,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 97, 'Line 22 - 23')": {
+      "uid": 97,
+      "name": "Line 22 - 23",
+      "coords": null,
+      "length": 38.0880012512207,
+      "r1": 0.02437499910593033,
+      "x1": 0.39000001549720764,
+      "b1": 5.29359245300293,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 98, 'Line 23 - 24')": {
+      "uid": 98,
+      "name": "Line 23 - 24",
+      "coords": null,
+      "length": 138.8625030517578,
+      "r1": 0.02954285219311714,
+      "x1": 0.4700000286102295,
+      "b1": 3.4218719005584717,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 99, 'Line 25 - 26')": {
+      "uid": 99,
+      "name": "Line 25 - 26",
+      "coords": null,
+      "length": 128.15025329589844,
+      "r1": 0.03863776847720146,
+      "x1": 0.39000001549720764,
+      "b1": 4.372226238250732,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 100, 'Line 26 - 27')": {
+      "uid": 100,
+      "name": "Line 26 - 27",
+      "coords": null,
+      "length": 58.32225036621094,
+      "r1": 0.037142857909202576,
+      "x1": 0.39000001549720764,
+      "b1": 4.48700475692749,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 101, 'Line 26 - 28')": {
+      "uid": 101,
+      "name": "Line 26 - 28",
+      "coords": null,
+      "length": 188.0594940185547,
+      "r1": 0.03537974879145622,
+      "x1": 0.39000001549720764,
+      "b1": 4.531210899353027,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 102, 'Line 26 - 29')": {
+      "uid": 102,
+      "name": "Line 26 - 29",
+      "coords": null,
+      "length": 247.96875,
+      "r1": 0.0355679988861084,
+      "x1": 0.39000001549720764,
+      "b1": 4.5323381423950195,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.tline.TLine', 103, 'Line 28 - 29')": {
+      "uid": 103,
+      "name": "Line 28 - 29",
+      "coords": null,
+      "length": 59.90924835205078,
+      "r1": 0.03615894168615341,
+      "x1": 0.39000001549720764,
+      "b1": 4.539542198181152,
+      "r0": null,
+      "x0": null,
+      "b0": null,
+      "rating": 345.0,
+      "rating_short_term": null,
+      "rating_emergency": null,
+      "parallel_lines": 1,
+      "angle_min": null,
+      "angle_max": null
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {
+      "uid": 104,
+      "name": "G 01",
+      "coords": null,
+      "rated_apparent_power": 10000.0,
+      "rated_active_power": 1000.0,
+      "rated_voltage": 345.0,
+      "active_power": 1000.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.0299999713897705,
+      "inertia_constant": 5.0,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.30000001192092896,
+      "stator_leakage_reactance": 0.3,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.0,
+      "transient_reactance_x": 0.6000000238418579,
+      "subtransient_reactance_x": 0.4000000059604645,
+      "synchronous_reactance_q": 1.899999976158142,
+      "transient_reactance_q": 0.800000011920929,
+      "subtransient_reactance_q": 0.4000000059604645,
+      "tds0": 7.0,
+      "tqs0": 0.699999988079071,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 0.0,
+      "p_max": 10000.0,
+      "q_min": -10000.0,
+      "q_max": 10000.0,
+      "pc1": 0.0,
+      "pc2": 8500.0,
+      "qc1_min": -3000.0,
+      "qc1_max": 7000.0,
+      "qc2_min": -3000.0,
+      "qc2_max": 7000.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {
+      "uid": 108,
+      "name": "G 02",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 0.0,
+      "rated_voltage": 20.0,
+      "active_power": 0.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 0.9800000190734863,
+      "inertia_constant": 3.0299999713897705,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.3499999940395355,
+      "stator_leakage_reactance": 0.35,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.950000047683716,
+      "transient_reactance_x": 0.6970000267028809,
+      "subtransient_reactance_x": 0.36000001430511475,
+      "synchronous_reactance_q": 2.819999933242798,
+      "transient_reactance_q": 1.7000000476837158,
+      "subtransient_reactance_q": 0.36000001430511475,
+      "tds0": 6.559999942779541,
+      "tqs0": 1.5,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 150.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 150.0,
+      "pc2": 595.0,
+      "qc1_min": -300.0,
+      "qc1_max": 700.0,
+      "qc2_min": -300.0,
+      "qc2_max": 700.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {
+      "uid": 112,
+      "name": "G 03",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 650.0,
+      "rated_voltage": 20.0,
+      "active_power": 650.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 0.9830999970436096,
+      "inertia_constant": 3.5799996852874756,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.30399999022483826,
+      "stator_leakage_reactance": 0.304,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.494999885559082,
+      "transient_reactance_x": 0.531000018119812,
+      "subtransient_reactance_x": 0.36000001430511475,
+      "synchronous_reactance_q": 2.369999885559082,
+      "transient_reactance_q": 0.8759999871253967,
+      "subtransient_reactance_q": 0.36000001430511475,
+      "tds0": 5.699999809265137,
+      "tqs0": 1.5,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 200.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 200.0,
+      "pc2": 680.0,
+      "qc1_min": -300.0,
+      "qc1_max": 700.0,
+      "qc2_min": -300.0,
+      "qc2_max": 700.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {
+      "uid": 116,
+      "name": "G 04",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 632.0,
+      "rated_voltage": 20.0,
+      "active_power": 632.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 0.9972000122070312,
+      "inertia_constant": 2.859999895095825,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.29499998688697815,
+      "stator_leakage_reactance": 0.295,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.619999885559082,
+      "transient_reactance_x": 0.4359999895095825,
+      "subtransient_reactance_x": 0.30000001192092896,
+      "synchronous_reactance_q": 2.5799999237060547,
+      "transient_reactance_q": 1.659999966621399,
+      "subtransient_reactance_q": 0.30000001192092896,
+      "tds0": 5.690000057220459,
+      "tqs0": 1.5,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 200.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 200.0,
+      "pc2": 680.0,
+      "qc1_min": -300.0,
+      "qc1_max": 700.0,
+      "qc2_min": -300.0,
+      "qc2_max": 700.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {
+      "uid": 120,
+      "name": "G 05",
+      "coords": null,
+      "rated_apparent_power": 600.0,
+      "rated_active_power": 254.0,
+      "rated_voltage": 20.0,
+      "active_power": 254.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.0123000144958496,
+      "inertia_constant": 4.329999923706055,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.3240000009536743,
+      "stator_leakage_reactance": 0.324,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 4.0,
+      "transient_reactance_x": 0.7919999957084656,
+      "subtransient_reactance_x": 0.32499998807907104,
+      "synchronous_reactance_q": 3.700000047683716,
+      "transient_reactance_q": 1.0,
+      "subtransient_reactance_q": 0.32499998807907104,
+      "tds0": 5.400000095367432,
+      "tqs0": 0.4399999976158142,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 70.0,
+      "p_max": 600.0,
+      "q_min": -600.0,
+      "q_max": 600.0,
+      "pc1": 70.0,
+      "pc2": 255.0,
+      "qc1_min": -180.0,
+      "qc1_max": 420.0,
+      "qc2_min": -180.0,
+      "qc2_max": 420.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {
+      "uid": 124,
+      "name": "G 06",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 650.0,
+      "rated_voltage": 20.0,
+      "active_power": 650.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.049299955368042,
+      "inertia_constant": 3.4800000190734863,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.2240000069141388,
+      "stator_leakage_reactance": 0.224,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.5399999618530273,
+      "transient_reactance_x": 0.5,
+      "subtransient_reactance_x": 0.3199999928474426,
+      "synchronous_reactance_q": 2.4100000858306885,
+      "transient_reactance_q": 0.8140000104904175,
+      "subtransient_reactance_q": 0.3199999928474426,
+      "tds0": 7.300000190734863,
+      "tqs0": 0.4000000059604645,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 200.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 200.0,
+      "pc2": 680.0,
+      "qc1_min": -300.0,
+      "qc1_max": 700.0,
+      "qc2_min": -300.0,
+      "qc2_max": 700.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {
+      "uid": 128,
+      "name": "G 07",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 560.0,
+      "rated_voltage": 20.0,
+      "active_power": 560.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.0635000467300415,
+      "inertia_constant": 2.640000104904175,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.32199999690055847,
+      "stator_leakage_reactance": 0.322,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.950000047683716,
+      "transient_reactance_x": 0.49000000953674316,
+      "subtransient_reactance_x": 0.33000001311302185,
+      "synchronous_reactance_q": 2.9200000762939453,
+      "transient_reactance_q": 1.8600000143051147,
+      "subtransient_reactance_q": 0.33000001311302185,
+      "tds0": 5.659999847412109,
+      "tqs0": 1.5,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 150.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 150.0,
+      "pc2": 595.0,
+      "qc1_min": -300.0,
+      "qc1_max": 700.0,
+      "qc2_min": -300.0,
+      "qc2_max": 700.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {
+      "uid": 132,
+      "name": "G 08",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 540.0,
+      "rated_voltage": 20.0,
+      "active_power": 540.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.0277999639511108,
+      "inertia_constant": 2.430000066757202,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.2800000011920929,
+      "stator_leakage_reactance": 0.28,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.9000000953674316,
+      "transient_reactance_x": 0.5699999928474426,
+      "subtransient_reactance_x": 0.3149999976158142,
+      "synchronous_reactance_q": 2.799999952316284,
+      "transient_reactance_q": 0.9110000133514404,
+      "subtransient_reactance_q": 0.3149999976158142,
+      "tds0": 6.699999809265137,
+      "tqs0": 0.4099999964237213,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 150.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 150.0,
+      "pc2": 595.0,
+      "qc1_min": -300.0,
+      "qc1_max": 700.0,
+      "qc2_min": -300.0,
+      "qc2_max": 700.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {
+      "uid": 136,
+      "name": "G 09",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 830.0,
+      "rated_voltage": 20.0,
+      "active_power": 830.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.0264999866485596,
+      "inertia_constant": 3.450000047683716,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.2980000078678131,
+      "stator_leakage_reactance": 0.298,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 2.1059999465942383,
+      "transient_reactance_x": 0.5699999928474426,
+      "subtransient_reactance_x": 0.44999998807907104,
+      "synchronous_reactance_q": 2.049999952316284,
+      "transient_reactance_q": 0.5870000123977661,
+      "subtransient_reactance_q": 0.44999998807907104,
+      "tds0": 4.789999961853027,
+      "tqs0": 1.9600000381469727,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 250.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 250.0,
+      "pc2": 850.0,
+      "qc1_min": -300.0,
+      "qc1_max": 700.0,
+      "qc2_min": -300.0,
+      "qc2_max": 700.0
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {
+      "uid": 140,
+      "name": "G 10",
+      "coords": null,
+      "rated_apparent_power": 1000.0,
+      "rated_active_power": 250.0,
+      "rated_voltage": 20.0,
+      "active_power": 250.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.0475000143051147,
+      "inertia_constant": 4.199999809265137,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.125,
+      "stator_leakage_reactance": 0.125,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 1.0,
+      "transient_reactance_x": 0.3100000023841858,
+      "subtransient_reactance_x": 0.25,
+      "synchronous_reactance_q": 1.690000057220459,
+      "transient_reactance_q": 0.800000011920929,
+      "subtransient_reactance_q": 0.25,
+      "tds0": 10.199999809265137,
+      "tqs0": 0.0010000000474974513,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 0.0,
+      "p_max": 1000.0,
+      "q_min": -1000.0,
+      "q_max": 1000.0,
+      "pc1": 0.0,
+      "pc2": 850.0,
+      "qc1_min": -500.0,
+      "qc1_max": 600.0,
+      "qc2_min": -500.0,
+      "qc2_max": 600.0
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 144, 'AVR 01')": {
+      "uid": 144,
+      "name": "AVR 01",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 105, 'AVR 01')": {
+          "('epowcore.gdf.port.Port', 145, 'Port 104')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 106, 'PSS 01')": {
+          "('epowcore.gdf.port.Port', 145, 'Port 104')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 107, 'GOV 01')": {
+          "('epowcore.gdf.port.Port', 145, 'Port 104')": {}
+        },
+        "('epowcore.gdf.port.Port', 145, 'Port 104')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 105, 'AVR 01')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 106, 'PSS 01')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 107, 'GOV 01')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 105, 'AVR 01')": {
+          "uid": 105,
+          "name": "AVR 01",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 106, 'PSS 01')": {
+          "uid": 106,
+          "name": "PSS 01",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 1.0,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 5.0,
+          "T2": 0.6,
+          "T3": 3.0,
+          "T4": 0.5,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 107, 'GOV 01')": {
+          "uid": 107,
+          "name": "GOV 01",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 0.9,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 145, 'Port 104')": {
+          "uid": 145,
+          "name": "Port 104",
+          "coords": null,
+          "connection_component": 104
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 146, 'AVR 02')": {
+      "uid": 146,
+      "name": "AVR 02",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 109, 'AVR 02')": {
+          "('epowcore.gdf.port.Port', 147, 'Port 108')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 110, 'PSS 02')": {
+          "('epowcore.gdf.port.Port', 147, 'Port 108')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 111, 'GOV 02')": {
+          "('epowcore.gdf.port.Port', 147, 'Port 108')": {}
+        },
+        "('epowcore.gdf.port.Port', 147, 'Port 108')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 109, 'AVR 02')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 110, 'PSS 02')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 111, 'GOV 02')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 109, 'AVR 02')": {
+          "uid": 109,
+          "name": "AVR 02",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 110, 'PSS 02')": {
+          "uid": 110,
+          "name": "PSS 02",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 0.5,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 5.0,
+          "T2": 0.4,
+          "T3": 1.0,
+          "T4": 0.1,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 111, 'GOV 02')": {
+          "uid": 111,
+          "name": "GOV 02",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 0.9,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 147, 'Port 108')": {
+          "uid": 147,
+          "name": "Port 108",
+          "coords": null,
+          "connection_component": 108
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 148, 'AVR 03')": {
+      "uid": 148,
+      "name": "AVR 03",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 113, 'AVR 03')": {
+          "('epowcore.gdf.port.Port', 149, 'Port 112')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 114, 'PSS 03')": {
+          "('epowcore.gdf.port.Port', 149, 'Port 112')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 115, 'GOV 03')": {
+          "('epowcore.gdf.port.Port', 149, 'Port 112')": {}
+        },
+        "('epowcore.gdf.port.Port', 149, 'Port 112')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 113, 'AVR 03')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 114, 'PSS 03')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 115, 'GOV 03')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 113, 'AVR 03')": {
+          "uid": 113,
+          "name": "AVR 03",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 114, 'PSS 03')": {
+          "uid": 114,
+          "name": "PSS 03",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 0.5,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 3.0,
+          "T2": 0.2,
+          "T3": 2.0,
+          "T4": 0.2,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 115, 'GOV 03')": {
+          "uid": 115,
+          "name": "GOV 03",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 0.9,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 149, 'Port 112')": {
+          "uid": 149,
+          "name": "Port 112",
+          "coords": null,
+          "connection_component": 112
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 150, 'AVR 04')": {
+      "uid": 150,
+      "name": "AVR 04",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 117, 'AVR 04')": {
+          "('epowcore.gdf.port.Port', 151, 'Port 116')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 118, 'PSS 04')": {
+          "('epowcore.gdf.port.Port', 151, 'Port 116')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 119, 'GOV 04')": {
+          "('epowcore.gdf.port.Port', 151, 'Port 116')": {}
+        },
+        "('epowcore.gdf.port.Port', 151, 'Port 116')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 117, 'AVR 04')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 118, 'PSS 04')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 119, 'GOV 04')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 117, 'AVR 04')": {
+          "uid": 117,
+          "name": "AVR 04",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 118, 'PSS 04')": {
+          "uid": 118,
+          "name": "PSS 04",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 2.0,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 1.0,
+          "T2": 0.1,
+          "T3": 1.0,
+          "T4": 0.3,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 119, 'GOV 04')": {
+          "uid": 119,
+          "name": "GOV 04",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 0.9,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 151, 'Port 116')": {
+          "uid": 151,
+          "name": "Port 116",
+          "coords": null,
+          "connection_component": 116
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 152, 'AVR 05')": {
+      "uid": 152,
+      "name": "AVR 05",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 121, 'AVR 05')": {
+          "('epowcore.gdf.port.Port', 153, 'Port 120')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 122, 'PSS 05')": {
+          "('epowcore.gdf.port.Port', 153, 'Port 120')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 123, 'GOV 05')": {
+          "('epowcore.gdf.port.Port', 153, 'Port 120')": {}
+        },
+        "('epowcore.gdf.port.Port', 153, 'Port 120')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 121, 'AVR 05')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 122, 'PSS 05')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 123, 'GOV 05')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 121, 'AVR 05')": {
+          "uid": 121,
+          "name": "AVR 05",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 122, 'PSS 05')": {
+          "uid": 122,
+          "name": "PSS 05",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 1.0,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 1.5,
+          "T2": 0.2,
+          "T3": 1.0,
+          "T4": 0.1,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 123, 'GOV 05')": {
+          "uid": 123,
+          "name": "GOV 05",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 1.0,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 153, 'Port 120')": {
+          "uid": 153,
+          "name": "Port 120",
+          "coords": null,
+          "connection_component": 120
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 154, 'AVR 06')": {
+      "uid": 154,
+      "name": "AVR 06",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 125, 'AVR 06')": {
+          "('epowcore.gdf.port.Port', 155, 'Port 124')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 126, 'PSS 06')": {
+          "('epowcore.gdf.port.Port', 155, 'Port 124')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 127, 'GOV 06')": {
+          "('epowcore.gdf.port.Port', 155, 'Port 124')": {}
+        },
+        "('epowcore.gdf.port.Port', 155, 'Port 124')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 125, 'AVR 06')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 126, 'PSS 06')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 127, 'GOV 06')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 125, 'AVR 06')": {
+          "uid": 125,
+          "name": "AVR 06",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 126, 'PSS 06')": {
+          "uid": 126,
+          "name": "PSS 06",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 4.0,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 0.5,
+          "T2": 0.1,
+          "T3": 0.5,
+          "T4": 0.05,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 127, 'GOV 06')": {
+          "uid": 127,
+          "name": "GOV 06",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 0.9,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 155, 'Port 124')": {
+          "uid": 155,
+          "name": "Port 124",
+          "coords": null,
+          "connection_component": 124
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 156, 'AVR 07')": {
+      "uid": 156,
+      "name": "AVR 07",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 129, 'AVR 07')": {
+          "('epowcore.gdf.port.Port', 157, 'Port 128')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 130, 'PSS 07')": {
+          "('epowcore.gdf.port.Port', 157, 'Port 128')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 131, 'GOV 07')": {
+          "('epowcore.gdf.port.Port', 157, 'Port 128')": {}
+        },
+        "('epowcore.gdf.port.Port', 157, 'Port 128')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 129, 'AVR 07')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 130, 'PSS 07')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 131, 'GOV 07')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 129, 'AVR 07')": {
+          "uid": 129,
+          "name": "AVR 07",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 130, 'PSS 07')": {
+          "uid": 130,
+          "name": "PSS 07",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 7.5,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 0.2,
+          "T2": 0.02,
+          "T3": 0.5,
+          "T4": 0.1,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 131, 'GOV 07')": {
+          "uid": 131,
+          "name": "GOV 07",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 0.9,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 157, 'Port 128')": {
+          "uid": 157,
+          "name": "Port 128",
+          "coords": null,
+          "connection_component": 128
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 158, 'AVR 08')": {
+      "uid": 158,
+      "name": "AVR 08",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 133, 'AVR 08')": {
+          "('epowcore.gdf.port.Port', 159, 'Port 132')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 134, 'PSS 08')": {
+          "('epowcore.gdf.port.Port', 159, 'Port 132')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 135, 'GOV 08')": {
+          "('epowcore.gdf.port.Port', 159, 'Port 132')": {}
+        },
+        "('epowcore.gdf.port.Port', 159, 'Port 132')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 133, 'AVR 08')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 134, 'PSS 08')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 135, 'GOV 08')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 133, 'AVR 08')": {
+          "uid": 133,
+          "name": "AVR 08",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 134, 'PSS 08')": {
+          "uid": 134,
+          "name": "PSS 08",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 2.0,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 1.0,
+          "T2": 0.2,
+          "T3": 1.0,
+          "T4": 0.1,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 135, 'GOV 08')": {
+          "uid": 135,
+          "name": "GOV 08",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 1.0,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 159, 'Port 132')": {
+          "uid": 159,
+          "name": "Port 132",
+          "coords": null,
+          "connection_component": 132
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 160, 'AVR 09')": {
+      "uid": 160,
+      "name": "AVR 09",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 137, 'AVR 09')": {
+          "('epowcore.gdf.port.Port', 161, 'Port 136')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 138, 'PSS 09')": {
+          "('epowcore.gdf.port.Port', 161, 'Port 136')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 139, 'GOV 09')": {
+          "('epowcore.gdf.port.Port', 161, 'Port 136')": {}
+        },
+        "('epowcore.gdf.port.Port', 161, 'Port 136')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 137, 'AVR 09')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 138, 'PSS 09')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 139, 'GOV 09')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 137, 'AVR 09')": {
+          "uid": 137,
+          "name": "AVR 09",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 138, 'PSS 09')": {
+          "uid": 138,
+          "name": "PSS 09",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 2.0,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 1.0,
+          "T2": 0.5,
+          "T3": 2.0,
+          "T4": 0.1,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 139, 'GOV 09')": {
+          "uid": 139,
+          "name": "GOV 09",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 1.0,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 161, 'Port 136')": {
+          "uid": 161,
+          "name": "Port 136",
+          "coords": null,
+          "connection_component": 136
+        }
+      }
+    },
+    "('epowcore.gdf.subsystem.Subsystem', 162, 'AVR 10')": {
+      "uid": 162,
+      "name": "AVR 10",
+      "coords": null,
+      "graph": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 141, 'AVR 10')": {
+          "('epowcore.gdf.port.Port', 163, 'Port 140')": {}
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 142, 'PSS 10')": {
+          "('epowcore.gdf.port.Port', 163, 'Port 140')": {}
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 143, 'GOV 10')": {
+          "('epowcore.gdf.port.Port', 163, 'Port 140')": {}
+        },
+        "('epowcore.gdf.port.Port', 163, 'Port 140')": {
+          "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 141, 'AVR 10')": {},
+          "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 142, 'PSS 10')": {},
+          "('epowcore.gdf.governors.ieeeg1.IEEEG1', 143, 'GOV 10')": {}
+        }
+      },
+      "components": {
+        "('epowcore.gdf.exciters.ieeest1a.IEEEST1A', 141, 'AVR 10')": {
+          "uid": 141,
+          "name": "AVR 10",
+          "coords": null,
+          "Tr": null,
+          "Ka": 200.0,
+          "Ta": 0.015,
+          "Tb": 10.0,
+          "Tc": 1.0,
+          "Tb1": 0.0,
+          "Tc1": 0.0,
+          "Kf": 0.0,
+          "Tf": 1.0,
+          "Kc": 0.0,
+          "Klr": 0.0,
+          "Ilr": 0.0,
+          "Vs": 0.0,
+          "Vuel": 0.0,
+          "Vi_min": -0.1,
+          "Va_min": -5.0,
+          "Vr_min": -100.0,
+          "Vi_max": 0.1,
+          "Va_max": 5.0,
+          "Vr_max": 100.0
+        },
+        "('epowcore.gdf.power_system_stabilizers.ieeepss1a.IEEEPSS1A', 142, 'PSS 10')": {
+          "uid": 142,
+          "name": "PSS 10",
+          "coords": null,
+          "Vsi_in": 1.0,
+          "Ks": 1.0,
+          "A1": 0.0,
+          "A2": 0.0,
+          "T1": 1.0,
+          "T2": 0.05,
+          "T3": 3.0,
+          "T4": 0.5,
+          "T5": 10.0,
+          "T6": 0.0,
+          "Vst_min": -0.2,
+          "Vst_max": 0.2
+        },
+        "('epowcore.gdf.governors.ieeeg1.IEEEG1', 143, 'GOV 10')": {
+          "uid": 143,
+          "name": "GOV 10",
+          "coords": null,
+          "K": 20.0,
+          "T1": 0.0,
+          "T2": 0.0,
+          "T3": 0.075,
+          "K1": 0.2,
+          "K2": 0.0,
+          "T5": 10.0,
+          "K3": 0.4,
+          "K4": 0.0,
+          "T6": 0.6,
+          "K5": 0.4,
+          "K6": 0.0,
+          "T4": 0.3,
+          "T7": 0.0,
+          "K7": 0.0,
+          "K8": 0.0,
+          "Uc": -1.0,
+          "Pmin": 0.0,
+          "Uo": 0.6786,
+          "Pmax": 0.9,
+          "db": 0.0,
+          "PNhp": 0.0,
+          "PNlp": 0.0
+        },
+        "('epowcore.gdf.port.Port', 163, 'Port 140')": {
+          "uid": 163,
+          "name": "Port 140",
+          "coords": null,
+          "connection_component": 140
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+# if true, create Subsystems based on the project's folder structure
+FOLDER_TO_SUBSYSTEM: false
+# if true, combine the bus and station name for buses; useful for large systems
+BUS_STATION_NAME: true
+# if true, use load flow results to set generators power output
+USE_LOAD_FLOW: true

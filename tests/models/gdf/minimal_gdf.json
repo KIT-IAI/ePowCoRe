@@ -1,0 +1,148 @@
+{
+  "base_frequency": 60,
+  "graph": {
+    "('epowcore.gdf.bus.Bus', 0, 'KL1')": {
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 4, '2-Winding Transformer')": {
+        "4": "LV"
+      },
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 6, 'Synchronous Machine')": {}
+    },
+    "('epowcore.gdf.bus.Bus', 1, 'KL2')": {
+      "('epowcore.gdf.tline.TLine', 5, 'Line')": {
+        "5": "A"
+      },
+      "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 4, '2-Winding Transformer')": {
+        "4": "HV"
+      }
+    },
+    "('epowcore.gdf.bus.Bus', 2, 'Terminal')": {
+      "('epowcore.gdf.load.Load', 3, 'General Load')": {},
+      "('epowcore.gdf.tline.TLine', 5, 'Line')": {
+        "5": "B"
+      }
+    },
+    "('epowcore.gdf.load.Load', 3, 'General Load')": {
+      "('epowcore.gdf.bus.Bus', 2, 'Terminal')": {}
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 4, '2-Winding Transformer')": {
+      "('epowcore.gdf.bus.Bus', 0, 'KL1')": {
+        "4": "LV"
+      },
+      "('epowcore.gdf.bus.Bus', 1, 'KL2')": {
+        "4": "HV"
+      }
+    },
+    "('epowcore.gdf.tline.TLine', 5, 'Line')": {
+      "('epowcore.gdf.bus.Bus', 1, 'KL2')": {
+        "5": "A"
+      },
+      "('epowcore.gdf.bus.Bus', 2, 'Terminal')": {
+        "5": "B"
+      }
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 6, 'Synchronous Machine')": {
+      "('epowcore.gdf.bus.Bus', 0, 'KL1')": {}
+    }
+  },
+  "components": {
+    "('epowcore.gdf.bus.Bus', 0, 'KL1')": {
+      "uid": 0,
+      "name": "KL1",
+      "connector_names": [],
+      "lf_bus_type": "SL",
+      "nominal_voltage": 13.800000190734863,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 1, 'KL2')": {
+      "uid": 1,
+      "name": "KL2",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 69.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.bus.Bus', 2, 'Terminal')": {
+      "uid": 2,
+      "name": "Terminal",
+      "connector_names": [],
+      "lf_bus_type": "PQ",
+      "nominal_voltage": 69.0,
+      "bus_type": "BUSBAR"
+    },
+    "('epowcore.gdf.load.Load', 3, 'General Load')": {
+      "uid": 3,
+      "name": "General Load",
+      "connector_names": [],
+      "active_power": 1.0,
+      "reactive_power": 0.4000000059604645
+    },
+    "('epowcore.gdf.transformers.two_winding_transformer.TwoWindingTransformer', 4, '2-Winding Transformer')": {
+      "uid": 4,
+      "name": "2-Winding Transformer",
+      "connector_names": [],
+      "rating": 10.0,
+      "voltage_hv": 69.0,
+      "voltage_lv": 13.800000190734863,
+      "copper_losses": 0.00615,
+      "no_load_losses": 0.0010500000000000002,
+      "no_load_current": 0.75,
+      "positive_reactance": 0.0797632560133934,
+      "connection_type_hv": "D",
+      "connection_type_lv": "YN",
+      "tap_changer_voltage": 0.025,
+      "tap_min": -2,
+      "tap_max": 2,
+      "tap_neutral": 0,
+      "tap_initial": 0
+    },
+    "('epowcore.gdf.tline.TLine', 5, 'Line')": {
+      "uid": 5,
+      "name": "Line",
+      "connector_names": [],
+      "length": 10.0,
+      "r1": 0.021199999377131462,
+      "x1": 0.11623889952898026,
+      "b1": 72.25662994384766,
+      "r0": 0.08479999750852585,
+      "x0": 0.464955598115921,
+      "b0": 72.44512939453125,
+      "rating": 105.92999994754791
+    },
+    "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 6, 'Synchronous Machine')": {
+      "uid": 6,
+      "name": "Synchronous Machine",
+      "connector_names": [],
+      "rated_apparent_power": 800.0,
+      "rated_active_power": 0.0,
+      "rated_voltage": 13.800000190734863,
+      "active_power": 0.0,
+      "reactive_power": 0.0,
+      "voltage_set_point": 1.0,
+      "inertia_constant": 4.474999904632568,
+      "zero_sequence_resistance": 0.0,
+      "zero_sequence_reactance": 0.10000000149011612,
+      "stator_leakage_reactance": 0.2432,
+      "stator_resistance": 0.0,
+      "synchronous_reactance_x": 1.996000051498413,
+      "transient_reactance_x": 0.42480000853538513,
+      "subtransient_reactance_x": 0.36000001430511475,
+      "synchronous_reactance_q": 1.8960000276565552,
+      "transient_reactance_q": 0.7008000016212463,
+      "subtransient_reactance_q": 0.36000001430511475,
+      "tds0": 5.699999809265137,
+      "tqs0": 1.5,
+      "tdss0": 0.05000000074505806,
+      "tqss0": 0.03500000014901161,
+      "p_min": 0.0,
+      "p_max": 680.0,
+      "q_min": -800.0,
+      "q_max": 800.0,
+      "pc1": 0.0,
+      "pc2": 9999.0,
+      "qc1_min": -800.0,
+      "qc1_max": 800.0,
+      "qc2_min": -800.0,
+      "qc2_max": 800.0
+    }
+  }
+}

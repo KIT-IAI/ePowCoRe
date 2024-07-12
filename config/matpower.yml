@@ -1,0 +1,31 @@
+MatpowerModel:
+  base_frequency: 50.0
+  base_mva: 100.0
+Switch:
+  rate_a: 100.0
+  rate_b: 105.0
+  rate_c: 110.0
+TLine:
+  rating_short_term_factor: 1.1
+  rating_emergency_factor: 1.2
+  angle_min: -360.0
+  angle_max: 360.0
+TwoWindingTransformer:
+  rating_short_term_factor: 1.1
+  rating_emergency_factor: 1.2
+  angle_min: -360.0
+  angle_max: 360.0
+VoltageSource:
+  PMin: -1e10
+  PMax: 1e10
+  QMin: -1e9
+  QMax: 1e9
+  QC1Min: 0.0
+  QC1Max: 0.0
+  QC2Min: 0.0
+  QC2Max: 0.0
+  ramp10: 0.0
+  ramp30: 0.0
+  rampQ: 0.0
+  costStartUp: 0.0
+  costShutDown: 0.0

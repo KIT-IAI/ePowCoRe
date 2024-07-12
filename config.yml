@@ -1,0 +1,6 @@
+Global: "<file:config/global.yml>"
+PowerFactory: "<file:config/powerfactory.yml>"
+Simscape: "<file:config/simscape.yml>"
+JMDL: "<file:config/jmdl.yml>"
+Matpower: "<file:config/matpower.yml>"
+RSCAD: "<file:config/rscad.yml>"

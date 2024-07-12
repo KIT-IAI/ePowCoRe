@@ -1,0 +1,531 @@
+{
+  "version": "0.6",
+  "geoMode": false,
+  "data": {
+    "description": "",
+    "type": "group",
+    "entries": {}
+  },
+  "/": {
+    "ports": {},
+    "type": "SuperBlock",
+    "blocks": {
+      "Load": {
+        "ports": {
+          "powerIn": {
+            "type": "ConservingPort",
+            "layout": {
+              "borderPos": 0.125,
+              "diameter": "20.0%",
+              "color": "0x000000ff"
+            }
+          }
+        },
+        "type": "BasicBlock",
+        "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowLoad",
+        "comment": "",
+        "url": "",
+        "tags": [],
+        "data": {
+          "description": "",
+          "type": "group",
+          "entries": {
+            "EPowLoad": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "P": {
+                  "description": "The real power demand.",
+                  "type": "float64",
+                  "value": 0.0
+                },
+                "Q": {
+                  "description": "The reactive power demand.",
+                  "type": "float64",
+                  "value": 0.0
+                }
+              }
+            },
+            "geoData": {
+              "description": "Geographic Data and Shape of the real world object represented by this block.",
+              "type": "group",
+              "entries": {
+                "label": {
+                  "description": "A meaningful label text.",
+                  "type": "string",
+                  "value": ""
+                },
+                "labelColor": {
+                  "description": "Label text color.",
+                  "type": "string",
+                  "value": ""
+                },
+                "center": {
+                  "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                  "type": "string",
+                  "value": "1.0,2.0,0.0"
+                },
+                "path": {
+                  "description": "Geographic shape.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineColor": {
+                  "description": "Color of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineThickness": {
+                  "description": "Thickness of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "fillColor": {
+                  "description": "The enclosed area's fill color, provided the path is closed.",
+                  "type": "string",
+                  "value": ""
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "center": [ 150.0, 170.0 ],
+          "size": [ 40.0, 40.0 ],
+          "backgroundColor": "0xd3d3d3ff",
+          "borderColor": "0x000000ff",
+          "borderThickness": "4.6875%",
+          "radiusNW": "50.0%",
+          "radiusNE": "50.0%",
+          "radiusSW": "50.0%",
+          "radiusSE": "50.0%"
+        }
+      },
+      "SuperBlock": {
+        "ports": {
+          "ConservingPort": {
+            "type": "ConservingPort",
+            "layout": {
+              "borderPos": 0.375,
+              "diameter": "20.0%",
+              "color": "0x000000ff"
+            },
+            "internal": {
+              "layout": {
+                "x": 153.0,
+                "y": 387.0,
+                "diameter": 20.0,
+                "color": "0x000000ff"
+              }
+            }
+          }
+        },
+        "type": "SuperBlock",
+        "blocks": {
+          "Generator": {
+            "ports": {
+              "powerOut": {
+                "type": "ConservingPort",
+                "layout": {
+                  "borderPos": 0.125,
+                  "diameter": "20.0%",
+                  "color": "0x000000ff"
+                }
+              }
+            },
+            "type": "BasicBlock",
+            "class": "edu.kit.iai.easimov.modeler.model.blockdiagram.epower.EPowGenerator",
+            "comment": "",
+            "url": "",
+            "tags": [],
+            "data": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "EPowGenerator": {
+                  "description": "",
+                  "type": "group",
+                  "entries": {
+                    "V": {
+                      "description": "Voltage magnitude setpoint.",
+                      "type": "float64",
+                      "value": 1.0
+                    },
+                    "P": {
+                      "description": "Real power output (MW)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Q": {
+                      "description": "Reactive power output (MVAr)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "type": {
+                      "description": "The type of the generator.\nPossibilities: Gas, Wind, Coal, Photovoltaik, Hydro, Solar, Battery, Biofuel, Nuclear, Tidal, Others",
+                      "type": "enum",
+                      "value": "Others",
+                      "enumClass": "edu.kit.iai.easimov.modeler.util.GeneratorType"
+                    },
+                    "inService": {
+                      "description": "Machine status. If set to true, the machine is in service.",
+                      "type": "bool",
+                      "value": true
+                    },
+                    "Pmin": {
+                      "description": "The minimum real power output.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Pmax": {
+                      "description": "The maximum real power output.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Qmin": {
+                      "description": "Minimum reactive power output (MVAr)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "Qmax": {
+                      "description": "Maximum reactive power output (MVAr)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "baseMVA": {
+                      "description": "Total MVA base of machine, defaults to baseMVA.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "PC1": {
+                      "description": "Lower real power output of PQ capability curve (MW).",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "PC2": {
+                      "description": "Upper real power output of PQ capability curve (MW).",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "QC1Min": {
+                      "description": "Minimum reactive power output at PC1.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "QC1Max": {
+                      "description": "Maximum reactive power output at PC1.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "QC2Min": {
+                      "description": "Minimum reactive power output at PC2.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "QC2Max": {
+                      "description": "Maximum reactive power output at PC2.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "rampAGC": {
+                      "description": "Ramp rate for load following.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "ramp10": {
+                      "description": "Ramp rate for 10 minute reserves (MW).",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "ramp30": {
+                      "description": "Ramp rate for 30 minute reserves (MW).",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "rampQ": {
+                      "description": "Ramp rate for reactive power (2 sec time scale) (MVAr/min)",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "APF": {
+                      "description": "Area participation factor.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "costModel": {
+                      "description": "None (0), Piecewise Linear (1), Polynomial (2).",
+                      "type": "enum",
+                      "value": "Polynomial",
+                      "enumClass": "edu.kit.iai.easimov.modeler.util.GeneratorCostModel"
+                    },
+                    "costStartUp": {
+                      "description": "Generator startup cost in US dollars.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "costShutDown": {
+                      "description": "Generator shutdown cost in US dollars.",
+                      "type": "float64",
+                      "value": 0.0
+                    },
+                    "costNumParameters": {
+                      "description": "Number of cost parameters.",
+                      "type": "int64",
+                      "value": 3
+                    },
+                    "costParameters": {
+                      "description": "Parameters defining total cost function f(p). Units of f and p are $/hr and MW (or MVAr),\nPiecewise Linear: p0,f0, p1,f1, ..., pn,fn, where p0 < p1 < ... < pn. The cost f(p) is defined by the coordinates (p0,f0), (p1,f1), ..., (pn,fn).\nPolynomial: cn, ..., c1, c0. With n + 1 coefficients of n-th order polynomial cost, starting with highest order, where cost is f(p) = cnp^n + + c1p + c0.",
+                      "type": "string",
+                      "value": "0 1 0"
+                    }
+                  }
+                },
+                "geoData": {
+                  "description": "Geographic Data and Shape of the real world object represented by this block.",
+                  "type": "group",
+                  "entries": {
+                    "label": {
+                      "description": "A meaningful label text.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "labelColor": {
+                      "description": "Label text color.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "center": {
+                      "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "path": {
+                      "description": "Geographic shape.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineColor": {
+                      "description": "Color of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "lineThickness": {
+                      "description": "Thickness of the path line.",
+                      "type": "string",
+                      "value": ""
+                    },
+                    "fillColor": {
+                      "description": "The enclosed area's fill color, provided the path is closed.",
+                      "type": "string",
+                      "value": ""
+                    }
+                  }
+                }
+              }
+            },
+            "layout": {
+              "center": [ 110.0, 140.0 ],
+              "size": [ 40.0, 40.0 ],
+              "backgroundColor": "0xd3d3d3ff",
+              "borderColor": "0x000000ff",
+              "borderThickness": "4.6875%",
+              "radiusNW": "50.0%",
+              "radiusNE": "50.0%",
+              "radiusSW": "50.0%",
+              "radiusSE": "50.0%"
+            }
+          }
+        },
+        "connections": [
+          {
+            "start": "Generator.powerOut",
+            "end": ".ConservingPort",
+            "layout": {
+              "thickness": 3.0,
+              "color": "0x000000ff",
+              "points": [],
+              "geoPoints": []
+            }
+          }
+        ],
+        "comment": "",
+        "url": "",
+        "tags": [],
+        "data": {
+          "description": "",
+          "type": "group",
+          "entries": {
+            "SuperBlock": {
+              "description": "",
+              "type": "group",
+              "entries": {
+                "backgroundImage": {
+                  "description": "",
+                  "type": "image",
+                  "filename": ""
+                },
+                "backgroundWidth": {
+                  "description": "",
+                  "type": "float64",
+                  "value": 0.0
+                },
+                "backgroundHeight": {
+                  "description": "",
+                  "type": "float64",
+                  "value": 0.0
+                }
+              }
+            },
+            "geoData": {
+              "description": "Geographic Data and Shape of the real world object represented by this block.",
+              "type": "group",
+              "entries": {
+                "label": {
+                  "description": "A meaningful label text.",
+                  "type": "string",
+                  "value": ""
+                },
+                "labelColor": {
+                  "description": "Label text color.",
+                  "type": "string",
+                  "value": ""
+                },
+                "center": {
+                  "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+                  "type": "string",
+                  "value": ""
+                },
+                "path": {
+                  "description": "Geographic shape.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineColor": {
+                  "description": "Color of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "lineThickness": {
+                  "description": "Thickness of the path line.",
+                  "type": "string",
+                  "value": ""
+                },
+                "fillColor": {
+                  "description": "The enclosed area's fill color, provided the path is closed.",
+                  "type": "string",
+                  "value": ""
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "center": [ 70.0, 70.0 ],
+          "size": [ 100.0, 60.0 ],
+          "backgroundColor": "0xd3d3d3ff",
+          "borderColor": "0x000000ff",
+          "borderThickness": "5.0%",
+          "radiusNW": "0.0px",
+          "radiusNE": "0.0px",
+          "radiusSW": "0.0px",
+          "radiusSE": "0.0px"
+        }
+      }
+    },
+    "connections": [
+      {
+        "start": "SuperBlock.ConservingPort",
+        "end": "Load.powerIn",
+        "layout": {
+          "thickness": 3.0,
+          "color": "0x000000ff",
+          "points": [],
+          "geoPoints": []
+        }
+      }
+    ],
+    "comment": "",
+    "url": "",
+    "tags": [],
+    "data": {
+      "description": "",
+      "type": "group",
+      "entries": {
+        "SuperBlock": {
+          "description": "",
+          "type": "group",
+          "entries": {
+            "backgroundImage": {
+              "description": "",
+              "type": "image",
+              "filename": ""
+            },
+            "backgroundWidth": {
+              "description": "",
+              "type": "float64",
+              "value": 0.0
+            },
+            "backgroundHeight": {
+              "description": "",
+              "type": "float64",
+              "value": 0.0
+            }
+          }
+        },
+        "geoData": {
+          "description": "Geographic Data and Shape of the real world object represented by this block.",
+          "type": "group",
+          "entries": {
+            "label": {
+              "description": "A meaningful label text.",
+              "type": "string",
+              "value": ""
+            },
+            "labelColor": {
+              "description": "Label text color.",
+              "type": "string",
+              "value": ""
+            },
+            "center": {
+              "description": "Coordinates of the geographic center. Please Use \"<lat>,<lon>,<alt>\"",
+              "type": "string",
+              "value": ""
+            },
+            "path": {
+              "description": "Geographic shape.",
+              "type": "string",
+              "value": ""
+            },
+            "lineColor": {
+              "description": "Color of the path line.",
+              "type": "string",
+              "value": ""
+            },
+            "lineThickness": {
+              "description": "Thickness of the path line.",
+              "type": "string",
+              "value": ""
+            },
+            "fillColor": {
+              "description": "The enclosed area's fill color, provided the path is closed.",
+              "type": "string",
+              "value": ""
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "center": [ 0.0, 0.0 ],
+      "size": [ 100.0, 60.0 ],
+      "backgroundColor": "0xd3d3d3ff",
+      "borderColor": "0x000000ff",
+      "borderThickness": "5.0%",
+      "radiusNW": "0.0px",
+      "radiusNE": "0.0px",
+      "radiusSW": "0.0px",
+      "radiusSE": "0.0px"
+    }
+  },
+  "tagDatabase": []
+}

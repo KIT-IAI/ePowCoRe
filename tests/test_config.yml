@@ -1,0 +1,7 @@
+test:
+  test: "Hello World!"
+  list:
+    - "Hello"
+    - "World!"
+  number: 123
+sub_config: "<file:test_sub_config.yml>"
