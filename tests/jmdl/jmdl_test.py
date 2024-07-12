@@ -67,18 +67,18 @@ class JmdlTest(unittest.TestCase):
             json_data = json.loads(file.read())
         root = JmdlModel.from_dict(json_data)
         jmdl_converter = JmdlConverter()
-        ds = jmdl_converter.to_gdf(root)
+        core_model = jmdl_converter.to_gdf(root)
 
-        load = next((x for x in ds.graph.nodes if isinstance(x, Load)), None)
+        load = next((x for x in core_model.graph.nodes if isinstance(x, Load)), None)
         self.assertEqual(load.coords, (1.0, 2.0))  # type: ignore
-        self.assertEqual(len(ds.graph.nodes), 2)
-        self.assertEqual(len(ds.graph.edges), 1)
+        self.assertEqual(len(core_model.graph.nodes), 2)
+        self.assertEqual(len(core_model.graph.edges), 1)
 
-        sub = ds.type_list(Subsystem)[0]
+        sub = core_model.type_list(Subsystem)[0]
         self.assertEqual(len(sub.graph.nodes), 2)
         self.assertEqual(len(sub.graph.edges), 1)
 
-        jmdl_json = jmdl_converter.from_gdf(ds, "with_super_block_out").to_json()
+        jmdl_json = jmdl_converter.from_gdf(core_model, "with_super_block_out").to_json()
         with open("tests/out/with_super_block_out.jmdl", "w", encoding="utf8") as file:
             file.write(jmdl_json)
 
@@ -90,13 +90,13 @@ class JmdlTest(unittest.TestCase):
             json_data = json.loads(file.read())
         root = JmdlModel.from_dict(json_data)
         jmdl_converter = JmdlConverter()
-        ds = jmdl_converter.to_gdf(root)
+        core_model = jmdl_converter.to_gdf(root)
 
-        print(json.dumps(ds.export_dict(), indent=2))
+        print(json.dumps(core_model.export_dict(), indent=2))
         print("\n\n#######################################\n\n")
 
-        flatten(ds)
-        print(json.dumps(ds.export_dict(), indent=2))
+        flatten(core_model)
+        print(json.dumps(core_model.export_dict(), indent=2))
 
     def test_minimal_super_block2(self) -> None:
         """Tests the import of a super block to a Subsystem."""
@@ -105,13 +105,13 @@ class JmdlTest(unittest.TestCase):
             json_data = json.loads(file.read())
         root = JmdlModel.from_dict(json_data)
         jmdl_converter = JmdlConverter()
-        ds = jmdl_converter.to_gdf(root)
-        ds_original = copy.deepcopy(ds)
+        core_model = jmdl_converter.to_gdf(root)
+        ds_original = copy.deepcopy(core_model)
 
-        # print(json.dumps(ds.export_dict(), indent=2))
+        # print(json.dumps(core_model.export_dict(), indent=2))
 
         # print("\n\n#######################################\n\n")
-        # ds_flattened = flatten(ds)
+        # ds_flattened = flatten(core_model)
         # print(json.dumps(ds_flattened.export_dict(), indent=2))
 
         jmdl_converter = JmdlConverter()

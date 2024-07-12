@@ -15,8 +15,8 @@ T = TypeVar("T")
 
 
 @dataclass(kw_only=True)
-class DataStructure:
-    """This class represents the complete datastructure."""
+class CoreModel:
+    """This class represents the generic model, including the component graph and additional attributes."""
 
     base_frequency: float
     """Base Frequency of the elements based of the project."""
@@ -31,9 +31,9 @@ class DataStructure:
         """Base rating for pu calculations in the project with fallback."""
         if self.base_mva is not None:
             return self.base_mva
-        default = Configuration().get_default("DataStructure", "base_mva", platform)
+        default = Configuration().get_default("CoreModel", "base_mva", platform)
         if default is None:
-            raise ValueError("Could not find default value for DataStructure.base_mva")
+            raise ValueError("Could not find default value for CoreModel.base_mva")
         Logger.log_to_selected(f"Using default for {type(self).__name__}: base_mva = {default}")
         return default
 
@@ -372,18 +372,18 @@ class DataStructure:
         return data | self.graph.to_primitive_dict()
 
     @classmethod
-    def import_dict(cls, data: dict) -> "DataStructure":
-        """Import a valid dictionary and return a DataStructure representation of the model.
+    def import_dict(cls, data: dict) -> "CoreModel":
+        """Import a valid dictionary and return a CoreModel representation of the model.
 
         :param data: The dictionary containing the model data.
         :type data: dict
-        :return: The DataStructure representation of the model.
-        :rtype: DataStructure
+        :return: The CoreModel representation of the model.
+        :rtype: CoreModel
         """
         version = data.get("version", None)
         if version is None or version != GDF_VERSION:
             raise ValueError(
-                f"Version of data doesn't match version of DataStructure: {version} != {GDF_VERSION}"
+                f"Version of data doesn't match version of CoreModel: {version} != {GDF_VERSION}"
             )
         import_data = dict(data)
         import_comp_dict = data["components"]

@@ -20,7 +20,7 @@ class RSCADIEEET1(RSCADComponentBuilder):
         cls, component: IEEET1, base_frequency: float, generator: SynchronousMachine
     ) -> rscadIEEET1.rtdsIEEET1def:
         """
-        Creates a RSCAD ieeeet1 exciter from a datastructure ieeeet1 exciter element and sets the available values, including the generator name from a datastructure generator element
+        Creates a RSCAD ieeeet1 exciter from a core model ieeeet1 exciter element and sets the available values, including the generator name from a core model generator element
         """
         rs_exciter = rscadIEEET1.rtdsIEEET1def()
         rs_exciter.CONFIGURATION.HTZ.value = base_frequency

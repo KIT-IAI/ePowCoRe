@@ -18,7 +18,7 @@ class RSCADPTIST1(RSCADComponentBuilder):
     def create(  # type: ignore[override]
         cls, component: PTIST1, base_frequency: float, generator: SynchronousMachine
     ) -> rscadPTIST1.rtdsPTIST1def:
-        """Creates a RSCAD PTIST1 PSS from a datastructure PTIST1 PSS element and sets the available values and sets the generator name"""
+        """Creates a RSCAD PTIST1 PSS from a core model PTIST1 PSS element and sets the available values and sets the generator name"""
         rs_pss = rscadPTIST1.rtdsPTIST1def()
         rs_pss.CONFIGURATION.HTZ.value = base_frequency
         rs_pss.PSSPARAMETERS.K.value = component.Kpss

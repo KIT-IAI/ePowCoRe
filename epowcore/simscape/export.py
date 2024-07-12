@@ -12,7 +12,7 @@ from epowcore.gdf.governors.gast import GAST
 from epowcore.gdf.governors.hygov import HYGOV
 from epowcore.gdf.load import Load
 from epowcore.gdf.component import Component
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.exciters.ieee_st1a import IEEEST1A
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 from epowcore.gdf.governors.ieee_g1 import IEEEG1
@@ -58,12 +58,12 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def export(
-    data_structure: DataStructure,
+    core_model: CoreModel,
     model_name: str,
     engine: matlab.engine.MatlabEngine | None = None,
     is_subsystem: bool = False,
 ) -> None:
-    """Take the data structure, go through its components and create a Simscape model accordingly."""
+    """Take the core model, go through its components and create a Simscape model accordingly."""
     if engine is None:
         eng = matlab.engine.start_matlab()
         if not isinstance(eng, matlab.engine.MatlabEngine):
@@ -77,26 +77,26 @@ def export(
     eng.new_system(model_name)  # type: ignore
 
     start = time.perf_counter()
-    created_components = __create_components(eng, data_structure, model_name)
+    created_components = __create_components(eng, core_model, model_name)
     print(f"component creation: {time.perf_counter() - start:.1f}s")
 
     print(f"{datetime.now().timestamp()} Layouting model")
-    layout_model(eng, data_structure.graph.get_internal_graph(copy=False), created_components)
+    layout_model(eng, core_model.graph.get_internal_graph(copy=False), created_components)
 
     print(f"{datetime.now().timestamp()} Add load flow buses")
     # After all components are created and placed, add the load flow buses
-    for bus in data_structure.type_list(Bus):
+    for bus in core_model.type_list(Bus):
         vim = created_components[bus]
-        sbus = create_bus(eng, bus, data_structure, model_name)
+        sbus = create_bus(eng, bus, core_model, model_name)
         x, y, _, _ = get_position(eng, vim)
         set_position(eng, sbus, x + 50, y)
         connect(eng, model_name, vim, "RConn", sbus, "")
 
     print(f"{datetime.now().timestamp()} Adding edge data")
-    simscape_graph_transformer.add_known_edge_data(data_structure.graph, created_components)
+    simscape_graph_transformer.add_known_edge_data(core_model.graph, created_components)
 
     print(f"{datetime.now().timestamp()} Connecting components")
-    __connect_components(eng, data_structure, model_name, created_components)
+    __connect_components(eng, core_model, model_name, created_components)
 
     if not is_subsystem:
         create_powergui(eng, model_name)
@@ -106,72 +106,72 @@ def export(
 
 
 def __create_components(
-    eng: matlab.engine.MatlabEngine, data_structure: DataStructure, model_name: str
+    eng: matlab.engine.MatlabEngine, core_model: CoreModel, model_name: str
 ) -> dict[Component, SimscapeBlock]:
     """Create all components in the model and return a dict with the created components.
 
     :param eng: MATLAB engine
-    :param data_structure: GDF Data structure
+    :param core_model: GDF Core model
     :param model_name: Name of the model
     :return: Mapping from the GDF components to the created Simscape blocks
     """
     created_components: dict[Component, SimscapeBlock] = {}
 
     component: Component
-    for component in data_structure.type_list(Bus):
+    for component in core_model.type_list(Bus):
         # We use VI measurements as bus replacements here because it is way easier to create
         # the component connections with these. We just need to make sure to add load flow buses
         # later in the export process.
         print(f"{datetime.now().timestamp()} Creating VI measurement for bus {component.name}")
         created_components[component] = create_vi_measurement(eng, f"VIM {component.name}", model_name)[0]
 
-    for component in data_structure.type_list(Load):
+    for component in core_model.type_list(Load):
         print(f"{datetime.now().timestamp()} Creating load {component.name}")
-        created_components[component] = create_load(eng, component, data_structure, model_name)
-    for component in data_structure.type_list(SynchronousMachine):
+        created_components[component] = create_load(eng, component, core_model, model_name)
+    for component in core_model.type_list(SynchronousMachine):
         print(f"{datetime.now().timestamp()} Creating generator {component.name}")
-        created_components[component] = create_generator(eng, component, data_structure, model_name)
-    for component in data_structure.type_list(StaticGenerator):
+        created_components[component] = create_generator(eng, component, core_model, model_name)
+    for component in core_model.type_list(StaticGenerator):
         print(f"{datetime.now().timestamp()} Creating static generator {component.name}")
-        created_components[component] = create_static_generator(eng, component, data_structure, model_name)
+        created_components[component] = create_static_generator(eng, component, core_model, model_name)
 
-    for component in data_structure.type_list(TLine):
+    for component in core_model.type_list(TLine):
         print(f"{datetime.now().timestamp()} Creating transmission line {component.name}")
-        created_components[component] = create_tline(eng, component, data_structure, model_name)
-    for component in data_structure.type_list(TwoWindingTransformer):
+        created_components[component] = create_tline(eng, component, core_model, model_name)
+    for component in core_model.type_list(TwoWindingTransformer):
         print(f"{datetime.now().timestamp()} Creating two winding transformer {component.name}")
-        created_components[component] = create_tw_trans(eng, component, data_structure, model_name)
-    for component in data_structure.type_list(ThreeWindingTransformer):
+        created_components[component] = create_tw_trans(eng, component, core_model, model_name)
+    for component in core_model.type_list(ThreeWindingTransformer):
         print(f"{datetime.now().timestamp()} Creating three winding transformer {component.name}")
-        created_components[component] = create_thw_trans(eng, component, data_structure, model_name)
-    for component in data_structure.type_list(CommonImpedance):
+        created_components[component] = create_thw_trans(eng, component, core_model, model_name)
+    for component in core_model.type_list(CommonImpedance):
         created_components[component] = create_common_impedance(
-            eng, component, data_structure, model_name
+            eng, component, core_model, model_name
         )
 
     # Governors
-    for component in data_structure.type_list(IEEEG1):
+    for component in core_model.type_list(IEEEG1):
         created_components[component] = create_ieee_g1(eng, component, model_name)
-    for component in data_structure.type_list(GAST):
+    for component in core_model.type_list(GAST):
         created_components[component] = create_gast(eng, component, model_name)
-    for component in data_structure.type_list(HYGOV):
+    for component in core_model.type_list(HYGOV):
         created_components[component] = create_hygov(eng, component, model_name)
     # Exciters
-    for component in data_structure.type_list(IEEEST1A):
+    for component in core_model.type_list(IEEEST1A):
         created_components[component] = create_ieee_st1a(eng, component, model_name)
-    for component in data_structure.type_list(SEXS):
+    for component in core_model.type_list(SEXS):
         created_components[component] = create_sexs(eng, component, model_name)
     # PSS
-    for component in data_structure.type_list(IEEEPSS1A):
+    for component in core_model.type_list(IEEEPSS1A):
         created_components[component] = create_ieee_pss1a(eng, component, model_name)
-    for component in data_structure.type_list(IEEEPSS2A):
+    for component in core_model.type_list(IEEEPSS2A):
         created_components[component] = create_ieee_pss2a(eng, component, model_name)
 
-    for component in data_structure.type_list(Port):
+    for component in core_model.type_list(Port):
         # TODO:Identify whether the port is an inport or an outport
         created_components[component] = create_inport(eng, component, model_name)
 
-    for subsystem in data_structure.type_list(Subsystem):
+    for subsystem in core_model.type_list(Subsystem):
         print(f"{datetime.now().timestamp()} Creating subsystem {subsystem.name}")
         # check for available subsystem templates
         subsystem_template = get_subsystem_template(subsystem)
@@ -179,7 +179,7 @@ def __create_components(
         if subsystem_template is None:
             # No template available -> Create simple subsystem
             created_components[subsystem] = insert_subsystem(
-                eng, subsystem, model_name, data_structure.base_frequency
+                eng, subsystem, model_name, core_model.base_frequency
             )
         else:
             # Use templated subsystem with additional components
@@ -197,12 +197,12 @@ def __create_components(
 
 def __connect_components(
     eng: matlab.engine.MatlabEngine,
-    data_structure: DataStructure,
+    core_model: CoreModel,
     model_name: str,
     created_components: dict[Component, SimscapeBlock],
 ) -> None:
     """Connect the components according to the graph."""
-    for left, right, data in data_structure.graph.edges.data():
+    for left, right, data in core_model.graph.edges.data():
         if left not in created_components or right not in created_components:
             print(f"Could not connect {left} to {right} as one of them is not created yet.")
             continue

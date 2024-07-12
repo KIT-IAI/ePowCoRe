@@ -1,13 +1,12 @@
 from dataclasses import dataclass, field
 
 from epowcore.gdf.bus import Bus, LFBusType
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 
 from .transformer import Transformer, WindingConfig
 
 
-# The attributes are never changed after being insterted into a structure requiring hashes
 @dataclass(unsafe_hash=True, kw_only=True)
 class ThreeWindingTransformer(Transformer):
     """This class represents a three-phase transformer with three windings.
@@ -69,12 +68,12 @@ class ThreeWindingTransformer(Transformer):
         """No load losses (iron losses) of the transformer [p.u.]"""
         return self.pfe_kw / self.rating_hv / 1000
 
-    def replace_with_two_winding_transformers(self, data_structure: DataStructure) -> None:
+    def replace_with_two_winding_transformers(self, core_model: CoreModel) -> None:
         """Creates three two winding transformers and their auxiliary bus from a three winding transformer.
 
         The new auxiliary bus is connected to the LV side of each of the three new transformers.
 
-        :param data_structure: The data structure that contains this three winding transformer.
+        :param core_model: The core model that contains this three winding transformer.
         :return: None
         """
         # Create auxilary bus
@@ -87,7 +86,7 @@ class ThreeWindingTransformer(Transformer):
         )
         # Create three two winding transformers
         two_winding_transformers = []
-        new_id = data_structure.get_valid_id()
+        new_id = core_model.get_valid_id()
 
         x1_h, x1_m, x1_l = _calculate_impedances(
             (self.x1_hm, self.x1_ml, self.x1_lh),
@@ -153,17 +152,17 @@ class ThreeWindingTransformer(Transformer):
             )
         )
 
-        # Add elements to datastructure
-        neighbors = list(data_structure.graph.neighbors(self))
-        data_structure.graph.remove_node(self)
+        # Add elements to core model
+        neighbors = list(core_model.graph.neighbors(self))
+        core_model.graph.remove_node(self)
 
         # Add connections to graph
-        data_structure.add_connection(auxilary_bus, two_winding_transformers[0], "", "LV")
-        data_structure.add_connection(auxilary_bus, two_winding_transformers[1], "", "LV")
-        data_structure.add_connection(auxilary_bus, two_winding_transformers[2], "", "LV")
+        core_model.add_connection(auxilary_bus, two_winding_transformers[0], "", "LV")
+        core_model.add_connection(auxilary_bus, two_winding_transformers[1], "", "LV")
+        core_model.add_connection(auxilary_bus, two_winding_transformers[2], "", "LV")
 
         for i in range(min(len(neighbors), 3)):
-            data_structure.add_connection(two_winding_transformers[i], neighbors[i], "HV", "")
+            core_model.add_connection(two_winding_transformers[i], neighbors[i], "HV", "")
 
 
 def _calculate_impedances(

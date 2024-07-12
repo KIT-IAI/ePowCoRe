@@ -4,7 +4,7 @@ PowerFactory
 PF → GDF
 ---------
 
-The PowerFactoryExtractor generates a DataStructure object from a PF study case.
+The PowerFactoryExtractor generates a CoreModel object from a PF study case.
 First, the supported blocks are extracted, then all nodes are iterated over to extract the connections between the blocks. 
 
 

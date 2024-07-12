@@ -1,9 +1,9 @@
 from epowcore.gdf.component import Component
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 
 
 def map_connectors(
-    data_struct: DataStructure, component: Component, connector_map: dict
+    core_model: CoreModel, component: Component, connector_map: dict
 ) -> dict[str, list[tuple[int, list[str]]]]:
     """Map the connectors of a component to other connectors.
 
@@ -15,8 +15,8 @@ def map_connectors(
     """
 
     result: dict[str, list[tuple[int, list[str]]]] = {}
-    for conn_name in data_struct.get_connector_names(component):
-        attached = data_struct.get_attached_to(component, conn_name)
+    for conn_name in core_model.get_connector_names(component):
+        attached = core_model.get_attached_to(component, conn_name)
         for attached_component, connector_name in attached:
             entry = (attached_component.uid, connector_name)
             if conn_name in connector_map.keys():
@@ -24,7 +24,7 @@ def map_connectors(
                     result[connector_map[conn_name]].append(entry)
                 else:
                     result[connector_map[conn_name]] = [entry]
-    for attached_component, connector_name in data_struct.get_attached_to(
+    for attached_component, connector_name in core_model.get_attached_to(
         component, ""
     ):
         entry = (attached_component.uid, connector_name)

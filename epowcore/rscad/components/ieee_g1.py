@@ -18,7 +18,7 @@ class RSCADIEEEG1(RSCADComponentBuilder):
     def create(  # type: ignore[override]
         cls, component: IEEEG1, base_frequency: float, generator: SynchronousMachine
     ) -> rscadIEEEG1.rtdsIEEEG1def:
-        """Creates a RSCAD IEEEG1 governor from a datastructure IEEEG1 governor element and sets the available values and sets the generator name"""
+        """Creates a RSCAD IEEEG1 governor from a core model IEEEG1 governor element and sets the available values and sets the generator name"""
         rscad_governor = rscadIEEEG1.rtdsIEEEG1def()
         rscad_governor.CONFIGURATION.HTZ.value = base_frequency
         rscad_governor.GOVERNORTURBINEPARAMETERS.K.value = component.K

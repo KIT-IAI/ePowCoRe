@@ -4,10 +4,10 @@ Concepts of the Generic Data Format
 The Generic Data Format (GDF) format is the import and export target for the Generic Model Converter.
 It is fully serializable to JSON and can represent the model blocks and their (named) connections.
 
-Data Structure
+Core model
 --------------
 
-The ``DataStructure`` class defines the energy system model in the GDF. It contains metadata, the components of the system and their relations to each other.
+The ``CoreModel`` class defines the energy system model in the GDF. It contains metadata, the components of the system and their relations to each other.
 The core of this model representation is based on a `NetworkX <https://networkx.org/>`_ graph, which is serialized to JSON.
 
 The **nodes** of this graph are component objects such as loads, buses or generators.
@@ -70,10 +70,10 @@ Most of the GDF components are based on their PowerFactory counterparts. The bas
 * :code:`coords` (optional): The geographic coordinates of the component in the model. This can be a tuple of floats to represent a point or a list of float tuples to represent a route.
 * :code:`connector_names`: The expected names for the connectors of the component. Not set for all components.
 
-The ``DataStructure`` class expects the uid to be positive and unique in the entire model -- including subsystems.
+The ``CoreModel`` class expects the uid to be positive and unique in the entire model -- including subsystems.
 The uid of a component is used to identify the component in the data field of the edges.
 
-The use of NetworkX for the main data structure requires that components must be hashable.
+The use of NetworkX for the main core model requires that components must be hashable.
 Since the components are implemented as dataclasses, they need to have ``unsafe_hash=True`` or a custom hash function to be defined.
 As noted in `Python dataclass <https://docs.python.org/3/library/dataclasses.html>`_, this requires the class to be functionally immutable.
 As of now, this immutability is not enforced. However, Components are usually created, removed or replaced -- not mutated.
@@ -122,7 +122,7 @@ These can be either defined globally or per target platform to enable setting de
 Subsystems
 ----------
 
-``Subsystem`` components are created from an existing data structure with the :code:`Subsystem.from_components` method.
+``Subsystem`` components are created from an existing core model with the :code:`Subsystem.from_components` method.
 This method takes a list of components and creates a new ``Subsystem`` component with the listed components as their own graph within this subsytem.
 The edges are then added to the graph of the subsystem component.
 
@@ -161,19 +161,19 @@ ConverterBase
 -------------
 
 To make the converters to and from the generic format easier to implement, the :code:`ConverterBase` class provides some helper methods.
-The ConverterBase class is an abstract class that provides a structure for the import and export process. The generic TypeVar :code:`Model` is used to represent the model data structure that is used by format the converter is converting from/to.
+The ConverterBase class is an abstract class that provides a structure for the import and export process. The generic TypeVar :code:`Model` is used to represent the model core model that is used by format the converter is converting from/to.
 This can be a reference like a name or the entire model, depending on the format and provided API.
 
 Import
 ^^^^^^
-* :code:`to_gdf(model: Model) -> DataStructure`: Entire process of converting the model to the generic data format. Has a default implementation of calling the :code:`_pre_import`, :code:`_import` and :code:`_post_import` methods.
+* :code:`to_gdf(model: Model) -> CoreModel`: Entire process of converting the model to the generic data format. Has a default implementation of calling the :code:`_pre_import`, :code:`_import` and :code:`_post_import` methods.
 * :code:`_pre_import(model: Model) -> Model`: Pre-processing of the model like replacing references with the actual objects. This is called before the import process is started and can be used to modify the model before it is converted.
-* :code:`_import(model: Model) -> DataStructure`: Import process of the model. This is called after the pre-processing and should convert the model to the generic data format. Optimally, this is just a mapping from the model components to the generic data format components.
+* :code:`_import(model: Model) -> CoreModel`: Import process of the model. This is called after the pre-processing and should convert the model to the generic data format. Optimally, this is just a mapping from the model components to the generic data format components.
 * :code:`_post_import(model: Model) -> Model`: Post processing of the model after the import process. This is called after the import process is finished and can be used to add additional components to the model or to modify the existing components.
 
 Export
 ^^^^^^
-* :code:`from_gdf(gdf: DataStructure) -> Model`: Entire process of converting the generic data format to the model. Has a default implementation of calling the :code:`_pre_export`, :code:`_export` and :code:`_post_export` methods.
-* :code:`_pre_export(gdf: DataStructure) -> DataStructure`: Pre-processing of the generic data format like replacing references with the actual objects. This is called before the export process is started and can be used to modify the generic data format before it is converted.
-* :code:`_export(gdf: DataStructure) -> Model`: Export process of the generic data format. This is called after the pre-processing and should convert the generic data format to the model. Optimally, this is just a mapping from the generic data format components to the model components.
-* :code:`_post_export(gdf: DataStructure) -> DataStructure`: Post processing of the generic data format after the export process. This is called after the export process is finished and can be used to add additional components to the generic data format or to modify the existing components.
+* :code:`from_gdf(gdf: CoreModel) -> Model`: Entire process of converting the generic data format to the model. Has a default implementation of calling the :code:`_pre_export`, :code:`_export` and :code:`_post_export` methods.
+* :code:`_pre_export(gdf: CoreModel) -> CoreModel`: Pre-processing of the generic data format like replacing references with the actual objects. This is called before the export process is started and can be used to modify the generic data format before it is converted.
+* :code:`_export(gdf: CoreModel) -> Model`: Export process of the generic data format. This is called after the pre-processing and should convert the generic data format to the model. Optimally, this is just a mapping from the generic data format components to the model components.
+* :code:`_post_export(gdf: CoreModel) -> CoreModel`: Post processing of the generic data format after the export process. This is called after the export process is finished and can be used to add additional components to the generic data format or to modify the existing components.

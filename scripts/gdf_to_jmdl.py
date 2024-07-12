@@ -2,7 +2,7 @@ import json
 import os
 import pathlib
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.manipulation.remove_internal_nodes import remove_internal_nodes
 
 from epowcore.jmdl.jmdl_converter import JmdlConverter
@@ -17,12 +17,12 @@ def main():
     with open(PATH.parent / f"output/gdf/{model_name}_gdf.json", "r", encoding="utf-8") as file:
         data_str = file.read()
     data = json.loads(data_str)
-    data_structure = DataStructure.import_dict(data)
+    core_model = CoreModel.import_dict(data)
 
-    reduced_data_struct = remove_internal_nodes(data_structure)
+    reduced_core_model = remove_internal_nodes(core_model)
 
     converter = JmdlConverter()
-    jmdl = converter.from_gdf(reduced_data_struct, model_name, log_path=str(PATH.parent / "jmdl.log"))
+    jmdl = converter.from_gdf(reduced_core_model, model_name, log_path=str(PATH.parent / "jmdl.log"))
     if not os.path.exists("output/jmdl"):
         os.makedirs("output/jmdl")
     with open(f"output/jmdl/{model_name}.jmdl", "w", encoding="utf-8") as file:

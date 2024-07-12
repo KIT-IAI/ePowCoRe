@@ -2,7 +2,7 @@ from math import pi
 import matlab.engine
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.common_impedance import CommonImpedance
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.simscape.block import SimscapeBlock
 from epowcore.simscape.shared import SimscapeBlockType
 
@@ -12,15 +12,15 @@ BLOCK_TYPE = SimscapeBlockType.COMMON_IMPEDANCE
 def create_common_impedance(
     eng: matlab.engine.MatlabEngine,
     impedance: CommonImpedance,
-    data_structure: DataStructure,
+    core_model: CoreModel,
     model_name: str,
 ) -> SimscapeBlock:
-    neighbors = data_structure.get_neighbors(impedance, connector="B")
+    neighbors = core_model.get_neighbors(impedance, connector="B")
     if not neighbors or not isinstance(neighbors[0], Bus):
         raise ValueError(f"Could not find connected bus for impedance {impedance.name}")
     bus_b: Bus = neighbors[0]
 
-    neighbors = data_structure.get_neighbors(impedance, connector="A")
+    neighbors = core_model.get_neighbors(impedance, connector="A")
     if not neighbors or not isinstance(neighbors[0], Bus):
         raise ValueError(f"Could not find connected bus for impedance {impedance.name}")
     bus_a: Bus = neighbors[0]
@@ -28,7 +28,7 @@ def create_common_impedance(
     u_base = bus_b.nominal_voltage
     z_base = u_base**2 / impedance.sn_mva
     y_base = 1 / z_base
-    w = 2 * pi * data_structure.base_frequency
+    w = 2 * pi * core_model.base_frequency
     x = impedance.x_pu * z_base
 
     block_name = f"{model_name}/{impedance.name}"

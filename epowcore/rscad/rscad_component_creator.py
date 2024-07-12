@@ -59,13 +59,13 @@ class RscadComponentCreator:
         self.base_frequency = base_frequency
 
     def create_rscad_bus(self, bus: Bus) -> rbus.rtdssharcsldBUSLABEL:
-        """Creates a RSCAD bus from a dataStructure Bus element and sets the available values.
+        """Creates a RSCAD bus from a GDF Bus element and sets the available values.
         Also creates a BUS for every connection the bus has plus one additional to connect everything
         """
         return RSCADBus.create(bus, self.base_frequency)
 
     def create_rscad_dyload(self, load: Load) -> rdyLoad.rtdsudcDYLOAD:
-        """Creates a RSCAD dynamic load from a datastructure Load element and sets the available values"""
+        """Creates a RSCAD dynamic load from a core model Load element and sets the available values"""
         edges = self.graph.edges(load)
         # Get nominal Voltage of the bus in the remaining tuple
         vbus = list(edges)[0][1].nominal_voltage  # type: ignore
@@ -73,7 +73,7 @@ class RscadComponentCreator:
         return RSCADDyload.create(load, vbus)
 
     def create_rscad_tline(self, tline: TLine) -> TLineElements:
-        """Creates two RSCAD TLines (SE and RE) and a TLine calculation block from a datastructure
+        """Creates two RSCAD TLines (SE and RE) and a TLine calculation block from a core model
         TLine element and sets the available values. Return as a hierarchy box"""
         # Generate sending line
         rs_line_sending = rscadTLine.lfrtdssharcsldTLINE()
@@ -229,7 +229,7 @@ class RscadComponentCreator:
         return None
 
     def create_rscad_ieeet1(self, exciter: IEEET1) -> rscadIEEET1.rtdsIEEET1def:
-        """Creates a RSCAD IEEET1 exciter from a datastructure IEEET1 exciter element and sets the available values"""
+        """Creates a RSCAD IEEET1 exciter from a core model IEEET1 exciter element and sets the available values"""
         generator = self.try_get_connected_generator(exciter)
         if generator is None:
             raise ValueError("No generator connected to component")
@@ -237,7 +237,7 @@ class RscadComponentCreator:
         return RSCADIEEET1.create(exciter, self.base_frequency, generator)
 
     def create_rscad_ieeest1a(self, exciter: IEEEST1A) -> rscadIEEEST1A.rtdsEXST1Adef:
-        """Creates a RSCAD IEEET1 exciter from a datastructure IEEET1 exciter element and sets the available values"""
+        """Creates a RSCAD IEEET1 exciter from a core model IEEET1 exciter element and sets the available values"""
         # Only Connection is the generator
         generator = self.try_get_connected_generator(exciter)
         if generator is None:
@@ -252,7 +252,7 @@ class RscadComponentCreator:
         return None
 
     def create_rscad_ieeeg1(self, governor: IEEEG1) -> rscadIEEEG1.rtdsIEEEG1def:
-        """Creates a RSCAD IEEEG1 governor from a datastructure IEEEG1 governor element and sets the available values"""
+        """Creates a RSCAD IEEEG1 governor from a core model IEEEG1 governor element and sets the available values"""
         # Only Connection is the generator
         generator = self.try_get_connected_generator(governor)
         if generator is None:
@@ -271,14 +271,14 @@ class RscadComponentCreator:
         return None
 
     def create_rscad_ptist1(self, pss: PTIST1) -> rscadPTIST1.rtdsPTIST1def:
-        """Creates a RSCAD PTIST1 PSS from a datastructure PTIST1 PSS element and sets the available values"""
+        """Creates a RSCAD PTIST1 PSS from a core model PTIST1 PSS element and sets the available values"""
         generator = self.try_get_connected_generator(pss)
         if generator is None:
             raise ValueError("No generator connected to component")
         return RSCADPTIST1.create(pss, self.base_frequency, generator)
 
     def create_rscad_pss1a(self, pss: PSS1A) -> rscadPSS1A.rtdsPSS1Adef:
-        """Creates a RSCAD PTIST1 PSS from a datastructure PTIST1 PSS element and sets the available values"""
+        """Creates a RSCAD PTIST1 PSS from a core model PTIST1 PSS element and sets the available values"""
         # Only Connection is the generator
         generator = self.try_get_connected_generator(pss)
         if generator is None:

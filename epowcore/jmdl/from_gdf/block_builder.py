@@ -1,6 +1,6 @@
 from typing import Any
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.component import Component
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.generators.generator import Generator
@@ -50,11 +50,11 @@ PORT_COMPONENT_NAMES = {
 
 
 def get_components(
-    data_struct: DataStructure, base_mva: float, name_collision: bool
+    core_model: CoreModel, base_mva: float, name_collision: bool
 ) -> dict[int, Block]:
     components = {}
-    for component in data_struct.graph.nodes:
-        ports = get_ports(data_struct, component)
+    for component in core_model.graph.nodes:
+        ports = get_ports(core_model, component)
         geo_data = get_geo_data(component)
 
         if isinstance(component, ExternalGrid):
@@ -88,7 +88,7 @@ def get_components(
         elif isinstance(component, TLine):
             components[component.uid] = create_line_block(
                 component,
-                data_struct.graph,
+                core_model.graph,
                 base_mva,
                 ports,
                 geo_data,
@@ -105,16 +105,16 @@ def get_components(
 
     return components
 
-def get_ports(data_structure: DataStructure, comp: Component) -> list[Port]:
+def get_ports(core_model: CoreModel, comp: Component) -> list[Port]:
     ports: list[Port] = []
 
-    compi = data_structure.get_component_by_id(comp.uid)[0]
+    compi = core_model.get_component_by_id(comp.uid)[0]
     if compi is None:
         raise ValueError(
             f"Component not found: <{type(comp).__name__}> {comp.name} ({comp.uid})"
         )
     if isinstance(comp, Bus):
-        for neighbor in list(data_structure.graph.neighbors(comp)):
+        for neighbor in list(core_model.graph.neighbors(comp)):
             # if neighbor.uid in self._components or isinstance(neighbor, GdfPort):
             conn_uid = neighbor.uid
             if isinstance(neighbor, Subsystem):

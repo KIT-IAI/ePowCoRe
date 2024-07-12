@@ -3,7 +3,7 @@ import networkx as nx
 
 import powerfactory as pf
 
-from epowcore.gdf import DataStructure
+from epowcore.gdf import CoreModel
 from epowcore.gdf.component import Component
 from epowcore.gdf.exciters.exciter import Exciter
 from epowcore.gdf.governors.governor import Governor
@@ -19,7 +19,7 @@ from epowcore.power_factory.utils import get_coords
 
 
 class PowerFactoryExtractor:
-    """This class extracts the values from PowerFactory to GenericDataStructure."""
+    """This class extracts the values from PowerFactory to GenericCoreModel."""
 
     def __init__(
         self,
@@ -29,14 +29,14 @@ class PowerFactoryExtractor:
         app: pf.Application | None = None,
     ) -> None:
         self._component_dict: dict[pf.DataObject, Component] = {}
-        """Dictionary to map PowerFactory elements to GenericDataStructure elements"""
+        """Dictionary to map PowerFactory elements to GenericCoreModel elements"""
         self._edge_dict: dict[pf.DataObject, dict[pf.DataObject, list[str]]] = {}
         """Dictionary to map connection names to edges."""
         self.uid = 0
-        """Id for the elements extracted to the datastructure"""
+        """Id for the elements extracted to the core model"""
         self.graph = nx.Graph()
         """Graph for PowerFactory elements"""
-        self.data_structure = DataStructure(base_frequency=frequency)
+        self.core_model = CoreModel(base_frequency=frequency)
         """Collects the extracted values"""
 
         # Get the PowerFactory Application
@@ -62,8 +62,8 @@ class PowerFactoryExtractor:
         loadflow = self.app.GetFromStudyCase("ComLdf")
         loadflow.Execute()
 
-    def get_data_structure(self) -> DataStructure:
-        """Starts the extraction of elements and returns them in the GenericDataStructure format"""
+    def get_core_model(self) -> CoreModel:
+        """Starts the extraction of elements and returns them in the GenericCoreModel format"""
 
         self.extract_bus(use_station_name=Configuration().get("PowerFactory.BUS_STATION_NAME"))
         self.extract_load()
@@ -83,18 +83,18 @@ class PowerFactoryExtractor:
         self.extract_switches()
         self.extract_shunts()
 
-        self.set_data_structure_graph()
+        self.set_core_model_graph()
         if Configuration().get("PowerFactory.FOLDER_TO_SUBSYSTEM"):
             parents = self.get_hierarchy()
 
             for parent, children in parents.items():
                 sub = Subsystem.from_components(
-                    self.data_structure,
+                    self.core_model,
                     [self._component_dict[x] for x in children if x in self._component_dict],
                 )
                 sub.coords = get_coords(parent)
 
-        return self.data_structure
+        return self.core_model
 
     def get_hierarchy(self) -> dict:
         """Returns the hierarchy of the PowerFactory elements as a hierarchy."""
@@ -368,13 +368,13 @@ class PowerFactoryExtractor:
             # Create edge with the appropriate generator
             self.graph.add_edge(gov, generator)
 
-    def set_data_structure_graph(self) -> None:
-        """This creates the graph for the GenericDataStructure"""
+    def set_core_model_graph(self) -> None:
+        """This creates the graph for the GenericCoreModel"""
         # Create edges for PowerFactory graph
         graph_transformer.create_edges(self.graph, self._component_dict, self._edge_dict)
-        # Transform PowerFactory graph to GenericDataStructure graph with the dictionary
+        # Transform PowerFactory graph to GenericCoreModel graph with the dictionary
 
-        self.data_structure.graph = ComponentGraph(
+        self.core_model.graph = ComponentGraph(
             graph_transformer.relabel_nodes(self.graph, self._component_dict)
         )
 

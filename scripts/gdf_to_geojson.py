@@ -5,7 +5,7 @@ import time
 
 import geojson
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.geo_json.geo_json_converter import GeoJSONConverter
 
 PATH = pathlib.Path(__file__).parent.resolve()
@@ -21,11 +21,11 @@ def main() -> None:
     ) as file:
         data_str = file.read()
     data = json.loads(data_str)
-    data_struct = DataStructure.import_dict(data)
+    core_model = CoreModel.import_dict(data)
 
     converter = GeoJSONConverter(debug=False)
     geo_json_model = converter.from_gdf(
-        data_struct, f"{model_name}", log_path=str(PATH.parent / "geojson.log")
+        core_model, f"{model_name}", log_path=str(PATH.parent / "geojson.log")
     )
 
     # Create directory if it does not exist

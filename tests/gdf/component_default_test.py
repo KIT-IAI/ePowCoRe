@@ -1,7 +1,7 @@
 import os
 import unittest
 from epowcore.gdf.bus import Bus, LFBusType
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.switch import Switch
 from epowcore.generic.configuration import Configuration
 from epowcore.generic.constants import Platform
@@ -43,25 +43,25 @@ class ComponentDefaultTest(unittest.TestCase):
     def test_default_value_export(self) -> None:
         """Test the usage of default values when exporting to JMDL."""
 
-        ds = DataStructure(base_frequency=50.0)
+        core_model = CoreModel(base_frequency=50.0)
         switch1 = Switch(1, "Switch 1", closed=True, rate_a=10, rate_b=12, rate_c=15)
         switch2 = Switch(2, "Switch 2", closed=True)
         bus1 = Bus(3, "Bus 1", lf_bus_type=LFBusType.PQ, nominal_voltage=20.0)
         bus2 = Bus(4, "Bus 2", lf_bus_type=LFBusType.PQ, nominal_voltage=20.0)
         bus3 = Bus(5, "Bus 3", lf_bus_type=LFBusType.PQ, nominal_voltage=20.0)
 
-        ds.add_component(switch1)
-        ds.add_component(switch2)
-        ds.add_component(bus1)
-        ds.add_component(bus2)
-        ds.add_component(bus3)
-        ds.add_connection(bus1, switch1)
-        ds.add_connection(bus2, switch1)
-        ds.add_connection(bus2, switch2)
-        ds.add_connection(bus3, switch2)
+        core_model.add_component(switch1)
+        core_model.add_component(switch2)
+        core_model.add_component(bus1)
+        core_model.add_component(bus2)
+        core_model.add_component(bus3)
+        core_model.add_connection(bus1, switch1)
+        core_model.add_connection(bus2, switch1)
+        core_model.add_connection(bus2, switch2)
+        core_model.add_connection(bus3, switch2)
 
         jmdl_converter = JmdlConverter()
-        converted = jmdl_converter.from_gdf(ds, "test", log_path=LOG_FILE_PATH)
+        converted = jmdl_converter.from_gdf(core_model, "test", log_path=LOG_FILE_PATH)
 
         jmdl_switch1 = converted.root.blocks[0].data.entries_dict["EPowSwitch"]
         jmdl_switch2 = converted.root.blocks[1].data.entries_dict["EPowSwitch"]

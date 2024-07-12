@@ -1,6 +1,6 @@
 import matlab.engine
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.simscape.block import SimscapeBlock
 from epowcore.simscape.shared import SimscapeBlockType
 
@@ -10,11 +10,11 @@ BLOCK_TYPE = SimscapeBlockType.THW_TRANSFORMER
 def create_thw_trans(
     eng: matlab.engine.MatlabEngine,
     thw_trans: ThreeWindingTransformer,
-    data_structure: DataStructure,
+    core_model: CoreModel,
     model_name: str,
 ) -> SimscapeBlock:
     """Create a Simscape block for the three winding transformer."""
-    f = data_structure.base_frequency
+    f = core_model.base_frequency
     block_name = f"{model_name}/{thw_trans.name}"
     eng.add_block(BLOCK_TYPE.value, block_name, nargout=0)
 

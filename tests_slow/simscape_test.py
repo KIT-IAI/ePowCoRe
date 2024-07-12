@@ -8,7 +8,7 @@ import json
 
 import matlab.engine
 import networkx as nx
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.simscape.simscape_converter import SimscapeConverter
 from tests.helpers.gdf_component_creator import GdfTestComponentCreator
@@ -37,23 +37,23 @@ class SimscapeTest(unittest.TestCase):
         ieeest1a = creator.create_ieeest1a("ieeest1a")
         ieeepss1a = creator.create_ieeepss1a("ieeepss1a")
 
-        data_structure = creator.data_structure
+        core_model = creator.core_model
 
-        data_structure.add_connection(buses[0], buses[1])
-        data_structure.add_connection(two_w_g1, loads[1])
+        core_model.add_connection(buses[0], buses[1])
+        core_model.add_connection(two_w_g1, loads[1])
 
-        data_structure.add_connection(ieeeg1[1], ieeeg1[0], ["In", "Out"], ["Pm", "m"])
-        data_structure.add_connection(ieeeg1[0], ieeepss1a, "Efd", "In")
-        data_structure.add_connection(three_w_g1, loads[2], "LV")
-        data_structure.add_connection(three_w_g1, loads[1], "MV")
-        data_structure.add_connection(three_w_g1, loads[0], "HV")
+        core_model.add_connection(ieeeg1[1], ieeeg1[0], ["In", "Out"], ["Pm", "m"])
+        core_model.add_connection(ieeeg1[0], ieeepss1a, "Efd", "In")
+        core_model.add_connection(three_w_g1, loads[2], "LV")
+        core_model.add_connection(three_w_g1, loads[1], "MV")
+        core_model.add_connection(three_w_g1, loads[0], "HV")
 
         # creating this subsystem triggers the usage of the controller template
-        subsystem = Subsystem.from_components(data_structure, [ieeeg1[0], ieeest1a, ieeepss1a])
-        Subsystem.from_components(data_structure, [buses[3]])
+        subsystem = Subsystem.from_components(core_model, [ieeeg1[0], ieeest1a, ieeepss1a])
+        Subsystem.from_components(core_model, [buses[3]])
 
         converter = SimscapeConverter()
-        converter.from_gdf(data_structure, "model_name")
+        converter.from_gdf(core_model, "model_name")
         eng = converter.eng
 
         graph = _get_graph(eng, "model_name")
@@ -102,9 +102,9 @@ class SimscapeTest(unittest.TestCase):
         with open(
             "./tests/models/gdf/IEEE39_gdf.json", "r", encoding="utf8"
         ) as json_file:
-            ds = DataStructure.import_dict(json.loads(json_file.read()))
+            core_model = CoreModel.import_dict(json.loads(json_file.read()))
             sim_conv = SimscapeConverter()
-            sim_conv.from_gdf(ds, "IEEE39")
+            sim_conv.from_gdf(core_model, "IEEE39")
             graph = _get_graph(sim_conv.eng, "IEEE39")
             self.assertEqual(len(graph.nodes), 164)
             self.assertEqual(len(graph.edges), 313)
@@ -118,12 +118,12 @@ class SimscapeTest(unittest.TestCase):
         ieeest1a = creator.create_ieeest1a()
         ieeeg1 = creator.create_ieeeg1()
 
-        ds_without_pss = copy.deepcopy(creator.data_structure)
+        ds_without_pss = copy.deepcopy(creator.core_model)
         ieeepss1a = creator.create_ieeepss1a()
-        ds_with_pss = creator.data_structure
-        for ds in (ds_with_pss, ds_without_pss):
-            ds.add_connection(ieeeg1, gen_1, "Out", "Pm")
-            ds.add_connection(gen_1, ieeest1a, "m", "m")
+        ds_with_pss = creator.core_model
+        for core_model in (ds_with_pss, ds_without_pss):
+            core_model.add_connection(ieeeg1, gen_1, "Out", "Pm")
+            core_model.add_connection(gen_1, ieeest1a, "m", "m")
         ds_with_pss.add_component(ieeepss1a)
         ds_with_pss.add_connection(ieeepss1a, gen_1, "Out", "Vf")
         converter = SimscapeConverter()
@@ -149,14 +149,14 @@ class SimscapeTest(unittest.TestCase):
         ieeest1a = creator.create_ieeest1a("ieeest1a")
         ieeepss1a = creator.create_ieeepss1a("ieeepss1a")
         buses = [creator.create_bus() for _ in range(2)]
-        data_structure = creator.data_structure
-        data_structure.add_connection(ieeeg1, buses[0])
-        data_structure.add_connection(ieeepss1a, buses[0])
-        data_structure.add_connection(ieeeg1, buses[1])
-        data_structure.add_connection(ieeest1a, buses[1])
+        core_model = creator.core_model
+        core_model.add_connection(ieeeg1, buses[0])
+        core_model.add_connection(ieeepss1a, buses[0])
+        core_model.add_connection(ieeeg1, buses[1])
+        core_model.add_connection(ieeest1a, buses[1])
 
         converter = SimscapeConverter()
-        converter.from_gdf(data_structure, "group_rule")
+        converter.from_gdf(core_model, "group_rule")
         eng = converter.eng
 
         graph = _get_graph(eng, "group_rule")

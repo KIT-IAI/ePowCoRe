@@ -1,6 +1,6 @@
 from copy import deepcopy
 from epowcore.gdf.bus import Bus
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 from epowcore.gdf.load import Load
 from epowcore.gdf.shunt import Shunt
@@ -17,13 +17,13 @@ from epowcore.matpower.matpower_model import (
 )
 
 
-def export_matpower(ds: DataStructure) -> MatpowerModel:
+def export_matpower(core_model: CoreModel) -> MatpowerModel:
 
     # Matpower does not support subsystems, thus it is easier to work with a flattened model.
-    flat_ds = deepcopy(ds)
+    flat_ds = deepcopy(core_model)
     flatten(flat_ds)
 
-    base_mva = ds.base_mva_fb()
+    base_mva = core_model.base_mva_fb()
 
     buses: dict[int, BusDataEntry] = {}
 
@@ -54,8 +54,8 @@ def export_matpower(ds: DataStructure) -> MatpowerModel:
     branches: list[BranchDataEntry] = []
 
     for line in flat_ds.type_list(TLine):
-        bus_from = ds.get_neighbors(line, connector="A")[0]
-        bus_to = ds.get_neighbors(line, connector="B")[0]
+        bus_from = core_model.get_neighbors(line, connector="A")[0]
+        bus_to = core_model.get_neighbors(line, connector="B")[0]
 
         length = line.length if line.length is not None else 1.0
         r1 = line.r1 * length
@@ -66,9 +66,9 @@ def export_matpower(ds: DataStructure) -> MatpowerModel:
             BranchDataEntry(
                 from_bus=buses[bus_from.uid].bus_number,
                 to_bus=buses[bus_to.uid].bus_number,
-                r=r1 / get_z_base(line, ds),
-                x=x1 / get_z_base(line, ds),
-                b=b1 * get_z_base(line, ds),
+                r=r1 / get_z_base(line, core_model),
+                x=x1 / get_z_base(line, core_model),
+                b=b1 * get_z_base(line, core_model),
                 rate_a=line.rating,
                 rate_b=line.rating_short_term_fb(),
                 rate_c=line.rating_emergency_fb(),
@@ -81,8 +81,8 @@ def export_matpower(ds: DataStructure) -> MatpowerModel:
         )
 
     for trafo in flat_ds.type_list(TwoWindingTransformer):
-        bus_from = ds.get_neighbors(trafo, connector="HV")[0]
-        bus_to = ds.get_neighbors(trafo, connector="LV")[0]
+        bus_from = core_model.get_neighbors(trafo, connector="HV")[0]
+        bus_to = core_model.get_neighbors(trafo, connector="LV")[0]
 
         branches.append(
             BranchDataEntry(

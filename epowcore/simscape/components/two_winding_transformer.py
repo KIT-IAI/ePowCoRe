@@ -2,7 +2,7 @@ import matlab.engine
 
 from epowcore.gdf.transformers.transformer import WindingConfig
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.simscape.block import SimscapeBlock
 from epowcore.simscape.shared import SimscapeBlockType
 
@@ -12,12 +12,12 @@ BLOCK_TYPE = SimscapeBlockType.TW_TRANSFORMER
 def create_tw_trans(
     eng: matlab.engine.MatlabEngine,
     tw_trans: TwoWindingTransformer,
-    data_structure: DataStructure,
+    core_model: CoreModel,
     model_name: str,
 ) -> SimscapeBlock:
     """Create a Simscape block for the two winding transformer."""
     block_name = f"{model_name}/{tw_trans.name}"
-    f = data_structure.base_frequency
+    f = core_model.base_frequency
     eng.add_block(BLOCK_TYPE.value, block_name, nargout=0)
     eng.set_param(
         block_name,

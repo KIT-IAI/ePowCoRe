@@ -2,7 +2,7 @@ import json
 import pathlib
 import time
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.simscape.simscape_converter import SimscapeConverter
 
 PATH = pathlib.Path(__file__).parent.resolve()
@@ -16,11 +16,11 @@ def main() -> None:
     with open(PATH.parent / f"output/gdf/{model_name}_gdf.json", "r", encoding="utf-8") as file:
         data_str = file.read()
     data = json.loads(data_str)
-    data_struct = DataStructure.import_dict(data)
-    # take the data_struct object and create a simscape model from it
+    core_model = CoreModel.import_dict(data)
+    # take the core_model object and create a simscape model from it
     converter = SimscapeConverter(debug=False)
     converter.from_gdf(
-        data_struct,
+        core_model,
         f"{model_name}",
         log_path=str(PATH.parent / f"simscape_{model_name}.log"),
     )

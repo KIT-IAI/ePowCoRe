@@ -30,7 +30,7 @@ class RSCAD3WTransformer(RSCADComponentBuilder):
     def create(
         cls, component: ThreeWindingTransformer, base_frequency: float  # type: ignore[override]
     ) -> rtds3P3WTRFdef:
-        """Creates a RSCAD 3 phase 3-winding transformer from a datastructure element and sets the available values"""
+        """Creates a RSCAD 3 phase 3-winding transformer from a core model element and sets the available values"""
         r3p3w_transformer = rtds3P3WTRFdef()
         # TODO: Missing: Which value is positive reactance, Connection type for High/Low-Voltage side
         r3p3w_transformer = rtds3P3WTRFdef()
@@ -52,7 +52,7 @@ class RSCAD3WTransformer(RSCADComponentBuilder):
         r3p3w_transformer.CONFIGURATION.f.value = base_frequency
         # TODO: This depends on the winding pairs, no information from PowerFactory
         # r3P3WTransformer.CONFIGURATION.xl.value = transformer3W.positiveReactance)
-        # TODO: Needs to be decided by the information from the dataStructure
+        # TODO: Needs to be decided by the information from the core model
         r3p3w_transformer.WINDING1.YD1_3W.value = Yd11Enum.Y
         r3p3w_transformer.WINDING2.YD2_3W.value = Yd11Enum.Y
         r3p3w_transformer.WINDING3.YD3_3W.value = Yd11Enum.Y

@@ -10,7 +10,7 @@ This platforms builds heavily on the ``geojson`` Python package: https://github.
 GDF → GeoJSON
 -------------
 
-The GeoJSON export only consideres components on the top level of the ``DataStructure``.
+The GeoJSON export only consideres components on the top level of the ``CoreModel``.
 It does not traverse into subsystems.
 Furthermore, only components with available coordinates are exported.
 The only distinguishing factor between exported components is the number of coordinates:

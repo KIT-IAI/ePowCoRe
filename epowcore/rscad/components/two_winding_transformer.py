@@ -27,7 +27,7 @@ class RSCAD2WTransformer(RSCADComponentBuilder):
     def create(
         cls, component: TwoWindingTransformer, base_frequency: float  # type: ignore[override]
     ) -> rtds3P2WTRFdef:
-        """Create an RSCAD 3 phase 2-winding transformer from a data structure 
+        """Create an RSCAD 3 phase 2-winding transformer from a core model 
         TwoWindingTransformer component and set the available values.
         """
         r3p2w_transformer = rtds3P2WTRFdef()

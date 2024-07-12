@@ -2,16 +2,16 @@ import os
 
 import matlab.engine
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.simscape.simscape_converter import SimscapeConverter
 from epowcore.simscape.shared import SimscapeBlockType
 from tests_slow.component_support.format_test_base import FormatTestBase
 
 
 class FormatTestSimscape(FormatTestBase):
-    def __init__(self, data_structure: DataStructure) -> None:
+    def __init__(self, core_model: CoreModel) -> None:
         converter = SimscapeConverter()
-        super().__init__(converter, data_structure)
+        super().__init__(converter, core_model)
         self.eng = converter.eng
 
     def component_count(self) -> int:

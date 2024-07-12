@@ -76,7 +76,7 @@ class RscadCanvasDrawer:
 
     def generators_to_hierarchy(self) -> None:
         """Aggregate every Generator to a hierarchy box with its connected control elements and bus."""
-        # TODO: Extend for each Generator type in the generic data structure
+        # TODO: Extend for each Generator type in the generic core model
         generators = self.draft.get_components_by_type("lf_rtds_sharc_sld_MACV31", False)
         # Go through each Generator
         for gen in generators:

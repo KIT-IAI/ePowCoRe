@@ -1,6 +1,6 @@
 from typing import Any
 import copy
-from epowcore.gdf import DataStructure
+from epowcore.gdf import CoreModel
 from epowcore.gdf.bus import Bus, BusType
 from epowcore.gdf.switch import Switch
 from epowcore.gdf.tline import TLine
@@ -10,8 +10,8 @@ from epowcore.generic.component_graph import ComponentGraph
 from epowcore.generic.logger import Logger
 
 
-def remove_internal_nodes(data_structure: DataStructure) -> DataStructure:
-    """Remove internal nodes and return a copy of the given data structure.
+def remove_internal_nodes(core_model: CoreModel) -> CoreModel:
+    """Remove internal nodes and return a copy of the given core model.
 
     This method can lead to a massive reduction in model complexity for models that use
     internal nodes exensively, such as the default busbar systems in PowerFactory.
@@ -20,28 +20,28 @@ def remove_internal_nodes(data_structure: DataStructure) -> DataStructure:
     according to the switch positions. Components connected to isolated internal nodes
     are removed as well.
 
-    :param data_structure: The data structure to remove internal nodes from.
-    :type data_structure: DataStructure
-    :return: The resulting data structure.
-    :rtype: DataStructure
+    :param core_model: The core model to remove internal nodes from.
+    :type core_model: CoreModel
+    :return: The resulting core model.
+    :rtype: CoreModel
     """
-    data_struct = copy.deepcopy(data_structure)
+    core_model = copy.deepcopy(core_model)
 
-    internal_nodes = _get_internal_nodes(data_struct.graph)
+    internal_nodes = _get_internal_nodes(core_model.graph)
 
     for inode in internal_nodes:
-        _remove_open_switches(inode, data_struct.graph)
-        degree = data_struct.graph.degree[inode]
+        _remove_open_switches(inode, core_model.graph)
+        degree = core_model.graph.degree[inode]
         if degree == 0:
-            data_struct.graph.remove_node(inode)
+            core_model.graph.remove_node(inode)
         elif degree == 1:
-            neighbor = next(data_struct.graph.neighbors(inode))
+            neighbor = next(core_model.graph.neighbors(inode))
             if not isinstance(neighbor, (TLine, Transformer, Impedance)):
                 Logger.log_to_selected(f"Removing component {neighbor.name} and {inode.name}")
-                data_struct.graph.remove_node(neighbor)
-                data_struct.graph.remove_node(inode)
+                core_model.graph.remove_node(neighbor)
+                core_model.graph.remove_node(inode)
         elif degree == 2:
-            neighbors = list(data_struct.graph.neighbors(inode))
+            neighbors = list(core_model.graph.neighbors(inode))
             # get one switch neighbor
             i, switch, other_neighbor = None, None, None
             for j, n in enumerate(neighbors):
@@ -52,24 +52,24 @@ def remove_internal_nodes(data_structure: DataStructure) -> DataStructure:
             if switch is None or other_neighbor is None:
                 raise ValueError("No switch found")
             # get the node on the other side of this switch
-            other_node = __get_neighbor_not_component(data_struct, switch, inode)
+            other_node = __get_neighbor_not_component(core_model, switch, inode)
             # remove the switch
-            data_struct.graph.remove_node(switch)
+            core_model.graph.remove_node(switch)
             # create edge between other neighbor and other node
-            data_struct.graph.add_edge(other_node, other_neighbor)
+            core_model.graph.add_edge(other_node, other_neighbor)
             # remove this node
-            data_struct.graph.remove_node(inode)
+            core_model.graph.remove_node(inode)
 
-    return data_struct
+    return core_model
 
 
 def __get_neighbor_not_component(
-    data_structure: DataStructure, component: Any, not_comp: Any
+    core_model: CoreModel, component: Any, not_comp: Any
 ) -> Any:
     return next(
         filter(
             (lambda n: n != not_comp),
-            data_structure.graph.neighbors(component),
+            core_model.graph.neighbors(component),
         ),
         None,
     )

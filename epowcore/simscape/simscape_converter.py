@@ -1,6 +1,6 @@
 import matlab.engine
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.converter_base import ConverterBase
 from epowcore.generic.manipulation.group_subsystem_rules import (
     apply_group_subsystem_rules,
@@ -29,7 +29,7 @@ class SimscapeConverter(ConverterBase[str]):
 
     def from_gdf(
         self,
-        ds: DataStructure,
+        core_model: CoreModel,
         name: str,
         log_path: str | None = None,
         *,
@@ -38,17 +38,17 @@ class SimscapeConverter(ConverterBase[str]):
     ) -> str:
         self._apply_rules = apply_rules
         self._is_subsystem = is_subsystem
-        return super().from_gdf(ds, name, log_path)
+        return super().from_gdf(core_model, name, log_path)
 
-    def _pre_export(self, ds: DataStructure, name: str) -> DataStructure:
-        ds.graph = rename_duplicate_nodes(ds.graph)
+    def _pre_export(self, core_model: CoreModel, name: str) -> CoreModel:
+        core_model.graph = rename_duplicate_nodes(core_model.graph)
         if self._apply_rules:
-            apply_group_subsystem_rules(ds)
-        return ds
+            apply_group_subsystem_rules(core_model)
+        return core_model
 
-    def _export(self, ds: DataStructure, name: str) -> str:
-        export(ds, name, self.eng, is_subsystem=self._is_subsystem)
+    def _export(self, core_model: CoreModel, name: str) -> str:
+        export(core_model, name, self.eng, is_subsystem=self._is_subsystem)
         return name
 
-    def _import(self, model: str) -> DataStructure:
+    def _import(self, model: str) -> CoreModel:
         raise NotImplementedError()

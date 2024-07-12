@@ -18,7 +18,7 @@ class RSCADPSS1A(RSCADComponentBuilder):
     def create(  # type: ignore[override]
         cls, component: PSS1A, base_frequency: float, generator: SynchronousMachine
     ) -> rscadPSS1A.rtdsPSS1Adef:
-        """Creates a RSCAD IEEEG1 governor from a datastructure IEEEG1 governor element and sets the available values and sets the generator name"""
+        """Creates a RSCAD IEEEG1 governor from a core model IEEEG1 governor element and sets the available values and sets the generator name"""
         rs_pss = rscadPSS1A.rtdsPSS1Adef()
         rs_pss.CONFIGURATION.HTZ.value = base_frequency
         # TODO: Options which generator signal is used. This changes the connection points of the component.

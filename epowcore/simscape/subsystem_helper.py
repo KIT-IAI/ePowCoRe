@@ -21,7 +21,7 @@ from epowcore.simscape.components.ieee_st1a import set_parameters_ieee_st1a
 from epowcore.simscape.components.sexs import set_parameters_sexs
 import epowcore.simscape.simscape_converter
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.simscape.shared import SimscapeBlockType
 from epowcore.simscape.templates.base_template import SubsystemTemplate
@@ -131,7 +131,7 @@ def insert_subsystem(
 
     # Create intermediate model from the components
     random_name = "".join(random.choices(string.ascii_letters, k=10))
-    data_stucture = DataStructure(base_frequency=base_frequency, graph=subsystem.graph)
+    data_stucture = CoreModel(base_frequency=base_frequency, graph=subsystem.graph)
     converter = epowcore.simscape.simscape_converter.SimscapeConverter(eng)
     converter.from_gdf(data_stucture, random_name, apply_rules=False, is_subsystem=True)
     eng.load_system(random_name, nargout=0)

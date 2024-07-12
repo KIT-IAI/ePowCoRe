@@ -13,9 +13,9 @@ def main():
     with open(f"tests/models/jmdl/{model_name}.jmdl", "r", encoding="utf8") as file:
         json_data = json.loads(file.read())
     converter = JmdlConverter()
-    data_structure = converter.to_gdf(JmdlModel.from_dict(json_data))
+    core_model = converter.to_gdf(JmdlModel.from_dict(json_data))
 
-    data = data_structure.export_dict()
+    data = core_model.export_dict()
     data_str = json.dumps(data, indent=2)
     # WRITE MODEL TO JSON FILE
     with open(

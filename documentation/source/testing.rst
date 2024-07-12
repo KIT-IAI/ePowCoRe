@@ -95,7 +95,7 @@ The test then places this mock ``Configuration`` as the global ``Singleton`` and
     import unittest
     from unittest.mock import patch
 
-    class DataStructureTest(unittest.TestCase):
+    class CoreModelTest(unittest.TestCase):
 
         @patch("epowcore.generic.configuration.Configuration")
         def test_base_mva_fb2(self, mock_config):

@@ -2,7 +2,7 @@ from abc import abstractmethod
 import copy
 from typing import Generic, TypeVar
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 from epowcore.generic.tools.visualization import visualize_graph
 
@@ -17,61 +17,61 @@ class ConverterBase(Generic[Model]):
         self.debug = debug
 
     def from_gdf(
-        self, ds: DataStructure, name: str, log_path: str | None = None
+        self, core_model: CoreModel, name: str, log_path: str | None = None
     ) -> Model:
-        """Export a data structure to the format."""
+        """Export a core model to the format."""
         logger = None
         if log_path is not None or self.debug:
             logger = Logger.new(f"{type(self).__name__} Export", True)
         else:
             Logger.disable()
 
-        ds = copy.deepcopy(ds)
+        core_model = copy.deepcopy(core_model)
         if self.debug:
             print("Before export:")
-            visualize_graph(ds.graph.get_internal_graph(copy=False), show_labels=True)
-        ds = self._pre_export(ds, name)
+            visualize_graph(core_model.graph.get_internal_graph(copy=False), show_labels=True)
+        core_model = self._pre_export(core_model, name)
         if self.debug:
             print("After pre export:")
-            visualize_graph(ds.graph.get_internal_graph(copy=False), show_labels=True)
-        model: Model = self._export(ds, name)
+            visualize_graph(core_model.graph.get_internal_graph(copy=False), show_labels=True)
+        model: Model = self._export(core_model, name)
         model = self._post_export(model, name)
         if log_path is not None and logger is not None:
             logger.save_to_file(log_path)
             logger.close()
         return model
 
-    def to_gdf(self, model: Model, log_path: str | None = None) -> DataStructure:
-        """Import a data structure from the format."""
+    def to_gdf(self, model: Model, log_path: str | None = None) -> CoreModel:
+        """Import a core model from the format."""
         logger = None
         if log_path is not None:
             logger = Logger.new(f"{type(self).__name__} Import", True)
         else:
             Logger.disable()
         model = self._pre_import(model)
-        ds: DataStructure = self._import(model)
+        core_model: CoreModel = self._import(model)
         if self.debug:
             print("After import:")
-            visualize_graph(ds.graph.get_internal_graph(copy=False), show_labels=True)
-        self._post_import(ds)
+            visualize_graph(core_model.graph.get_internal_graph(copy=False), show_labels=True)
+        self._post_import(core_model)
         if self.debug:
             print("After post impport:")
-            visualize_graph(ds.graph.get_internal_graph(copy=False), show_labels=True)
+            visualize_graph(core_model.graph.get_internal_graph(copy=False), show_labels=True)
         if log_path is not None and logger is not None:
             logger.save_to_file(log_path)
             logger.close()
-        return ds
+        return core_model
 
-    def _pre_export(self, ds: DataStructure, name: str) -> DataStructure:
-        """Called before the export of a data structure."""
-        return ds
+    def _pre_export(self, core_model: CoreModel, name: str) -> CoreModel:
+        """Called before the export of a core model."""
+        return core_model
 
     @abstractmethod
-    def _export(self, ds: DataStructure, name: str) -> Model:
-        """Called during the export of a data structure."""
+    def _export(self, core_model: CoreModel, name: str) -> Model:
+        """Called during the export of a core model."""
 
     def _post_export(self, model: Model, name: str) -> Model:
-        """Called after the export of a data structure."""
+        """Called after the export of a core model."""
         return model
 
     def _pre_import(self, model: Model) -> Model:
@@ -79,8 +79,8 @@ class ConverterBase(Generic[Model]):
         return model
 
     @abstractmethod
-    def _import(self, model: Model) -> DataStructure:
+    def _import(self, model: Model) -> CoreModel:
         """Called during the import of a model."""
 
-    def _post_import(self, data_structure: DataStructure) -> None:
+    def _post_import(self, core_model: CoreModel) -> None:
         """Called after the import of a model."""

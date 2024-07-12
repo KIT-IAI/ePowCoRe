@@ -34,19 +34,19 @@ class RSCADExportTest(unittest.TestCase):
         trafo2 = creator.create_2w_transformer()
         sync1 = creator.create_synchronous_machine()
 
-        data_structure = creator.data_structure
-        data_structure.add_connection(buses[2], buses[4])
+        core_model = creator.core_model
+        core_model.add_connection(buses[2], buses[4])
 
-        subsystem = Subsystem.from_components(data_structure, [buses[4]])
+        subsystem = Subsystem.from_components(core_model, [buses[4]])
 
-        # data_structure.add_component(sync1)
-        data_structure.add_connection(buses[0], trafo1, "", "LV")
-        data_structure.add_connection(buses[1], trafo1, "", "MV")
-        data_structure.add_connection(buses[0], sync1, "", "")
-        data_structure.add_connection(trafo1, trafo2, "HV", "HV")
+        # core_model.add_component(sync1)
+        core_model.add_connection(buses[0], trafo1, "", "LV")
+        core_model.add_connection(buses[1], trafo1, "", "MV")
+        core_model.add_connection(buses[0], sync1, "", "")
+        core_model.add_connection(trafo1, trafo2, "HV", "HV")
 
         converter = RscadConverter()
-        rscad_model = converter.from_gdf(data_structure, "test")
+        rscad_model = converter.from_gdf(core_model, "test")
         draft = rscad_model.draft
         draft.write_file("tests/out/test1.dfx")
         components = draft.get_components()

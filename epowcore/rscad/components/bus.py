@@ -27,7 +27,7 @@ class RSCADBus(RSCADComponentBuilder):
 
     @classmethod
     def create(cls, component: Bus, base_frequency: float) -> rbus.rtdssharcsldBUSLABEL:  # type: ignore[override]
-        """Creates a RSCAD bus label from a datastructure bus element and sets the available values"""
+        """Creates a RSCAD bus label from a core model bus element and sets the available values"""
         rs_bus = rbus.rtdssharcsldBUSLABEL()
         rs_bus.Parameters.BName.value = RSCADComponentBuilder.sanitize_string(
             component.name

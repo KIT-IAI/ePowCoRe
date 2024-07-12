@@ -24,7 +24,7 @@ class RSCADSynchronousMachine(RSCADComponentBuilder):
     def create(  # type: ignore[override]
         cls, component: SynchronousMachine, base_frequency: float = 60.0
     ) -> rscadSynchronousMachineMACV31.lfrtdssharcsldMACV31:
-        """Creates a RSCAD synchronous machine from a datastructure 3-winding transformer element and sets the available values"""
+        """Creates a RSCAD synchronous machine from a core model 3-winding transformer element and sets the available values"""
         sync_machine = rscadSynchronousMachineMACV31.lfrtdssharcsldMACV31()
         sync_machine.GENERALMODELCONFIGURATION.Name.value = RSCADComponentBuilder.sanitize_string(
             component.name

@@ -1,4 +1,4 @@
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.bus import Bus, BusType, LFBusType
 from epowcore.gdf.exciters.ieee_st1a import IEEEST1A
 from epowcore.gdf.generators.epow_generator import EPowGenerator, EPowGeneratorType
@@ -20,7 +20,7 @@ class GdfTestComponentCreator:
         """Inititalize"""
         self.base_frequency = base_frequency
         self.next_uid = 1
-        self.data_structure = DataStructure(base_frequency=self.base_frequency)
+        self.core_model = CoreModel(base_frequency=self.base_frequency)
 
     def __next_uid(self) -> int:
         """Returns next unique id"""
@@ -37,7 +37,7 @@ class GdfTestComponentCreator:
             nominal_voltage=110.0,
             bus_type=BusType.BUSBAR,
         )
-        self.data_structure.add_component(bus)
+        self.core_model.add_component(bus)
         return bus
 
     def create_load(self, name: str | None = None) -> Load:
@@ -48,7 +48,7 @@ class GdfTestComponentCreator:
             active_power=1.0,
             reactive_power=1.0,
         )
-        self.data_structure.add_component(load)
+        self.core_model.add_component(load)
         return load
 
     def create_3w_transformer(self, name: str | None = None) -> ThreeWindingTransformer:
@@ -77,7 +77,7 @@ class GdfTestComponentCreator:
             phase_shift_30_mv=0,
             phase_shift_30_hv=0,
         )
-        self.data_structure.add_component(three_winding_transformer)
+        self.core_model.add_component(three_winding_transformer)
         return three_winding_transformer
 
     def create_2w_transformer(self, name: str | None = None) -> TwoWindingTransformer:
@@ -101,7 +101,7 @@ class GdfTestComponentCreator:
             tap_initial=1,
             phase_shift_30=0,
         )
-        self.data_structure.add_component(two_winding_transformer)
+        self.core_model.add_component(two_winding_transformer)
         return two_winding_transformer
 
     def create_ieeeg1(self, name: str | None = None) -> IEEEG1:
@@ -133,7 +133,7 @@ class GdfTestComponentCreator:
             PNhp=100.0,
             PNlp=100.0,
         )
-        self.data_structure.add_component(ieeeg1)
+        self.core_model.add_component(ieeeg1)
         return ieeeg1
 
     def create_ieeest1a(self, name: str | None = None) -> IEEEST1A:
@@ -162,7 +162,7 @@ class GdfTestComponentCreator:
             Va_max=200.0,
             Vr_max=200.0,
         )
-        self.data_structure.add_component(ieeest1a)
+        self.core_model.add_component(ieeest1a)
         return ieeest1a
 
     def create_ieeepss1a(self, name: str | None = None) -> IEEEPSS1A:
@@ -183,7 +183,7 @@ class GdfTestComponentCreator:
             Vst_min=100.0,
             Vst_max=200.0,
         )
-        self.data_structure.add_component(ieeepss1a)
+        self.core_model.add_component(ieeepss1a)
         return ieeepss1a
 
     def create_synchronous_machine(self, name: str | None = None) -> SynchronousMachine:
@@ -219,7 +219,7 @@ class GdfTestComponentCreator:
             qc2_min=0.0,
             qc2_max=0.0,
         )
-        self.data_structure.add_component(sync)
+        self.core_model.add_component(sync)
         return sync
 
     def create_tline(self, name: str | None = None) -> TLine:
@@ -237,7 +237,7 @@ class GdfTestComponentCreator:
             rating=90.0,
             parallel_lines=1,
         )
-        self.data_structure.add_component(tline)
+        self.core_model.add_component(tline)
         return tline
 
     def create_epow_generator(self, name: str | None = None) -> EPowGenerator:
@@ -264,11 +264,11 @@ class GdfTestComponentCreator:
             1.0,
             ePowGeneratorType=EPowGeneratorType.GAS,
         )
-        self.data_structure.add_component(generator)
+        self.core_model.add_component(generator)
         return generator
 
     def create_shunt(self, name: str | None = None) -> Shunt:
         uid = self.__next_uid()
         shunt = Shunt(uid, f"shunt{uid}" if name is None else name, None, p=10.0, q=10.0)
-        self.data_structure.add_component(shunt)
+        self.core_model.add_component(shunt)
         return shunt

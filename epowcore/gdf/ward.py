@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 
 from epowcore.gdf.shunt import Shunt
 
@@ -7,7 +7,6 @@ from .component import Component
 from .load import Load
 
 
-# The attributes are never changed after being insterted into a structure requiring hashes
 @dataclass(unsafe_hash=True, kw_only=True)
 class Ward(Component):
     """This class represents a Ward equivalent.
@@ -26,13 +25,13 @@ class Ward(Component):
     q_zload: float = field(default_factory=float)
     """The reactive power of the constant impedance load. The unit is Mvar."""
 
-    def replace_with_load_and_shunt(self, data_structure: DataStructure) -> None:
+    def replace_with_load_and_shunt(self, core_model: CoreModel) -> None:
         """Replaces the Ward equivalent with a Load and a Shunt component in the graph.
 
-        :param data_structure: The data structure to replace the ward in.
-        :type data_structure: DataStructure
+        :param core_model: The core model to replace the ward in.
+        :type core_model: CoreModel
         """
-        new_id = data_structure.get_valid_id()
+        new_id = core_model.get_valid_id()
         load = Load(
             new_id,
             f"{self.name}-Load",
@@ -47,11 +46,11 @@ class Ward(Component):
             q=self.q_zload,
             p=self.p_zload,
         )
-        bus = list(data_structure.graph.neighbors(self))[0]
+        bus = list(core_model.graph.neighbors(self))[0]
 
-        data_structure.add_component(load)
-        data_structure.add_component(shunt)
-        data_structure.add_connection(bus, load)
-        data_structure.add_connection(bus, shunt)
+        core_model.add_component(load)
+        core_model.add_component(shunt)
+        core_model.add_connection(bus, load)
+        core_model.add_connection(bus, shunt)
 
-        data_structure.remove_component(self)
+        core_model.remove_component(self)

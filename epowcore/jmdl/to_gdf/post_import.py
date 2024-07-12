@@ -1,6 +1,6 @@
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.component_graph import ComponentGraph
 from epowcore.jmdl.to_gdf.components.line import EPowLine
 from epowcore.gdf.external_grid import ExternalGrid
@@ -15,31 +15,31 @@ from epowcore.generic.logger import Logger
 from epowcore.jmdl.to_gdf.components.transformer import EPowTransformer
 
 
-def post_import(data_structure: DataStructure) -> None:
+def post_import(core_model: CoreModel) -> None:
     # rename "normal" connectors
-    rename_connectors(data_structure.graph)
+    rename_connectors(core_model.graph)
     # rename port connectors
-    for component in data_structure.graph.nodes:
+    for component in core_model.graph.nodes:
         if isinstance(component, Port):
             Logger.log_to_selected(
                 f"Port outside of subsystem. Not sure what to do: {component.name} ({component.uid})"
             )
         elif isinstance(component, Subsystem):
-            rename_port_connectors(data_structure, component, data_structure.graph)
+            rename_port_connectors(core_model, component, core_model.graph)
     # aggregate port components
-    for component in data_structure.graph.nodes:
+    for component in core_model.graph.nodes:
         if isinstance(component, Subsystem):
             aggregate_ports(component)
 
-    # at this point, the DataStructure should be a valid model
-    convert_transmission_lines(data_structure)
-    convert_transformers(data_structure)
+    # at this point, the CoreModel should be a valid model
+    convert_transmission_lines(core_model)
+    convert_transformers(core_model)
 
 
-def convert_transmission_lines(data_structure: DataStructure) -> None:
-    epowlines = _get_epow_lines(data_structure.graph)
+def convert_transmission_lines(core_model: CoreModel) -> None:
+    epowlines = _get_epow_lines(core_model.graph)
     for line in epowlines:
-        line.replace_with_tline(data_structure)
+        line.replace_with_tline(core_model)
 
 
 def _get_epow_lines(graph: ComponentGraph) -> list[EPowLine]:
@@ -51,10 +51,10 @@ def _get_epow_lines(graph: ComponentGraph) -> list[EPowLine]:
             lines.extend(_get_epow_lines(c.graph))
     return lines
 
-def convert_transformers(data_structure: DataStructure) -> None:
-    epowtrafos = _get_epow_transformers(data_structure.graph)
+def convert_transformers(core_model: CoreModel) -> None:
+    epowtrafos = _get_epow_transformers(core_model.graph)
     for trafo in epowtrafos:
-        trafo.replace_with_trafo(data_structure)
+        trafo.replace_with_trafo(core_model)
 
 
 def _get_epow_transformers(graph: ComponentGraph) -> list[EPowTransformer]:
@@ -91,13 +91,13 @@ def aggregate_ports(subsystem: Subsystem) -> None:
 
 
 def rename_port_connectors(
-    data_structure: DataStructure,
+    core_model: CoreModel,
     subsystem: Subsystem,
     external_graph: ComponentGraph,
 ) -> None:
     for component in subsystem.graph.nodes:
         if isinstance(component, Port):
-            conn_comp = data_structure.get_component_by_id(component.connection_component)[0]
+            conn_comp = core_model.get_component_by_id(component.connection_component)[0]
             if conn_comp is None:
                 Logger.log_to_selected(f"Connected component not found: ID = {component.uid}")
                 continue
@@ -130,7 +130,7 @@ def rename_port_connectors(
                             )
 
         elif isinstance(component, Subsystem):
-            rename_port_connectors(data_structure, component, subsystem.graph)
+            rename_port_connectors(core_model, component, subsystem.graph)
 
 
 def rename_connectors(graph: ComponentGraph) -> None:

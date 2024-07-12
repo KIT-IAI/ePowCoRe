@@ -1,4 +1,4 @@
-DataStructure:
+CoreModel:
   base_mva: 100.0
 ExternalGrid:
   p_min: 0.0

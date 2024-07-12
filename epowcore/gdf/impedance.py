@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from epowcore.gdf.bus import Bus
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.utils import get_connected_bus
@@ -27,14 +27,14 @@ class Impedance(Component):
     """Imaginary part of positive sequence impedance from B to A in pu."""
 
     def replace_with_line(
-        self, data_structure: DataStructure, platform: Platform | None = None
+        self, core_model: CoreModel, platform: Platform | None = None
     ) -> None:
         """Replaces the Impedance with a TLine component in the graph.
 
-        :param data_structure: The DataStructure to replace this component in.
-        :type data_structure: DataStructure
+        :param core_model: The CoreModel to replace this component in.
+        :type core_model: CoreModel
         """
-        connected_bus: Bus | None = get_connected_bus(data_structure.graph, self)
+        connected_bus: Bus | None = get_connected_bus(core_model.graph, self)
         if connected_bus is None:
             raise ValueError(f"Could not find connected bus for impedance {self.name}")
         bus: Bus = connected_bus
@@ -48,7 +48,7 @@ class Impedance(Component):
             raise ValueError("No default values found for Impedance to TLine conversion!")
 
         line = TLine(
-            data_structure.get_valid_id(),
+            core_model.get_valid_id(),
             f"{self.name}-Line",
             bus.coords,
             length=1.0,
@@ -60,9 +60,9 @@ class Impedance(Component):
             b0=b0,
             rating=self.sn_mva,
         )
-        buses = list(data_structure.graph.neighbors(self))
+        buses = list(core_model.graph.neighbors(self))
 
-        data_structure.add_component(line)
-        data_structure.add_connection(buses[0], line)
-        data_structure.add_connection(buses[1], line)
-        data_structure.remove_component(self)
+        core_model.add_component(line)
+        core_model.add_connection(buses[0], line)
+        core_model.add_connection(buses[1], line)
+        core_model.remove_component(self)

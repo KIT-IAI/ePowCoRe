@@ -1,6 +1,6 @@
 from typing import Counter
 
-from epowcore.gdf import DataStructure, Bus, Load
+from epowcore.gdf import CoreModel, Bus, Load
 from epowcore.gdf.component import Component
 from epowcore.gdf.exciters.exciter import Exciter
 from epowcore.gdf.generators.generator import Generator
@@ -46,7 +46,7 @@ ALLOWED_COMPONENT_CONNECTION = [
 
 
 def export_jmdl(
-    data_struct: DataStructure,
+    core_model: CoreModel,
     version: str = "0.6",
     geo_mode: bool = False,
     base_mva: float = 100,
@@ -55,23 +55,23 @@ def export_jmdl(
     bg_image: str = "",
     minified: bool = False,
 ) -> JmdlModel:
-    """Generates a JMDL file from a data structure
+    """Generates a JMDL file from a core model
 
-    :param data_struct: The data structure to generate the JMDL file from
+    :param core_model: The core model to generate the JMDL file from
     :return: The JMDL file as a string
     """
 
     data_entries = [
         Data("", DataType.FLOAT64, [], base_mva, None, "baseMVA"),
-        Data("", DataType.INT64, [], data_struct.base_frequency, None, "frequency"),
+        Data("", DataType.INT64, [], core_model.base_frequency, None, "frequency"),
         Data("", DataType.STRING, [], "2", None, "mpcVersion"),
     ]
     data = Data("", DataType.GROUP, data_entries, None, None, "data")
 
-    name_collision = len(data_struct.graph.nodes) != len(
-        set(x.name for x in data_struct.graph.nodes)
+    name_collision = len(core_model.graph.nodes) != len(
+        set(x.name for x in core_model.graph.nodes)
     )
-    blocks = __get_blocks(data_struct, base_mva, name_collision)
+    blocks = __get_blocks(core_model, base_mva, name_collision)
 
     root = Root(
         "/",
@@ -79,8 +79,8 @@ def export_jmdl(
         "SuperBlock",
         blocks=[x for x in blocks.values() if isinstance(x, Block)],
         super_blocks=[x for x in blocks.values() if isinstance(x, Root)],
-        connections=__get_connections(data_struct, blocks)
-        + __get_super_block_connections(data_struct, blocks),
+        connections=__get_connections(core_model, blocks)
+        + __get_super_block_connections(core_model, blocks),
         comment="",
         url="",
         tags=["Group"],
@@ -107,38 +107,38 @@ def export_jmdl(
 
 
 def __get_blocks(
-    data_struct: DataStructure, base_mva: float, name_collision: bool
+    core_model: CoreModel, base_mva: float, name_collision: bool
 ) -> dict[int, Block | Root]:
-    components = block_builder.get_components(data_struct, base_mva, name_collision)
-    super_blocks = __get_super_blocks(data_struct, name_collision)
+    components = block_builder.get_components(core_model, base_mva, name_collision)
+    super_blocks = __get_super_blocks(core_model, name_collision)
 
     return components | super_blocks
 
 
-def __get_super_blocks(data_structure: DataStructure, name_collision: bool) -> dict[int, Root]:
+def __get_super_blocks(core_model: CoreModel, name_collision: bool) -> dict[int, Root]:
     """Creates a generic super block out of a list of blocks.
 
-    :param data_structure: Data structure
+    :param core_model: Core model
     :param blocks: List of blocks
     :type blocks: list[Block]
     """
 
     super_blocks: dict[int, Root] = {}
-    for subsystem in data_structure.type_list(Subsystem):
-        fake_ds = DataStructure(
-            base_frequency=data_structure.base_frequency,
+    for subsystem in core_model.type_list(Subsystem):
+        fake_ds = CoreModel(
+            base_frequency=core_model.base_frequency,
             graph=subsystem.graph,
-            version=data_structure.version,
+            version=core_model.version,
         )
         fake_ds = transform(fake_ds)
         blocks = __get_blocks(
-            data_struct=fake_ds,
-            base_mva=data_structure.base_frequency,
+            core_model=fake_ds,
+            base_mva=core_model.base_frequency,
             name_collision=name_collision,
         )
         __add_internal_to_ports(blocks)
         connections = __get_connections(fake_ds, blocks)
-        ports: list[Port] = block_builder.get_ports(data_structure, subsystem)
+        ports: list[Port] = block_builder.get_ports(core_model, subsystem)
         for port in ports:
             port.internal = PortInternals()
         super_blocks[subsystem.uid] = Root(
@@ -200,21 +200,21 @@ def __add_internal_to_ports(blocks: dict[int, Block | Root]) -> None:
 
 
 def __get_connections(
-    data_struct: DataStructure, blocks: dict[int, Block | Root]
+    core_model: CoreModel, blocks: dict[int, Block | Root]
 ) -> list[Connection]:
-    """Extract the connections from the data structure to JMDL Connections
+    """Extract the connections from the core model to JMDL Connections
 
-    :param data_struct: Data structure
-    :type data_struct: DataStructure
+    :param core_model: Core model
+    :type core_model: CoreModel
     :param blocks: Extracted blocks
     :type blocks: list[Block]
     :return: Connections as JMDL Connections
     :rtype: list[Connection]
     """
     connections = []
-    elements: list[Component] = data_struct.type_list(ALLOWED_COMPONENT_CONNECTION)
+    elements: list[Component] = core_model.type_list(ALLOWED_COMPONENT_CONNECTION)
     connection_counter = {branch.uid: 0 for branch in elements}
-    for from_component, to_component in data_struct.graph.edges:
+    for from_component, to_component in core_model.graph.edges:
         # TODO: maybe a whitelist is the better option here, because JMDL has a very limited library
         if not __is_valid_connection(from_component, to_component):
             continue
@@ -258,7 +258,7 @@ def __get_connections(
             if connection_counter[comp_id] > 2:
                 # Insert BusBar
                 visualize_neighborhood_and_raise_error(
-                    data_struct,
+                    core_model,
                     from_component,
                     f"Component {from_component} has more than 2 connections",
                 )
@@ -274,7 +274,7 @@ def __get_connections(
 
         to_port = __get_to_port(from_component, to_block) if to_block else None
 
-        __handle_connection_errors(from_component, to_component, from_port, to_port, data_struct)
+        __handle_connection_errors(from_component, to_component, from_port, to_port, core_model)
 
         border_layout = (
             __border_layout(from_component)
@@ -292,14 +292,14 @@ def __get_connections(
 
 
 def __get_super_block_connections(
-    data_structure: DataStructure, blocks: dict[int, Block | Root]
+    core_model: CoreModel, blocks: dict[int, Block | Root]
 ) -> list[Connection]:
     """Determines the connections connecting super blocks with other components."""
     connection_counter: Counter = Counter()
     connections: list[Connection] = []
-    for subsystem in data_structure.type_list(Subsystem):
+    for subsystem in core_model.type_list(Subsystem):
         subsystem_ports = [n for n in subsystem.graph.nodes if isinstance(n, GdfPort)]
-        for _, other, _ in data_structure.graph.edges.data(subsystem):
+        for _, other, _ in core_model.graph.edges.data(subsystem):
             for gdf_port in [p for p in subsystem_ports if p.connection_component == other.uid]:
                 connection_counter.update([other.uid])
                 check = ""
@@ -384,18 +384,18 @@ def __handle_connection_errors(
     to_component: Component,
     from_port: Port | None,
     to_port: Port | None,
-    data_struct: DataStructure,
+    core_model: CoreModel,
 ) -> None:
     if not isinstance(to_component, (TLine, Switch, Bus)):
         # Should not happen, bus bars should separate the components
         visualize_neighborhood_and_raise_error(
-            data_struct,
+            core_model,
             to_component if from_component is None else from_component,
             f"Connection to non bus bar component: {to_component}",
         )
     if from_port is None or to_port is None:
         visualize_neighborhood_and_raise_error(
-            data_struct,
+            core_model,
             to_component if from_component is None else from_component,
             f"Could not find port for component {from_component.name}",
         )

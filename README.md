@@ -23,7 +23,7 @@ Alternatively, you can build the HTML documentation yourself by following the co
 
 ## Project Structure: epowcore
 
-- `gdf` (Generic Data Format): Contains the overall generic data structure, component models, and other basic classes.
+- `gdf` (Generic Data Format): Contains the overall generic core model, component models, and other basic classes.
 - `jmdl`, `power_factory`, `rscad`: Contain the platform specific methods for format conversions.
 
 ## Testing & Coverage

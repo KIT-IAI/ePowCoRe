@@ -2,7 +2,7 @@ import copy
 import unittest
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.transformers import TwoWindingTransformer
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.gdf.transformers.transformer import WindingConfig
@@ -19,29 +19,29 @@ class SubsystemPortsTest(unittest.TestCase):
     def test_one_port_connection(self) -> None:
         """One connection between two buses. One bus gets moved into a new subsystem."""
 
-        ds = DataStructure(base_frequency=50.0)
+        core_model = CoreModel(base_frequency=50.0)
         bus_a = Bus(1, "Bus A", lf_bus_type=LFBusType.PQ)
         bus_b = Bus(2, "Bus B", lf_bus_type=LFBusType.PQ)
-        ds.add_component(bus_a)
-        ds.add_component(bus_b)
-        ds.add_connection(bus_a, bus_b, "A1", "B1")
+        core_model.add_component(bus_a)
+        core_model.add_component(bus_b)
+        core_model.add_connection(bus_a, bus_b, "A1", "B1")
 
-        ds_original = copy.deepcopy(ds)
-        # print(json.dumps(ds.export_dict(), indent=2))
+        ds_original = copy.deepcopy(core_model)
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        subsystem = Subsystem.from_components(ds, [bus_a])
+        subsystem = Subsystem.from_components(core_model, [bus_a])
 
-        self.assertEqual(len(ds.graph.nodes), 2)
-        self.assertEqual(len(ds.graph.edges), 1)
+        self.assertEqual(len(core_model.graph.nodes), 2)
+        self.assertEqual(len(core_model.graph.edges), 1)
         self.assertEqual(len(subsystem.graph.nodes), 2)
         self.assertEqual(len(subsystem.graph.edges), 1)
 
-        # print(json.dumps(ds.export_dict(), indent=2))
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        flatten(ds)
-        self.assertEqual(ds.export_dict(), ds_original.export_dict())
+        flatten(core_model)
+        self.assertEqual(core_model.export_dict(), ds_original.export_dict())
         # print(json.dumps(ds_flattened.export_dict(), indent=2))
 
     # @unittest.skip("tmp")
@@ -50,25 +50,25 @@ class SubsystemPortsTest(unittest.TestCase):
         creator = GdfTestComponentCreator(50.0)
         tlines = [creator.create_tline() for _ in range(2)]
 
-        ds = creator.data_structure
-        ds.add_connection(tlines[0], tlines[1], ["A", "B"], ["A", "B"])
+        core_model = creator.core_model
+        core_model.add_connection(tlines[0], tlines[1], ["A", "B"], ["A", "B"])
 
-        ds_original = copy.deepcopy(ds)
-        # print(json.dumps(ds.export_dict(), indent=2))
+        ds_original = copy.deepcopy(core_model)
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        subsystem = Subsystem.from_components(ds, [tlines[0]])
+        subsystem = Subsystem.from_components(core_model, [tlines[0]])
 
-        self.assertEqual(len(ds.graph.nodes), 2)
-        self.assertEqual(len(ds.graph.edges), 1)
+        self.assertEqual(len(core_model.graph.nodes), 2)
+        self.assertEqual(len(core_model.graph.edges), 1)
         self.assertEqual(len(subsystem.graph.nodes), 2)
         self.assertEqual(len(subsystem.graph.edges), 1)
 
-        # print(json.dumps(ds.export_dict(), indent=2))
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        flatten(ds)
-        self.assertEqual(ds.export_dict(), ds_original.export_dict())
+        flatten(core_model)
+        self.assertEqual(core_model.export_dict(), ds_original.export_dict())
         # print(json.dumps(ds_flattened.export_dict(), indent=2))
 
     # @unittest.skip("tmp")
@@ -77,30 +77,30 @@ class SubsystemPortsTest(unittest.TestCase):
         creator = GdfTestComponentCreator(50.0)
         tline = creator.create_tline()
 
-        ds = creator.data_structure
+        core_model = creator.core_model
         bus_a = Bus(2, "Bus A", lf_bus_type=LFBusType.PQ)
         bus_b = Bus(3, "Bus B", lf_bus_type=LFBusType.PQ)
-        ds.add_component(bus_a)
-        ds.add_component(bus_b)
-        ds.add_connection(tline, bus_a, ["A"], ["A"])
-        ds.add_connection(tline, bus_b, ["B"], ["B"])
+        core_model.add_component(bus_a)
+        core_model.add_component(bus_b)
+        core_model.add_connection(tline, bus_a, ["A"], ["A"])
+        core_model.add_connection(tline, bus_b, ["B"], ["B"])
 
-        ds_original = copy.deepcopy(ds)
-        # print(json.dumps(ds.export_dict(), indent=2))
+        ds_original = copy.deepcopy(core_model)
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        subsystem = Subsystem.from_components(ds, [tline])
+        subsystem = Subsystem.from_components(core_model, [tline])
 
-        self.assertEqual(len(ds.graph.nodes), 3)
-        self.assertEqual(len(ds.graph.edges), 2)
+        self.assertEqual(len(core_model.graph.nodes), 3)
+        self.assertEqual(len(core_model.graph.edges), 2)
         self.assertEqual(len(subsystem.graph.nodes), 3)
         self.assertEqual(len(subsystem.graph.edges), 2)
 
-        # print(json.dumps(ds.export_dict(), indent=2))
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        flatten(ds)
-        self.assertEqual(ds.export_dict(), ds_original.export_dict())
+        flatten(core_model)
+        self.assertEqual(core_model.export_dict(), ds_original.export_dict())
         # print(json.dumps(ds_flattened.export_dict(), indent=2))
 
     # @unittest.skip("tmp")
@@ -109,30 +109,30 @@ class SubsystemPortsTest(unittest.TestCase):
         creator = GdfTestComponentCreator(50.0)
         tline = creator.create_tline()
 
-        ds = creator.data_structure
+        core_model = creator.core_model
         bus_a = Bus(2, "Bus A", lf_bus_type=LFBusType.PQ)
         bus_b = Bus(3, "Bus B", lf_bus_type=LFBusType.PQ)
-        ds.add_component(bus_a)
-        ds.add_component(bus_b)
-        ds.add_connection(tline, bus_a, ["LA"], ["A"])
-        ds.add_connection(tline, bus_b, ["LB"], ["B"])
+        core_model.add_component(bus_a)
+        core_model.add_component(bus_b)
+        core_model.add_connection(tline, bus_a, ["LA"], ["A"])
+        core_model.add_connection(tline, bus_b, ["LB"], ["B"])
 
-        ds_original = copy.deepcopy(ds)
-        # print(json.dumps(ds.export_dict(), indent=2))
+        ds_original = copy.deepcopy(core_model)
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        subsystem = Subsystem.from_components(ds, [bus_a, bus_b])
+        subsystem = Subsystem.from_components(core_model, [bus_a, bus_b])
 
-        self.assertEqual(len(ds.graph.nodes), 2)
-        self.assertEqual(len(ds.graph.edges), 1)
+        self.assertEqual(len(core_model.graph.nodes), 2)
+        self.assertEqual(len(core_model.graph.edges), 1)
         self.assertEqual(len(subsystem.graph.nodes), 3)
         self.assertEqual(len(subsystem.graph.edges), 2)
 
-        # print(json.dumps(ds.export_dict(), indent=2))
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        flatten(ds)
-        self.assertEqual(ds.export_dict(), ds_original.export_dict())
+        flatten(core_model)
+        self.assertEqual(core_model.export_dict(), ds_original.export_dict())
         # print(json.dumps(ds_flattened.export_dict(), indent=2))
 
     def test_line_bus_connection3(self) -> None:
@@ -140,40 +140,40 @@ class SubsystemPortsTest(unittest.TestCase):
         creator = GdfTestComponentCreator(50.0)
         tline = creator.create_tline()
 
-        ds = creator.data_structure
+        core_model = creator.core_model
         bus_a = Bus(2, "Bus A", lf_bus_type=LFBusType.PQ)
         bus_b = Bus(3, "Bus B", lf_bus_type=LFBusType.PQ)
-        ds.add_component(bus_a)
-        ds.add_component(bus_b)
-        ds.add_connection(tline, bus_a, ["LA"], ["A"])
-        ds.add_connection(tline, bus_b, ["LB"], ["B"])
+        core_model.add_component(bus_a)
+        core_model.add_component(bus_b)
+        core_model.add_connection(tline, bus_a, ["LA"], ["A"])
+        core_model.add_connection(tline, bus_b, ["LB"], ["B"])
 
-        ds_original = copy.deepcopy(ds)
-        # print(json.dumps(ds.export_dict(), indent=2))
+        ds_original = copy.deepcopy(core_model)
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        subsystem1 = Subsystem.from_components(ds, [bus_a])
-        subsystem2 = Subsystem.from_components(ds, [bus_b])
+        subsystem1 = Subsystem.from_components(core_model, [bus_a])
+        subsystem2 = Subsystem.from_components(core_model, [bus_b])
 
-        self.assertEqual(len(ds.graph.nodes), 3)
-        self.assertEqual(len(ds.graph.edges), 2)
+        self.assertEqual(len(core_model.graph.nodes), 3)
+        self.assertEqual(len(core_model.graph.edges), 2)
         self.assertEqual(len(subsystem1.graph.nodes), 2)
         self.assertEqual(len(subsystem1.graph.edges), 1)
         self.assertEqual(len(subsystem2.graph.nodes), 2)
         self.assertEqual(len(subsystem2.graph.edges), 1)
 
-        # print(json.dumps(ds.export_dict(), indent=2))
+        # print(json.dumps(core_model.export_dict(), indent=2))
         # print("\n\n#######################################\n\n")
 
-        flatten(ds)
-        self.assertEqual(ds.export_dict(), ds_original.export_dict())
+        flatten(core_model)
+        self.assertEqual(core_model.export_dict(), ds_original.export_dict())
         # print(json.dumps(ds_flattened.export_dict(), indent=2))
 
     @unittest.skip("only for exploration")
     def test_subsystem_variations_for_exploration(self) -> None:
         """One connection between two buses. One bus gets moved into a new subsystem."""
 
-        ds = DataStructure(base_frequency=50.0)
+        core_model = CoreModel(base_frequency=50.0)
         bus_hv = Bus(1, "Bus HV", lf_bus_type=LFBusType.PQ)
         bus_lv = Bus(3, "Bus LV", lf_bus_type=LFBusType.PQ)
         trafo = TwoWindingTransformer(
@@ -195,15 +195,15 @@ class SubsystemPortsTest(unittest.TestCase):
             tap_neutral=0,
             tap_initial=1,
         )
-        ds.add_component(bus_hv)
-        ds.add_component(bus_lv)
-        ds.add_component(trafo)
-        ds.add_connection(trafo, bus_hv, "HV", "")
-        ds.add_connection(trafo, bus_lv, "LV", "")
+        core_model.add_component(bus_hv)
+        core_model.add_component(bus_lv)
+        core_model.add_component(trafo)
+        core_model.add_connection(trafo, bus_hv, "HV", "")
+        core_model.add_connection(trafo, bus_lv, "LV", "")
 
-        subsys = Subsystem.from_components(ds, [trafo])
+        subsys = Subsystem.from_components(core_model, [trafo])
 
-        edge_data = ds.graph.edges.data(bus_lv)
+        edge_data = core_model.graph.edges.data(bus_lv)
         print(edge_data)
 
         print("---")

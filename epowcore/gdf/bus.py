@@ -21,7 +21,6 @@ class BusType(Enum):
     INTERNAL = "Internal Node"
 
 
-# The attributes are never changed after being insterted into a structure requiring hashes
 @dataclass(unsafe_hash=True, kw_only=True)
 class Bus(Component):
     """This class represents a Bus element."""

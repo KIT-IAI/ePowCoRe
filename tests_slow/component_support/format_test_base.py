@@ -3,7 +3,7 @@ import random
 import string
 from typing import Generic, TypeVar
 
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.converter_base import ConverterBase
 
 Model = TypeVar("Model")
@@ -11,13 +11,13 @@ Model = TypeVar("Model")
 
 
 class FormatTestBase(Generic[Model]):
-    def __init__(self, converter: ConverterBase, data_structure: DataStructure) -> None:
+    def __init__(self, converter: ConverterBase, core_model: CoreModel) -> None:
         """
-        Initializes the converter and uses it to export the data structure to the format.
+        Initializes the converter and uses it to export the core model to the format.
         """
         self.converter = converter
         name = "".join(random.choices(string.ascii_letters, k=10))
-        self.model = converter.from_gdf(data_structure, name)
+        self.model = converter.from_gdf(core_model, name)
 
     @abstractmethod
     def component_count(self) -> int:

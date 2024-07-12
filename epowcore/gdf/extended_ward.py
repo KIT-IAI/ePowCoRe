@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from epowcore.gdf.component import Component
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.impedance import Impedance
 
 from epowcore.gdf.shunt import Shunt
@@ -11,7 +11,6 @@ from .load import Load
 from .ward import Ward
 
 
-# The attributes are never changed after being insterted into a structure requiring hashes
 @dataclass(unsafe_hash=True, kw_only=True)
 class ExtendedWard(Ward):
     """This class represents a Ward equivalent.
@@ -26,19 +25,19 @@ class ExtendedWard(Ward):
 
     def replace_with_load_shunt_vsource(
         self,
-        data_structure: DataStructure,
+        core_model: CoreModel,
         base_mva: float = 100.0,
     ) -> None:
         """Replaces the Ward equivalent with a Load, a Shunt component, and a VoltageSource in the graph.
 
-        :param data_structure: The data structure to replace the ward in.
-        :type data_structure: DataStructure
+        :param core_model: The core model to replace the ward in.
+        :type core_model: CoreModel
         """
-        bus: Component = next(data_structure.graph.neighbors(self))
+        bus: Component = next(core_model.graph.neighbors(self))
         if not isinstance(bus, Bus):
             raise TypeError(f"Expected {self} to be connected to a Bus, but got {bus}.")
 
-        new_id = data_structure.get_valid_id()
+        new_id = core_model.get_valid_id()
         load = Load(
             new_id,
             f"{self.name}-Load",
@@ -79,9 +78,9 @@ class ExtendedWard(Ward):
             x_pu=1e-8,
         )
 
-        data_structure.graph.remove_node(self)
-        data_structure.graph.add_edge(bus, load)
-        data_structure.graph.add_edge(bus, shunt)
-        data_structure.graph.add_edge(bus, int_impedance)
-        data_structure.graph.add_edge(int_impedance, int_bus)
-        data_structure.graph.add_edge(int_bus, int_vsource)
+        core_model.graph.remove_node(self)
+        core_model.graph.add_edge(bus, load)
+        core_model.graph.add_edge(bus, shunt)
+        core_model.graph.add_edge(bus, int_impedance)
+        core_model.graph.add_edge(int_impedance, int_bus)
+        core_model.graph.add_edge(int_bus, int_vsource)

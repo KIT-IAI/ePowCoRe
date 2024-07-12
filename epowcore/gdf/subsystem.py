@@ -2,7 +2,7 @@ from ast import literal_eval as make_tuple
 from dataclasses import dataclass, field
 import networkx as nx
 
-from epowcore.gdf.data_structure import DataStructure, _get_class
+from epowcore.gdf.core_model import CoreModel, _get_class
 from epowcore.gdf.port import Port
 from epowcore.generic.component_graph import ComponentGraph
 from epowcore.generic.logger import Logger
@@ -10,7 +10,6 @@ from epowcore.generic.logger import Logger
 from .component import Component
 
 
-# The attributes are never changed after being insterted into a structure requiring hashes
 @dataclass
 class Subsystem(Component):
     """Generic class for subsystem components. Used as an intermediate class in preparation for export."""
@@ -39,18 +38,18 @@ class Subsystem(Component):
     @classmethod
     def from_components(
         cls,
-        data_structure: DataStructure,
+        core_model: CoreModel,
         components: list[Component],
         update_ds: bool = True,
         name: str | None = None,
     ) -> "Subsystem":
-        """Create a subsystem from a list of components and optionally update the data structure.
+        """Create a subsystem from a list of components and optionally update the core model.
 
-        :param data_structure: The data structure that contains the given components.
-        :type data_structure: DataStructure
+        :param core_model: The core model that contains the given components.
+        :type core_model: CoreModel
         :param components: The components that form the new subsystem.
         :type components: list[Component]
-        :param update_ds: If True, the components are removed from the data structure and replaced with the subsystem; defaults to True
+        :param update_ds: If True, the components are removed from the core model and replaced with the subsystem; defaults to True
         :type update_ds: bool, optional
         :raises ValueError: Raised when parameters are not allowed.
         :return: The new Subsystem component containing the given Component list.
@@ -65,13 +64,13 @@ class Subsystem(Component):
         coords = next((x.coords for x in components if x.coords is not None), None)
         if name is None:
             name = f"{components[0].name}"
-        subsystem = cls(data_structure.get_valid_id(), name, coords, graph)
+        subsystem = cls(core_model.get_valid_id(), name, coords, graph)
 
-        subsystem.__add_edges_and_ports(data_structure, components)
+        subsystem.__add_edges_and_ports(core_model, components)
 
         if not update_ds:
             return subsystem
-        subsystem.__replace_in_data_structure(data_structure, components)
+        subsystem.__replace_in_core_model(core_model, components)
         Logger.log_to_selected(
             f"Created subsystem from components {[(c.uid, type(c).__name__) for c in components]}"
         )
@@ -162,12 +161,12 @@ class Subsystem(Component):
 
     def __add_edges_and_ports(
         self,
-        data_structure: DataStructure,
+        core_model: CoreModel,
         components: list[Component],
     ) -> None:
         """Add edges and ports to the subsystem.
 
-        :param data_structure: The data structure containing the components.
+        :param core_model: The core model containing the components.
         :param components: The components that are part of the subsystem.
         :param graph: The graph of the subsystem, already containing the components.
         """
@@ -175,9 +174,9 @@ class Subsystem(Component):
         # keep track of added ports to only add one port per external component (neighbor)
         added_ports: dict[int, Port] = {}
         for component in components:
-            neighbors = list(data_structure.graph.neighbors(component))
+            neighbors = list(core_model.graph.neighbors(component))
             for neighbor in neighbors:
-                edge_data: dict = data_structure.graph.edges[component, neighbor]  # type: ignore
+                edge_data: dict = core_model.graph.edges[component, neighbor]  # type: ignore
                 if not neighbor.uid in uids:
                     # Connection is not part of the subsystem
                     if neighbor.uid not in added_ports:
@@ -204,27 +203,27 @@ class Subsystem(Component):
                     self.graph.add_edge(component, neighbor)
                     self.graph.edges.update(component, neighbor, edge_data)
 
-    def __replace_in_data_structure(
+    def __replace_in_core_model(
         self,
-        data_structure: DataStructure,
+        core_model: CoreModel,
         components: list[Component],
     ) -> None:
         """
-        Remove the components from the data structure.
-        :param data_structure: The data structure containing the components.
+        Remove the components from the core model.
+        :param core_model: The core model containing the components.
         :param components: The components that are part of the subsystem.
         :param subsystem: The subsystem that replaces the components.
         """
         edges = {}
         uids = [x.uid for x in components]
         for component in components:
-            if component not in data_structure.graph.nodes:
-                Logger.log_to_selected(f"Component {component.uid} not found in data structure")
+            if component not in core_model.graph.nodes:
+                Logger.log_to_selected(f"Component {component.uid} not found in core model")
                 continue
-            edges[component.uid] = list(data_structure.graph.edges.data(component))
-            data_structure.graph.remove_node(component)
+            edges[component.uid] = list(core_model.graph.edges.data(component))
+            core_model.graph.remove_node(component)
 
-        data_structure.add_component(self)
+        core_model.add_component(self)
 
         # Reattach edges with data
         for component in components:
@@ -240,7 +239,7 @@ class Subsystem(Component):
                 if neighbor.uid in data:
                     neighbor_data = data[neighbor.uid]
 
-                data_structure.add_connection(self, neighbor, subsys_data, neighbor_data)
+                core_model.add_connection(self, neighbor, subsys_data, neighbor_data)
 
     def __hash__(self) -> int:
         return hash((self.uid, type(self), self.graph))

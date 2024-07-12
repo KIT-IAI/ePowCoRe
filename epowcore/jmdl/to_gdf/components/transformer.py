@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from epowcore.gdf.bus import Bus
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.transformers.transformer import Transformer
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.jmdl.jmdl_model import Block
@@ -35,17 +35,17 @@ class EPowTransformer(Transformer):
     # The maximum angle difference in degrees
     angle_max: float = field(default_factory=float)
 
-    def replace_with_trafo(self, ds: DataStructure) -> None:
-        _, graph = ds.get_component_by_id(self.uid)
+    def replace_with_trafo(self, core_model: CoreModel) -> None:
+        _, graph = core_model.get_component_by_id(self.uid)
         if graph is None:
             raise ValueError("Component not found!")
         hv_bus = None
         lv_bus = None
-        for n in ds.get_neighbors(self, connector="HV"):
+        for n in core_model.get_neighbors(self, connector="HV"):
             if isinstance(n, Bus):
                 hv_bus = n
                 break
-        for n in ds.get_neighbors(self, connector="LV"):
+        for n in core_model.get_neighbors(self, connector="LV"):
             if isinstance(n, Bus):
                 lv_bus = n
                 break
@@ -53,7 +53,7 @@ class EPowTransformer(Transformer):
         if hv_bus is None or lv_bus is None:
             raise ValueError(f"Could not find connected bus for impedance {self.name}")
 
-        base_mva = ds.base_mva_fb()
+        base_mva = core_model.base_mva_fb()
         bm_pu = self.b / self.rate_long_term * base_mva
 
         trafo = TwoWindingTransformer(

@@ -1,13 +1,13 @@
 from geojson import Point, FeatureCollection, Feature, LineString, utils
 
-from epowcore.gdf import DataStructure
+from epowcore.gdf import CoreModel
 from epowcore.generic.logger import Logger
 
 
-def export_geo_json(data_structure: DataStructure) -> FeatureCollection:
+def export_geo_json(core_model: CoreModel) -> FeatureCollection:
     geo_json_objects = []
 
-    for node in data_structure.graph.nodes:
+    for node in core_model.graph.nodes:
         if node.coords is not None and node.coords:
             properties = {
                 "uid": node.uid,

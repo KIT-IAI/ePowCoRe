@@ -16,12 +16,12 @@ def main() -> None:
     log_path = str(PATH.parent / f"pf_geojson_{model_name}.log")
 
     pf_converter = PowerFactoryConverter()
-    data_structure = pf_converter.to_gdf(
+    core_model = pf_converter.to_gdf(
         PFModel(model_name, study_case_name, frequency), log_path=log_path
     )
 
     geo_converter = GeoJSONConverter()
-    geo_json_model = geo_converter.from_gdf(data_structure, model_name, log_path=log_path)
+    geo_json_model = geo_converter.from_gdf(core_model, model_name, log_path=log_path)
 
     # Create directory if it does not exist
     if not os.path.exists("output/geojson"):

@@ -1,10 +1,10 @@
 from epowcore.gdf.component import Component
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.subsystem import Subsystem
 
 
 def replace_component(
-    data_structure: DataStructure, to_replace: Component, replacement: Component
+    core_model: CoreModel, to_replace: Component, replacement: Component
 ) -> bool:
     """Replaces a component with another component. The connections are transferred.
 
@@ -14,11 +14,11 @@ def replace_component(
     :type replacement: Component
     :return: True if the component was replaced successfully, else False.
     """
-    neighbors = list(data_structure.graph.neighbors(to_replace))
+    neighbors = list(core_model.graph.neighbors(to_replace))
     edge_data = {}
     connection_ports = []
     for neighbor in neighbors:
-        edge_data[neighbor] = data_structure.graph.edges[to_replace, neighbor]  # type: ignore
+        edge_data[neighbor] = core_model.graph.edges[to_replace, neighbor]  # type: ignore
         connection_ports.append(edge_data[neighbor][to_replace.uid])
     # Check if the connections can be transferred
     if not isinstance(replacement, Subsystem) and any(
@@ -27,13 +27,13 @@ def replace_component(
         # Some of the connections don't exist in the replacement
         return False
 
-    data_structure.graph.remove_node(to_replace)
+    core_model.graph.remove_node(to_replace)
     replacement.uid = to_replace.uid
-    data_structure.graph.add_node(replacement)
+    core_model.graph.add_node(replacement)
     for neighbor in neighbors:
-        data_structure.add_connection(replacement, neighbor)
+        core_model.add_connection(replacement, neighbor)
         if edge_data[neighbor] is not None:
             edge_data[neighbor][replacement.uid] = edge_data[neighbor][to_replace.uid]
             del edge_data[neighbor][to_replace.uid]
-            data_structure.graph.edges.update(replacement, neighbor, edge_data[neighbor])
+            core_model.graph.edges.update(replacement, neighbor, edge_data[neighbor])
     return True

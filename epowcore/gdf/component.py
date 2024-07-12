@@ -13,7 +13,7 @@ class Component:
     """Abstract class for model components."""
 
     uid: int
-    """ID of the element, used for the graph in the DataStructure"""
+    """ID of the element, used for the graph in the CoreModel"""
     name: str = field(hash=False)
     """Name of the component."""
 

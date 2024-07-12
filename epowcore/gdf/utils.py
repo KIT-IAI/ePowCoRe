@@ -1,5 +1,5 @@
 from epowcore.gdf.component import Component
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.port import Port
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.generic.component_graph import ComponentGraph
@@ -41,19 +41,19 @@ def get_connected_bus(graph: ComponentGraph, node: Component, max_depth: int = 3
 
     return None
 
-def get_z_base(component: Component, ds: DataStructure) -> float:
+def get_z_base(component: Component, core_model: CoreModel) -> float:
     """Calculate the base impedance (z_base) with the voltage of a connected bus and the base rating.
 
     :param component: The component to get the connected bus for
     :type component: Component
-    :param ds: The DataStructure containing the component
-    :type ds: DataStructure
+    :param core_model: The CoreModel containing the component
+    :type core_model: CoreModel
     :return: The base rating [MVA]
     :rtype: float
     """
-    connected_bus = get_connected_bus(ds.graph, component)
+    connected_bus = get_connected_bus(core_model.graph, component)
     if connected_bus is None:
         raise ValueError(f"Could not find connected bus for line {component.uid}")
     u_base = connected_bus.nominal_voltage
-    z_base = u_base**2 / ds.base_mva_fb()
+    z_base = u_base**2 / core_model.base_mva_fb()
     return z_base

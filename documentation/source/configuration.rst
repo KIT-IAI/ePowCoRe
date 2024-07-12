@@ -58,10 +58,10 @@ Higher priority values will override lower priority values.
 There can only be one configuration with the same priority, loading a configuration with the same priority **will override the previous configuration**.
 Priorities also serve as the identifier for the configuration for deletion and retrieval.
 
-Structure in GMD
-----------------
+Structure in ePowCoRe
+---------------------
 
-The default configuration is stored in the `config.yml` file in the root of the GMD package.
+The default configuration is stored in the `config.yml` file in the root of the package.
 
 It references additional configuration files in the `config` directory.
 

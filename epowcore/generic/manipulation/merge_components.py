@@ -1,11 +1,11 @@
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 
 
 def merge_components(
-    data_struct: DataStructure, component1: Component, component2: Component
+    core_model: CoreModel, component1: Component, component2: Component
 ) -> bool:
     """
     Tries to merge two components of the same type into one component.
@@ -26,12 +26,12 @@ def merge_components(
         )
         return False
     if isinstance(component1, Bus) and isinstance(component2, Bus):
-        if data_struct.graph.edges[component1, component2] is None:  # type: ignore
+        if core_model.graph.edges[component1, component2] is None:  # type: ignore
             return False
-        for edge in data_struct.graph.neighbors(component2):
-            edge_data = data_struct.graph.edges[component2, edge]  # type: ignore
+        for edge in core_model.graph.neighbors(component2):
+            edge_data = core_model.graph.edges[component2, edge]  # type: ignore
             if edge != component1:
-                data_struct.graph.add_edge(component1, edge)
+                core_model.graph.add_edge(component1, edge)
                 if edge_data is not None:
                     # Set edge data for new connections
                     if component1.uid in edge_data:
@@ -39,8 +39,8 @@ def merge_components(
                         del edge_data[component2.uid]
                     else:
                         edge_data[component1.uid] = [""]
-                    data_struct.graph.edges.update(component1, edge, edge_data)
-        data_struct.graph.remove_node(component2)
+                    core_model.graph.edges.update(component1, edge, edge_data)
+        core_model.graph.remove_node(component2)
         Logger.log_to_selected(
             f"Merged components {component1.name} and {component2.name}"
         )

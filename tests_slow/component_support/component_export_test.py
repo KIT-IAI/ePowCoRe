@@ -3,7 +3,7 @@ from typing import Type
 import unittest
 
 from epowcore.gdf.bus import Bus, LFBusType
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.gdf.transformers.transformer import WindingConfig
@@ -81,9 +81,9 @@ class ComponentExportTest(unittest.TestCase):
         for component in components:
             r = []
             for testformat in testformats:
-                ds = DataStructure(base_frequency=50.0)
-                ds.add_component(component)
-                export_model = testformat(ds)
+                core_model = CoreModel(base_frequency=50.0)
+                core_model.add_component(component)
+                export_model = testformat(core_model)
                 component_count = export_model.component_count()
                 contains_subsystem = export_model.contains_subsystem()
                 if component_count == 1 and not contains_subsystem:

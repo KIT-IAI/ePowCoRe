@@ -21,7 +21,7 @@ class RSCADDyload(RSCADComponentBuilder):
 
     @classmethod
     def create(cls, component: Load, base_frequency: float) -> rdyLoad.rtdsudcDYLOAD:  # type: ignore[override]
-        """Creates a RSCAD dyload transformer from a datastructure load element and sets the available values
+        """Creates a RSCAD dyload transformer from a core model load element and sets the available values
         :param base_frequency: The vbus value, not great code but works for now
         """
         rscad_dyload = rdyLoad.rtdsudcDYLOAD()

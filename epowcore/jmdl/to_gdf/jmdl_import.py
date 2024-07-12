@@ -1,6 +1,6 @@
 from typing import Any
 
-from epowcore.gdf import DataStructure
+from epowcore.gdf import CoreModel
 from epowcore.gdf.component import Component
 from epowcore.gdf.port import Port as GdfPort
 from epowcore.gdf.subsystem import Subsystem
@@ -11,55 +11,55 @@ from epowcore.jmdl.jmdl_model import Block, DataType, JmdlModel, Data, Port, Roo
 
 def import_jmdl(
     jmdl: JmdlModel,
-    base_data_structure: DataStructure | None = None,
+    base_core_model: CoreModel | None = None,
     graph: ComponentGraph | None = None,
-) -> DataStructure:
-    """Imports a JMDLModel and converts it to a GDF DataStructure.
+) -> CoreModel:
+    """Imports a JMDLModel and converts it to a GDF CoreModel.
 
     :param jmdl: The JMDL object
     :type jmdl: JMDLImport
-    :param base_data_structure: Required for recursive calls to keep track of IDs.
-    :type base_data_structure: DataStructure | None
+    :param base_core_model: Required for recursive calls to keep track of IDs.
+    :type base_core_model: CoreModel | None
     :param graph: Required for recursive calls to add components to correct graph.
     :type graph: ComponentGraph | None
     """
     if graph is None:
-        data_structure = DataStructure(base_frequency=jmdl.base_frequency, base_mva=jmdl.base_mva)
+        core_model = CoreModel(base_frequency=jmdl.base_frequency, base_mva=jmdl.base_mva)
     else:
-        data_structure = DataStructure(
+        core_model = CoreModel(
             base_frequency=jmdl.base_frequency, base_mva=jmdl.base_mva, graph=graph
         )
 
-    if base_data_structure is None:
-        base_data_structure = data_structure
+    if base_core_model is None:
+        base_core_model = core_model
 
-    components: list[Component] = __load_components(jmdl, data_structure, base_data_structure)
-    ports = __jmdl_load_ports(jmdl, data_structure, base_data_structure)
-    subsystems = __jmdl_load_subsystems(jmdl, data_structure, base_data_structure)
+    components: list[Component] = __load_components(jmdl, core_model, base_core_model)
+    ports = __jmdl_load_ports(jmdl, core_model, base_core_model)
+    subsystems = __jmdl_load_subsystems(jmdl, core_model, base_core_model)
 
     components = components + ports + subsystems
 
-    __jmdl_load_graph(jmdl, components, data_structure)
-    return data_structure
+    __jmdl_load_graph(jmdl, components, core_model)
+    return core_model
 
 
 def __load_components(
-    jmdl: JmdlModel, data_structure: DataStructure, base_data_structure: DataStructure
+    jmdl: JmdlModel, core_model: CoreModel, base_core_model: CoreModel
 ) -> list[Component]:
     components: list[Component] = []
 
     for block in jmdl.root.blocks:
         create = Components.CREATION_FUNCTION_DICT.get(block.block_class, None)
         if create is not None:
-            gdf_component = create(block, base_data_structure.get_valid_id())
-            data_structure.add_component(gdf_component)
+            gdf_component = create(block, base_core_model.get_valid_id())
+            core_model.add_component(gdf_component)
             components.append(gdf_component)
 
     return components
 
 
 def __jmdl_load_subsystems(
-    jmdl: JmdlModel, data_structure: DataStructure, base_data_structure: DataStructure
+    jmdl: JmdlModel, core_model: CoreModel, base_core_model: CoreModel
 ) -> list[Component]:
     """Load the super blocks from a JMDL object into the Generic Data Model.
 
@@ -70,11 +70,11 @@ def __jmdl_load_subsystems(
     """
     subsystems: list[Component] = []
     for super_block in jmdl.root.super_blocks:
-        # create an empty subsystem and add it to the data structure
+        # create an empty subsystem and add it to the core model
         # this ensures that adding components to the subsystem does not invalidate the id generation
-        next_id = base_data_structure.get_valid_id()
+        next_id = base_core_model.get_valid_id()
         gdf_subsystem = Subsystem(next_id, super_block.name, None)
-        data_structure.add_component(gdf_subsystem)
+        core_model.add_component(gdf_subsystem)
 
         jmdl_import = JmdlModel(
             "",
@@ -88,14 +88,14 @@ def __jmdl_load_subsystems(
             [],
         )
 
-        import_jmdl(jmdl_import, base_data_structure=base_data_structure, graph=gdf_subsystem.graph)
+        import_jmdl(jmdl_import, base_core_model=base_core_model, graph=gdf_subsystem.graph)
 
         subsystems.append(gdf_subsystem)
     return subsystems
 
 
 def __jmdl_load_ports(
-    jmdl: JmdlModel, data_structure: DataStructure, base_data_structure: DataStructure
+    jmdl: JmdlModel, core_model: CoreModel, base_core_model: CoreModel
 ) -> list[GdfPort]:
     """Load the ports from a JMDL object into the Generic Data Model.
 
@@ -106,13 +106,13 @@ def __jmdl_load_ports(
     """
     ports: list[GdfPort] = []
     for port in jmdl.root.ports:
-        gdf_port = GdfPort(base_data_structure.get_valid_id(), port.name, None, 0)
-        data_structure.add_component(gdf_port)
+        gdf_port = GdfPort(base_core_model.get_valid_id(), port.name, None, 0)
+        core_model.add_component(gdf_port)
         ports.append(gdf_port)
     return ports
 
 
-def __jmdl_load_graph(jmdl: JmdlModel, elements: list[Any], data_structure: DataStructure) -> None:
+def __jmdl_load_graph(jmdl: JmdlModel, elements: list[Any], core_model: CoreModel) -> None:
     """Loads the components and their connections from a JMDL object into the Generic Data Model Networkx graph.
 
     :param jmdl: The JMDL object
@@ -146,4 +146,4 @@ def __jmdl_load_graph(jmdl: JmdlModel, elements: list[Any], data_structure: Data
         )
         if start_element is None or end_element is None:
             raise ValueError(f"Connection {connection.start} -> {connection.end} is invalid")
-        data_structure.add_connection(start_element, end_element, start_port_name, end_port_name)
+        core_model.add_connection(start_element, end_element, start_port_name, end_port_name)

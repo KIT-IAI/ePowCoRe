@@ -23,10 +23,10 @@ class JmdlConnectionTest(unittest.TestCase):
         bus_0 = creator.create_bus()
         generator_0 = creator.create_epow_generator()
 
-        data_struct = creator.data_structure
+        core_model = creator.core_model
 
-        data_struct.add_connection(bus_0, generator_0)
-        jmdl_json = JmdlConverter().from_gdf(data_struct, "").to_json()
+        core_model.add_connection(bus_0, generator_0)
+        jmdl_json = JmdlConverter().from_gdf(core_model, "").to_json()
         imported_jmdl = JmdlModel.from_dict(json.loads(jmdl_json))
         self.assertEqual(imported_jmdl.root.connections[0].start, f"{generator_0.name}.powerOut")
         self.assertEqual(imported_jmdl.root.connections[0].end, f"{bus_0.name}.to_Generator2")
@@ -38,12 +38,12 @@ class JmdlConnectionTest(unittest.TestCase):
         creator = GdfTestComponentCreator(50.0)
         bus_0 = creator.create_bus()
         bus_1 = creator.create_bus()
-        data_struct = creator.data_structure
+        core_model = creator.core_model
         generator_0 = creator.create_epow_generator()
 
-        data_struct.add_connection(bus_0, bus_1)
-        data_struct.add_connection(bus_1, generator_0, "bus_port", "generator_port")
-        jmdl_json = JmdlConverter().from_gdf(data_struct, "").to_json()
+        core_model.add_connection(bus_0, bus_1)
+        core_model.add_connection(bus_1, generator_0, "bus_port", "generator_port")
+        jmdl_json = JmdlConverter().from_gdf(core_model, "").to_json()
         imported_jmdl = JmdlModel.from_dict(json.loads(jmdl_json))
         self.assertEqual(len(imported_jmdl.root.blocks), 2)
         self.assertEqual(len(imported_jmdl.root.connections), 1)
@@ -59,11 +59,11 @@ class JmdlConnectionTest(unittest.TestCase):
         creator = GdfTestComponentCreator(50.0)
         generator_0 = creator.create_epow_generator()
         shunt_0 = creator.create_shunt()
-        data_struct = creator.data_structure
+        core_model = creator.core_model
 
-        data_struct.add_connection(generator_0, shunt_0)
+        core_model.add_connection(generator_0, shunt_0)
         converter = JmdlConverter()
-        jmdl_json = converter.from_gdf(data_struct, "test_busbar_insertion").to_json()
+        jmdl_json = converter.from_gdf(core_model, "test_busbar_insertion").to_json()
 
         imported_jmdl = JmdlModel.from_dict(json.loads(jmdl_json))
         self.assertEqual(imported_jmdl.root.connections[0].start, f"{generator_0.name}.powerOut")
@@ -81,10 +81,10 @@ class JmdlConnectionTest(unittest.TestCase):
         creator = GdfTestComponentCreator(50.0)
         generator_0 = creator.create_epow_generator()
         shunt_0 = creator.create_shunt()
-        data_struct = creator.data_structure
+        core_model = creator.core_model
 
-        data_struct.add_connection(generator_0, shunt_0)
-        jmdl_json = JmdlConverter().from_gdf(data_struct, "test_busbar_insertion").to_json()
+        core_model.add_connection(generator_0, shunt_0)
+        jmdl_json = JmdlConverter().from_gdf(core_model, "test_busbar_insertion").to_json()
         imported_jmdl = JmdlModel.from_dict(json.loads(jmdl_json))
         self.assertEqual(imported_jmdl.root.connections[0].start, f"{generator_0.name}.powerOut")
         self.assertEqual(
@@ -102,7 +102,7 @@ class JmdlConnectionTest(unittest.TestCase):
 
         In this example, both ends of a transmission line are connected to the same subsystem.
         The JMDL model is valid and the load flow calculation converges.
-        In the data structure, there should be two top-level components (line and subsystem)
+        In the core model, there should be two top-level components (line and subsystem)
         and two connections between those components.
         Inside the subsystem, there should be two Ports connecting the line to the internal buses.
         """
@@ -114,16 +114,16 @@ class JmdlConnectionTest(unittest.TestCase):
         self.assertEqual(len(jmdl_model.root.connections), 2)
 
         jmdl_converter = JmdlConverter()
-        data_structure = jmdl_converter.to_gdf(jmdl_model)
-        for e in data_structure.graph.edges:
-            print(data_structure.graph.edges.data(e))
+        core_model = jmdl_converter.to_gdf(jmdl_model)
+        for e in core_model.graph.edges:
+            print(core_model.graph.edges.data(e))
         print("---")
 
-        self.assertEqual(len(data_structure.graph.nodes), 2)
-        for n in data_structure.graph.nodes:
+        self.assertEqual(len(core_model.graph.nodes), 2)
+        for n in core_model.graph.nodes:
             print(n)
         print("---")
-        subsys = data_structure.type_list(Subsystem)[0]
+        subsys = core_model.type_list(Subsystem)[0]
         for n in subsys.graph.nodes:
             print(n)
 

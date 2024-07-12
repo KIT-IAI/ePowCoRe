@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from epowcore.gdf.component import Component
 from epowcore.gdf.bus import Bus
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.tline import TLine
 
 from epowcore.jmdl.jmdl_model import Block
@@ -36,12 +36,12 @@ class EPowLine(Component):
     parallel_lines: int = 1
     """Number of parallel lines"""
 
-    def replace_with_tline(self, ds: DataStructure) -> None:
-        _, graph = ds.get_component_by_id(self.uid)
+    def replace_with_tline(self, core_model: CoreModel) -> None:
+        _, graph = core_model.get_component_by_id(self.uid)
         if graph is None:
             raise ValueError("Component not found!")
         connected_bus = None
-        for n in ds.get_neighbors(self):
+        for n in core_model.get_neighbors(self):
             if isinstance(n, Bus):
                 connected_bus = n
                 break
@@ -50,7 +50,7 @@ class EPowLine(Component):
             raise ValueError(f"Could not find connected bus for impedance {self.name}")
 
         u_base = connected_bus.nominal_voltage
-        z_base = u_base**2 / ds.base_mva_fb()
+        z_base = u_base**2 / core_model.base_mva_fb()
 
         r1 = self.r1pu * z_base
         x1 = self.x1pu * z_base

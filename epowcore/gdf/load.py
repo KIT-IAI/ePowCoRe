@@ -3,7 +3,6 @@ from dataclasses import dataclass, field
 from .component import Component
 
 
-# The attributes are never changed after being insterted into a structure requiring hashes
 @dataclass(unsafe_hash=True, kw_only=True)
 class Load(Component):
     """This class represents an general Load. Specific kinds

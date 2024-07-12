@@ -1,7 +1,7 @@
 import matlab.engine
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.simscape.block import SimscapeBlock
 from epowcore.simscape.shared import SimscapeBlockType
 
@@ -16,14 +16,14 @@ BUS_TYPES = {
 def create_generator(
     eng: matlab.engine.MatlabEngine,
     generator: SynchronousMachine,
-    data_structure: DataStructure,
+    core_model: CoreModel,
     model_name: str,
 ) -> SimscapeBlock:
     """Create a Simscape block for the generator."""
     block_name = f"{model_name}/{generator.name}"
     eng.add_block(BLOCK_TYPE.value, block_name, nargout=0)
 
-    graph = data_structure.graph
+    graph = core_model.graph
     bus_neighbors = [n for n in graph.neighbors(generator) if isinstance(n, Bus)]
     bus = bus_neighbors[0] if len(bus_neighbors) > 0 else None
     eng.set_param(
@@ -33,7 +33,7 @@ def create_generator(
         "RotorType",
         "Round",
         "NominalParameters",
-        f"[{generator.rated_apparent_power*1e6},{generator.rated_voltage*1e3},{data_structure.base_frequency}]",
+        f"[{generator.rated_apparent_power*1e6},{generator.rated_voltage*1e3},{core_model.base_frequency}]",
         "Reactances1",
         f"[{generator.synchronous_reactance_x:.4f},{generator.transient_reactance_x:.4f},"
         + f"{generator.subtransient_reactance_x:.4f},{generator.synchronous_reactance_q:.4f},"

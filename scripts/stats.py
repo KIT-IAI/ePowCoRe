@@ -2,7 +2,7 @@ import json
 import pathlib
 
 from epowcore.gdf.bus import Bus
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.exciters.exciter import Exciter
 from epowcore.gdf.generators.static_generator import StaticGenerator
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
@@ -25,7 +25,7 @@ def main():
     with open(model_path, "r", encoding="utf-8") as file:
         data_str = file.read()
     data = json.loads(data_str)
-    model = DataStructure.import_dict(data)
+    model = CoreModel.import_dict(data)
 
     print("Graph")
     print("=====")

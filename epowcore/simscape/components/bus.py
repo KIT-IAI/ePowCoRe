@@ -1,7 +1,7 @@
 import matlab.engine
 from enum import Enum
 from epowcore.gdf.bus import Bus, LFBusType
-from epowcore.gdf.data_structure import DataStructure
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 from epowcore.simscape.block import SimscapeBlock
 from epowcore.simscape.shared import SimscapeBlockType
@@ -23,7 +23,7 @@ class Phases(Enum):
 def create_bus(
     eng: matlab.engine.MatlabEngine,
     bus: Bus,
-    data_structure: DataStructure,
+    core_model: CoreModel,
     model_name: str,
     phases: Phases = Phases.SINGLE,
 ) -> SimscapeBlock:
@@ -35,7 +35,7 @@ def create_bus(
     vangle = 0.0
     if bus.lf_bus_type in [LFBusType.SL, LFBusType.PV]:
         # get the voltage setpoint from a connected generator as reference
-        for n in data_structure.graph.neighbors(bus):
+        for n in core_model.graph.neighbors(bus):
             if isinstance(n, SynchronousMachine):
                 vset = n.voltage_set_point
                 if vset is not None and vset != 1.0:
