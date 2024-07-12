@@ -39,9 +39,11 @@ Adding New Components
 ^^^^^^^^^^^^^^^^^^^^^
 
 **Prerequesites:**
+
 - GDF component is already implemented
 
 **Steps:**
+
 - Add the Simscape block path to the ``SimscapeBlockType`` enum in ``epowcore/simscape/shared.py``
 - Add the port handle mapping to the ``PORT_HANDLES`` dictionary in ``epowcore/simscape/port_handles.py``
 - Implement Simscape block creation and parameter setting

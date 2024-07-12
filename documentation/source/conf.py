@@ -10,7 +10,8 @@ sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
 sys.path.insert(0, os.path.abspath('../../'))
 
-print(os.path.abspath('.'))
+for p in sys.path:
+    print(p)
 
 
 # -- Project information -----------------------------------------------------
