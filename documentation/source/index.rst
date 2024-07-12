@@ -32,7 +32,6 @@ In the vast domain of power system modeling, this project focuses on the most im
    :caption: Development
 
    testing
-   gitlab
    documentation
 
 
