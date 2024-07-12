@@ -10,7 +10,7 @@ The tested versions of the software are listed below.
 +==========+====================+
 | Windows  | 11 Pro 23H2        |
 +----------+--------------------+
-| Python   | 3.10.11 64-bit     |
+| Python   | 3.10.X 64-bit      |
 +----------+--------------------+
 | Matlab   | R2022b             |
 +----------+--------------------+
@@ -22,20 +22,16 @@ The tested versions of the software are listed below.
 +----------+--------------------+
 | PF       | 2022 SP2           |
 +----------+--------------------+
-| eASiMOV  | 0.5                |
-+----------+--------------------+
 
-Installation GMC
-----------------
+Installation
+------------
 To install this project, perform the following steps:
 
 1. Clone the project
 2. :code:`cd` into the cloned directory
 3. Install Python 3.10.11 64-bit
 4. Create a virtual environment with :code:`<path to python 3.10.11>/python -m venv <path to virtual environment>`
-
 5. Activate the virtual environment with :code:`<path to virtual environment>\\Scripts\\activate.bat` or :code:`<path to virtual environment>\\Scripts\\activate.ps1`
-
 6. :code:`pip install .[dev]` or :code:`pip install -e .[dev]` to install the project editable.
 
 VS Code Recommended Extensions

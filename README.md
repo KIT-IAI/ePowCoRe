@@ -1,30 +1,44 @@
-# Generic Model Converter
+# ePowCoRe
+
+*A Generic Representation of Power Grids Enabling Open-Source Model Conversion Modules*
+
 
 ## Installation
 
-Please look at the documentation 'Setup' page for setup instructions.
+To install this project, perform the following steps:
+
+1. Clone the project
+2. Open a terminal of the virtual environment where you want to use the project
+    - Tested with Python 3.10
+3. `cd` into the cloned directory
+4. `pip install .` or `pip install -e .` to install the project editable.
+    - Use `pip install -e .[dev]` to install with development dependencies
+
 
 ## Usage
 
-- A script to convert from PowerFactory to JMDL is available at `scripts/pf_to_jmdl.py`.
-- As of now, you have to edit the script to change the desired PowerFactory project and output file.
-- Run the script: `python .\scripts\pf_to_jmdl.py`
-- Other scripts to convert to different formats are available as well.
+- Script that convert from PowerFactory to the generic format and from there to other formats are available in the `scripts` folder.
+- As of now, you have to edit the specific script to change the desired model and output file.
+- Run the script, e.g.: `python .\scripts\pf_to_jmdl.py`
+
 
 ## Documentation
 
 The source for the documention is available in the `documentation\source` directory.
 While it is possible to read the source on its own, an HTML version of the documentation offers a nicer formatting and search capabilities.
 
-You can download an HTML version [here](https://gitlab.kit.edu/api/v4/projects/156718/jobs/artifacts/main/download?job=pages).
-Unzip the `download` file, and open `documentation\build\html\index.html` to start.
+**Build the documentation:**
 
-Alternatively, you can build the HTML documentation yourself by following the command line instructions of the `pages.script` part in the GitLab CI configuration file: `.gitlab-ci.yml`
+    sphinx-apidoc -f -d 3 -E -o ./documentation/source/apidoc ./epowcore/ ./epowcore/generic ./epowcore/jmdl ./epowcore/power_factory/ ./epowcore/rscad/ ./epowcore/simscape/ ./epowcore/geojson/
+    sphinx-build -b html documentation/source documentation/build/html -c ./documentation/source/
+
 
 ## Project Structure: epowcore
 
 - `gdf` (Generic Data Format): Contains the overall generic core model, component models, and other basic classes.
-- `jmdl`, `power_factory`, `rscad`: Contain the platform specific methods for format conversions.
+- `generic`: Contains generic data structures and methods that work on generic models.
+- `geo_json`, `jmdl`, `matpower`, `power_factory`, `rscad`, `simscape`: Contain the platform specific methods for format conversions.
+
 
 ## Testing & Coverage
 
