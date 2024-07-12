@@ -1,2 +1,7 @@
 sphinx
 sphinx_rtd_theme
+dataclasses
+networkx
+matplotlib
+scipy
+pyyaml
