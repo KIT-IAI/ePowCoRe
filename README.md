@@ -24,6 +24,8 @@ To install this project, perform the following steps:
 
 ## Documentation
 
+Check out the documentation under: [epowcore.readthedocs.io](https://epowcore.readthedocs.io).
+
 The source for the documention is available in the `documentation\source` directory.
 While it is possible to read the source on its own, an HTML version of the documentation offers a nicer formatting and search capabilities.
 
