@@ -45,3 +45,14 @@ While it is possible to read the source on its own, an HTML version of the docum
 ## Testing & Coverage
 
     pytest --cov=epowcore tests/; coverage xml
+
+## Citing
+
+### Software
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13827588.svg)](https://doi.org/10.5281/zenodo.13827588)
+
+### Article
+
+> M. Weber, A. Kocher, H. K. Çakmak and V. Hagenmeyer, "ePowCoRe: A Novel Generic Representation of Power Grids Enabling Open-Source Model Conversion Modules," 2024 Open Source Modelling and Simulation of Energy Systems (OSMSES), Vienna, Austria, 2024, pp. 1-6, doi: 10.1109/OSMSES62085.2024.10668981.
+
