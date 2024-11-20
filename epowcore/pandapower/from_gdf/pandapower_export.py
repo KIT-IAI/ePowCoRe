@@ -5,6 +5,7 @@ from epowcore.gdf.load import Load
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
+from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 
 from epowcore.pandapower.pandapower_model import PandapowerModel
 
@@ -50,5 +51,14 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
             counter += 1
     Logger.log_to_selected(f"created {counter} out of {number_of_two_winding_transformers}")
 
+
+    Logger.log_to_selected("Creating generators from synchronous machines in the Pandapower network")
+    counter = 0
+    gdf_synchronous_machine_list = core_model.type_list(SynchronousMachine)
+    number_of_synchronous_machines = len(gdf_synchronous_machine_list)
+    for gdf_synchronous_machine in gdf_synchronous_machine_list:
+        if pandapower_network.create_generator_from_gdf_sychronous_maschine(core_model=core_model, synchronous_maschine=gdf_synchronous_machine):
+            counter +=1
+    Logger.log_to_selected(f"created {counter} out of {number_of_synchronous_machines}")
 
     return pandapower_network

@@ -10,6 +10,7 @@ from epowcore.gdf.bus import BusType
 from epowcore.gdf.load import Load
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
+from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 
 
 from epowcore.generic.logger import Logger
@@ -121,7 +122,9 @@ class PandapowerModel:
             df=1.0,
             vk0_percent=nan,
             vkr0_percent=nan,
-            mag0_percent = nan,  # Not sure previously set to transformer.zm_pu, but this was dependet of no load current which is also not given
+            # Not sure previously set to transformer.zm_pu, 
+            # but this was dependet of no load current which is also not given
+            mag0_percent = nan,  
             mag0_rx = transformer.rm_pu,  # Not sure
             si0_hv_partial=nan,
             pt_percent=nan,
@@ -138,5 +141,44 @@ class PandapowerModel:
             tap2_step_degree=nan,
             tap2_pos=nan,
             tap2_phase_shifter=nan,
+        )
+        return True
+    
+    def create_generator_from_gdf_sychronous_maschine(self, core_model: CoreModel, synchronous_maschine: SynchronousMachine):
+        '''Create a generator in the pandapower network equivalent to the given synchronous_maschine in gdf format'''
+
+        generator_bus = get_connected_bus(core_model.graph, synchronous_maschine, max_depth=1)
+
+        if generator_bus is None:
+            Logger.log_to_selected("Failed to convert synchonous_maschine")
+            return False
+
+        pandapower.create.create_gen(
+            net = self.network,
+            bus = generator_bus.uid,
+            p_mw = synchronous_maschine.active_power,
+            vm_pu = synchronous_maschine.voltage_set_point,
+            sn_mva = synchronous_maschine.rated_apparent_power,  # not completly sure
+            name = synchronous_maschine.name,
+            index = synchronous_maschine.uid,
+            max_q_mvar = synchronous_maschine.q_max,
+            min_q_mvar = synchronous_maschine.q_min,
+            min_p_mw = synchronous_maschine.p_min,
+            max_p_mw = synchronous_maschine.p_max,
+            min_vm_pu=nan,
+            max_vm_pu=nan,  # maybe rated_voltage
+            scaling=1.0,
+            type = "sync",
+            slack = True,  # So the generator will be incoporated correctly?
+            controllable = True,
+            vn_kv = synchronous_maschine.rated_voltage,
+            # Unsure if not subtransient_reactance_q ???(same description)
+            xdss_pu = synchronous_maschine.subtransient_reactance_x,
+            rdss_ohm=nan,
+            cos_phi=nan,
+            pg_percent=nan,
+            power_station_trafo=nan,
+            in_service=True,
+            slack_weight=0.0,
         )
         return True
