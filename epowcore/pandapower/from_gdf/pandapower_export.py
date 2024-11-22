@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from epowcore.gdf.bus import Bus
+from epowcore.gdf.tline import TLine
 from epowcore.gdf.load import Load
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
@@ -47,7 +48,10 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     gdf_two_winding_transformer_list = core_model.type_list(TwoWindingTransformer)
     number_of_two_winding_transformers = len(gdf_two_winding_transformer_list)
     for gdf_two_winding_transformer in gdf_two_winding_transformer_list:
-        if pandapower_network.create_two_winding_transformer_from_gdf(core_model=core_model, transformer=gdf_two_winding_transformer):
+        if pandapower_network.create_two_winding_transformer_from_gdf(
+            core_model=core_model,
+            transformer=gdf_two_winding_transformer
+        ):
             counter += 1
     Logger.log_to_selected(f"created {counter} out of {number_of_two_winding_transformers}")
 
@@ -57,8 +61,23 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     gdf_synchronous_machine_list = core_model.type_list(SynchronousMachine)
     number_of_synchronous_machines = len(gdf_synchronous_machine_list)
     for gdf_synchronous_machine in gdf_synchronous_machine_list:
-        if pandapower_network.create_generator_from_gdf_sychronous_maschine(core_model=core_model, synchronous_maschine=gdf_synchronous_machine):
+        if pandapower_network.create_generator_from_gdf_sychronous_maschine(
+            core_model=core_model,
+            synchronous_maschine=gdf_synchronous_machine
+        ):
             counter +=1
     Logger.log_to_selected(f"created {counter} out of {number_of_synchronous_machines}")
+
+    Logger.log_to_selected("Creating lines from transmission lines in the pandapower network")
+    counter = 0
+    gdf_tline_list = core_model.type_list(TLine)
+    number_of_tlines = len(gdf_tline_list)
+    for gdf_tline in gdf_tline_list:
+        if pandapower_network.create_line_from_gdf_tline(
+            core_model=core_model,
+            tline=gdf_tline
+        ):
+            counter +=1
+    Logger.log_to_selected(f"Created {counter} out of {number_of_tlines}")
 
     return pandapower_network
