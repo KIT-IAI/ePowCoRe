@@ -9,8 +9,11 @@ from epowcore.gdf.tline import TLine
 from epowcore.gdf.switch import Switch
 from epowcore.gdf.bus import BusType
 from epowcore.gdf.load import Load
+from epowcore.gdf.ward import Ward
+from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
+from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 
 from epowcore.generic.logger import Logger
@@ -41,15 +44,15 @@ class PandapowerModel:
         # Creating the bus in the Pandapower Network
         pandapower.create_bus(
             net = self.network,
-            vn_kv = bus.nominal_voltage,
             name = bus.name,
             index = bus.uid,
+            geodata = bus.coords,
+            vn_kv = bus.nominal_voltage,
             type = pandapower_type,
             zone=None,
             in_service=True,
             max_vm_pu=nan,
-            min_vm_pu=nan,
-            geodata = bus.coords,
+            min_vm_pu=nan
         )
 
     def create_load_from_gdf(self, core_model: CoreModel, load: Load) -> bool:
@@ -66,22 +69,22 @@ class PandapowerModel:
         # Create the pandapower load in the network
         pandapower.create_load(
             net = self.network,
+            name = load.name,
+            index = load.uid,
             bus = load_bus.uid,
             p_mw = load.active_power,
             q_mvar = load.reactive_power,
             const_z_percent=0,
             const_i_percent=0,
             sn_mva=nan,
-            name = load.name,
             scaling=1.0,
-            index = load.uid,
             in_service=True,
             type='wye',
             max_p_mw=nan,
             min_p_mw=nan,
             max_q_mvar=nan,
             min_q_mvar=nan,
-            controllable=nan,
+            controllable=nan
         )
         return True
 
@@ -109,9 +112,19 @@ class PandapowerModel:
         if high_voltage_bus is None or low_voltage_bus is None:
             Logger.log_to_selected("Failled to convert transformer")
             return False
+
+        # See tablet for how this equation was made
+        vk_p = transformer.r1pu * (transformer.voltage_hv/transformer.voltage_lv) * 100
+        Logger.log_to_selected("r1pu: "+ str(transformer.r1pu))
+        Logger.log_to_selected("Vk_p: "+ str(vk_p))
+
+        if transformer.r1pu == 0:
+            Logger.log_to_selected("r1pu was zero, defaulting vk_p to 16")
+            vk_p = 16
         # Creating the pandapower transfomer in the network
         pandapower.create_transformer_from_parameters(
             net = self.network,
+            name = transformer.name,
             index = transformer.uid,
             hv_bus = high_voltage_bus.uid,
             lv_bus = low_voltage_bus.uid,
@@ -119,7 +132,7 @@ class PandapowerModel:
             vn_hv_kv = transformer.voltage_hv,
             vn_lv_kv = transformer.voltage_lv,
             vkr_percent = 0,  # ToDo, setting a default because the value is unclear.
-            vk_percent = 16,  # ToDo, setting a default because the value is unclear.
+            vk_percent = vk_p,  # ToDo, setting a default because the value is unclear.
             pfe_kw = transformer.pfe_kw,
             i0_percent = 0,  # ToDo, setting a default because the value is unklear. (maybe pfe_pu)
             shift_degree = transformer.phase_shift_30 * 30,  # Calculating phase shift
@@ -134,7 +147,6 @@ class PandapowerModel:
             tap_pos = transformer.tap_initial,
             tap_phase_shifter=False,
             in_service=True,
-            name = transformer.name,
             vector_group=None,
             max_loading_percent=nan,
             parallel=1,
@@ -173,7 +185,7 @@ class PandapowerModel:
         '''
 
         # Getting the bus the generator is connected to
-        synchronous_maschine_bus= get_connected_bus(
+        synchronous_maschine_bus = get_connected_bus(
             core_model.graph,
             synchronous_maschine,
             max_depth=1
@@ -183,16 +195,15 @@ class PandapowerModel:
         if synchronous_maschine_bus is None:
             Logger.log_to_selected("Failed to convert synchonous_maschine")
             return False
-        # Creating the pandapower generator in the network
-        # equivalent to the synchrounous machine in the gdf
+
         pandapower.create.create_gen(
             net = self.network,
+            name = synchronous_maschine.name,
+            index = synchronous_maschine.uid,
             bus = synchronous_maschine_bus.uid,
             p_mw = synchronous_maschine.active_power,
             vm_pu = synchronous_maschine.voltage_set_point,
             sn_mva = synchronous_maschine.rated_apparent_power,  # not completly sure
-            name = synchronous_maschine.name,
-            index = synchronous_maschine.uid,
             max_q_mvar = synchronous_maschine.q_max,
             min_q_mvar = synchronous_maschine.q_min,
             min_p_mw = synchronous_maschine.p_min,
@@ -242,6 +253,9 @@ class PandapowerModel:
         # Will be needed to do multiple times to account for tline.parallel =! 0
         pandapower.create_line_from_parameters(
             net = self.network,
+            name = tline.name,
+            index = tline.uid,
+            geodata = tline.coords,
             from_bus = from_bus.uid,
             to_bus = to_bus.uid,
             length_km = tline.length,
@@ -258,10 +272,7 @@ class PandapowerModel:
             # ?? phi not given anywere besides voltage source and ther it is in pu?
             # defaulting to 0.5, estimated with the pandapower std types
             max_i_ka = 0.5,
-            name = tline.name,
-            index = tline.uid,
             type=None,
-            geodata = tline.coords,
             in_service=True,
             df=1.0,
             parallel = tline.parallel_lines,
@@ -275,5 +286,128 @@ class PandapowerModel:
             c0_nf_per_km=nan,
             g0_us_per_km=0,
             endtemp_degree=nan
+        )
+        return True
+
+    def create_ward_from_gdf_ward(
+            self,
+            core_model: CoreModel,
+            ward: Ward
+        ):
+        '''Creates a ward in the pandapower network equivalent to a given
+        ward from the gdf
+        '''
+
+        ward_bus = get_connected_bus(
+            core_model.graph,
+            ward,
+            max_depth=1
+        )
+
+        if ward_bus is None:
+            return False
+
+        pandapower.create_ward(
+            net=self.network,
+            name=ward.name,
+            index=ward.uid,
+            bus=ward_bus,
+            ps_mw=-ward.p_gen + ward.p_load,
+            qs_mvar=-ward.q_gen + ward.q_load,
+            pz_mw=ward.p_zload,
+            qz_mvar=ward.p_zload,
+            in_service=True
+        )
+        return True
+
+    def create_shunt_from_gdf_shunt(
+            self,
+            core_model: CoreModel,
+            shunt: Shunt
+        ):
+        '''Creates a shunt in the pandapower network equivalent to a given
+        shunt from gdf
+        '''
+
+        shunt_bus = get_connected_bus(
+            core_model.graph,
+            shunt,
+            max_depth=1
+        )
+
+        if shunt_bus is None:
+            return False
+
+        pandapower.create_shunt(
+            net=self.network,
+            index=shunt.uid,
+            bus=shunt_bus,
+            p_mw=shunt.p,
+            q_mvar=shunt.q
+        )
+        return True
+
+    def _create_pandapower_switch_et(
+            self,
+            component
+        ) -> str | bool:
+        '''Returns the right value for the et variable 
+        of the pandapower switch
+        based on the given gdf component.
+        '''
+
+        match component:
+            case Bus():
+                return "b"
+            case TLine():
+                return "I"
+            case TwoWindingTransformer():
+                return "t"
+            case ThreeWindingTransformer():
+                return "t3"
+            case _:
+                return False
+
+
+    def create_switch_from_gdf_switch(
+            self,
+            core_model:CoreModel,
+            switch: Switch
+        ):
+        '''Create a pandapower switch in the network from a given 
+        gdf switch
+        '''
+        neighbours = core_model.get_neighbors(
+            component=switch,
+            follow_links=True,
+            connector=None
+        )
+
+        if len(neighbours) == 2:
+            if isinstance(neighbours[0], Bus):
+                switch_bus = neighbours[0].uid
+                switch_other_component = neighbours[1].uid
+            else:
+                switch_bus = neighbours[1].uid
+                switch_other_component = neighbours[0].uid
+        else:
+            return False
+
+        switch_et = self._create_pandapower_switch_et(switch_other_component)
+        if not switch_et:
+            return False
+
+        voltage = switch_bus.nominal_voltage
+
+        pandapower.create_switch(
+            net=self.network,
+            name=switch.name,
+            index=switch.uid,
+            bus=switch_bus,
+            element=switch_other_component,
+            et=switch_et,
+            closed=switch.closed,
+            in_ka=switch.rating_b*1000/voltage   # Unsure about calculation and
+                                            # if rating a,b or c should be used
         )
         return True
