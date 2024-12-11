@@ -1,28 +1,30 @@
-from copy import deepcopy
+import pandapower
 
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.load import Load
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
+from epowcore.generic.constants import Platform
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
-
 from epowcore.pandapower.pandapower_model import PandapowerModel
 
-from epowcore.generic.manipulation import flatten
-import pandapower
+
 
 def export_pandapower(core_model: CoreModel) -> PandapowerModel:
+    '''Pandapower export function, taking in the gdf CoreModel and returning
+    a PandapowerModel object.
+    '''
 
     # Create PandapowerModel that stores pandapower.Net to create elements inside of
     Logger.log_to_selected("Creating Pandapower network")
     pandapower_network= PandapowerModel(
         network = pandapower.create_empty_network(
             f_hz=core_model.base_frequency, sn_mva=core_model.base_mva_fb(), add_stdtypes=False
-        )
+        ),
+        platform=Platform("Pandapower")
     )
-
 
     Logger.log_to_selected("Creating buses in the Pandapower network")
     counter=0
@@ -56,12 +58,12 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     Logger.log_to_selected(f"created {counter} out of {number_of_two_winding_transformers}")
 
 
-    Logger.log_to_selected("Creating generators from synchronous machines in the Pandapower network")
+    Logger.log_to_selected("Creating static generators from synchronous machines in the Pandapower network")
     counter = 0
     gdf_synchronous_machine_list = core_model.type_list(SynchronousMachine)
     number_of_synchronous_machines = len(gdf_synchronous_machine_list)
     for gdf_synchronous_machine in gdf_synchronous_machine_list:
-        if pandapower_network.create_generator_from_gdf_sychronous_maschine(
+        if pandapower_network.create_generator_from_gdf_synchronous_maschine(
             core_model=core_model,
             synchronous_maschine=gdf_synchronous_machine
         ):

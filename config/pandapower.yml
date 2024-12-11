@@ -1,0 +1,10 @@
+TLine:
+  zero_sequence_factor: 3
+  temperature_degree_celsius: 80
+  alpha: 0.004
+TwoWindingTransformer:
+  si0_hv_partial: 0.9
+  mag0_rx: 0
+  mag0_percent: 100
+  tap_set_vm_pu: 1.0
+  vk_percent: 16

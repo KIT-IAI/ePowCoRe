@@ -18,7 +18,7 @@ def main() -> None:
         data = json.loads(data_str)
         core_model = CoreModel.import_dict(data)
 
-        converter = PandapowerConverter(debug=True)
+        converter = PandapowerConverter(debug=False)
         pandapower_model = converter.from_gdf(
             core_model, f"{model_name}", log_path=str(PATH.parent / "pandapower.log")
         )

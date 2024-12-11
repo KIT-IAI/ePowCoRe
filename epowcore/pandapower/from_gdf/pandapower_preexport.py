@@ -3,11 +3,8 @@ from copy import deepcopy
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.manipulation.flatten import flatten
 from epowcore.gdf.bus import Bus
-from epowcore.gdf.port import Port
 from epowcore.gdf.load import Load
-from epowcore.generic.component_graph import ComponentGraph
 from epowcore.generic.logger import Logger
-from epowcore.gdf.subsystem import Subsystem
 
 WHITE_LIST = (
     Bus,
