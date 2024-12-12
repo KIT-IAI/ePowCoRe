@@ -2,6 +2,7 @@ import json
 import os
 import pathlib
 import time
+
 from epowcore.gdf.core_model import CoreModel
 from epowcore.pandapower.pandapower_converter import PandapowerConverter
 
@@ -26,11 +27,11 @@ def main() -> None:
         # Create directory if it does not exist
         if not os.path.exists("output/pandapower"):
             os.makedirs("output/pandapower")
-        converter.write_to_pandapower_json(model=pandapower_model, filepath=f"output/pandapower/{model_name}.json")
+        converter.write_to_pandapower_json(
+            model=pandapower_model, filepath=f"output/pandapower/{model_name}.json"
+        )
 
         print(f"conversion took {time.perf_counter() - start:.1f}s")
-
-
 
 
 if __name__ == "__main__":
