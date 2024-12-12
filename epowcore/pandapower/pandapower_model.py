@@ -104,7 +104,7 @@ class PandapowerModel:
         )[0]
         # If either bus wasnt found the function failed
         if high_voltage_bus is None or low_voltage_bus is None:
-            Logger.log_to_selected("Failled to convert transformer")
+            Logger.log_to_selected("Failled to convert two winding transformer")
             return False
         # Set vk_percent to a default value if r1pu is zero
         if transformer.r1pu != 0:
@@ -162,6 +162,79 @@ class PandapowerModel:
         )
         return True
 
+    def create_three_winding_transformer_from_gdf(
+        self, core_model: CoreModel, transformer3w: ThreeWindingTransformer
+    ):
+        """Create thee winding pandapower transformer based on a given
+        three winding transformer from gdf and add it into the network.
+        """
+        # Get the bus connected to the transformer on the high voltage side
+        high_voltage_bus = core_model.get_neighbors(
+            component=transformer3w, follow_links=True, connector="HV"
+        )[0]
+        # Get the bus connected to the transformer on the middle voltage side
+        middle_voltage_bus = core_model.get_neighbors(
+            component=transformer3w, follow_links=True, connector="MV"
+        )
+        # Get the bus connected to the transformer on the low voltage side
+        low_voltage_bus = core_model.get_neighbors(
+            component=transformer3w, follow_links=True, connector="LV"
+        )[0]
+        # If either bus wasnt found the function failed
+        if high_voltage_bus is None or low_voltage_bus is None or middle_voltage_bus is None:
+            Logger.log_to_selected("Failled to convert three winding transformer")
+            return False
+        # Create transformer in pandapower network
+        pandapower.create.create_transformer3w_from_parameters(
+            net=self.network,
+            name=transformer3w.name,
+            index=transformer3w.uid,
+            hv_bus=high_voltage_bus.uid,
+            mv_bus=middle_voltage_bus.uid,
+            lv_bus=low_voltage_bus.uid,
+            vn_hv_kv=transformer3w.voltage_hv,
+            vn_mv_kv=transformer3w.voltage_mv,
+            vn_lv_kv=transformer3w.voltage_lv,
+            sn_hv_mva=transformer3w.rating_hv,
+            sn_mv_mva=transformer3w.rating_mv,
+            sn_lv_mva=transformer3w.rating_lv,
+            vk_hv_percent=10.4,
+            vk_mv_percent=10.4,
+            vk_lv_percent=10.4,
+            vkr_hv_percent=0.28,
+            vkr_mv_percent=0.32,
+            vkr_lv_percent=0.35,
+            pfe_kw=transformer3w.pfe_kw,
+            i0_percent=0.89,
+            shift_mv_degree=transformer3w.phase_shift_30_mv * 30,
+            shift_lv_degree=transformer3w.phase_shift_30_lv * 30,
+            tap_side="hv",
+            tap_step_percent=transformer3w.TapDetails.tap_changer_voltage * 100,
+            tap_step_degree=nan,
+            tap_pos=transformer3w.TapDetails.tap_initial,
+            tap_neutral=transformer3w.TapDetails.tap_neutral,
+            tap_max=transformer3w.TapDetails.tap_max,
+            tap_min=transformer3w.TapDetails.tap_min,
+            in_service=True,
+            max_loading_percent=nan,
+            tap_at_star_point=False,
+            vk0_hv_percent=nan,
+            vk0_mv_percent=nan,
+            vk0_lv_percent=nan,
+            vkr0_hv_percent=nan,
+            vkr0_mv_percent=nan,
+            vkr0_lv_percent=nan,
+            vector_group=None,
+            tap_dependent_impedance=nan,
+            vk_hv_percent_characteristic=None,
+            vkr_hv_percent_characteristic=None,
+            vk_mv_percent_characteristic=None,
+            vkr_mv_percent_characteristic=None,
+            vk_lv_percent_characteristic=None,
+            vkr_lv_percent_characteristic=None,
+        )
+        return True
+
     def create_generator_from_gdf_synchronous_maschine(
         self, core_model: CoreModel, synchronous_maschine: SynchronousMachine
     ):
@@ -176,6 +249,7 @@ class PandapowerModel:
         if synchronous_maschine_bus is None:
             Logger.log_to_selected("Failed to convert synchonous_maschine")
             return False
+
         # Check if the generator bus was slack
         slack = False
         if synchronous_maschine_bus.lf_bus_type == LFBusType("SLACK"):
@@ -286,7 +360,11 @@ class PandapowerModel:
             return False
         # Create shunt in pandapower network
         pandapower.create_shunt(
-            net=self.network, index=shunt.uid, bus=shunt_bus, p_mw=shunt.p, q_mvar=shunt.q
+            net=self.network,
+            index=shunt.uid,
+            bus=shunt_bus,
+            p_mw=shunt.p,
+            q_mvar=shunt.q,
         )
         return True
 
