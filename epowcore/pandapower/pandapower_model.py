@@ -20,7 +20,6 @@ from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTran
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.gdf.utils import get_connected_bus
 from epowcore.gdf.ward import Ward
-from epowcore.generic.constants import Platform
 from epowcore.generic.logger import Logger
 
 
@@ -32,7 +31,6 @@ class PandapowerModel:
     """
 
     network: pandapower.pandapowerNet
-    platform: Platform
 
     def create_bus_from_gdf(self, bus: Bus):
         """Create a pandapower bus in the PandapowerModel Network
@@ -110,7 +108,7 @@ class PandapowerModel:
         if transformer.r1pu != 0:
             vk_percent = transformer.r1pu * (transformer.voltage_hv / transformer.voltage_lv) * 100
         else:
-            vk_percent = transformer.get_default(attr="vk_percent", platform=self.platform)
+            vk_percent = transformer.get_default(attr="vk_percent")
         # Create transformer in pandapower network
         pandapower.create_transformer_from_parameters(
             net=self.network,
@@ -134,7 +132,7 @@ class PandapowerModel:
             tap_step_degree=nan,
             tap_pos=transformer.tap_initial,
             tap_phase_shifter=False,
-            tap_set_vm_pu=transformer.get_default(attr="tap_set_vm_pu", platform=self.platform),
+            tap_set_vm_pu=transformer.get_default(attr="tap_set_vm_pu"),
             in_service=True,
             vector_group=None,
             max_loading_percent=nan,
@@ -142,9 +140,9 @@ class PandapowerModel:
             df=1.0,
             vk0_percent=nan,
             vkr0_percent=nan,
-            mag0_percent=transformer.get_default(attr="mag0_percent", platform=self.platform),
-            mag0_rx=transformer.get_default(attr="mag0_rx", platform=self.platform),
-            si0_hv_partial=transformer.get_default(attr="si0_hv_partial", platform=self.platform),
+            mag0_percent=transformer.get_default(attr="mag0_percent"),
+            mag0_rx=transformer.get_default(attr="mag0_rx"),
+            si0_hv_partial=transformer.get_default(attr="si0_hv_partial"),
             pt_percent=nan,
             oltc=nan,
             tap_dependent_impedance=nan,
@@ -316,12 +314,10 @@ class PandapowerModel:
             parallel=tline.parallel_lines,
             g_us_per_km=0.0,
             max_loading_percent=nan,
-            alpha=tline.get_default(attr="alpha", platform=self.platform),
-            temperature_degree_celsius=tline.get_default(
-                attr="temperature_degree_celsius", platform=self.platform
-            ),
-            r0_ohm_per_km=tline.r0_fb(platform=self.platform),
-            x0_ohm_per_km=tline.x0_fb(platform=self.platform),
+            alpha=tline.get_default(attr="alpha"),
+            temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius" ),
+            r0_ohm_per_km=tline.r0_fb(),
+            x0_ohm_per_km=tline.x0_fb(),
             c0_nf_per_km=nan,
             g0_us_per_km=0,
             endtemp_degree=nan,

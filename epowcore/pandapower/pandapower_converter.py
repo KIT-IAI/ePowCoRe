@@ -1,5 +1,7 @@
 import pandapower
 
+from epowcore.generic.configuration import Configuration
+from epowcore.generic.constants import Platform
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.converter_base import ConverterBase
 from epowcore.pandapower.from_gdf.pandapower_export import export_pandapower
@@ -10,6 +12,7 @@ class PandapowerConverter(ConverterBase[PandapowerModel]):
     def from_gdf(
         self, core_model: CoreModel, name: str, log_path: str | None = None
     ) -> PandapowerModel:
+        Configuration().default_platform = Platform.PANDAPOWER
         return super().from_gdf(core_model, name, log_path)
 
     def _export(self, core_model: CoreModel, name: str) -> PandapowerModel:

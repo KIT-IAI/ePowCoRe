@@ -6,7 +6,6 @@ from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 from epowcore.gdf.load import Load
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
-from epowcore.generic.constants import Platform
 from epowcore.generic.logger import Logger
 from epowcore.pandapower.pandapower_model import PandapowerModel
 
@@ -21,8 +20,7 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     pandapower_network = PandapowerModel(
         network=pandapower.create_empty_network(
             f_hz=core_model.base_frequency, sn_mva=core_model.base_mva_fb(), add_stdtypes=False
-        ),
-        platform=Platform("Pandapower"),
+        )
     )
 
     Logger.log_to_selected("Creating buses in the Pandapower network")
