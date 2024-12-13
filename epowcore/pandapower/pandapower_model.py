@@ -232,7 +232,7 @@ class PandapowerModel:
             vkr_lv_percent_characteristic=None,
         )
         return True
-    
+
     def create_generator_from_gdf_synchronous_machine(
         self, core_model: CoreModel, synchronous_machine: SynchronousMachine
     ):
@@ -315,7 +315,7 @@ class PandapowerModel:
             g_us_per_km=0.0,
             max_loading_percent=nan,
             alpha=tline.get_default(attr="alpha"),
-            temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius" ),
+            temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius"),
             r0_ohm_per_km=tline.r0_fb(),
             x0_ohm_per_km=tline.x0_fb(),
             c0_nf_per_km=nan,

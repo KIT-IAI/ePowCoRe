@@ -59,8 +59,8 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     gdf_synchronous_machine_list = core_model.type_list(SynchronousMachine)
     number_of_synchronous_machines = len(gdf_synchronous_machine_list)
     for gdf_synchronous_machine in gdf_synchronous_machine_list:
-        if pandapower_network.create_generator_from_gdf_synchronous_maschine(
-            core_model=core_model, synchronous_maschine=gdf_synchronous_machine
+        if pandapower_network.create_generator_from_gdf_synchronous_machine(
+            core_model=core_model, synchronous_machine=gdf_synchronous_machine
         ):
             counter += 1
     Logger.log_to_selected(f"created {counter} out of {number_of_synchronous_machines}")
