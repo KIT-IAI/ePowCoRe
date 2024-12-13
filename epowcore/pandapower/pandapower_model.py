@@ -33,7 +33,7 @@ class PandapowerModel:
     network: pandapower.pandapowerNet
 
     def create_bus_from_gdf(self, bus: Bus):
-        """Create a pandapower bus in the PandapowerModel Network
+        """Create a pandapower bus in the pandapower network
         from a given gdf bus.
         """
         pandapower_type = "b"
@@ -55,7 +55,7 @@ class PandapowerModel:
         )
 
     def create_load_from_gdf(self, core_model: CoreModel, load: Load) -> bool:
-        """Create a pandapower load in the PandapowerModel Network from a
+        """Create a pandapower load in the pandapower network from a
         load in the CoreModel.
         """
         # Getting load bus
@@ -89,7 +89,7 @@ class PandapowerModel:
     def create_two_winding_transformer_from_gdf(
         self, core_model: CoreModel, transformer: TwoWindingTransformer
     ):
-        """Create two winding pandapower transformer based on a given
+        """Create a two winding pandapower transformer based on a given
         two winding transformer from gdf and add it into the network.
         """
         # Get the bus connected to the transformer on the high voltage side
@@ -163,7 +163,7 @@ class PandapowerModel:
     def create_three_winding_transformer_from_gdf(
         self, core_model: CoreModel, transformer3w: ThreeWindingTransformer
     ):
-        """Create thee winding pandapower transformer based on a given
+        """Create a thee winding pandapower transformer based on a given
         three winding transformer from gdf and add it into the network.
         """
         # Get the bus connected to the transformer on the high voltage side
@@ -232,50 +232,50 @@ class PandapowerModel:
             vkr_lv_percent_characteristic=None,
         )
         return True
-
-    def create_generator_from_gdf_synchronous_maschine(
-        self, core_model: CoreModel, synchronous_maschine: SynchronousMachine
+    
+    def create_generator_from_gdf_synchronous_machine(
+        self, core_model: CoreModel, synchronous_machine: SynchronousMachine
     ):
         """Create a generator in the pandapower network equivalent to
-        the given synchronous_maschine in gdf format.
+        the given synchronous_machine in gdf format.
         """
         # Getting the bus the generator is connected to
-        synchronous_maschine_bus = get_connected_bus(
-            core_model.graph, synchronous_maschine, max_depth=1
+        synchronous_machine_bus = get_connected_bus(
+            core_model.graph, synchronous_machine, max_depth=1
         )
         # If the bus wasnt found the function fails
-        if synchronous_maschine_bus is None:
-            Logger.log_to_selected("Failed to convert synchonous_maschine")
+        if synchronous_machine_bus is None:
+            Logger.log_to_selected("Failed to convert synchonous_machine")
             return False
 
         # Check if the generator bus was slack
         slack = False
-        if synchronous_maschine_bus.lf_bus_type == LFBusType("SLACK"):
+        if synchronous_machine_bus.lf_bus_type == LFBusType("SLACK"):
             slack = True
             Logger.log_to_selected(
-                "Gen:" + synchronous_maschine.name + " is set to be a slack genenerator"
+                "Gen:" + synchronous_machine.name + " is set to be a slack genenerator"
             )
         # Create generator in pandapower network
         pandapower.create_gen(
             net=self.network,
-            name=synchronous_maschine.name,
-            index=synchronous_maschine.uid,
-            bus=synchronous_maschine_bus.uid,
-            p_mw=synchronous_maschine.active_power,
-            vm_pu=synchronous_maschine.voltage_set_point,
-            sn_mva=synchronous_maschine.rated_apparent_power,
-            max_q_mvar=synchronous_maschine.q_max,
-            min_q_mvar=synchronous_maschine.q_min,
-            min_p_mw=synchronous_maschine.p_min,
-            max_p_mw=synchronous_maschine.p_max,
+            name=synchronous_machine.name,
+            index=synchronous_machine.uid,
+            bus=synchronous_machine_bus.uid,
+            p_mw=synchronous_machine.active_power,
+            vm_pu=synchronous_machine.voltage_set_point,
+            sn_mva=synchronous_machine.rated_apparent_power,
+            max_q_mvar=synchronous_machine.q_max,
+            min_q_mvar=synchronous_machine.q_min,
+            min_p_mw=synchronous_machine.p_min,
+            max_p_mw=synchronous_machine.p_max,
             min_vm_pu=nan,
             max_vm_pu=nan,
             scaling=1.0,
             type="sync",
             slack=slack,
             controllable=False,
-            vn_kv=synchronous_maschine.rated_voltage,
-            xdss_pu=synchronous_maschine.subtransient_reactance_x,
+            vn_kv=synchronous_machine.rated_voltage,
+            xdss_pu=synchronous_machine.subtransient_reactance_x,
             rdss_ohm=nan,
             cos_phi=nan,
             pg_percent=nan,
@@ -286,7 +286,7 @@ class PandapowerModel:
         return True
 
     def create_line_from_gdf_tline(self, core_model: CoreModel, tline: TLine):
-        """Create a pandapower line in the network equivalent to a gdf transmission line"""
+        """Create a pandapower line in the network equivalent to a gdf transmission line."""
         # Get the neigbours of the transmission line to know what it connects to
         from_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="A")[0]
         to_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="B")[0]
@@ -325,7 +325,7 @@ class PandapowerModel:
         return True
 
     def create_ward_from_gdf_ward(self, core_model: CoreModel, ward: Ward):
-        """Creates a ward in the pandapower network equivalent to a given
+        """Create a ward in the pandapower network equivalent to a given
         ward from the gdf.
         """
         ward_bus = get_connected_bus(core_model.graph, ward, max_depth=1)
@@ -347,7 +347,7 @@ class PandapowerModel:
         return True
 
     def create_shunt_from_gdf_shunt(self, core_model: CoreModel, shunt: Shunt):
-        """Creates a shunt in the pandapower network equivalent to a given
+        """Create a shunt in the pandapower network equivalent to a given
         shunt from gdf.
         """
         shunt_bus = get_connected_bus(core_model.graph, shunt, max_depth=1)
@@ -365,7 +365,7 @@ class PandapowerModel:
         return True
 
     def _create_pandapower_switch_et(self, component: Component) -> str | bool:
-        """Returns the right value for the et variable of the pandapower switch
+        """Return the right value for the et variable of the pandapower switch
         based on the given gdf component.
         """
         match component:
