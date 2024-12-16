@@ -1,5 +1,7 @@
 # ePowCoRe
 
+[![Test](https://github.com/KIT-IAI/ePowCoRe/actions/workflows/test.yml/badge.svg)](https://github.com/KIT-IAI/ePowCoRe/actions/workflows/test.yml)
+
 *A Generic Representation of Power Grids Enabling Open-Source Model Conversion Modules*
 
 
