@@ -2,37 +2,43 @@ Setup
 =====
 
 Most of the integrations require the relevant software to be installed and licensed on the system.
-As some of the software is only available for Windows, instructions are tested on the current version of Windows 11.
+As some of the software is only available for Windows, instructions are tested on Windows 10 and 11 only.
 The tested versions of the software are listed below.
 
-+----------+--------------------+
-| Software | Version            |
-+==========+====================+
-| Windows  | 11 Pro 23H2        |
-+----------+--------------------+
-| Python   | 3.10.X 64-bit      |
-+----------+--------------------+
-| Matlab   | R2022b             |
-+----------+--------------------+
-| Simscape | 5.5/Electrical 7.9 |
-+----------+--------------------+
-| Simulink | 10.7               |
-+----------+--------------------+
-| RSCAD FX | 1.2                |
-+----------+--------------------+
-| PF       | 2022 SP2           |
-+----------+--------------------+
++--------------+--------------------+
+| Software     | Version            |
++==============+====================+
+| Python       | 3.10               |
++--------------+--------------------+
+| Matlab       | R2022b             |
++--------------+--------------------+
+| Simulink     | 10.7               |
++--------------+--------------------+
+| Simscape     | 5.5/Electrical 7.9 |
++--------------+--------------------+
+| RSCAD FX     | 1.2                |
++--------------+--------------------+
+| PowerFactory | 2022 SP2           |
++--------------+--------------------+
 
 Installation
 ------------
 To install this project, perform the following steps:
 
-1. Clone the project
+1. Clone the project repository
 2. :code:`cd` into the cloned directory
-3. Install Python 3.10.11 64-bit
-4. Create a virtual environment with :code:`<path to python 3.10.11>/python -m venv <path to virtual environment>`
+3. Install Python 3.10
+4. Create a virtual environment with :code:`<path to python 3.10>/python -m venv <path to virtual environment>`
 5. Activate the virtual environment with :code:`<path to virtual environment>\\Scripts\\activate.bat` or :code:`<path to virtual environment>\\Scripts\\activate.ps1`
+
+For Basic Usage
+^^^^^^^^^^^^^^^
+6. :code:`pip install .` or :code:`pip install -e .` to install the project editable.
+
+For Development
+^^^^^^^^^^^^^^^
 6. :code:`pip install .[dev]` or :code:`pip install -e .[dev]` to install the project editable.
+7. :code:`pre-commit install` to install the pre-commit hooks.
 
 VS Code Recommended Extensions
 ------------------------------
@@ -43,18 +49,23 @@ The following extensions are recommended for VS Code:
 3. Extension Pack for Restructured Text (lextudio)
 4. Mypy (Matan Gover)
 5. Pylint (Microsoft)
+6. autoDocstring - Python Docstring Generator (Nils Werner)
 
 Matlab
 ------
 Install the current Matlab version and the Simulink, Simscape and Simscape Electrical add-ons.
 The integration is provided by a pip package, no further configuration should be required.
+However, the package is not included in the default installation as not all users have the required Matlab license.
+
+Use :code:`pip install .[simscape]` to install the pinned version of the matlabengine package.
+If this version does not match your installed version of Matlab, use :code:`pip install matlabengine==<version>` to install the appropriate version.
 
 .. note:: 
-  Matlabengine is the pip package that provides the integration with Matlab.
+  matlabengine is the pip package that provides the integration with Matlab.
   Each version of matlabengine typically supports one specific version of MATLAB and requires one of the versions of Python current at release of the package.
   Please check compatibility at `PyPI <https://pypi.org/project/matlabengine/#history>`_ before upgrading.
 
-  We pinned matlabengine to **9.13.9** to support Matlab R2022b and Python 3.11.4. 
+  matlabengine is pinned to **9.13.9** to support Matlab R2022b and Python 3.11.4. 
 
 RSCAD FX / pyapi_rts
 --------------------

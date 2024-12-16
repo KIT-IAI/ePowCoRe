@@ -36,7 +36,7 @@
 - Start text in the first line of the docstring. E.g.
 
 ```
-    """Inserts a subsystem into the model from the components.
+    """Insert a subsystem into the model from the components.
 
     :param eng: MATLAB engine
     :param subsystem: Subsystem to insert
