@@ -1,18 +1,18 @@
 import copy
-import os
 import itertools
-import pathlib
-from typing import Any
-import unittest
 import json
+import os
+import pathlib
+import unittest
+from typing import Any
 
 import matlab.engine
 import networkx as nx
+from helpers.gdf_component_creator import GdfTestComponentCreator
+
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.simscape.simscape_converter import SimscapeConverter
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
-
 
 PATH = pathlib.Path(__file__).parent.resolve()
 
@@ -73,12 +73,8 @@ class SimscapeTest(unittest.TestCase):
         self.assertTrue(
             "model_name/three_w_g1" in _get_neighbors(eng, f"model_name/{loads[0].name}")
         )
-        self.assertTrue(
-            "model_name/VIM bus1" in _get_neighbors(eng, f"model_name/{buses[0].name}")
-        )
-        self.assertTrue(
-            "model_name/VIM bus2" in _get_neighbors(eng, f"model_name/{buses[1].name}")
-        )
+        self.assertTrue("model_name/VIM bus1" in _get_neighbors(eng, f"model_name/{buses[0].name}"))
+        self.assertTrue("model_name/VIM bus2" in _get_neighbors(eng, f"model_name/{buses[1].name}"))
         self.assertTrue(
             f"model_name/{ieeeg1[1].name}" in _get_neighbors(eng, f"model_name/{subsystem.name}")
         )
@@ -99,9 +95,7 @@ class SimscapeTest(unittest.TestCase):
     # @unittest.skip("tmp")
     def test_ieee39_export(self) -> None:
         """Tests the export of the IEEE39 model."""
-        with open(
-            "./tests/models/gdf/IEEE39_gdf.json", "r", encoding="utf8"
-        ) as json_file:
+        with open("./tests/models/gdf/IEEE39_gdf.json", "r", encoding="utf8") as json_file:
             core_model = CoreModel.import_dict(json.loads(json_file.read()))
             sim_conv = SimscapeConverter()
             sim_conv.from_gdf(core_model, "IEEE39")

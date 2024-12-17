@@ -1,11 +1,12 @@
 import json
 import unittest
 
+from helpers.gdf_component_creator import GdfTestComponentCreator
+
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.generic.singleton import Singleton
 from epowcore.jmdl.jmdl_converter import JmdlConverter
 from epowcore.jmdl.to_gdf.jmdl_import import JmdlModel
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
 
 
 class JmdlConnectionTest(unittest.TestCase):

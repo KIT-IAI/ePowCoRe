@@ -1,12 +1,12 @@
-import json
 import pathlib
 import unittest
+
+from helpers.gdf_component_creator import GdfTestComponentCreator
 
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.generic.manipulation.map_connectors import map_connectors
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
 
 PATH = pathlib.Path(__file__).parent.resolve()
 

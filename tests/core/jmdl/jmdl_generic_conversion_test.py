@@ -1,13 +1,14 @@
 import json
 import unittest
 
+from helpers.gdf_component_creator import GdfTestComponentCreator
+from helpers.jmdl_diff import diff
+
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.generators.generator import Generator
 from epowcore.gdf.transformers.transformer import Transformer
 from epowcore.jmdl.jmdl_converter import JmdlConverter
 from epowcore.jmdl.jmdl_model import JmdlModel
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
-from tests.helpers.jmdl_diff import diff
 
 
 class JmdlGenericConversionTest(unittest.TestCase):

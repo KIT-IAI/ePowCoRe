@@ -1,10 +1,11 @@
 import pathlib
 import unittest
 
+from helpers.gdf_component_creator import GdfTestComponentCreator
+
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.utils import get_connected_bus
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
 
 PATH = pathlib.Path(__file__).parent.resolve()
 

@@ -5,13 +5,14 @@ import os
 import unittest
 from unittest.mock import patch
 
+from helpers.gdf_component_creator import GdfTestComponentCreator
+
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.generic.configuration import Configuration
 from epowcore.generic.manipulation.flatten import flatten
 from epowcore.generic.singleton import Singleton
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
 
 
 class CoreModelTest(unittest.TestCase):

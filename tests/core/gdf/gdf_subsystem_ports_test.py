@@ -1,13 +1,14 @@
 import copy
 import unittest
 
+from helpers.gdf_component_creator import GdfTestComponentCreator
+
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.transformers.transformer import WindingConfig
 from epowcore.generic.manipulation.flatten import flatten
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
 
 
 class SubsystemPortsTest(unittest.TestCase):

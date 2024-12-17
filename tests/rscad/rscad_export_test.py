@@ -1,23 +1,16 @@
 import unittest
-from pyapi_rts.generated.rtds3P3WTRFdef import (
-    rtds3P3WTRFdef as RSCAD3WindingTransformer,
-)
-from pyapi_rts.generated.rtds3P2WTRFdef import (
-    rtds3P2WTRFdef as RSCAD2WindingTransformer,
-)
-from pyapi_rts.generated.lfrtdssharcsldMACV31 import (
-    lfrtdssharcsldMACV31 as RSCADSynchronousMachine,
-)
-from pyapi_rts.generated.rtdssharcsldBUSLABEL import (
-    rtdssharcsldBUSLABEL as RSCADBuslabel,
-)
-from pyapi_rts.generated.HIERARCHY import HIERARCHY as RSCADHierarchy
+
+from helpers.gdf_component_creator import GdfTestComponentCreator
 from pyapi_rts.generated.BUS import BUS as RSCADBus
+from pyapi_rts.generated.HIERARCHY import HIERARCHY as RSCADHierarchy
+from pyapi_rts.generated.lfrtdssharcsldMACV31 import lfrtdssharcsldMACV31 as RSCADSynchronousMachine
+from pyapi_rts.generated.rtds3P2WTRFdef import rtds3P2WTRFdef as RSCAD2WindingTransformer
+from pyapi_rts.generated.rtds3P3WTRFdef import rtds3P3WTRFdef as RSCAD3WindingTransformer
+from pyapi_rts.generated.rtdssharcsldBUSLABEL import rtdssharcsldBUSLABEL as RSCADBuslabel
 
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.generic.singleton import Singleton
 from epowcore.rscad.rscad_converter import RscadConverter
-from tests.helpers.gdf_component_creator import GdfTestComponentCreator
 
 
 class RSCADExportTest(unittest.TestCase):
