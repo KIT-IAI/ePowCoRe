@@ -1,6 +1,6 @@
 # Setup.py
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name="epowcore",
@@ -10,9 +10,7 @@ setup(
     author="KIT-IAI-ESA",
     author_email="",
     license="",
-    packages=[
-        "epowcore",
-    ],
+    packages=find_packages(include=["epowcore", "epowcore.*"]),
     install_requires=[
         "dataclasses",
         "geojson",
