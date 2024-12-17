@@ -7,6 +7,7 @@ from epowcore.gdf.load import Load
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.generic.logger import Logger
+from epowcore.generic.manipulation.flatten import flatten
 from epowcore.pandapower.pandapower_model import PandapowerModel
 
 
@@ -14,6 +15,10 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     """Pandapower export function, taking in the gdf CoreModel and returning
     a PandapowerModel object.
     """
+
+    # Pandapower does not support subsystems, thus it is easier to work with a flattened model
+    Logger.log_to_selected("Flattening the Core Model")
+    flatten(core_model)
 
     # Create PandapowerModel that stores pandapower.Net to create elements inside of
     Logger.log_to_selected("Creating Pandapower network")
