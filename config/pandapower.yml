@@ -2,9 +2,20 @@ TLine:
   zero_sequence_factor: 3
   temperature_degree_celsius: 80
   alpha: 0.004
+  max_i_ka: 0.5
 TwoWindingTransformer:
   si0_hv_partial: 0.9
   mag0_rx: 0
   mag0_percent: 100
   tap_set_vm_pu: 1.0
   vk_percent: 16
+  vkr_percent: 0
+  i0_percent: 0
+ThreeWindingTransformer:
+  vk_percent: 10.4
+  vkr_hv_percent: 0.28
+  vkr_mv_percent: 0.32
+  vkr_lv_percent: 0.35
+  i0_percent: 0.89
+Load:
+  type: "wye"
