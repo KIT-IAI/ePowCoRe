@@ -1,11 +1,12 @@
-from typing import Any
 import copy
-from epowcore.gdf import CoreModel
+from typing import Any
+
 from epowcore.gdf.bus import Bus, BusType
+from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.impedance import Impedance
 from epowcore.gdf.switch import Switch
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.transformer import Transformer
-from epowcore.gdf.impedance import Impedance
 from epowcore.generic.component_graph import ComponentGraph
 from epowcore.generic.logger import Logger
 
@@ -63,9 +64,7 @@ def remove_internal_nodes(core_model: CoreModel) -> CoreModel:
     return core_model
 
 
-def __get_neighbor_not_component(
-    core_model: CoreModel, component: Any, not_comp: Any
-) -> Any:
+def __get_neighbor_not_component(core_model: CoreModel, component: Any, not_comp: Any) -> Any:
     return next(
         filter(
             (lambda n: n != not_comp),

@@ -1,6 +1,6 @@
-from geojson import Point, FeatureCollection, Feature, LineString, utils
+from geojson import Feature, FeatureCollection, LineString, Point, utils
 
-from epowcore.gdf import CoreModel
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 
 

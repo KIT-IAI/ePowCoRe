@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from epowcore.gdf import Bus
+from epowcore.gdf.bus import Bus
 from epowcore.gdf.generators.generator import Generator
 from epowcore.gdf.transformers.transformer import Transformer
 from epowcore.jmdl.jmdl_converter import JmdlConverter

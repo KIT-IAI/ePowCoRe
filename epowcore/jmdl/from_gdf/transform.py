@@ -1,7 +1,7 @@
 import copy
 
-from epowcore.gdf import CoreModel
 from epowcore.gdf.bus import Bus
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.extended_ward import ExtendedWard
 from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.generators.generator import Generator
@@ -20,8 +20,8 @@ from epowcore.gdf.ward import Ward
 from epowcore.generic.component_graph import ComponentGraph
 from epowcore.generic.constants import Platform
 from epowcore.generic.logger import Logger
-from epowcore.generic.manipulation.merge_components import merge_components
 from epowcore.generic.manipulation.insert_buses import insert_buses
+from epowcore.generic.manipulation.merge_components import merge_components
 
 WHITE_LIST = (
     Bus,
@@ -117,7 +117,7 @@ def _deaggregate_ports(core_model: CoreModel, subsystem: Subsystem) -> None:
                 new_port = Port(
                     core_model.get_valid_id(),
                     f"{component.name}_{count}",
-                    connection_component=component.connection_component
+                    connection_component=component.connection_component,
                 )
                 subsystem.graph.add_node(new_port)
                 subsystem.graph.add_edge(new_port, node)
@@ -133,9 +133,7 @@ def _deaggregate_ports(core_model: CoreModel, subsystem: Subsystem) -> None:
 
 
 def _aggregate_loads(bus: Bus, core_model: CoreModel) -> None:
-    loads: list[Load] = [
-        n for n in core_model.graph.neighbors(bus) if isinstance(n, Load)
-    ]
+    loads: list[Load] = [n for n in core_model.graph.neighbors(bus) if isinstance(n, Load)]
     if len(loads) < 2:
         return
     aggregate = Load(
@@ -150,9 +148,7 @@ def _aggregate_loads(bus: Bus, core_model: CoreModel) -> None:
 
 
 def _aggregate_shunts(bus: Bus, core_model: CoreModel) -> None:
-    shunts: list[Shunt] = [
-        n for n in core_model.graph.neighbors(bus) if isinstance(n, Shunt)
-    ]
+    shunts: list[Shunt] = [n for n in core_model.graph.neighbors(bus) if isinstance(n, Shunt)]
     if len(shunts) < 2:
         return
     aggregate = Shunt(
@@ -180,8 +176,6 @@ def _remove_not_supported(graph: ComponentGraph) -> None:
         elif isinstance(c, Subsystem):
             _remove_not_supported(c.graph)
             # If only ports are left in the Subsystem, remove
-            if len(c.graph.nodes) == len(
-                [n for n in c.graph.nodes if isinstance(n, Port)]
-            ):
+            if len(c.graph.nodes) == len([n for n in c.graph.nodes if isinstance(n, Port)]):
                 Logger.log_to_selected(f"Removing empty subsystem: {c.name}")
                 graph.remove_node(c)

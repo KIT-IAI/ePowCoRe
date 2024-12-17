@@ -1,12 +1,12 @@
 from typing import Any
 
-from epowcore.gdf import CoreModel
+import epowcore.jmdl.to_gdf.components as Components
 from epowcore.gdf.component import Component
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.port import Port as GdfPort
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.generic.component_graph import ComponentGraph
-import epowcore.jmdl.to_gdf.components as Components
-from epowcore.jmdl.jmdl_model import Block, DataType, JmdlModel, Data, Port, Root
+from epowcore.jmdl.jmdl_model import Block, Data, DataType, JmdlModel, Port, Root
 
 
 def import_jmdl(

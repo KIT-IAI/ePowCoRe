@@ -1,33 +1,40 @@
 from typing import Counter
 
-from epowcore.gdf import CoreModel, Bus, Load
+from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.exciters.exciter import Exciter
+from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.generators.generator import Generator
 from epowcore.gdf.governors.governor import Governor
-from epowcore.gdf.power_system_stabilizers import PowerSystemStabilizer
-from epowcore.gdf.tline import TLine
-from epowcore.gdf.pv_system import PVSystem
-from epowcore.gdf.transformers import Transformer
-from epowcore.gdf.external_grid import ExternalGrid
+from epowcore.gdf.load import Load
 from epowcore.gdf.port import Port as GdfPort
+from epowcore.gdf.power_system_stabilizers import PowerSystemStabilizer
+from epowcore.gdf.pv_system import PVSystem
 from epowcore.gdf.shunt import Shunt
-from epowcore.gdf.switch import Switch
 from epowcore.gdf.subsystem import Subsystem
+from epowcore.gdf.switch import Switch
+from epowcore.gdf.tline import TLine
+from epowcore.gdf.transformers import Transformer
 from epowcore.gdf.voltage_source import VoltageSource
 from epowcore.generic.tools.debugging import visualize_neighborhood_and_raise_error
 from epowcore.jmdl.from_gdf import block_builder
 from epowcore.jmdl.from_gdf.transform import transform
-from epowcore.jmdl.utils import clean
-from epowcore.jmdl.jmdl_model import JmdlModel, Data, DataType, PortInternals, Tag, Root
 from epowcore.jmdl.jmdl_model import (
     Block,
     BorderLayout,
     CableLayout,
     Connection,
+    Data,
+    DataType,
+    JmdlModel,
     Layout,
     Port,
+    PortInternals,
+    Root,
+    Tag,
 )
+from epowcore.jmdl.utils import clean
 
 ALLOWED_COMPONENT_CONNECTION = [
     TLine,
@@ -68,9 +75,7 @@ def export_jmdl(
     ]
     data = Data("", DataType.GROUP, data_entries, None, None, "data")
 
-    name_collision = len(core_model.graph.nodes) != len(
-        set(x.name for x in core_model.graph.nodes)
-    )
+    name_collision = len(core_model.graph.nodes) != len(set(x.name for x in core_model.graph.nodes))
     blocks = __get_blocks(core_model, base_mva, name_collision)
 
     root = Root(
@@ -199,9 +204,7 @@ def __add_internal_to_ports(blocks: dict[int, Block | Root]) -> None:
                 port.internal = PortInternals()
 
 
-def __get_connections(
-    core_model: CoreModel, blocks: dict[int, Block | Root]
-) -> list[Connection]:
+def __get_connections(core_model: CoreModel, blocks: dict[int, Block | Root]) -> list[Connection]:
     """Extract the connections from the core model to JMDL Connections
 
     :param core_model: Core model

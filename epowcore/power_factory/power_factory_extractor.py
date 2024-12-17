@@ -1,10 +1,12 @@
 from typing import Any
-import networkx as nx
 
+import networkx as nx
 import powerfactory as pf
 
-from epowcore.gdf import CoreModel
+import epowcore.power_factory.components as Components
+import epowcore.power_factory.graph_transformer_pf as graph_transformer
 from epowcore.gdf.component import Component
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.exciters.exciter import Exciter
 from epowcore.gdf.governors.governor import Governor
 from epowcore.gdf.power_system_stabilizers.power_system_stabilizer import PowerSystemStabilizer
@@ -12,9 +14,6 @@ from epowcore.gdf.subsystem import Subsystem
 from epowcore.generic.component_graph import ComponentGraph
 from epowcore.generic.configuration import Configuration
 from epowcore.generic.logger import Logger
-import epowcore.power_factory.components as Components
-
-import epowcore.power_factory.graph_transformer_pf as graph_transformer
 from epowcore.power_factory.utils import get_coords
 
 

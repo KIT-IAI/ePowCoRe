@@ -1,7 +1,7 @@
 import copy
 
-from epowcore.gdf import CoreModel
 from epowcore.gdf.bus import Bus
+from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.extended_ward import ExtendedWard
 from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.generators.generator import Generator
@@ -106,8 +106,6 @@ def _remove_not_supported(graph: ComponentGraph) -> None:
         elif isinstance(c, Subsystem):
             _remove_not_supported(c.graph)
             # If only ports are left in the Subsystem, remove
-            if len(c.graph.nodes) == len(
-                [n for n in c.graph.nodes if isinstance(n, Port)]
-            ):
+            if len(c.graph.nodes) == len([n for n in c.graph.nodes if isinstance(n, Port)]):
                 Logger.log_to_selected(f"Removing empty subsystem: {c.name}")
                 graph.remove_node(c)

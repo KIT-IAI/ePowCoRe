@@ -1,7 +1,8 @@
 import matlab.engine
-from epowcore.gdf import Load
+
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.load import Load
 from epowcore.simscape.block import SimscapeBlock
 from epowcore.simscape.shared import SimscapeBlockType
 

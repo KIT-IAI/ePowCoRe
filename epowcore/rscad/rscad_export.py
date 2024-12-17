@@ -1,25 +1,26 @@
 from dataclasses import dataclass
-from pyapi_rts.api import Draft, Subsystem as RTDSSubsystem
-from pyapi_rts.api.lark.rlc_tline import RLCTLine
-from pyapi_rts.api.component import Component as RTDSComponent
-from epowcore.gdf.bus import Bus
 
+from pyapi_rts.api import Draft
+from pyapi_rts.api import Subsystem as RTDSSubsystem
+from pyapi_rts.api.component import Component as RTDSComponent
+from pyapi_rts.api.lark.rlc_tline import RLCTLine
+
+from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
+from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.exciters.exciter import Exciter
 from epowcore.gdf.generators.generator import Generator
+from epowcore.gdf.governors.governor import Governor
 from epowcore.gdf.load import Load
+from epowcore.gdf.power_system_stabilizers.power_system_stabilizer import PowerSystemStabilizer
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.transformer import Transformer
-from epowcore.gdf import CoreModel
-from epowcore.gdf.exciters.exciter import Exciter
-from epowcore.gdf.governors.governor import Governor
-from epowcore.gdf.power_system_stabilizers.power_system_stabilizer import (
-    PowerSystemStabilizer,
-)
 from epowcore.generic.manipulation.insert_buses import insert_buses
 from epowcore.rscad.components.dummy import Dummy
+
 from .graph_transformer_rscad import GraphTransformerRscad
-from .rscad_component_creator import RscadComponentCreator, TLineElements
 from .rscad_canvas_drawer import RscadCanvasDrawer
+from .rscad_component_creator import RscadComponentCreator, TLineElements
 
 
 @dataclass
@@ -146,9 +147,7 @@ class RscadExporter:
         and draw the graph."""
         rscad_graph_manager = GraphTransformerRscad()
         # Relabel the nodes of the elements of the generic core model with the uuids of the Rscad API components
-        relabeled_graph = rscad_graph_manager.relabel_nodes(
-            self.graph, self.transform_dict
-        )
+        relabeled_graph = rscad_graph_manager.relabel_nodes(self.graph, self.transform_dict)
         drawer = RscadCanvasDrawer(
             relabeled_graph, self.draft, rscad_graph_manager, self.tli_file_container
         )

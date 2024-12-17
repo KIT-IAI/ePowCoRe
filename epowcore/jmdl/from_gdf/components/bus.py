@@ -1,7 +1,7 @@
-from epowcore.gdf import Bus
+from epowcore.gdf.bus import Bus
 from epowcore.jmdl.constants import BUS_CLASS_NAME, GDF_JMDL_BUS_TYPE_DICT
-from epowcore.jmdl.utils import clean
 from epowcore.jmdl.jmdl_model import Block, Data, DataType, Layout, Port
+from epowcore.jmdl.utils import clean
 
 MIN_VOLTAGE_MAGNITUDE = 0.9
 MAX_VOLTAGE_MAGNITUDE = 1.1

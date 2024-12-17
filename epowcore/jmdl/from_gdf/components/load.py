@@ -1,7 +1,7 @@
-from epowcore.gdf import Load
+from epowcore.gdf.load import Load
 from epowcore.jmdl.constants import LOAD_CLASS_NAME
-from epowcore.jmdl.utils import clean
 from epowcore.jmdl.jmdl_model import Block, Data, DataType, Layout, Port
+from epowcore.jmdl.utils import clean
 
 
 def create_load_block(
