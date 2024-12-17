@@ -40,7 +40,9 @@ class GdfConnectorsTest(unittest.TestCase):
         core_model.add_component(bus_b)
         core_model.add_connection(bus_a, bus_b, "test1", "test2")
 
-        mapped_connectors = map_connectors(core_model, core_model.type_list(Bus)[0], {"test1": "relabeled_test1"})
+        mapped_connectors = map_connectors(
+            core_model, core_model.type_list(Bus)[0], {"test1": "relabeled_test1"}
+        )
         self.assertEqual(
             mapped_connectors,
             {"relabeled_test1": [(core_model.type_list(Bus)[1].uid, ["test2"])]},

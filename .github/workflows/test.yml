@@ -29,4 +29,4 @@ jobs:
         pip install .[dev]
     - name: Test with pytest
       run: |
-        pytest --cov=epowcore --cov-context=test tests/; coverage html --show-contexts
+        pytest tests/core

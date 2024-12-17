@@ -1,8 +1,8 @@
 import pathlib
 import unittest
+
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.core_model import CoreModel
-
 from epowcore.gdf.utils import get_connected_bus
 from tests.helpers.gdf_component_creator import GdfTestComponentCreator
 

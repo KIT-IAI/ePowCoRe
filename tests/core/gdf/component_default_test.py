@@ -1,11 +1,11 @@
 import os
 import unittest
+
 from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.switch import Switch
 from epowcore.generic.configuration import Configuration
 from epowcore.generic.constants import Platform
-
 from epowcore.generic.logger import Logger
 from epowcore.jmdl.jmdl_converter import JmdlConverter
 

@@ -1,7 +1,7 @@
 import os
 import unittest
-from epowcore.gdf.bus import Bus, LFBusType
 
+from epowcore.gdf.bus import Bus, LFBusType
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 from epowcore.generic.manipulation.group_subsystem_rules import (
@@ -9,7 +9,6 @@ from epowcore.generic.manipulation.group_subsystem_rules import (
 )
 from epowcore.generic.singleton import Singleton
 from tests.helpers.gdf_component_creator import GdfTestComponentCreator
-
 
 LOG_FILE_PATH = "test.log"
 

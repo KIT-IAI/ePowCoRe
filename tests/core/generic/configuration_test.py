@@ -8,9 +8,7 @@ class ConfigurationTest(unittest.TestCase):
 
     def test_config(self) -> None:
         """Test the configuration class."""
-        self.assertTrue(
-            Configuration().load_config("tests/test_config.yml", priority=10)
-        )
+        self.assertTrue(Configuration().load_config("tests/test_config.yml", priority=10))
         self.assertEqual(Configuration().get("test.test"), "Hello World!")
         self.assertEqual(Configuration().get("test.list"), ["Hello", "World!"])
         self.assertEqual(Configuration().get("test.list.0"), "Hello")

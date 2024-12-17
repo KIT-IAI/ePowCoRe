@@ -1,7 +1,8 @@
 import copy
-import os
 import json
+import os
 import unittest
+
 from epowcore.gdf.load import Load
 from epowcore.gdf.subsystem import Subsystem
 from epowcore.generic.manipulation.flatten import flatten
