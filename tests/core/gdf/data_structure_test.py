@@ -93,9 +93,7 @@ class CoreModelTest(unittest.TestCase):
 
         dict_export = core_model.export_dict()
         data_str = json.dumps(dict_export, indent=2)
-        if not os.path.isdir("./tests/out/gdf"):
-            os.mkdir("./tests/out/gdf")
-        with open("./tests/out/gdf/core_model_gdf.json", "w", encoding="utf-8") as file:
+        with open("./tests/out/core_model_gdf.json", "w", encoding="utf-8") as file:
             file.write(data_str)
         ds_import = CoreModel(base_frequency=50.0).import_dict(dict_export)
         self.assertEqual(len(core_model.graph.nodes), len(ds_import.graph.nodes))
