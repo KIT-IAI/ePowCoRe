@@ -107,13 +107,18 @@ class PandapowerModel:
             return False
         # Calculate parameters
         # uktrr in pandapower powerfactory converter
-        vkr_percent = math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)*100*transformer.r1pu / transformer.x1pu
+        vkr_percent = (
+            math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)
+            * 100
+            * transformer.r1pu
+            / transformer.x1pu
+        )
         # uktr in pandapower powerfactory converter
-        vk_percent = math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)*100
+        vk_percent = math.sqrt(transformer.r1pu**2 + transformer.x1pu**2) * 100
         # pandapower powerfactory converter: uk0tr
         vk0_percent = vk_percent
         # ur0tr in pandapower powerfactory converter
-        vkr0_percent=vk_percent/(transformer.r1pu/transformer.x1pu)
+        vkr0_percent = vk_percent / (transformer.r1pu / transformer.x1pu)
         # Create transformer in pandapower network
         pandapower.create_transformer_from_parameters(
             net=self.network,
@@ -130,17 +135,19 @@ class PandapowerModel:
             vk_percent=vk_percent,
             pfe_kw=transformer.pfe_kw,
             i0_percent=transformer.no_load_current,
-            shift_degree=transformer.phase_shift_30*30,
+            shift_degree=transformer.phase_shift_30 * 30,
             tap_side="hv",
             tap_neutral=transformer.tap_neutral,
             tap_max=transformer.tap_max,
             tap_min=transformer.tap_min,
-            tap_step_percent=transformer.tap_changer_voltage*100,
+            tap_step_percent=transformer.tap_changer_voltage * 100,
             tap_step_degree=nan,
             tap_pos=transformer.tap_initial,
             tap_phase_shifter=False,
             # Assuming neutral position is the voltage the tap tries to hold
-            tap_set_vm_pu=transformer.tap_neutral*transformer.tap_changer_voltage*transformer.voltage_hv,
+            tap_set_vm_pu=transformer.tap_neutral
+            * transformer.tap_changer_voltage
+            * transformer.voltage_hv,
             in_service=True,
             vector_group=None,
             max_loading_percent=nan,
