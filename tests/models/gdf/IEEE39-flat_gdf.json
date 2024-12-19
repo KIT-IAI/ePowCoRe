@@ -1181,133 +1181,153 @@
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {
       "('epowcore.gdf.bus.Bus', 38, 'Bus 39')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 144, 'Control G 01')": {
-        "144": [],
-        "104": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 105, 'AVR 01')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 106, 'PSS 01')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 107, 'GOV 01')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 105, 'AVR 01')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 106, 'PSS 01')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 107, 'GOV 01')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {
       "('epowcore.gdf.bus.Bus', 30, 'Bus 31')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 146, 'Control G 02')": {
-        "146": [],
-        "108": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 109, 'AVR 02')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 110, 'PSS 02')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 111, 'GOV 02')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 109, 'AVR 02')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 110, 'PSS 02')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 111, 'GOV 02')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {
       "('epowcore.gdf.bus.Bus', 31, 'Bus 32')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 148, 'Control G 03')": {
-        "148": [],
-        "112": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 113, 'AVR 03')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 114, 'PSS 03')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 115, 'GOV 03')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 113, 'AVR 03')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 114, 'PSS 03')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 115, 'GOV 03')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {
       "('epowcore.gdf.bus.Bus', 32, 'Bus 33')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 150, 'Control G 04')": {
-        "150": [],
-        "116": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 117, 'AVR 04')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 118, 'PSS 04')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 119, 'GOV 04')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 117, 'AVR 04')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 118, 'PSS 04')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 119, 'GOV 04')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {
       "('epowcore.gdf.bus.Bus', 33, 'Bus 34')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 152, 'Control G 05')": {
-        "152": [],
-        "120": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 121, 'AVR 05')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 122, 'PSS 05')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 123, 'GOV 05')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 121, 'AVR 05')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 122, 'PSS 05')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 123, 'GOV 05')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {
       "('epowcore.gdf.bus.Bus', 34, 'Bus 35')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 154, 'Control G 06')": {
-        "154": [],
-        "124": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 125, 'AVR 06')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 126, 'PSS 06')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 127, 'GOV 06')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 125, 'AVR 06')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 126, 'PSS 06')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 127, 'GOV 06')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {
       "('epowcore.gdf.bus.Bus', 35, 'Bus 36')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 156, 'Control G 07')": {
-        "156": [],
-        "128": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 129, 'AVR 07')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 130, 'PSS 07')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 131, 'GOV 07')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 129, 'AVR 07')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 130, 'PSS 07')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 131, 'GOV 07')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {
       "('epowcore.gdf.bus.Bus', 36, 'Bus 37')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 158, 'Control G 08')": {
-        "158": [],
-        "132": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 133, 'AVR 08')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 134, 'PSS 08')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 135, 'GOV 08')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 133, 'AVR 08')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 134, 'PSS 08')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 135, 'GOV 08')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {
       "('epowcore.gdf.bus.Bus', 37, 'Bus 38')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 160, 'Control G 09')": {
-        "160": [],
-        "136": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 137, 'AVR 09')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 138, 'PSS 09')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 139, 'GOV 09')": {}
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 137, 'AVR 09')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {}
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 138, 'PSS 09')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {}
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 139, 'GOV 09')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {}
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {
       "('epowcore.gdf.bus.Bus', 29, 'Bus 30')": {},
-      "('epowcore.gdf.subsystem.Subsystem', 162, 'Control G 10')": {
-        "162": [],
-        "140": []
-      }
+      "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 141, 'AVR 10')": {},
+      "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 142, 'PSS 10')": {},
+      "('epowcore.gdf.governors.ieee_g1.IEEEG1', 143, 'GOV 10')": {}
     },
-    "('epowcore.gdf.subsystem.Subsystem', 144, 'Control G 01')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 104, 'G 01')": {
-        "144": [],
-        "104": []
-      }
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 141, 'AVR 10')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {}
     },
-    "('epowcore.gdf.subsystem.Subsystem', 146, 'Control G 02')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {
-        "146": [],
-        "108": []
-      }
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 142, 'PSS 10')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {}
     },
-    "('epowcore.gdf.subsystem.Subsystem', 148, 'Control G 03')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {
-        "148": [],
-        "112": []
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 150, 'Control G 04')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {
-        "150": [],
-        "116": []
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 152, 'Control G 05')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {
-        "152": [],
-        "120": []
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 154, 'Control G 06')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {
-        "154": [],
-        "124": []
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 156, 'Control G 07')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {
-        "156": [],
-        "128": []
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 158, 'Control G 08')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {
-        "158": [],
-        "132": []
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 160, 'Control G 09')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {
-        "160": [],
-        "136": []
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 162, 'Control G 10')": {
-      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {
-        "162": [],
-        "140": []
-      }
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 143, 'GOV 10')": {
+      "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {}
     }
   },
   "components": {
@@ -2704,6 +2724,76 @@
       "qc2_min": -3000.0,
       "qc2_max": 7000.0
     },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 105, 'AVR 01')": {
+      "uid": 105,
+      "name": "AVR 01",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 106, 'PSS 01')": {
+      "uid": 106,
+      "name": "PSS 01",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 1.0,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 5.0,
+      "T2": 0.6,
+      "T3": 3.0,
+      "T4": 0.5,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 107, 'GOV 01')": {
+      "uid": 107,
+      "name": "GOV 01",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 0.9,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
+    },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 108, 'G 02')": {
       "uid": 108,
       "name": "G 02",
@@ -2739,6 +2829,76 @@
       "qc1_max": 700.0,
       "qc2_min": -300.0,
       "qc2_max": 700.0
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 109, 'AVR 02')": {
+      "uid": 109,
+      "name": "AVR 02",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 110, 'PSS 02')": {
+      "uid": 110,
+      "name": "PSS 02",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 0.5,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 5.0,
+      "T2": 0.4,
+      "T3": 1.0,
+      "T4": 0.1,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 111, 'GOV 02')": {
+      "uid": 111,
+      "name": "GOV 02",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 0.9,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 112, 'G 03')": {
       "uid": 112,
@@ -2776,6 +2936,76 @@
       "qc2_min": -300.0,
       "qc2_max": 700.0
     },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 113, 'AVR 03')": {
+      "uid": 113,
+      "name": "AVR 03",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 114, 'PSS 03')": {
+      "uid": 114,
+      "name": "PSS 03",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 0.5,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 3.0,
+      "T2": 0.2,
+      "T3": 2.0,
+      "T4": 0.2,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 115, 'GOV 03')": {
+      "uid": 115,
+      "name": "GOV 03",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 0.9,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
+    },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 116, 'G 04')": {
       "uid": 116,
       "name": "G 04",
@@ -2811,6 +3041,76 @@
       "qc1_max": 700.0,
       "qc2_min": -300.0,
       "qc2_max": 700.0
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 117, 'AVR 04')": {
+      "uid": 117,
+      "name": "AVR 04",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 118, 'PSS 04')": {
+      "uid": 118,
+      "name": "PSS 04",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 2.0,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 1.0,
+      "T2": 0.1,
+      "T3": 1.0,
+      "T4": 0.3,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 119, 'GOV 04')": {
+      "uid": 119,
+      "name": "GOV 04",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 0.9,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 120, 'G 05')": {
       "uid": 120,
@@ -2848,6 +3148,76 @@
       "qc2_min": -300.0,
       "qc2_max": 420.0
     },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 121, 'AVR 05')": {
+      "uid": 121,
+      "name": "AVR 05",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 122, 'PSS 05')": {
+      "uid": 122,
+      "name": "PSS 05",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 1.0,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 1.5,
+      "T2": 0.2,
+      "T3": 1.0,
+      "T4": 0.1,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 123, 'GOV 05')": {
+      "uid": 123,
+      "name": "GOV 05",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 1.0,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
+    },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 124, 'G 06')": {
       "uid": 124,
       "name": "G 06",
@@ -2883,6 +3253,76 @@
       "qc1_max": 700.0,
       "qc2_min": -300.0,
       "qc2_max": 700.0
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 125, 'AVR 06')": {
+      "uid": 125,
+      "name": "AVR 06",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 126, 'PSS 06')": {
+      "uid": 126,
+      "name": "PSS 06",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 4.0,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 0.5,
+      "T2": 0.1,
+      "T3": 0.5,
+      "T4": 0.05,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 127, 'GOV 06')": {
+      "uid": 127,
+      "name": "GOV 06",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 0.9,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 128, 'G 07')": {
       "uid": 128,
@@ -2920,6 +3360,76 @@
       "qc2_min": -300.0,
       "qc2_max": 700.0
     },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 129, 'AVR 07')": {
+      "uid": 129,
+      "name": "AVR 07",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 130, 'PSS 07')": {
+      "uid": 130,
+      "name": "PSS 07",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 7.5,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 0.2,
+      "T2": 0.02,
+      "T3": 0.5,
+      "T4": 0.1,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 131, 'GOV 07')": {
+      "uid": 131,
+      "name": "GOV 07",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 0.9,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
+    },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 132, 'G 08')": {
       "uid": 132,
       "name": "G 08",
@@ -2955,6 +3465,76 @@
       "qc1_max": 700.0,
       "qc2_min": -300.0,
       "qc2_max": 700.0
+    },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 133, 'AVR 08')": {
+      "uid": 133,
+      "name": "AVR 08",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 134, 'PSS 08')": {
+      "uid": 134,
+      "name": "PSS 08",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 2.0,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 1.0,
+      "T2": 0.2,
+      "T3": 1.0,
+      "T4": 0.1,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 135, 'GOV 08')": {
+      "uid": 135,
+      "name": "GOV 08",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 1.0,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
     },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 136, 'G 09')": {
       "uid": 136,
@@ -2992,6 +3572,76 @@
       "qc2_min": -300.0,
       "qc2_max": 700.0
     },
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 137, 'AVR 09')": {
+      "uid": 137,
+      "name": "AVR 09",
+      "coords": null,
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
+    },
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 138, 'PSS 09')": {
+      "uid": 138,
+      "name": "PSS 09",
+      "coords": null,
+      "Vsi_in": "W",
+      "Ks": 2.0,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 1.0,
+      "T2": 0.5,
+      "T3": 2.0,
+      "T4": 0.1,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
+    },
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 139, 'GOV 09')": {
+      "uid": 139,
+      "name": "GOV 09",
+      "coords": null,
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 1.0,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
+    },
     "('epowcore.gdf.generators.synchronous_machine.SynchronousMachine', 140, 'G 10')": {
       "uid": 140,
       "name": "G 10",
@@ -3028,995 +3678,75 @@
       "qc2_min": -500.0,
       "qc2_max": 600.0
     },
-    "('epowcore.gdf.subsystem.Subsystem', 144, 'Control G 01')": {
-      "uid": 144,
-      "name": "Control G 01",
+    "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 141, 'AVR 10')": {
+      "uid": 141,
+      "name": "AVR 10",
       "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 107, 'GOV 01')": {
-          "('epowcore.gdf.port.Port', 145, 'Port 104')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 105, 'AVR 01')": {
-          "('epowcore.gdf.port.Port', 145, 'Port 104')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 106, 'PSS 01')": {
-          "('epowcore.gdf.port.Port', 145, 'Port 104')": {}
-        },
-        "('epowcore.gdf.port.Port', 145, 'Port 104')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 107, 'GOV 01')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 105, 'AVR 01')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 106, 'PSS 01')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 107, 'GOV 01')": {
-          "uid": 107,
-          "name": "GOV 01",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 0.9,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 105, 'AVR 01')": {
-          "uid": 105,
-          "name": "AVR 01",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 106, 'PSS 01')": {
-          "uid": 106,
-          "name": "PSS 01",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 1.0,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 5.0,
-          "T2": 0.6,
-          "T3": 3.0,
-          "T4": 0.5,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 145, 'Port 104')": {
-          "uid": 145,
-          "name": "Port 104",
-          "coords": null,
-          "connection_component": 104
-        }
-      }
+      "Tr": null,
+      "Ka": 200.0,
+      "Ta": 0.015,
+      "Tb": 10.0,
+      "Tc": 1.0,
+      "Tb1": 0.0,
+      "Tc1": 0.0,
+      "Kf": 0.0,
+      "Tf": 1.0,
+      "Kc": 0.0,
+      "Klr": 0.0,
+      "Ilr": 0.0,
+      "Vs": 0.0,
+      "Vuel": 0.0,
+      "Vi_min": -0.1,
+      "Va_min": -5.0,
+      "Vr_min": -100.0,
+      "Vi_max": 0.1,
+      "Va_max": 5.0,
+      "Vr_max": 100.0
     },
-    "('epowcore.gdf.subsystem.Subsystem', 146, 'Control G 02')": {
-      "uid": 146,
-      "name": "Control G 02",
+    "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 142, 'PSS 10')": {
+      "uid": 142,
+      "name": "PSS 10",
       "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 111, 'GOV 02')": {
-          "('epowcore.gdf.port.Port', 147, 'Port 108')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 109, 'AVR 02')": {
-          "('epowcore.gdf.port.Port', 147, 'Port 108')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 110, 'PSS 02')": {
-          "('epowcore.gdf.port.Port', 147, 'Port 108')": {}
-        },
-        "('epowcore.gdf.port.Port', 147, 'Port 108')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 111, 'GOV 02')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 109, 'AVR 02')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 110, 'PSS 02')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 111, 'GOV 02')": {
-          "uid": 111,
-          "name": "GOV 02",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 0.9,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 109, 'AVR 02')": {
-          "uid": 109,
-          "name": "AVR 02",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 110, 'PSS 02')": {
-          "uid": 110,
-          "name": "PSS 02",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 0.5,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 5.0,
-          "T2": 0.4,
-          "T3": 1.0,
-          "T4": 0.1,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 147, 'Port 108')": {
-          "uid": 147,
-          "name": "Port 108",
-          "coords": null,
-          "connection_component": 108
-        }
-      }
+      "Vsi_in": "W",
+      "Ks": 1.0,
+      "A1": 0.0,
+      "A2": 0.0,
+      "T1": 1.0,
+      "T2": 0.05,
+      "T3": 3.0,
+      "T4": 0.5,
+      "T5": 10.0,
+      "T6": 0.0,
+      "Vst_min": -0.2,
+      "Vst_max": 0.2
     },
-    "('epowcore.gdf.subsystem.Subsystem', 148, 'Control G 03')": {
-      "uid": 148,
-      "name": "Control G 03",
+    "('epowcore.gdf.governors.ieee_g1.IEEEG1', 143, 'GOV 10')": {
+      "uid": 143,
+      "name": "GOV 10",
       "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 115, 'GOV 03')": {
-          "('epowcore.gdf.port.Port', 149, 'Port 112')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 113, 'AVR 03')": {
-          "('epowcore.gdf.port.Port', 149, 'Port 112')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 114, 'PSS 03')": {
-          "('epowcore.gdf.port.Port', 149, 'Port 112')": {}
-        },
-        "('epowcore.gdf.port.Port', 149, 'Port 112')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 115, 'GOV 03')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 113, 'AVR 03')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 114, 'PSS 03')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 115, 'GOV 03')": {
-          "uid": 115,
-          "name": "GOV 03",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 0.9,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 113, 'AVR 03')": {
-          "uid": 113,
-          "name": "AVR 03",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 114, 'PSS 03')": {
-          "uid": 114,
-          "name": "PSS 03",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 0.5,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 3.0,
-          "T2": 0.2,
-          "T3": 2.0,
-          "T4": 0.2,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 149, 'Port 112')": {
-          "uid": 149,
-          "name": "Port 112",
-          "coords": null,
-          "connection_component": 112
-        }
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 150, 'Control G 04')": {
-      "uid": 150,
-      "name": "Control G 04",
-      "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 119, 'GOV 04')": {
-          "('epowcore.gdf.port.Port', 151, 'Port 116')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 117, 'AVR 04')": {
-          "('epowcore.gdf.port.Port', 151, 'Port 116')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 118, 'PSS 04')": {
-          "('epowcore.gdf.port.Port', 151, 'Port 116')": {}
-        },
-        "('epowcore.gdf.port.Port', 151, 'Port 116')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 119, 'GOV 04')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 117, 'AVR 04')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 118, 'PSS 04')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 119, 'GOV 04')": {
-          "uid": 119,
-          "name": "GOV 04",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 0.9,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 117, 'AVR 04')": {
-          "uid": 117,
-          "name": "AVR 04",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 118, 'PSS 04')": {
-          "uid": 118,
-          "name": "PSS 04",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 2.0,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 1.0,
-          "T2": 0.1,
-          "T3": 1.0,
-          "T4": 0.3,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 151, 'Port 116')": {
-          "uid": 151,
-          "name": "Port 116",
-          "coords": null,
-          "connection_component": 116
-        }
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 152, 'Control G 05')": {
-      "uid": 152,
-      "name": "Control G 05",
-      "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 123, 'GOV 05')": {
-          "('epowcore.gdf.port.Port', 153, 'Port 120')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 121, 'AVR 05')": {
-          "('epowcore.gdf.port.Port', 153, 'Port 120')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 122, 'PSS 05')": {
-          "('epowcore.gdf.port.Port', 153, 'Port 120')": {}
-        },
-        "('epowcore.gdf.port.Port', 153, 'Port 120')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 123, 'GOV 05')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 121, 'AVR 05')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 122, 'PSS 05')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 123, 'GOV 05')": {
-          "uid": 123,
-          "name": "GOV 05",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 1.0,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 121, 'AVR 05')": {
-          "uid": 121,
-          "name": "AVR 05",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 122, 'PSS 05')": {
-          "uid": 122,
-          "name": "PSS 05",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 1.0,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 1.5,
-          "T2": 0.2,
-          "T3": 1.0,
-          "T4": 0.1,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 153, 'Port 120')": {
-          "uid": 153,
-          "name": "Port 120",
-          "coords": null,
-          "connection_component": 120
-        }
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 154, 'Control G 06')": {
-      "uid": 154,
-      "name": "Control G 06",
-      "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 127, 'GOV 06')": {
-          "('epowcore.gdf.port.Port', 155, 'Port 124')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 125, 'AVR 06')": {
-          "('epowcore.gdf.port.Port', 155, 'Port 124')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 126, 'PSS 06')": {
-          "('epowcore.gdf.port.Port', 155, 'Port 124')": {}
-        },
-        "('epowcore.gdf.port.Port', 155, 'Port 124')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 127, 'GOV 06')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 125, 'AVR 06')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 126, 'PSS 06')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 127, 'GOV 06')": {
-          "uid": 127,
-          "name": "GOV 06",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 0.9,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 125, 'AVR 06')": {
-          "uid": 125,
-          "name": "AVR 06",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 126, 'PSS 06')": {
-          "uid": 126,
-          "name": "PSS 06",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 4.0,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 0.5,
-          "T2": 0.1,
-          "T3": 0.5,
-          "T4": 0.05,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 155, 'Port 124')": {
-          "uid": 155,
-          "name": "Port 124",
-          "coords": null,
-          "connection_component": 124
-        }
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 156, 'Control G 07')": {
-      "uid": 156,
-      "name": "Control G 07",
-      "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 131, 'GOV 07')": {
-          "('epowcore.gdf.port.Port', 157, 'Port 128')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 129, 'AVR 07')": {
-          "('epowcore.gdf.port.Port', 157, 'Port 128')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 130, 'PSS 07')": {
-          "('epowcore.gdf.port.Port', 157, 'Port 128')": {}
-        },
-        "('epowcore.gdf.port.Port', 157, 'Port 128')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 131, 'GOV 07')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 129, 'AVR 07')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 130, 'PSS 07')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 131, 'GOV 07')": {
-          "uid": 131,
-          "name": "GOV 07",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 0.9,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 129, 'AVR 07')": {
-          "uid": 129,
-          "name": "AVR 07",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 130, 'PSS 07')": {
-          "uid": 130,
-          "name": "PSS 07",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 7.5,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 0.2,
-          "T2": 0.02,
-          "T3": 0.5,
-          "T4": 0.1,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 157, 'Port 128')": {
-          "uid": 157,
-          "name": "Port 128",
-          "coords": null,
-          "connection_component": 128
-        }
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 158, 'Control G 08')": {
-      "uid": 158,
-      "name": "Control G 08",
-      "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 135, 'GOV 08')": {
-          "('epowcore.gdf.port.Port', 159, 'Port 132')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 133, 'AVR 08')": {
-          "('epowcore.gdf.port.Port', 159, 'Port 132')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 134, 'PSS 08')": {
-          "('epowcore.gdf.port.Port', 159, 'Port 132')": {}
-        },
-        "('epowcore.gdf.port.Port', 159, 'Port 132')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 135, 'GOV 08')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 133, 'AVR 08')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 134, 'PSS 08')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 135, 'GOV 08')": {
-          "uid": 135,
-          "name": "GOV 08",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 1.0,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 133, 'AVR 08')": {
-          "uid": 133,
-          "name": "AVR 08",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 134, 'PSS 08')": {
-          "uid": 134,
-          "name": "PSS 08",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 2.0,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 1.0,
-          "T2": 0.2,
-          "T3": 1.0,
-          "T4": 0.1,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 159, 'Port 132')": {
-          "uid": 159,
-          "name": "Port 132",
-          "coords": null,
-          "connection_component": 132
-        }
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 160, 'Control G 09')": {
-      "uid": 160,
-      "name": "Control G 09",
-      "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 139, 'GOV 09')": {
-          "('epowcore.gdf.port.Port', 161, 'Port 136')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 137, 'AVR 09')": {
-          "('epowcore.gdf.port.Port', 161, 'Port 136')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 138, 'PSS 09')": {
-          "('epowcore.gdf.port.Port', 161, 'Port 136')": {}
-        },
-        "('epowcore.gdf.port.Port', 161, 'Port 136')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 139, 'GOV 09')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 137, 'AVR 09')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 138, 'PSS 09')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 139, 'GOV 09')": {
-          "uid": 139,
-          "name": "GOV 09",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 1.0,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 137, 'AVR 09')": {
-          "uid": 137,
-          "name": "AVR 09",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 138, 'PSS 09')": {
-          "uid": 138,
-          "name": "PSS 09",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 2.0,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 1.0,
-          "T2": 0.5,
-          "T3": 2.0,
-          "T4": 0.1,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 161, 'Port 136')": {
-          "uid": 161,
-          "name": "Port 136",
-          "coords": null,
-          "connection_component": 136
-        }
-      }
-    },
-    "('epowcore.gdf.subsystem.Subsystem', 162, 'Control G 10')": {
-      "uid": 162,
-      "name": "Control G 10",
-      "coords": null,
-      "graph": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 143, 'GOV 10')": {
-          "('epowcore.gdf.port.Port', 163, 'Port 140')": {}
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 141, 'AVR 10')": {
-          "('epowcore.gdf.port.Port', 163, 'Port 140')": {}
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 142, 'PSS 10')": {
-          "('epowcore.gdf.port.Port', 163, 'Port 140')": {}
-        },
-        "('epowcore.gdf.port.Port', 163, 'Port 140')": {
-          "('epowcore.gdf.governors.ieee_g1.IEEEG1', 143, 'GOV 10')": {},
-          "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 141, 'AVR 10')": {},
-          "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 142, 'PSS 10')": {}
-        }
-      },
-      "components": {
-        "('epowcore.gdf.governors.ieee_g1.IEEEG1', 143, 'GOV 10')": {
-          "uid": 143,
-          "name": "GOV 10",
-          "coords": null,
-          "K": 20.0,
-          "T1": 0.0,
-          "T2": 0.0,
-          "T3": 0.075,
-          "K1": 0.2,
-          "K2": 0.0,
-          "T5": 10.0,
-          "K3": 0.4,
-          "K4": 0.0,
-          "T6": 0.6,
-          "K5": 0.4,
-          "K6": 0.0,
-          "T4": 0.3,
-          "T7": 0.0,
-          "K7": 0.0,
-          "K8": 0.0,
-          "Uc": -1.0,
-          "Pmin": 0.0,
-          "Uo": 0.6786,
-          "Pmax": 0.9,
-          "db": 0.0,
-          "PNhp": 0.0,
-          "PNlp": 0.0
-        },
-        "('epowcore.gdf.exciters.ieee_st1a.IEEEST1A', 141, 'AVR 10')": {
-          "uid": 141,
-          "name": "AVR 10",
-          "coords": null,
-          "Tr": null,
-          "Ka": 200.0,
-          "Ta": 0.015,
-          "Tb": 10.0,
-          "Tc": 1.0,
-          "Tb1": 0.0,
-          "Tc1": 0.0,
-          "Kf": 0.0,
-          "Tf": 1.0,
-          "Kc": 0.0,
-          "Klr": 0.0,
-          "Ilr": 0.0,
-          "Vs": 0.0,
-          "Vuel": 0.0,
-          "Vi_min": -0.1,
-          "Va_min": -5.0,
-          "Vr_min": -100.0,
-          "Vi_max": 0.1,
-          "Va_max": 5.0,
-          "Vr_max": 100.0
-        },
-        "('epowcore.gdf.power_system_stabilizers.ieee_pss1a.IEEEPSS1A', 142, 'PSS 10')": {
-          "uid": 142,
-          "name": "PSS 10",
-          "coords": null,
-          "Vsi_in": "W",
-          "Ks": 1.0,
-          "A1": 0.0,
-          "A2": 0.0,
-          "T1": 1.0,
-          "T2": 0.05,
-          "T3": 3.0,
-          "T4": 0.5,
-          "T5": 10.0,
-          "T6": 0.0,
-          "Vst_min": -0.2,
-          "Vst_max": 0.2
-        },
-        "('epowcore.gdf.port.Port', 163, 'Port 140')": {
-          "uid": 163,
-          "name": "Port 140",
-          "coords": null,
-          "connection_component": 140
-        }
-      }
+      "K": 20.0,
+      "T1": 0.0,
+      "T2": 0.0,
+      "T3": 0.075,
+      "K1": 0.2,
+      "K2": 0.0,
+      "T5": 10.0,
+      "K3": 0.4,
+      "K4": 0.0,
+      "T6": 0.6,
+      "K5": 0.4,
+      "K6": 0.0,
+      "T4": 0.3,
+      "T7": 0.0,
+      "K7": 0.0,
+      "K8": 0.0,
+      "Uc": -1.0,
+      "Pmin": 0.0,
+      "Uo": 0.6786,
+      "Pmax": 0.9,
+      "db": 0.0,
+      "PNhp": 0.0,
+      "PNlp": 0.0
     }
   }
 }
