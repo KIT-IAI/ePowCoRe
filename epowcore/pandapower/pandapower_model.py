@@ -3,6 +3,7 @@ the converted pandapower network.
 """
 
 from dataclasses import dataclass
+import math
 from math import pi
 
 import pandapower
@@ -72,12 +73,12 @@ class PandapowerModel:
             bus=load_bus.uid,
             p_mw=load.active_power,
             q_mvar=load.reactive_power,
-            const_z_percent=0,
-            const_i_percent=0,
+            const_z_percent=load.get_default(attr="const_z_percent"),
+            const_i_percent=load.get_default(attr="const_i_percent"),
             sn_mva=nan,
             scaling=1.0,
             in_service=True,
-            type=load.get_default(atrr=type),
+            type=load.get_default(attr=type),
             max_p_mw=nan,
             min_p_mw=nan,
             max_q_mvar=nan,
@@ -104,11 +105,15 @@ class PandapowerModel:
         if high_voltage_bus is None or low_voltage_bus is None:
             Logger.log_to_selected("Failled to convert two winding transformer")
             return False
-        # Set vk_percent to a default value if r1pu is zero
-        if transformer.r1pu != 0:
-            vk_percent = transformer.r1pu * (transformer.voltage_hv / transformer.voltage_lv) * 100
-        else:
-            vk_percent = transformer.get_default(attr="vk_percent")
+        # Calculate parameters
+        # uktrr in pandapower powerfactory converter
+        vkr_percent = math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)*100*transformer.r1pu / transformer.x1pu
+        # uktr in pandapower powerfactory converter
+        vk_percent = math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)*100
+        # pandapower powerfactory converter: uk0tr
+        vk0_percent = vk_percent
+        # ur0tr in pandapower powerfactory converter
+        vkr0_percent=vk_percent/(transformer.r1pu/transformer.x1pu)
         # Create transformer in pandapower network
         pandapower.create_transformer_from_parameters(
             net=self.network,
@@ -119,29 +124,38 @@ class PandapowerModel:
             sn_mva=transformer.rating,
             vn_hv_kv=transformer.voltage_hv,
             vn_lv_kv=transformer.voltage_lv,
-            vkr_percent=transformer.get_default(attr="vkr_percent"),
+            # Pandapower converter references the uktrr powerfactory variable, which isn't defined
+            # any further in the technical reference and not featured in the gdf transformer
+            vkr_percent=vkr_percent,
             vk_percent=vk_percent,
             pfe_kw=transformer.pfe_kw,
-            i0_percent=transformer.get_default(attr="i0_percent"),
-            shift_degree=transformer.phase_shift_30 * 30,
+            i0_percent=transformer.no_load_current,
+            shift_degree=transformer.phase_shift_30*30,
             tap_side="hv",
             tap_neutral=transformer.tap_neutral,
             tap_max=transformer.tap_max,
             tap_min=transformer.tap_min,
-            tap_step_percent=transformer.tap_changer_voltage * 100,
+            tap_step_percent=transformer.tap_changer_voltage*100,
             tap_step_degree=nan,
             tap_pos=transformer.tap_initial,
             tap_phase_shifter=False,
-            tap_set_vm_pu=transformer.get_default(attr="tap_set_vm_pu"),
+            # Assuming neutral position is the voltage the tap tries to hold
+            tap_set_vm_pu=transformer.tap_neutral*transformer.tap_changer_voltage*transformer.voltage_hv,
             in_service=True,
             vector_group=None,
             max_loading_percent=nan,
             parallel=1,
             df=1.0,
-            vk0_percent=nan,
-            vkr0_percent=nan,
+            vk0_percent=vk0_percent,
+            vkr0_percent=vkr0_percent,
+            # pandapower powerfactory converter: zx0hl_n
+            # z0 needed for calculation
             mag0_percent=transformer.get_default(attr="mag0_percent"),
+            # pandapower powerfactory converter: rtox0_n
+            # z0 needed for calculation
             mag0_rx=transformer.get_default(attr="mag0_rx"),
+            # pandapower powerfactory converter: zx0hl_n
+            # z0 needed for calculation
             si0_hv_partial=transformer.get_default(attr="si0_hv_partial"),
             pt_percent=nan,
             oltc=nan,

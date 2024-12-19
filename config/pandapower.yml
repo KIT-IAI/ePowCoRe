@@ -7,10 +7,6 @@ TwoWindingTransformer:
   si0_hv_partial: 0.9
   mag0_rx: 0
   mag0_percent: 100
-  tap_set_vm_pu: 1.0
-  vk_percent: 16
-  vkr_percent: 0
-  i0_percent: 0
 ThreeWindingTransformer:
   vk_percent: 10.4
   vkr_hv_percent: 0.28
@@ -19,3 +15,5 @@ ThreeWindingTransformer:
   i0_percent: 0.89
 Load:
   type: "wye"
+  const_z_percent: 0  # pandapower convert says 100 but loadflows dont converge then
+  const_i_percent: 0
