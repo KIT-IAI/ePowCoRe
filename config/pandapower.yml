@@ -12,7 +12,6 @@ ThreeWindingTransformer:
   vkr_hv_percent: 0.28
   vkr_mv_percent: 0.32
   vkr_lv_percent: 0.35
-  i0_percent: 0.89
 Load:
   type: "wye"
   const_z_percent: 0  # pandapower convert says 100 but loadflows dont converge then

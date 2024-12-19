@@ -224,7 +224,7 @@ class PandapowerModel:
             vkr_mv_percent=transformer3w.get_default(attr="vkr_hv_percent"),
             vkr_lv_percent=transformer3w.get_default(attr="vkr_hv_percent"),
             pfe_kw=transformer3w.pfe_kw,
-            i0_percent=transformer3w.get_default(attr="i0_percent"),
+            i0_percent=transformer3w.no_load_current,
             shift_mv_degree=transformer3w.phase_shift_30_mv * 30,
             shift_lv_degree=transformer3w.phase_shift_30_lv * 30,
             tap_side="hv",
