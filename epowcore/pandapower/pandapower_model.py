@@ -282,8 +282,13 @@ class PandapowerModel:
             name=synchronous_machine.name,
             index=synchronous_machine.uid,
             bus=synchronous_machine_bus.uid,
-            p_mw=synchronous_machine.active_power,
+            # active_power or rated_active_power
+            # -> makes no difference for IEEE39
+            # leaving active_power because its by definition more fitting
+            # (even though rated_active_power is used in pandapower converter)
+            p_mw=synchronous_machine.rated_active_power,
             vm_pu=synchronous_machine.voltage_set_point,
+            # or rated active power
             sn_mva=synchronous_machine.rated_apparent_power,
             max_q_mvar=synchronous_machine.q_max,
             min_q_mvar=synchronous_machine.q_min,
@@ -316,6 +321,9 @@ class PandapowerModel:
             print("Conversion of " + tline.name + " failed")
             return False
         network_frequency = core_model.base_frequency
+        # Calculate rated current
+        voltage = from_bus.nominal_voltage
+        rated_current = tline.rating/voltage
         # Create line in pandapower network
         pandapower.create_line_from_parameters(
             net=self.network,
@@ -328,7 +336,7 @@ class PandapowerModel:
             r_ohm_per_km=tline.r1,
             x_ohm_per_km=tline.x1,
             c_nf_per_km=(tline.b1 * 1e3) / (2 * pi * network_frequency),
-            max_i_ka=tline.get_default(attr="max_i_ka"),
+            max_i_ka=rated_current,
             type=None,
             in_service=True,
             df=1.0,

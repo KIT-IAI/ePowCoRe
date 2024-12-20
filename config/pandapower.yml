@@ -2,7 +2,6 @@ TLine:
   zero_sequence_factor: 3
   temperature_degree_celsius: 80
   alpha: 0.004
-  max_i_ka: 0.5
 TwoWindingTransformer:
   si0_hv_partial: 0.9
   mag0_rx: 0
