@@ -271,7 +271,7 @@ class PandapowerModel:
 
         # Check if the generator bus was slack
         slack = False
-        if synchronous_machine_bus.lf_bus_type == LFBusType("SLACK"):
+        if synchronous_machine_bus.lf_bus_type == LFBusType.SL:
             slack = True
             Logger.log_to_selected(
                 "Gen:" + synchronous_machine.name + " is set to be a slack genenerator"
@@ -323,7 +323,7 @@ class PandapowerModel:
         network_frequency = core_model.base_frequency
         # Calculate rated current
         voltage = from_bus.nominal_voltage
-        rated_current = tline.rating/voltage
+        rated_current = tline.rating / voltage
         # Create line in pandapower network
         pandapower.create_line_from_parameters(
             net=self.network,
