@@ -4,10 +4,9 @@ the converted pandapower network.
 
 from dataclasses import dataclass
 import math
-from math import pi
+import numpy as np
 
 import pandapower
-from numpy import nan
 
 from epowcore.gdf.bus import Bus, BusType, LFBusType
 from epowcore.gdf.component import Component
@@ -51,8 +50,8 @@ class PandapowerModel:
             type=pandapower_type,
             zone=None,
             in_service=True,
-            max_vm_pu=nan,
-            min_vm_pu=nan,
+            max_vm_pu=np.nan,
+            min_vm_pu=np.nan,
         )
 
     def create_load_from_gdf(self, core_model: CoreModel, load: Load) -> bool:
@@ -75,15 +74,15 @@ class PandapowerModel:
             q_mvar=load.reactive_power,
             const_z_percent=load.get_default(attr="const_z_percent"),
             const_i_percent=load.get_default(attr="const_i_percent"),
-            sn_mva=nan,
+            sn_mva=np.nan,
             scaling=1.0,
             in_service=True,
             type=load.get_default(attr=type),
-            max_p_mw=nan,
-            min_p_mw=nan,
-            max_q_mvar=nan,
-            min_q_mvar=nan,
-            controllable=nan,
+            max_p_mw=np.nan,
+            min_p_mw=np.nan,
+            max_q_mvar=np.nan,
+            min_q_mvar=np.nan,
+            controllable=np.nan,
         )
         return True
 
@@ -141,7 +140,7 @@ class PandapowerModel:
             tap_max=transformer.tap_max,
             tap_min=transformer.tap_min,
             tap_step_percent=transformer.tap_changer_voltage * 100,
-            tap_step_degree=nan,
+            tap_step_degree=np.nan,
             tap_pos=transformer.tap_initial,
             tap_phase_shifter=False,
             # Assuming neutral position is the voltage the tap tries to hold
@@ -150,7 +149,7 @@ class PandapowerModel:
             * transformer.voltage_hv,
             in_service=True,
             vector_group=None,
-            max_loading_percent=nan,
+            max_loading_percent=np.nan,
             parallel=1,
             df=1.0,
             vk0_percent=vk0_percent,
@@ -164,20 +163,20 @@ class PandapowerModel:
             # pandapower powerfactory converter: zx0hl_n
             # z0 needed for calculation
             si0_hv_partial=transformer.get_default(attr="si0_hv_partial"),
-            pt_percent=nan,
-            oltc=nan,
-            tap_dependent_impedance=nan,
+            pt_percent=np.nan,
+            oltc=np.nan,
+            tap_dependent_impedance=np.nan,
             vk_percent_characteristic=None,
             vkr_percent_characteristic=None,
-            xn_ohm=nan,
+            xn_ohm=np.nan,
             tap2_side=None,
-            tap2_neutral=nan,
-            tap2_max=nan,
-            tap2_min=nan,
-            tap2_step_percent=nan,
-            tap2_step_degree=nan,
-            tap2_pos=nan,
-            tap2_phase_shifter=nan,
+            tap2_neutral=np.nan,
+            tap2_max=np.nan,
+            tap2_min=np.nan,
+            tap2_step_percent=np.nan,
+            tap2_step_degree=np.nan,
+            tap2_pos=np.nan,
+            tap2_phase_shifter=np.nan,
         )
         return True
 
@@ -229,22 +228,22 @@ class PandapowerModel:
             shift_lv_degree=transformer3w.phase_shift_30_lv * 30,
             tap_side="hv",
             tap_step_percent=transformer3w.TapDetails.tap_changer_voltage * 100,
-            tap_step_degree=nan,
+            tap_step_degree=np.nan,
             tap_pos=transformer3w.TapDetails.tap_initial,
             tap_neutral=transformer3w.TapDetails.tap_neutral,
             tap_max=transformer3w.TapDetails.tap_max,
             tap_min=transformer3w.TapDetails.tap_min,
             in_service=True,
-            max_loading_percent=nan,
+            max_loading_percent=np.nan,
             tap_at_star_point=False,
-            vk0_hv_percent=nan,
-            vk0_mv_percent=nan,
-            vk0_lv_percent=nan,
-            vkr0_hv_percent=nan,
-            vkr0_mv_percent=nan,
-            vkr0_lv_percent=nan,
+            vk0_hv_percent=np.nan,
+            vk0_mv_percent=np.nan,
+            vk0_lv_percent=np.nan,
+            vkr0_hv_percent=np.nan,
+            vkr0_mv_percent=np.nan,
+            vkr0_lv_percent=np.nan,
             vector_group=None,
-            tap_dependent_impedance=nan,
+            tap_dependent_impedance=np.nan,
             vk_hv_percent_characteristic=None,
             vkr_hv_percent_characteristic=None,
             vk_mv_percent_characteristic=None,
@@ -294,18 +293,18 @@ class PandapowerModel:
             min_q_mvar=synchronous_machine.q_min,
             min_p_mw=synchronous_machine.p_min,
             max_p_mw=synchronous_machine.p_max,
-            min_vm_pu=nan,
-            max_vm_pu=nan,
+            min_vm_pu=np.nan,
+            max_vm_pu=np.nan,
             scaling=1.0,
             type="sync",
             slack=slack,
             controllable=False,
             vn_kv=synchronous_machine.rated_voltage,
             xdss_pu=synchronous_machine.subtransient_reactance_x,
-            rdss_ohm=nan,
-            cos_phi=nan,
-            pg_percent=nan,
-            power_station_trafo=nan,
+            rdss_ohm=np.nan,
+            cos_phi=np.nan,
+            pg_percent=np.nan,
+            power_station_trafo=np.nan,
             in_service=True,
             slack_weight=0.0,
         )
@@ -335,21 +334,21 @@ class PandapowerModel:
             length_km=tline.length,
             r_ohm_per_km=tline.r1,
             x_ohm_per_km=tline.x1,
-            c_nf_per_km=(tline.b1 * 1e3) / (2 * pi * network_frequency),
+            c_nf_per_km=(tline.b1 * 1e3) / (2 * math.pi * network_frequency),
             max_i_ka=rated_current,
             type=None,
             in_service=True,
             df=1.0,
             parallel=tline.parallel_lines,
             g_us_per_km=0.0,
-            max_loading_percent=nan,
+            max_loading_percent=np.nan,
             alpha=tline.get_default(attr="alpha"),
             temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius"),
             r0_ohm_per_km=tline.r0_fb(),
             x0_ohm_per_km=tline.x0_fb(),
-            c0_nf_per_km=nan,
+            c0_nf_per_km=np.nan,
             g0_us_per_km=0,
-            endtemp_degree=nan,
+            endtemp_degree=np.nan,
         )
         return True
 
