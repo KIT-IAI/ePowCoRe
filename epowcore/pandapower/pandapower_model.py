@@ -144,9 +144,6 @@ class PandapowerModel:
             tap_pos=transformer.tap_initial,
             tap_phase_shifter=False,
             # Assuming neutral position is the voltage the tap tries to hold
-            tap_set_vm_pu=transformer.tap_neutral
-            * transformer.tap_changer_voltage
-            * transformer.voltage_hv,
             in_service=True,
             vector_group=None,
             max_loading_percent=np.nan,
