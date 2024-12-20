@@ -72,7 +72,7 @@ class PandapowerExportIEEE39Test(unittest.TestCase):
                 row["voltage_magnitude[pu]"],
                 pandapower_row.iloc[0]["vm_pu"],
                 delta=abs(row["voltage_magnitude[pu]"] * self.percent_deviation),
-                msg=f"voltage_magnitude[pu] of {row['name']} is deviating by more then 5 percent.",
+                msg=f"voltage_magnitude[pu] of {row['name']} is deviating by more then {self.percent_deviation} percent.",
             )
 
     def test_line_pf_data(self):
@@ -93,25 +93,25 @@ class PandapowerExportIEEE39Test(unittest.TestCase):
                 row["p_from[MW]"],
                 pandapower_row.iloc[0]["p_from_mw"],
                 delta=abs(row["p_from[MW]"] * self.percent_deviation),
-                msg=f"p_from[MW] of {row['name']} is deviating by more then 5 percent.",
+                msg=f"p_from[MW] of {row['name']} is deviating by more then {self.percent_deviation} percent.",
             )
             self.assertAlmostEqual(
                 row["p_to[MW]"],
                 pandapower_row.iloc[0]["p_to_mw"],
                 delta=abs(row["p_to[MW]"] * self.percent_deviation),
-                msg=f"p_to[MW] of {row['name']} is deviating by more then 5 percent.",
+                msg=f"p_to[MW] of {row['name']} is deviating by more then {self.percent_deviation} percent.",
             )
             self.assertAlmostEqual(
                 row["q_from[MVar]"],
                 pandapower_row.iloc[0]["q_from_mvar"],
                 delta=abs(row["q_from[MVar]"] * self.percent_deviation),
-                msg=f"q_from[MVar] of {row['name']} is deviating by more then 5 percent.",
+                msg=f"q_from[MVar] of {row['name']} is deviating by more then {self.percent_deviation} percent.",
             )
             self.assertAlmostEqual(
                 row["q_to[MVar]"],
                 pandapower_row.iloc[0]["q_to_mvar"],
                 delta=abs(row["q_to[MVar]"] * self.percent_deviation),
-                msg=f"q_to[MVar] of {row['name']} is deviating by more then 5 percent.",
+                msg=f"q_to[MVar] of {row['name']} is deviating by more then {self.percent_deviation} percent.",
             )
 
     def test_gen_pf_data(self):
@@ -133,11 +133,11 @@ class PandapowerExportIEEE39Test(unittest.TestCase):
                 row["p_from[MW]"],
                 pandapower_row.iloc[0]["p_mw"],
                 delta=abs(row["p_from[MW]"] * self.percent_deviation),
-                msg=f"p_from[MW] of {row['name']} is deviating by more then 5 percent.",
+                msg=f"p_from[MW] of {row['name']} is deviating by more then {self.percent_deviation} percent.",
             )
             self.assertAlmostEqual(
                 row["q_from[MVar]"],
                 pandapower_row.iloc[0]["q_mvar"],
                 delta=abs(row["q_from[MVar]"] * self.percent_deviation),
-                msg=f"q_from[MVar] of {row['name']} is deviating by more then 5 percent.",
+                msg=f"q_from[MVar] of {row['name']} is deviating by more then {self.percent_deviation} percent.",
             )
