@@ -12,8 +12,13 @@ from epowcore.pandapower.pandapower_model import PandapowerModel
 
 
 def export_pandapower(core_model: CoreModel) -> PandapowerModel:
-    """Pandapower export function, taking in the gdf CoreModel and returning
-    a PandapowerModel object.
+    """Pandapower export function, taking in the gdf CoreModel and 
+    returning a PandapowerModel object.
+
+    :param core_model: GDF core model to be converted to a PandapowerModel.
+    :type core_model: CoreModel
+    :return: PandapowerModel conversion result.
+    :rtype: PandapowerModel
     """
 
     # Pandapower does not support subsystems, thus it is easier to work with a flattened model

@@ -35,6 +35,10 @@ class PandapowerModel:
     def create_bus_from_gdf(self, bus: Bus):
         """Create a pandapower bus in the pandapower network
         from a given gdf bus.
+
+        :param bus: gdf bus to be converted and added
+                    to the pandapower network.
+        :type bus: Bus
         """
         pandapower_type = "b"
         if Bus.bus_type == BusType.JUNCTION:
@@ -56,7 +60,17 @@ class PandapowerModel:
 
     def create_load_from_gdf(self, core_model: CoreModel, load: Load) -> bool:
         """Create a pandapower load in the pandapower network from a
-        load in the CoreModel.
+        load in the CoreModel. Returns True if there is a bus found connected to
+        the load, returns False and doesn't create a load in the pandapower network
+        if there is no connected bus found.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param load: Load in the core model that will be converted and added
+                     to the converted PandapowerModel.
+        :type load: Load
+        :return: Returns False if the conversion fails and True if it suceeds.
+        :rtype: bool
         """
         # Getting load bus
         load_bus = get_connected_bus(core_model.graph, load, max_depth=1)
@@ -88,9 +102,20 @@ class PandapowerModel:
 
     def create_two_winding_transformer_from_gdf(
         self, core_model: CoreModel, transformer: TwoWindingTransformer
-    ):
+    ) -> bool:
         """Create a two winding pandapower transformer based on a given
-        two winding transformer from gdf and add it into the network.
+        two winding transformer from gdf and add it into the network. Returns True
+        if the high and low voltage bus are found, if not returns False and doesn't
+        create a the two winding transformer in the pandapower network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param transformer: Two winding transformer in the core model that
+                            will be converted and added to the converted 
+                            pandapower model.
+        :type transformer: TwoWindingTransformer
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
         """
         # Get the bus connected to the transformer on the high voltage side
         high_voltage_bus = core_model.get_neighbors(
@@ -179,9 +204,21 @@ class PandapowerModel:
 
     def create_three_winding_transformer_from_gdf(
         self, core_model: CoreModel, transformer3w: ThreeWindingTransformer
-    ):
+    ) -> bool:
         """Create a thee winding pandapower transformer based on a given
-        three winding transformer from gdf and add it into the network.
+        three winding transformer from gdf and add it into the network. Returns
+        True if high, middle and low voltage bus are found, if not returns False
+        and doesn't create a three winding transformer in the pandapower network.
+
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param transformer3w: Three winding transformer in the core model that
+                              will be converted and added to the converted
+                              pandapower model.
+        :type transformer3w: ThreeWindingTransformer
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
         """
         # Get the bus connected to the transformer on the high voltage side
         high_voltage_bus = core_model.get_neighbors(
@@ -252,9 +289,20 @@ class PandapowerModel:
 
     def create_generator_from_gdf_synchronous_machine(
         self, core_model: CoreModel, synchronous_machine: SynchronousMachine
-    ):
+    ) -> bool:
         """Create a generator in the pandapower network equivalent to
-        the given synchronous_machine in gdf format.
+        the given synchronous machine in gdf format. Returns True if synchronous machine
+        bus is found, if not returns False and doesn't create a generator in the
+        pandapower network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param synchronous_machine: Synchronous machine in the core mode that will
+                                    be converted and added to the converted
+                                    pandapower model.
+        :type synchronous_machine: SynchronousMachine
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
         """
         # Getting the bus the generator is connected to
         synchronous_machine_bus = get_connected_bus(
@@ -307,8 +355,21 @@ class PandapowerModel:
         )
         return True
 
-    def create_line_from_gdf_tline(self, core_model: CoreModel, tline: TLine):
-        """Create a pandapower line in the network equivalent to a gdf transmission line."""
+    def create_line_from_gdf_tline(self, core_model: CoreModel, tline: TLine) -> bool:
+        """Create a pandapower line in the network equivalent to a gdf
+        transmission line. Returns True if a bus is found at both ends of the
+        transmission line, if not returns False and doesn't create a line in
+        the pandapower network.
+        
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param tline: Transmission line in the gdf that will be converted and
+                      added to the converted pandapower model.
+        :type tline: TLine
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
+        """
         # Get the neigbours of the transmission line to know what it connects to
         from_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="A")[0]
         to_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="B")[0]
@@ -349,10 +410,20 @@ class PandapowerModel:
         )
         return True
 
-    def create_ward_from_gdf_ward(self, core_model: CoreModel, ward: Ward):
+    def create_ward_from_gdf_ward(self, core_model: CoreModel, ward: Ward) -> bool:
         """Create a ward in the pandapower network equivalent to a given
-        ward from the gdf.
+        ward from the gdf. Returns True if ward bus is found, if not returns False
+        and doesn't create a ward in the pandapower network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param ward: Ward in the gdf that will be converted and added to the converted
+                     pandapower network.
+        :type ward: Ward
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
         """
+
         ward_bus = get_connected_bus(core_model.graph, ward, max_depth=1)
         # If there was no ward_bus found the function failed and terminates
         if ward_bus is None:
@@ -371,10 +442,20 @@ class PandapowerModel:
         )
         return True
 
-    def create_shunt_from_gdf_shunt(self, core_model: CoreModel, shunt: Shunt):
+    def create_shunt_from_gdf_shunt(self, core_model: CoreModel, shunt: Shunt) -> bool:
         """Create a shunt in the pandapower network equivalent to a given
-        shunt from gdf.
+        shunt from gdf. Returns True if a shunt bus is found, if not returns False
+        and doesn't create a shunt in the pandapower network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param shunt: Shunt in the gdf that will be converted and added to the 
+                      converted pandapower network.
+        :type shunt: Shunt
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
         """
+
         shunt_bus = get_connected_bus(core_model.graph, shunt, max_depth=1)
         # If there was no shunt_bus found the function failed and terminates
         if shunt_bus is None:
@@ -392,7 +473,16 @@ class PandapowerModel:
     def _create_pandapower_switch_et(self, component: Component) -> str | bool:
         """Return the right value for the et variable of the pandapower switch
         based on the given gdf component.
+        False if the component is not of the type Bus, transmission Line,
+        two winding transformer or three winding transform. If its one of
+        the named components a certain string is returned.
+
+        :param component: Component to get the et variable for.
+        :type component: Component
+        :return: False or a certain string based on the type of the componen.
+        :rtype: str | bool
         """
+
         match component:
             case Bus():
                 return "b"
@@ -405,9 +495,19 @@ class PandapowerModel:
             case _:
                 return False
 
-    def create_switch_from_gdf_switch(self, core_model: CoreModel, switch: Switch):
-        """Create a pandapower switch in the network from a given
-        gdf switch.
+    def create_switch_from_gdf_switch(self, core_model: CoreModel, switch: Switch) -> bool:
+        """Create a pandapower switch in the network from a given gdf switch.
+        Returns True if both neighbors are found and if the the switch et variable
+        can be found, if not returns False and doesn't create a switch in the pandapower 
+        network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param switch: Switch in the gdf that will be converted and added to the 
+                       pandapower network.
+        :type switch: Switch
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
         """
         neighbours = core_model.get_neighbors(component=switch, follow_links=True, connector=None)
         # If there are less than two neighbours found the function fails
