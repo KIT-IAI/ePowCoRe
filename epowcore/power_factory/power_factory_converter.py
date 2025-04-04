@@ -11,6 +11,7 @@ from epowcore.generic.converter_base import ConverterBase
 @dataclass
 class PFModel:
     """A basic description for a PowerFactory project."""
+
     project_name: str
     study_case_name: str | None
     frequency: float
@@ -32,22 +33,25 @@ class PowerFactoryConverter(ConverterBase[PFModel]):
         """
         return super().to_gdf(model, log_path)
 
-
     def _export(self, core_model: CoreModel, name: str) -> PFModel:
         """Convert a GDF core model to a Powerfactory model.
 
         :param core_model: GDF core model to be converted to a Powerfactory model.
         :type core_model: CoreModel
-        :param name: 
+        :param name: Name of the model
         :type name: str
         :return: _description_
         :rtype: PFModel
         """
 
         exporter = PowerFactoryExporter(
-
+            core_model=core_model,
+            name=name,
+            app=self.app
         )
-        return exporter.export_power_factory(core_model, name)
+        exporter.convert_model()
+        exporter.save_pf_model()
+        return exporter.get_pf_model_object()
 
     def _import(self, model: PFModel) -> CoreModel:
         extractor = PowerFactoryExtractor(

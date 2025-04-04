@@ -31,5 +31,6 @@ def main() -> None:
 
     print(f"conversion took {time.perf_counter() - start:.1f}s")
 
+
 if __name__ == "__main__":
     main()
