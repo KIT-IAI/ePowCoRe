@@ -3,8 +3,8 @@ from typing import Any
 import networkx as nx
 import powerfactory as pf
 
-import epowcore.power_factory.components as Components
-import epowcore.power_factory.graph_transformer_pf as graph_transformer
+import epowcore.power_factory.to_gdf.components as Components
+import epowcore.power_factory.to_gdf.graph_transformer_pf as graph_transformer
 from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.exciters.exciter import Exciter

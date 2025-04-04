@@ -2,7 +2,8 @@ from dataclasses import dataclass
 
 import powerfactory as pf
 
-from epowcore.power_factory.power_factory_extractor import PowerFactoryExtractor
+from epowcore.power_factory.to_gdf.power_factory_extractor import PowerFactoryExtractor
+from epowcore.power_factory.from_gdf.power_factory_exporter import PowerFactoryExporter
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.converter_base import ConverterBase
 
@@ -33,7 +34,20 @@ class PowerFactoryConverter(ConverterBase[PFModel]):
 
 
     def _export(self, core_model: CoreModel, name: str) -> PFModel:
-        raise NotImplementedError()
+        """Convert a GDF core model to a Powerfactory model.
+
+        :param core_model: GDF core model to be converted to a Powerfactory model.
+        :type core_model: CoreModel
+        :param name: 
+        :type name: str
+        :return: _description_
+        :rtype: PFModel
+        """
+
+        exporter = PowerFactoryExporter(
+
+        )
+        return exporter.export_power_factory(core_model, name)
 
     def _import(self, model: PFModel) -> CoreModel:
         extractor = PowerFactoryExtractor(
