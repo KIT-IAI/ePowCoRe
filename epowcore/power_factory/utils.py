@@ -1,11 +1,10 @@
+import powerfactory as pf
 from typing import Any
 
 
 def get_coords(obj: Any) -> tuple[float, float] | list[tuple[float, float]] | None:
     """Try to get the coordinates of a given PowerFactory object."""
-    if not (hasattr(obj, "GPSlat") and hasattr(obj, "GPSlon")) and not hasattr(
-        obj, "GPScoords"
-    ):
+    if not (hasattr(obj, "GPSlat") and hasattr(obj, "GPSlon")) and not hasattr(obj, "GPScoords"):
         return None
     if hasattr(obj, "GPScoords"):
         lat = [x[0] for x in obj.GPScoords if len(x) > 1]
@@ -46,3 +45,30 @@ def get_ctrl_param(ctrl_obj: Any, param: str | list[str]) -> Any:
         if p in model_params:
             return ctrl_obj.GetAttribute(f"e:params:{p}")
     raise ValueError(f"No corresponding value found in parameter list: {model_params}")
+
+
+def get_pf_component(
+    app: pf.Application, component_type: str, component_name: str | None = None
+) -> pf.DataObject | list[pf.DataObject]:
+    """Function to get a reference to a certain component or multiple components 
+    in the powerfactory network of the app.
+    The component type must be specified for the search and the component 
+    name can also be specified.
+
+
+    :param app: Powerfactory application instance to run functions on.
+    :type app: pf.Application
+    :param component_type: Powerfactory type of the components to get.
+    :type component_type: str
+    :param component_name: Component name for getting components of type and name, defaults to none.
+    :type component_name: str | None
+    :return: Returns the powerfactory component or a list of components if multiple were found.
+    :rtype: pf.DataObject | list[pf.DataObject]
+    """
+    component_list = app.GetCalcRelevantObjects(component_type)
+    if component_name is None:
+        return component_list
+    component_list = [
+        component for component in component_list if component.loc_name == component_name
+    ]
+    return component_list
