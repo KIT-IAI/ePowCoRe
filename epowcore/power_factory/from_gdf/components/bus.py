@@ -14,6 +14,7 @@ def create_bus(app: pf.Application, bus: Bus) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
+    # Conversion of bus type
     bus_type = {BusType.JUNCTION.value: 0, BusType.BUSBAR.value: 1, BusType.INTERNAL.value: 2}
     lf_bus_type = {
         LFBusType.PQ.value: 1,
@@ -21,7 +22,9 @@ def create_bus(app: pf.Application, bus: Bus) -> bool:
         LFBusType.SL.value: 3,
     }
     if bus.lf_bus_type == "ISOLATED":
-        Logger.log_to_selected("Cant convert bus because of lf type ISOLATED")
+        Logger.log_to_selected(
+            f"Bus {bus.name} can not be converted because the load flow type is ISOLATED"
+        )
         return False
     # Create bus inside of network
     pf_bus = app.CreateObject("ElmTerm")
