@@ -5,7 +5,7 @@ from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 
 
-def create_load(app: pf.Application, load: Load, core_model: CoreModel) -> bool:
+def create_load(app: pf.Application, core_model: CoreModel, load: Load) -> bool:
     """Convert and add the given gdf core model load to the given powerfactory network.
 
     :param app: Powerfactory app object to create a new object.
