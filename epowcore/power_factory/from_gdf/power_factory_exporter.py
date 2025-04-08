@@ -3,8 +3,12 @@ import powerfactory as pf
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.load import Load
+from epowcore.gdf.transformers import TwoWindingTransformer
+from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.power_factory.from_gdf.components.bus import create_bus
 from epowcore.power_factory.from_gdf.components.load import create_load
+from epowcore.power_factory.from_gdf.components.transformers import create_two_wdg_trafo
+from epowcore.power_factory.from_gdf.components.transformers import create_three_wdg_trafo
 from epowcore.power_factory.power_factory_converter import PFModel
 from epowcore.generic.logger import Logger
 
@@ -46,7 +50,23 @@ class PowerFactoryExporter:
         gdf_load_list = self.core_model.type_list(Load)
 
         for gdf_load in gdf_load_list:
-            create_load(app=self.app, load=gdf_load, core_model=self.core_model)
+            create_load(app=self.app, core_model=self.core_model, load=gdf_load)
+
+        # Converting all two winding transformers
+        Logger.log_to_selected("Converting two winding transformers into the Powerfactory network")
+        gdf_trafo_list = self.core_model.type_list(TwoWindingTransformer)
+
+        for gdf_trafo in gdf_trafo_list:
+            create_two_wdg_trafo(app=self.app, core_model=self.core_model, trafo=gdf_trafo)
+
+        # Converting all three winding transformers
+        Logger.log_to_selected(
+            "Converting three winding transformers into the Powerfactory network"
+        )
+        gdf_trafo_list = self.core_model.type_list(ThreeWindingTransformer)
+
+        for gdf_trafo in gdf_trafo_list:
+            create_three_wdg_trafo(app=self.app, core_model=self.core_model, trafo=gdf_trafo)
 
     def get_pf_model_object(self) -> PFModel:
         return None
