@@ -9,7 +9,7 @@ from epowcore.power_factory.from_gdf.components.bus import create_bus
 from epowcore.power_factory.from_gdf.components.load import create_load
 from epowcore.power_factory.from_gdf.components.transformers import create_two_wdg_trafo
 from epowcore.power_factory.from_gdf.components.transformers import create_three_wdg_trafo
-from epowcore.power_factory.power_factory_converter import PFModel
+from epowcore.power_factory.power_factory_model import PFModel
 from epowcore.generic.logger import Logger
 
 
@@ -28,6 +28,7 @@ class PowerFactoryExporter:
         if self.app is None:
             raise ValueError("No PowerFactory Application found!")
 
+        self.name = name
         # Create new project
         self.pf_model = self.app.CreateProject(projectName=name, gridName=name)
         # Maybe not needed
@@ -69,7 +70,12 @@ class PowerFactoryExporter:
             create_three_wdg_trafo(app=self.app, core_model=self.core_model, trafo=gdf_trafo)
 
     def get_pf_model_object(self) -> PFModel:
-        return None
+        export_model = PFModel(
+            project_name=self.name, study_case_name=None, frequency=self.core_model.base_frequency
+        )
+        return export_model
 
     def save_pf_model(self) -> None:
-        return None
+        cimdbexp = self.app.GetFromStudyCase("ComCimdbexp")
+        result = cimdbexp.Execute()
+        print(result)

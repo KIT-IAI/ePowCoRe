@@ -1,20 +1,10 @@
-from dataclasses import dataclass
-
 import powerfactory as pf
 
 from epowcore.power_factory.to_gdf.power_factory_extractor import PowerFactoryExtractor
 from epowcore.power_factory.from_gdf.power_factory_exporter import PowerFactoryExporter
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.converter_base import ConverterBase
-
-
-@dataclass
-class PFModel:
-    """A basic description for a PowerFactory project."""
-
-    project_name: str
-    study_case_name: str | None
-    frequency: float
+from epowcore.power_factory.power_factory_model import PFModel
 
 
 class PowerFactoryConverter(ConverterBase[PFModel]):
@@ -44,11 +34,7 @@ class PowerFactoryConverter(ConverterBase[PFModel]):
         :rtype: PFModel
         """
 
-        exporter = PowerFactoryExporter(
-            core_model=core_model,
-            name=name,
-            app=self.app
-        )
+        exporter = PowerFactoryExporter(core_model=core_model, name=name, app=self.app)
         exporter.convert_model()
         exporter.save_pf_model()
         return exporter.get_pf_model_object()
