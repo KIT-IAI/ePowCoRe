@@ -10,10 +10,10 @@ def create_load(app: pf.Application, core_model: CoreModel, load: Load) -> bool:
 
     :param app: Powerfactory app object to create a new object.
     :type app: pf.Application
-    :param load: GDF core_model load to be converted.
-    :type load: Load
     :param core_model: GDF core_model used to search the load bus.
     :type core_model: CoreModel
+    :param load: GDF core_model load to be converted.
+    :type load: Load
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
