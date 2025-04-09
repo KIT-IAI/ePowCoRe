@@ -30,9 +30,7 @@ class PowerFactoryExporter:
 
         self.name = name
         # Create new project
-        self.pf_model = self.app.CreateProject(projectName=name, gridName=name)
-        # Maybe not needed
-        self.app.ActivateProject(name)
+        self.pf_project = self.app.CreateProject(name, name+"_grid")
 
         self.core_model = core_model
 
