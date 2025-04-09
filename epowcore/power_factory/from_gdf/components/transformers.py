@@ -13,13 +13,13 @@ REVERSE_WINDING_CONFIG_MAPPING = {v: k for k, v in WINDING_CONFIG_MAPPING.items(
 
 
 def create_three_wdg_trafo(
-    app: pf.Application, core_model: CoreModel, trafo: ThreeWindingTransformer
+    pf_project: pf.DataObject, core_model: CoreModel, trafo: ThreeWindingTransformer
 ) -> bool:
-    """Convert and add the given gdf core model three winding transformer to the 
+    """Convert and add the given gdf core model three winding transformer to the
     given powerfactory network.
 
-    :param app: Powerfactory app object to create a new object.
-    :type app: pf.Application
+    :param pf_project: Powerfactory project object to create a new object.
+    :type pf_project: pf.DataObject
     :param core_model: GDF core_model used to search the load bus.
     :type core_model: CoreModel
     :param trafo: GDF core_model three winding transformer to be converted.
@@ -46,13 +46,13 @@ def create_three_wdg_trafo(
         return False
     # Get powerfactory buses
     pf_hv_bus = get_pf_component(
-        app=app, component_type="ElmTr3", component_name=high_voltage_bus.name
+        app=pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
     )
     pf_mv_bus = get_pf_component(
-        app=app, component_type="ElmTr3", component_name=middle_voltage_bus.name
+        app=pf_project, component_type="ElmTr3", component_name=middle_voltage_bus.name
     )
     pf_lv_bus = get_pf_component(
-        app=app, component_type="ElmTr3", component_name=low_voltage_bus.name
+        app=pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
     )
     # Fails if no powerfactory buses are found
     if pf_hv_bus == [] or pf_mv_bus == [] or pf_lv_bus == []:
@@ -62,7 +62,7 @@ def create_three_wdg_trafo(
         return False
 
     # Create trafo inside of network
-    pf_trafo = app.CreateObject("ElmTr3")
+    pf_trafo = pf_project.CreateObject("ElmTr3")
 
     # Set Connections
     pf_trafo.SetAttribute("bushv", pf_hv_bus)
@@ -95,13 +95,13 @@ def create_three_wdg_trafo(
 
 
 def create_two_wdg_trafo(
-    app: pf.Application, core_model: CoreModel, trafo: TwoWindingTransformer
+    pf_project: pf.DataObject, core_model: CoreModel, trafo: TwoWindingTransformer
 ) -> bool:
-    """Convert and add the given gdf core model two winding transformer to the 
+    """Convert and add the given gdf core model two winding transformer to the
     given powerfactory network.
 
-    :param app: Powerfactory app object to create a new object.
-    :type app: pf.Application
+    :param pf_project: Powerfactory pf_project object to create a new object.
+    :type pf_project: pf.DataObject
     :param core_model: GDF core_model used to search the load bus.
     :type core_model: CoreModel
     :param trafo: GDF core_model two winding transformer to be converted.
@@ -123,10 +123,10 @@ def create_two_wdg_trafo(
         return False
     # Get powerfactory buses
     pf_hv_bus = get_pf_component(
-        app=app, component_type="ElmTr3", component_name=high_voltage_bus.name
+        app=pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
     )
     pf_lv_bus = get_pf_component(
-        app=app, component_type="ElmTr3", component_name=low_voltage_bus.name
+        app=pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
     )
     # Fails if no powerfactory buses are found
     if pf_hv_bus == [] or pf_lv_bus == []:
@@ -136,7 +136,7 @@ def create_two_wdg_trafo(
         return False
 
     # Create trafo inside of network
-    pf_trafo = app.CreateObject("ElmTr3")
+    pf_trafo = pf_project.CreateObject("ElmTr3")
 
     # Set Connections
     pf_trafo.SetAttribute("bushv", pf_hv_bus)

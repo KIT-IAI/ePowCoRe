@@ -5,11 +5,11 @@ from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 
 
-def create_load(app: pf.Application, core_model: CoreModel, load: Load) -> bool:
+def create_load(pf_project: pf.DataObject, core_model: CoreModel, load: Load) -> bool:
     """Convert and add the given gdf core model load to the given powerfactory network.
 
-    :param app: Powerfactory app object to create a new object.
-    :type app: pf.Application
+    :param pf_project: Powerfactory project object to create a new object.
+    :type pf_project: pf.DataObject
     :param core_model: GDF core_model used to search the load bus.
     :type core_model: CoreModel
     :param load: GDF core_model load to be converted.
@@ -28,7 +28,7 @@ def create_load(app: pf.Application, core_model: CoreModel, load: Load) -> bool:
         )
         return False
     # Find the power factory bus with the same name
-    pf_buses = app.GetCalcRelevantObjects("ElmTerm")
+    pf_buses = pf_project.GetCalcRelevantObjects("ElmTerm")
     pf_load_bus = None
     for pf_bus in pf_buses:
         if pf_bus.loc_name == neighbors[0].name:
@@ -41,7 +41,7 @@ def create_load(app: pf.Application, core_model: CoreModel, load: Load) -> bool:
         return False
 
     # Create load inside of network
-    pf_load = app.CreateObject("ElmLod")
+    pf_load = pf_project.CreateObject("ElmLod")
     # Set attributes for newly created load
     pf_load.SetAttribute("loc_name", load.name)
     pf_load.SetAttribute("bus_1", pf_load_bus)

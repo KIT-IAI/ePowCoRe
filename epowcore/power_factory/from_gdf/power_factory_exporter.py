@@ -30,7 +30,7 @@ class PowerFactoryExporter:
 
         self.name = name
         # Create new project
-        self.pf_project = self.app.CreateProject(name, name+"_grid")
+        self.pf_project = self.app.CreateProject(name, name + "_grid")
 
         self.core_model = core_model
 
@@ -42,21 +42,23 @@ class PowerFactoryExporter:
         # Get all attributes?
         # bus_characteristics = self.app.GetProjectFolder("chars")
         for gdf_bus in gdf_bus_list:
-            create_bus(app=self.app, bus=gdf_bus)
+            create_bus(pf_project=self.pf_project, bus=gdf_bus)
 
         # Converting all loads
         Logger.log_to_selected("Converting loads into the Powerfactory network")
         gdf_load_list = self.core_model.type_list(Load)
 
         for gdf_load in gdf_load_list:
-            create_load(app=self.app, core_model=self.core_model, load=gdf_load)
+            create_load(pf_project=self.pf_project, core_model=self.core_model, load=gdf_load)
 
         # Converting all two winding transformers
         Logger.log_to_selected("Converting two winding transformers into the Powerfactory network")
         gdf_trafo_list = self.core_model.type_list(TwoWindingTransformer)
 
         for gdf_trafo in gdf_trafo_list:
-            create_two_wdg_trafo(app=self.app, core_model=self.core_model, trafo=gdf_trafo)
+            create_two_wdg_trafo(
+                pf_project=self.pf_project, core_model=self.core_model, trafo=gdf_trafo
+            )
 
         # Converting all three winding transformers
         Logger.log_to_selected(
@@ -65,7 +67,9 @@ class PowerFactoryExporter:
         gdf_trafo_list = self.core_model.type_list(ThreeWindingTransformer)
 
         for gdf_trafo in gdf_trafo_list:
-            create_three_wdg_trafo(app=self.app, core_model=self.core_model, trafo=gdf_trafo)
+            create_three_wdg_trafo(
+                pf_project=self.pf_project, core_model=self.core_model, trafo=gdf_trafo
+            )
 
     def get_pf_model_object(self) -> PFModel:
         export_model = PFModel(

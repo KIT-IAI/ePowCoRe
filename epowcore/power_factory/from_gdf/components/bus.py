@@ -1,25 +1,22 @@
 import powerfactory as pf
 
-from epowcore.gdf.bus import Bus, BusType #, LFBusType
+from epowcore.gdf.bus import Bus, BusType  # , LFBusType
+
 # from epowcore.generic.logger import Logger
 
 
-def create_bus(app: pf.Application , bus: Bus) -> bool:
+def create_bus(pf_project: pf.DataObject, bus: Bus) -> bool:
     """Convert and add the given gdf core model bus to the given powerfactory network.
 
-    :param app: Powerfactory app object to create a new object.
-    :type app: pf.Application
+    :param pf_project: Powerfactory project object to create a new object.
+    :type pf_project: pf.DataObject
     :param bus: GDF core_model bus to be converted.
     :type bus: Bus
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
     # Conversion of bus type
-    bus_type = {
-        BusType.JUNCTION: 0,
-        BusType.BUSBAR: 1,
-        BusType.INTERNAL: 2
-    }
+    bus_type = {BusType.JUNCTION: 0, BusType.BUSBAR: 1, BusType.INTERNAL: 2}
     # lf_bus_type = {
     #     LFBusType.PQ: 1,
     #     LFBusType.PV: 2,
@@ -31,12 +28,12 @@ def create_bus(app: pf.Application , bus: Bus) -> bool:
     #     )
     #     return False
     # Create bus inside of network
-    pf_bus = app.CreateObject("ElmTerm")
+    pf_bus = pf_project.CreateObject("ElmTerm")
     # Set attributes for newly created bus
     pf_bus.SetAttribute("loc_name", bus.name)
     pf_bus.SetAttribute("uknom", bus.nominal_voltage)
     pf_bus.SetAttribute("iUsage", bus_type[bus.bus_type])
-    pf_bus.SetAttribute("systype", 0) # 0: AC
+    pf_bus.SetAttribute("systype", 0)  # 0: AC
     # pf_bus.SetAttribute("busType", lf_bus_type[bus.lf_bus_type]) Unknown name of attribute
     # In import deriaved from the ElmTerm.GetBusType() function
 
