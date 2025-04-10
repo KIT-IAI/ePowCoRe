@@ -43,13 +43,13 @@ def create_three_wdg_trafo(
         return False
     # Get powerfactory buses
     pf_hv_bus = get_pf_component(
-        app=self.pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
+        app=self.app, component_type="ElmTr3", component_name=high_voltage_bus.name
     )
     pf_mv_bus = get_pf_component(
-        app=self.pf_project, component_type="ElmTr3", component_name=middle_voltage_bus.name
+        app=self.app, component_type="ElmTr3", component_name=middle_voltage_bus.name
     )
     pf_lv_bus = get_pf_component(
-        app=self.pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
+        app=self.app, component_type="ElmTr3", component_name=low_voltage_bus.name
     )
     # Fails if no powerfactory buses are found
     if pf_hv_bus == [] or pf_mv_bus == [] or pf_lv_bus == []:
@@ -120,10 +120,10 @@ def create_two_wdg_trafo(
         return False
     # Get powerfactory buses
     pf_hv_bus = get_pf_component(
-        app=self.pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
+        app=self.app, component_type="ElmTr3", component_name=high_voltage_bus.name
     )
     pf_lv_bus = get_pf_component(
-        app=self.pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
+        app=self.app, component_type="ElmTr3", component_name=low_voltage_bus.name
     )
     # Fails if no powerfactory buses are found
     if pf_hv_bus == [] or pf_lv_bus == []:
