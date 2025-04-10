@@ -10,7 +10,6 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def main() -> None:
-    print("Starting Conversion")
     model_name = "IEEE39"
 
     start = time.perf_counter()
@@ -25,7 +24,6 @@ def main() -> None:
         data_str = file.read()
         data = json.loads(data_str)
         core_model = CoreModel.import_dict(data)
-        print("Conversion to gdf suceeded")
 
         converter = PowerFactoryConverter(debug=False)
         power_factory_model = converter.from_gdf(
