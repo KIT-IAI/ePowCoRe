@@ -1,7 +1,7 @@
 import powerfactory as pf
 
 from epowcore.power_factory.to_gdf.power_factory_extractor import PowerFactoryExtractor
-from epowcore.power_factory.from_gdf import PowerFactoryExporter
+from epowcore.power_factory.from_gdf.power_factory_exporter import PowerFactoryExporter
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.converter_base import ConverterBase
 from epowcore.power_factory.power_factory_model import PFModel
