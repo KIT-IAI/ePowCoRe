@@ -49,7 +49,7 @@ def get_ctrl_param(ctrl_obj: Any, param: str | list[str]) -> Any:
 
 def get_pf_component(
     app: pf.Application, component_type: str, component_name: str | None = None
-) -> pf.DataObject | list[pf.DataObject]:
+) -> pf.DataObject | list[pf.DataObject] | None:
     """Function to get a reference to a certain component or multiple components 
     in the powerfactory network of the app.
     The component type must be specified for the search and the component 
@@ -67,8 +67,13 @@ def get_pf_component(
     """
     component_list = app.GetCalcRelevantObjects(component_type)
     if component_name is None:
+        if component_list == []:
+            return None
         return component_list
+
     component_list = [
         component for component in component_list if component.loc_name == component_name
     ]
+    if component_list == []:
+        return None
     return component_list
