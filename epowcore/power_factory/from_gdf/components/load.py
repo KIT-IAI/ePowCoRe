@@ -1,6 +1,7 @@
 import powerfactory as pf
 
 from epowcore.gdf.load import Load
+from epowcore.gdf.bus import Bus
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 
@@ -20,7 +21,7 @@ def create_load(pf_project: pf.DataObject, core_model: CoreModel, load: Load) ->
     # Get connected bus
     # Maybe change this so the load gets converted without a connected bus if it is not found?
     neighbors = core_model.get_neighbors(component=load, follow_links=True)
-    neighbors = [x for x in neighbors if isinstance(x, load)]
+    neighbors = [x for x in neighbors if isinstance(x, type(Bus))]
     # Check if connected bus exists
     if len(neighbors) < 1:
         Logger.log_to_selected(
