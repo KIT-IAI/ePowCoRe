@@ -38,36 +38,42 @@ class PowerFactoryExporter:
         # Converting all buses
         Logger.log_to_selected("Creating buses in Powerfactory network")
         gdf_bus_list = self.core_model.type_list(Bus)
-
         # Get all attributes?
         # bus_characteristics = self.app.GetProjectFolder("chars")
+        c = 0
         for gdf_bus in gdf_bus_list:
-            create_bus(self=self, bus=gdf_bus)
+            if create_bus(self=self, bus=gdf_bus):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_bus_list)} bus creations suceeded")
 
         # Converting all loads
         Logger.log_to_selected("Converting loads into the Powerfactory network")
         gdf_load_list = self.core_model.type_list(Load)
-
+        c=0
         for gdf_load in gdf_load_list:
-            create_load(self=self, load=gdf_load)
+            if create_load(self=self, load=gdf_load):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_load_list)} load creations suceeded")
 
         # Converting all two winding transformers
         Logger.log_to_selected("Converting two winding transformers into the Powerfactory network")
         gdf_trafo_list = self.core_model.type_list(TwoWindingTransformer)
-
+        c=0
         for gdf_trafo in gdf_trafo_list:
-            create_two_wdg_trafo(self=self, trafo=gdf_trafo)
+            if create_two_wdg_trafo(self=self, trafo=gdf_trafo):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_trafo_list)} two winding transformer creations suceeded")
 
         # Converting all three winding transformers
         Logger.log_to_selected(
             "Converting three winding transformers into the Powerfactory network"
         )
         gdf_trafo_list = self.core_model.type_list(ThreeWindingTransformer)
-
+        c = 0
         for gdf_trafo in gdf_trafo_list:
-            create_three_wdg_trafo(
-                self=self, trafo=gdf_trafo
-            )
+            if create_three_wdg_trafo(self=self, trafo=gdf_trafo):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_trafo_list)} three winding transformer creations suceeded")
 
     def get_pf_model_object(self) -> PFModel:
         export_model = PFModel(
@@ -76,6 +82,10 @@ class PowerFactoryExporter:
         return export_model
 
     def save_pf_model(self) -> None:
+        Logger.log_to_selected("Exporting Powerfactory Model as file")
         cimdbexp = self.app.GetFromStudyCase("ComCimdbexp")
-        result = cimdbexp.Execute()
-        print(result)
+        r = cimdbexp.Execute()
+        if r == 1:
+            Logger.log_to_selected("File export was sucessfull")
+        else:
+            Logger.log_to_selected("File export failed")
