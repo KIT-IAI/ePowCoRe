@@ -15,16 +15,11 @@ def create_three_wdg_trafo(
     """Convert and add the given gdf core model three winding transformer to the
     given powerfactory network.
 
-    :param pf_project: Powerfactory project object to create a new object.
-    :type pf_project: pf.DataObject
-    :param core_model: GDF core_model used to search the load bus.
-    :type core_model: CoreModel
     :param trafo: GDF core_model three winding transformer to be converted.
-    :type trafo: TwoWindingTransformer
+    :type trafo: ThreeWindingTransformer
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-
     # Get the bus connected to the transformer on the high voltage side
     high_voltage_bus = self.core_model.get_neighbors(component=trafo, follow_links=True, connector="HV")[
         0
@@ -97,10 +92,6 @@ def create_two_wdg_trafo(
     """Convert and add the given gdf core model two winding transformer to the
     given powerfactory network.
 
-    :param pf_project: Powerfactory pf_project object to create a new object.
-    :type pf_project: pf.DataObject
-    :param core_model: GDF core_model used to search the load bus.
-    :type core_model: CoreModel
     :param trafo: GDF core_model two winding transformer to be converted.
     :type trafo: TwoWindingTransformer
     :return: Return true if the conversion suceeded, false if it didn't.

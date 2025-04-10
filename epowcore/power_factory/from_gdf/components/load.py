@@ -6,10 +6,6 @@ from epowcore.generic.logger import Logger
 def create_load(self, load: Load) -> bool:
     """Convert and add the given gdf core model load to the given powerfactory network.
 
-    :param pf_project: Powerfactory project object to create a new object.
-    :type pf_project: pf.DataObject
-    :param core_model: GDF core_model used to search the load bus.
-    :type core_model: CoreModel
     :param load: GDF core_model load to be converted.
     :type load: Load
     :return: Return true if the conversion suceeded, false if it didn't.

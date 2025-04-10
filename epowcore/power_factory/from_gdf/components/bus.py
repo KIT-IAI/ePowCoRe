@@ -6,8 +6,6 @@ from epowcore.gdf.bus import Bus, BusType  # , LFBusType
 def create_bus(self, bus: Bus) -> bool:
     """Convert and add the given gdf core model bus to the given powerfactory network.
 
-    :param pf_project: Powerfactory project object to create a new object.
-    :type pf_project: pf.DataObject
     :param bus: GDF core_model bus to be converted.
     :type bus: Bus
     :return: Return true if the conversion suceeded, false if it didn't.
