@@ -1,11 +1,9 @@
-import powerfactory as pf
-
 from epowcore.gdf.bus import Bus, BusType  # , LFBusType
 
 # from epowcore.generic.logger import Logger
 
 
-def create_bus(pf_project: pf.DataObject, bus: Bus) -> bool:
+def create_bus(self, bus: Bus) -> bool:
     """Convert and add the given gdf core model bus to the given powerfactory network.
 
     :param pf_project: Powerfactory project object to create a new object.
@@ -28,7 +26,7 @@ def create_bus(pf_project: pf.DataObject, bus: Bus) -> bool:
     #     )
     #     return False
     # Create bus inside of network
-    pf_bus = pf_project.CreateObject("ElmTerm")
+    pf_bus = self.pf_project.CreateObject("ElmTerm")
     # Set attributes for newly created bus
     pf_bus.SetAttribute("loc_name", bus.name)
     pf_bus.SetAttribute("uknom", bus.nominal_voltage)

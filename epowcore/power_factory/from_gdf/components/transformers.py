@@ -1,10 +1,7 @@
-import powerfactory as pf
-
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.power_factory.to_gdf.components.transformers import WINDING_CONFIG_MAPPING
 from epowcore.power_factory.utils import get_pf_component
-from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 
 # The standard WINDING_CONFIG_MAPPING maps pf_value: gdf_value.
@@ -13,7 +10,7 @@ REVERSE_WINDING_CONFIG_MAPPING = {v: k for k, v in WINDING_CONFIG_MAPPING.items(
 
 
 def create_three_wdg_trafo(
-    pf_project: pf.DataObject, core_model: CoreModel, trafo: ThreeWindingTransformer
+    self, trafo: ThreeWindingTransformer
 ) -> bool:
     """Convert and add the given gdf core model three winding transformer to the
     given powerfactory network.
@@ -29,15 +26,15 @@ def create_three_wdg_trafo(
     """
 
     # Get the bus connected to the transformer on the high voltage side
-    high_voltage_bus = core_model.get_neighbors(component=trafo, follow_links=True, connector="HV")[
+    high_voltage_bus = self.core_model.get_neighbors(component=trafo, follow_links=True, connector="HV")[
         0
     ]
     # Get the bus connected to the transformer on the middle voltage side
-    middle_voltage_bus = core_model.get_neighbors(
+    middle_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="MV"
     )
     # Get the bus connected to the transformer on the low voltage side
-    low_voltage_bus = core_model.get_neighbors(component=trafo, follow_links=True, connector="LV")[
+    low_voltage_bus = self.core_model.get_neighbors(component=trafo, follow_links=True, connector="LV")[
         0
     ]
     # If either bus wasnt found the function failed
@@ -46,13 +43,13 @@ def create_three_wdg_trafo(
         return False
     # Get powerfactory buses
     pf_hv_bus = get_pf_component(
-        app=pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
+        app=self.pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
     )
     pf_mv_bus = get_pf_component(
-        app=pf_project, component_type="ElmTr3", component_name=middle_voltage_bus.name
+        app=self.pf_project, component_type="ElmTr3", component_name=middle_voltage_bus.name
     )
     pf_lv_bus = get_pf_component(
-        app=pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
+        app=self.pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
     )
     # Fails if no powerfactory buses are found
     if pf_hv_bus == [] or pf_mv_bus == [] or pf_lv_bus == []:
@@ -62,7 +59,7 @@ def create_three_wdg_trafo(
         return False
 
     # Create trafo inside of network
-    pf_trafo = pf_project.CreateObject("ElmTr3")
+    pf_trafo = self.pf_project.CreateObject("ElmTr3")
 
     # Set Connections
     pf_trafo.SetAttribute("bushv", pf_hv_bus)
@@ -95,7 +92,7 @@ def create_three_wdg_trafo(
 
 
 def create_two_wdg_trafo(
-    pf_project: pf.DataObject, core_model: CoreModel, trafo: TwoWindingTransformer
+    self, trafo: TwoWindingTransformer
 ) -> bool:
     """Convert and add the given gdf core model two winding transformer to the
     given powerfactory network.
@@ -110,11 +107,11 @@ def create_two_wdg_trafo(
     :rtype: bool
     """
     # Get the bus connected to the transformer on the high voltage side
-    high_voltage_bus = core_model.get_neighbors(component=trafo, follow_links=True, connector="HV")[
+    high_voltage_bus = self.core_model.get_neighbors(component=trafo, follow_links=True, connector="HV")[
         0
     ]
     # Get the bus connected to the transformer on the low voltage side
-    low_voltage_bus = core_model.get_neighbors(component=trafo, follow_links=True, connector="LV")[
+    low_voltage_bus = self.core_model.get_neighbors(component=trafo, follow_links=True, connector="LV")[
         0
     ]
     # If either bus wasnt found the function failed
@@ -123,10 +120,10 @@ def create_two_wdg_trafo(
         return False
     # Get powerfactory buses
     pf_hv_bus = get_pf_component(
-        app=pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
+        app=self.pf_project, component_type="ElmTr3", component_name=high_voltage_bus.name
     )
     pf_lv_bus = get_pf_component(
-        app=pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
+        app=self.pf_project, component_type="ElmTr3", component_name=low_voltage_bus.name
     )
     # Fails if no powerfactory buses are found
     if pf_hv_bus == [] or pf_lv_bus == []:
@@ -136,7 +133,7 @@ def create_two_wdg_trafo(
         return False
 
     # Create trafo inside of network
-    pf_trafo = pf_project.CreateObject("ElmTr3")
+    pf_trafo = self.pf_project.CreateObject("ElmTr3")
 
     # Set Connections
     pf_trafo.SetAttribute("bushv", pf_hv_bus)
