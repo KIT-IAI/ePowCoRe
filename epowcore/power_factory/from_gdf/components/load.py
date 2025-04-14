@@ -1,7 +1,7 @@
 from epowcore.gdf.load import Load
 from epowcore.generic.logger import Logger
 from epowcore.gdf.utils import get_connected_bus
-from epowcore.power_factory.utils import get_pf_component
+from epowcore.power_factory.utils import get_pf_grid_component
 
 
 def create_load(self, load: Load) -> bool:
@@ -28,8 +28,8 @@ def create_load(self, load: Load) -> bool:
         success = False
     else:
         # Find the power factory bus with the same name
-        pf_load_bus = get_pf_component(
-            self, component_type="ElmTerm", component_name=gdf_load_bus.name
+        pf_load_bus = get_pf_grid_component(
+            self, component_name=load.name
         )
         if pf_load_bus is None:
             Logger.log_to_selected(

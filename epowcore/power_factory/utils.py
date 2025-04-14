@@ -47,33 +47,17 @@ def get_ctrl_param(ctrl_obj: Any, param: str | list[str]) -> Any:
     raise ValueError(f"No corresponding value found in parameter list: {model_params}")
 
 
-def get_pf_component(
-    app: pf.Application, component_type: str, component_name: str | None = None
-) -> pf.DataObject | list[pf.DataObject] | None:
-    """Function to get a reference to a certain component or multiple components 
-    in the powerfactory network of the app.
-    The component type must be specified for the search and the component 
-    name can also be specified.
+def get_pf_grid_component(self, component_name: str) -> pf.DataObject | None:
+    """Gets a component from the pf_grid by it's name.
 
-
-    :param app: Powerfactory application instance to run functions on.
-    :type app: pf.Application
-    :param component_type: Powerfactory type of the components to get.
-    :type component_type: str
-    :param component_name: Component name for getting components of type and name, defaults to none.
-    :type component_name: str | None
-    :return: Returns the powerfactory component or a list of components if multiple were found.
-    :rtype: pf.DataObject | list[pf.DataObject]
+    :param component_name: Components name, defined by its loc_name variable
+    :type component_name: str
+    :return: Returns a reference to the object or none, if no object of the given name was found
+    :rtype: pf.DataObject | None
     """
-    component_list = app.GetCalcRelevantObjects(component_type)
-    if component_name is None:
-        if component_list == []:
-            return None
-        return component_list
 
-    component_list = [
-        component for component in component_list if component.loc_name == component_name
-    ]
-    if component_list == []:
+    component = self.pf_grid.SearchOjbect(self.pf_grid.GetFullName + "\\" + component_name)
+
+    if component is None or not isinstance(component, pf.DataObject):
         return None
-    return component_list
+    return component

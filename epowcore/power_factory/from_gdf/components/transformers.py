@@ -1,7 +1,7 @@
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.power_factory.to_gdf.components.transformers import WINDING_CONFIG_MAPPING
-from epowcore.power_factory.utils import get_pf_component
+from epowcore.power_factory.utils import get_pf_grid_component
 from epowcore.generic.logger import Logger
 
 # The standard WINDING_CONFIG_MAPPING maps pf_value: gdf_value.
@@ -35,15 +35,11 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
         Logger.log_to_selected(f"Failled to convert three winding transformer {trafo.name}")
         return False
     # Get powerfactory buses
-    pf_hv_bus = get_pf_component(
-        self, component_type="ElmTr3", component_name=high_voltage_bus.name
-    )
-    pf_mv_bus = get_pf_component(
-        self, component_type="ElmTr3", component_name=middle_voltage_bus.name
-    )
-    pf_lv_bus = get_pf_component(self, component_type="ElmTr3", component_name=low_voltage_bus.name)
+    pf_hv_bus = get_pf_grid_component(self, component_name=high_voltage_bus.name)
+    pf_mv_bus = get_pf_grid_component(self, component_name=middle_voltage_bus.name)
+    pf_lv_bus = get_pf_grid_component(self, component_name=low_voltage_bus.name)
     # Fails if no powerfactory buses are found
-    if pf_hv_bus == [] or pf_mv_bus == [] or pf_lv_bus == []:
+    if pf_hv_bus is None or pf_mv_bus is None or pf_lv_bus is None:
         Logger.log_to_selected(
             f"Three winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
@@ -114,12 +110,10 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
         Logger.log_to_selected(f"Failled to convert two winding transformer {trafo.name}")
         return False
     # Get powerfactory buses
-    pf_hv_bus = get_pf_component(
-        self, component_type="ElmTr3", component_name=high_voltage_bus.name
-    )
-    pf_lv_bus = get_pf_component(self, component_type="ElmTr3", component_name=low_voltage_bus.name)
+    pf_hv_bus = get_pf_grid_component(self, component_name=high_voltage_bus.name)
+    pf_lv_bus = get_pf_grid_component(self, component_name=low_voltage_bus.name)
     # Fails if no powerfactory buses are found
-    if pf_hv_bus == [] or pf_lv_bus == []:
+    if pf_hv_bus is None or pf_lv_bus is None:
         Logger.log_to_selected(
             f"Two winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
