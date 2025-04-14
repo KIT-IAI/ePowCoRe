@@ -1,6 +1,7 @@
 from epowcore.gdf.load import Load
-from epowcore.gdf.bus import Bus
 from epowcore.generic.logger import Logger
+from epowcore.gdf.utils import get_connected_bus
+from epowcore.power_factory.utils import get_pf_component
 
 
 def create_load(self, load: Load) -> bool:
@@ -11,35 +12,38 @@ def create_load(self, load: Load) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    # Get connected bus
-    # Maybe change this so the load gets converted without a connected bus if it is not found?
-    neighbors = self.core_model.get_neighbors(component=load, follow_links=True)
-    neighbors = [x for x in neighbors if isinstance(x, type(Bus))]
-    # Check if connected bus exists
-    if len(neighbors) < 1:
-        Logger.log_to_selected(
-            f"Load {load.name} was not converted, because no connected bus was found in the gdf model"
-        )
-        return False
-    # Find the power factory bus with the same name
-    pf_buses = self.pf_project.GetCalcRelevantObjects("ElmTerm")
-    pf_load_bus = None
-    for pf_bus in pf_buses:
-        if pf_bus.loc_name == neighbors[0].name:
-            pf_load_bus = pf_bus
-            break
-    if pf_load_bus is None:
-        Logger.log_to_selected(
-            f"Load {load.name} can not be converted, because the load bus found in the gdf model wasn't correctly converted"
-        )
-        return False
+    success = True
 
     # Create load inside of network
-    pf_load = self.pf_project.CreateObject("ElmLod")
+    pf_load = self.pf_grid.CreateObject("ElmLod")
+
+    # Get connected bus
+    # Maybe change this so the load gets converted without a connected bus if it is not found?
+    gdf_load_bus = get_connected_bus(graph=self.core_model.graph, node=load, max_depth=1)
+    # Check if connected bus exists
+    if gdf_load_bus is None:
+        Logger.log_to_selected(
+            f"There was no load bus found inside of the core_model network for the load {load.name}"
+        )
+        success = False
+    else:
+        # Find the power factory bus with the same name
+        pf_load_bus = get_pf_component(
+            self, component_type="ElmTerm", component_name=gdf_load_bus.name
+        )
+        if pf_load_bus is None:
+            Logger.log_to_selected(
+                f"Something went wrong with the conversion of the load {load.name}, because its bus was found inside of the gdf network but not in the powerfactory network"
+            )
+            success = False
+        else:
+            pf_load.SetAttribute("bus1", pf_load_bus)
+
     # Set attributes for newly created load
     pf_load.SetAttribute("loc_name", load.name)
-    pf_load.SetAttribute("bus_1", pf_load_bus)
     pf_load.SetAttribute("plini", load.active_power)
     pf_load.SetAttribute("qlini", load.reactive_power)
     pf_load.SetAttribute("u0", 1)
     pf_load.SetAttribute("scale0", 1)
+
+    return success
