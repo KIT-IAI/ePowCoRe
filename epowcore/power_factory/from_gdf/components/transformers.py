@@ -1,7 +1,7 @@
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.power_factory.to_gdf.components.transformers import WINDING_CONFIG_MAPPING
-from epowcore.power_factory.utils import get_pf_grid_component
+from epowcore.power_factory.utils import get_pf_grid_component, add_cubicle_to_bus
 from epowcore.generic.logger import Logger
 
 # The standard WINDING_CONFIG_MAPPING maps pf_value: gdf_value.
@@ -78,9 +78,9 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     pf_trafo_type.SetAttribute("nt3ag_l", trafo.phase_shift_30_lv)
 
     # Set Connections
-    # pf_trafo.SetAttribute("bushv", pf_hv_bus)
-    # pf_trafo.SetAttribute("busmv", pf_mv_bus)
-    # pf_trafo.SetAttribute("buslv", pf_lv_bus)
+    pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
+    pf_trafo.SetAttribute("busmv", add_cubicle_to_bus(pf_mv_bus))
+    pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
 
     # Set trafo type attribut to the newly created trafo type
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
@@ -152,7 +152,7 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
 
     # Set Connections
-    # pf_trafo.SetAttribute("bushv", pf_hv_bus)
-    # pf_trafo.SetAttribute("buslv", pf_lv_bus)
+    pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
+    pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
 
     return True

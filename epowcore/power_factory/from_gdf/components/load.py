@@ -1,7 +1,7 @@
 from epowcore.gdf.load import Load
 from epowcore.generic.logger import Logger
 from epowcore.gdf.utils import get_connected_bus
-from epowcore.power_factory.utils import get_pf_grid_component
+from epowcore.power_factory.utils import get_pf_grid_component, add_cubicle_to_bus
 
 
 def create_load(self, load: Load) -> bool:
@@ -28,16 +28,14 @@ def create_load(self, load: Load) -> bool:
         success = False
     else:
         # Find the power factory bus with the same name
-        pf_load_bus = get_pf_grid_component(
-            self, component_name=load.name
-        )
+        pf_load_bus = get_pf_grid_component(self, component_name=gdf_load_bus.name)
         if pf_load_bus is None:
             Logger.log_to_selected(
                 f"Something went wrong with the conversion of the load {load.name}, because its bus was found inside of the gdf network but not in the powerfactory network"
             )
             success = False
         else:
-            pf_load.SetAttribute("bus1", pf_load_bus)
+            pf_load.SetAttribute("bus1", add_cubicle_to_bus(pf_load_bus))
 
     # Set attributes for newly created load
     pf_load.SetAttribute("loc_name", load.name)

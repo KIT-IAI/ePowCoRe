@@ -55,9 +55,22 @@ def get_pf_grid_component(self, component_name: str) -> pf.DataObject | None:
     :return: Returns a reference to the object or none, if no object of the given name was found
     :rtype: pf.DataObject | None
     """
-
-    component = self.pf_grid.SearchOjbect(self.pf_grid.GetFullName + "\\" + component_name)
+    component = self.pf_grid.SearchObject(self.pf_grid.GetFullName() + "\\" + component_name)
 
     if component is None or not isinstance(component, pf.DataObject):
         return None
     return component
+
+
+def add_cubicle_to_bus(bus: pf.DataObject) -> pf.DataObject:
+    """Adds a cubicle to the given bus, connects the cubicle to the bus and returns a reference to it.
+
+    :param bus: powerfactory bus to add the cubicle to
+    :type bus: pf.DataObject
+    :return: Returns a reference to the newly added cubicle
+    :rtype: pf.DataObject
+    """
+    cubicles = bus.GetConnectedCubicles(1)
+    cubicle = bus.CreateObject("StaCubic", "Cub_" + str(len(cubicles) + 1))
+    # The bus of the cubicle (cterm attribute) is automatically set
+    return cubicle
