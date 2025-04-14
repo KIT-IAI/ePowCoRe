@@ -24,7 +24,7 @@ def create_bus(self, bus: Bus) -> bool:
     #     )
     #     return False
     # Create bus inside of network
-    pf_bus = self.pf_project.CreateObject("ElmTerm")
+    pf_bus = self.pf_grid.CreateObject("ElmTerm")
     # Set attributes for newly created bus
     pf_bus.SetAttribute("loc_name", bus.name)
     pf_bus.SetAttribute("uknom", bus.nominal_voltage)
