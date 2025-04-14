@@ -29,10 +29,20 @@ class PowerFactoryExporter:
             raise ValueError("No PowerFactory Application found!")
 
         self.name = name
-        # Create new project
-        self.pf_project = self.app.CreateProject(name, name + "_grid")
-
         self.core_model = core_model
+
+        # Create new project
+        self.pf_project = self.app.CreateProject(name, "grid")
+        # Get library folders
+        self.pf_library = self.app.GetProjectFolder("lib")
+        self.pf_type_library = self.pf_project.SearchObject(
+            self.pf_library.GetFullName() + "\\Equipment Type Library"
+        )
+        # Get grid of the powerfactory network
+        self.pf_grid = self.pf_project.SearchObject(
+            self.pf_project.GetFullName()
+            + "\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\grid.ElmNet"
+        )
 
     def convert_model(self) -> None:
         # Converting all buses
@@ -49,7 +59,7 @@ class PowerFactoryExporter:
         # Converting all loads
         Logger.log_to_selected("Converting loads into the Powerfactory network")
         gdf_load_list = self.core_model.type_list(Load)
-        c=0
+        c = 0
         for gdf_load in gdf_load_list:
             if create_load(self=self, load=gdf_load):
                 c += 1
@@ -57,12 +67,16 @@ class PowerFactoryExporter:
 
         # Converting all two winding transformers
         Logger.log_to_selected("Converting two winding transformers into the Powerfactory network")
+        pf_trafo_type_lib = self.pf_type_library.CreateObject("IntPrjfolder", "Transformer Types")
+        pf_trafo_type_lib.iopt_typ = "equip"
         gdf_trafo_list = self.core_model.type_list(TwoWindingTransformer)
-        c=0
+        c = 0
         for gdf_trafo in gdf_trafo_list:
             if create_two_wdg_trafo(self=self, trafo=gdf_trafo):
                 c += 1
-        Logger.log_to_selected(f"{c} out of {len(gdf_trafo_list)} two winding transformer creations suceeded")
+        Logger.log_to_selected(
+            f"{c} out of {len(gdf_trafo_list)} two winding transformer creations suceeded"
+        )
 
         # Converting all three winding transformers
         Logger.log_to_selected(
@@ -73,7 +87,9 @@ class PowerFactoryExporter:
         for gdf_trafo in gdf_trafo_list:
             if create_three_wdg_trafo(self=self, trafo=gdf_trafo):
                 c += 1
-        Logger.log_to_selected(f"{c} out of {len(gdf_trafo_list)} three winding transformer creations suceeded")
+        Logger.log_to_selected(
+            f"{c} out of {len(gdf_trafo_list)} three winding transformer creations suceeded"
+        )
 
     def get_pf_model_object(self) -> PFModel:
         export_model = PFModel(
