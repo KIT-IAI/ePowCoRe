@@ -56,6 +56,9 @@ class PowerFactoryExporter:
                 c += 1
         Logger.log_to_selected(f"{c} out of {len(gdf_bus_list)} bus creations suceeded")
 
+        # Creating load type folder
+        pf_load_type_lib = self.pf_type_library.CreateObject("IntPrjfolder", "Load Types")
+        pf_load_type_lib.iopt_typ = "equip"
         # Converting all loads
         Logger.log_to_selected("Converting loads into the Powerfactory network")
         gdf_load_list = self.core_model.type_list(Load)
@@ -65,10 +68,11 @@ class PowerFactoryExporter:
                 c += 1
         Logger.log_to_selected(f"{c} out of {len(gdf_load_list)} load creations suceeded")
 
-        # Converting all two winding transformers
-        Logger.log_to_selected("Converting two winding transformers into the Powerfactory network")
+        # Creating transformer type folder
         pf_trafo_type_lib = self.pf_type_library.CreateObject("IntPrjfolder", "Transformer Types")
         pf_trafo_type_lib.iopt_typ = "equip"
+        # Converting all two winding transformers
+        Logger.log_to_selected("Converting two winding transformers into the Powerfactory network")
         gdf_trafo_list = self.core_model.type_list(TwoWindingTransformer)
         c = 0
         for gdf_trafo in gdf_trafo_list:
