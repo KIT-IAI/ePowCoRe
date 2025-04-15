@@ -2,10 +2,12 @@ import powerfactory as pf
 
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.bus import Bus
+from epowcore.gdf.tline import TLine
 from epowcore.gdf.load import Load
 from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.power_factory.from_gdf.components.bus import create_bus
+from epowcore.power_factory.from_gdf.components.line import create_line
 from epowcore.power_factory.from_gdf.components.load import create_load
 from epowcore.power_factory.from_gdf.components.transformers import create_two_wdg_trafo
 from epowcore.power_factory.from_gdf.components.transformers import create_three_wdg_trafo
@@ -93,6 +95,20 @@ class PowerFactoryExporter:
                 c += 1
         Logger.log_to_selected(
             f"{c} out of {len(gdf_trafo_list)} three winding transformer creations suceeded"
+        )
+
+        # Creating line type folder
+        pf_line_type_lib = self.pf_type_library.CreateObject("IntPrjfolder", "Line Types")
+        pf_line_type_lib.iopt_typ = "equip"
+        # Converting all lines
+        Logger.log_to_selected("Converting lines into the Powerfactory network")
+        gdf_tline_list = self.core_model.type_list(TLine)
+        c = 0
+        for gdf_tline in gdf_tline_list:
+            if create_line(self, tline=gdf_tline):
+                c += 1
+        Logger.log_to_selected(
+            f"{c} out of {len(gdf_tline_list)} line creations suceeded"
         )
 
     def get_pf_model_object(self) -> PFModel:
