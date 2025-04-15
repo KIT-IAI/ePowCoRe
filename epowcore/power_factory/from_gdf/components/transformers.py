@@ -18,6 +18,7 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
+    success = True
     # Get the bus connected to the transformer on the high voltage side
     high_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="HV"
@@ -33,7 +34,7 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     # If either bus wasnt found the function failed
     if high_voltage_bus is None or low_voltage_bus is None or middle_voltage_bus is None:
         Logger.log_to_selected(f"Failled to convert three winding transformer {trafo.name}")
-        return False
+        success = False
     # Get powerfactory buses
     pf_hv_bus = get_pf_grid_component(self, component_name=high_voltage_bus.name)
     pf_mv_bus = get_pf_grid_component(self, component_name=middle_voltage_bus.name)
@@ -43,7 +44,7 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
         Logger.log_to_selected(
             f"Three winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
-        return False
+        success = False
 
     # Create new trafo inside of grid
     pf_trafo = self.pf_grid.CreateObject("ElmTr3", trafo.name)
@@ -85,7 +86,7 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     # Set trafo type attribut to the newly created trafo type
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
 
-    return True
+    return success
 
 
 def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
@@ -97,6 +98,7 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
+    success = True
     # Get the bus connected to the transformer on the high voltage side
     high_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="HV"
@@ -108,7 +110,7 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     # If either bus wasnt found the function failed
     if high_voltage_bus is None or low_voltage_bus is None:
         Logger.log_to_selected(f"Failled to convert two winding transformer {trafo.name}")
-        return False
+        success = False
     # Get powerfactory buses
     pf_hv_bus = get_pf_grid_component(self, component_name=high_voltage_bus.name)
     pf_lv_bus = get_pf_grid_component(self, component_name=low_voltage_bus.name)
@@ -117,7 +119,7 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
         Logger.log_to_selected(
             f"Two winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
-        return False
+        success = False
 
     # Create new trafo inside of grid
     pf_trafo = self.pf_grid.CreateObject("ElmTr2", trafo.name)
@@ -151,8 +153,8 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     # Set trafo type attribut to the newly created trafo type
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
 
-    # Set Connections
+    # Set connections
     pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
     pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
 
-    return True
+    return success
