@@ -6,11 +6,13 @@ from epowcore.gdf.tline import TLine
 from epowcore.gdf.load import Load
 from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.transformers import ThreeWindingTransformer
+from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 from epowcore.power_factory.from_gdf.components.bus import create_bus
 from epowcore.power_factory.from_gdf.components.line import create_line
 from epowcore.power_factory.from_gdf.components.load import create_load
 from epowcore.power_factory.from_gdf.components.transformers import create_two_wdg_trafo
 from epowcore.power_factory.from_gdf.components.transformers import create_three_wdg_trafo
+from epowcore.power_factory.from_gdf.components.generators import create_synchronous_machine
 from epowcore.power_factory.power_factory_model import PFModel
 from epowcore.generic.logger import Logger
 
@@ -95,6 +97,21 @@ class PowerFactoryExporter:
                 c += 1
         Logger.log_to_selected(
             f"{c} out of {len(gdf_trafo_list)} three winding transformer creations suceeded"
+        )
+
+        # Creating generator type folder
+        pf_gen_type_lib = self.pf_type_library.CreateObject("IntPrjfolder", "Generator Types")
+        pf_gen_type_lib.iopt_typ = "equip"
+
+        # Converting all synchronous machines
+        Logger.log_to_selected("Converting synchronous machines into powerfactory network")
+        gdf_gen_list = self.core_model.type_list(SynchronousMachine)
+        c = 0
+        for gdf_gen in gdf_gen_list:
+            if create_synchronous_machine(self, gen=gdf_gen):
+                c+=1
+        Logger.log_to_selected(
+            f"{c} out of {len(gdf_gen_list)} synchronous machine creations suceeded"
         )
 
         # Creating line type folder
