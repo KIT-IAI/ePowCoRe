@@ -1,3 +1,4 @@
+from epowcore.gdf.bus import LFBusType
 from epowcore.gdf.generators.epow_generator import EPowGenerator
 from epowcore.gdf.generators.generator import Generator
 from epowcore.gdf.generators.static_generator import StaticGenerator
@@ -29,6 +30,17 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
             f"There was no generator bus found inside of the core_model network for the synchronous_machine {gen.name}"
         )
         success = False
+    else:
+        match gdf_gen_bus.lf_bus_type:
+            case LFBusType.SL:
+                pf_gen.SetAttribute("ip_ctrl", 1)
+                pf_gen.SetAttribute("e:bustp", "SL")
+            case LFBusType.PQ:
+                pf_gen.SetAttribute("ip_ctrl", 0)
+                pf_gen.SetAttribute("e:bustp", "PQ")
+            case LFBusType.PV:
+                pf_gen.SetAttribute("ip_ctrl", 0)
+                pf_gen.SetAttribute("e:bustp", "PV")
 
     pf_gen_bus = get_pf_grid_component(self, component_name=gdf_gen_bus.name)
     if pf_gen_bus is None:
@@ -85,5 +97,54 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
 
     # Set gen type attribute to the newly crated gen type
     pf_gen.SetAttribute("typ_id", pf_gen_type)
+
+    return success
+
+def create_static_generator(self, gen: StaticGenerator) -> bool:
+    """Convert and add the given gdf core model static generator to the given powerfactory network.
+
+    :param gen: GDF core_model load to be converted.
+    :type gen: StaticGenerator
+    :return: Return true if the conversion suceeded, false if it didn't.
+    :rtype: bool
+    """
+    success = True
+
+    # Create generator inside of network
+    pf_gen = self.pf_grid.CreateObject("ElmGenstat", gen.name)
+
+    # Get bus connected to the generator
+    gdf_gen_bus = get_connected_bus(graph=self.core_model.graph, node=gen, max_depth=1)
+
+    if gdf_gen_bus is None:
+        Logger.log_to_selected(
+            f"There was no generator bus found inside of the core_model network for the static generator {gen.name}"
+        )
+        success = False
+    else:
+        if gdf_gen_bus.lf_bus_type == "SLACK":
+            pf_gen.SetAttribute("ip_ctrl", 1)
+
+    pf_gen_bus = get_pf_grid_component(self, component_name=gdf_gen_bus.name)
+    if pf_gen_bus is None:
+        Logger.log_to_selected(
+            f"There was no generator bus found inside of the powerfactory network for the static generator {gen.name}"
+        )
+        success = False
+
+    # If the bus was found set connection attribute
+    if success:
+        pf_gen.SetAttribute("bus1", add_cubicle_to_bus(pf_gen_bus))
+
+    # Set attributes of the generator itself
+    pf_gen.SetAttribute("sgn", gen.rated_apparent_power)
+    pf_gen.SetAttribute("loc_name", gen.name)
+    pf_gen.SetAttribute("pgini", gen.rated_active_power)
+    pf_gen.SetAttribute("qgini", gen.reactive_power)
+    pf_gen.SetAttribute("usetp", gen.voltage_set_point)
+    pf_gen.SetAttribute("Pmin_uc", gen.p_min)
+    pf_gen.SetAttribute("P_max", gen.p_max)
+    pf_gen.SetAttribute("cQ_min", gen.q_min)
+    pf_gen.SetAttribute("cQ_max", gen.q_max)
 
     return success
