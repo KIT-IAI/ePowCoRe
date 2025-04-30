@@ -53,10 +53,10 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     pf_trafo_type_lib = self.pf_type_library.SearchObject(
         self.pf_type_library.GetFullName() + "\\Transformer Types"
     )
-    # Create new type
+    # Create new trafo type
     pf_trafo_type = pf_trafo_type_lib.CreateObject("TypTr3", trafo.name + "_type")
 
-    # Set attributes for newly created trafo
+    # Set attributes of the newly created trafo type
     pf_trafo_type.SetAttribute("strn3_h", trafo.rating_hv)
     pf_trafo_type.SetAttribute("strn3_m", trafo.rating_mv)
     pf_trafo_type.SetAttribute("strn3_l", trafo.rating_lv)
@@ -78,12 +78,14 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     pf_trafo_type.SetAttribute("nt3ag_m", trafo.phase_shift_30_mv)
     pf_trafo_type.SetAttribute("nt3ag_l", trafo.phase_shift_30_lv)
 
-    # Set Connections
+    # TODO: tap settings on the trafo itself missing
+
+    # Set connections
     pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
     pf_trafo.SetAttribute("busmv", add_cubicle_to_bus(pf_mv_bus))
     pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
 
-    # Set trafo type attribut to the newly created trafo type
+    # Set trafo type attribute to the newly created trafo type
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
 
     return success
@@ -128,10 +130,10 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     pf_trafo_type_lib = self.pf_type_library.SearchObject(
         self.pf_type_library.GetFullName() + "\\Transformer Types"
     )
-    # Create new type
+    # Create new trafo type
     pf_trafo_type = pf_trafo_type_lib.CreateObject("TypTr2", trafo.name + "_type")
 
-    # Set attributes for trafo type of trafo
+    # Set attributes of the newly created trafo type
     pf_trafo_type.SetAttribute("strn", trafo.rating)
     pf_trafo_type.SetAttribute("utrn_h", trafo.voltage_hv)
     pf_trafo_type.SetAttribute("utrn_l", trafo.voltage_lv)
