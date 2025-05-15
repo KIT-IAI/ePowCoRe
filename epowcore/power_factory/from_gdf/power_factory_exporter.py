@@ -7,12 +7,14 @@ from epowcore.gdf.load import Load
 from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
+from epowcore.gdf.generators.static_generator import StaticGenerator
 from epowcore.power_factory.from_gdf.components.bus import create_bus
 from epowcore.power_factory.from_gdf.components.line import create_line
 from epowcore.power_factory.from_gdf.components.load import create_load
 from epowcore.power_factory.from_gdf.components.transformers import create_two_wdg_trafo
 from epowcore.power_factory.from_gdf.components.transformers import create_three_wdg_trafo
 from epowcore.power_factory.from_gdf.components.generators import create_synchronous_machine
+from epowcore.power_factory.from_gdf.components.generators import create_static_generator
 from epowcore.power_factory.power_factory_model import PFModel
 from epowcore.generic.logger import Logger
 
@@ -112,6 +114,17 @@ class PowerFactoryExporter:
                 c+=1
         Logger.log_to_selected(
             f"{c} out of {len(gdf_gen_list)} synchronous machine creations suceeded"
+        )
+
+        # Converting all static generators
+        Logger.log_to_selected("Converting static generators into powerfactory network")
+        gdf_gen_list = self.core_model.type_list(StaticGenerator)
+        c = 0
+        for gdf_gen in gdf_gen_list:
+            if create_static_generator(self, gen=gdf_gen):
+                c+=1
+        Logger.log_to_selected(
+            f"{c} out of {len(gdf_gen_list)} static generator creations suceeded"
         )
 
         # Creating line type folder
