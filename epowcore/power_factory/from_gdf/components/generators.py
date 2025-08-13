@@ -60,6 +60,16 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
     # Create new gen type
     pf_gen_type = pf_gen_type_lib.CreateObject("TypSym", gen.name + "_type")
 
+    # Create generator power plant
+    pf_power_plant = self.pf_grid.CreateObject("ElmComp", gen.name + " Power Plant")
+    pf_power_plant.typ_id = self.app
+    # Connect generator to powerplant
+    pf_gen.SetAttribute("c_pmod", pf_power_plant)
+
+    print(type(pf_power_plant.pblk))
+    print(pf_power_plant.pblk)
+
+
     # Set attributes for newly crated gen type
     pf_gen_type.SetAttribute("sgn", gen.rated_apparent_power)
     pf_gen_type.SetAttribute("ugn", gen.rated_voltage)
