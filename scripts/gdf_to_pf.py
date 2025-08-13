@@ -3,6 +3,8 @@ import os
 import pathlib
 import time
 
+from epowcore.generic.tools.visualization import visualize_graph
+from epowcore.generic.component_graph import ComponentGraph
 from epowcore.gdf.core_model import CoreModel
 from epowcore.power_factory.power_factory_converter import PowerFactoryConverter
 
@@ -24,6 +26,9 @@ def main() -> None:
         data_str = file.read()
         data = json.loads(data_str)
         core_model = CoreModel.import_dict(data)
+
+        cg = ComponentGraph(graph=core_model.graph)
+        print("sanity: " + str(cg.sanity_check()))
 
         converter = PowerFactoryConverter(debug=False)
         power_factory_model = converter.from_gdf(
