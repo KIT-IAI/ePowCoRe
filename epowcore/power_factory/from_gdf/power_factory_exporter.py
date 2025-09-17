@@ -54,6 +54,9 @@ class PowerFactoryExporter:
         )
 
     def convert_model(self) -> None:
+        # Set grid base frequency
+        self.pf_grid.SetAttribute("frnom", self.core_model.base_frequency)
+
         # Converting all buses
         Logger.log_to_selected("Creating buses in Powerfactory network")
         gdf_bus_list = self.core_model.type_list(Bus)
@@ -114,7 +117,7 @@ class PowerFactoryExporter:
         c = 0
         for gdf_gen in gdf_gen_list:
             if create_synchronous_machine(self, gen=gdf_gen):
-                c+=1
+                c += 1
         Logger.log_to_selected(
             f"{c} out of {len(gdf_gen_list)} synchronous machine creations suceeded"
         )
@@ -125,7 +128,7 @@ class PowerFactoryExporter:
         c = 0
         for gdf_gen in gdf_gen_list:
             if create_static_generator(self, gen=gdf_gen):
-                c+=1
+                c += 1
         Logger.log_to_selected(
             f"{c} out of {len(gdf_gen_list)} static generator creations suceeded"
         )
@@ -140,13 +143,13 @@ class PowerFactoryExporter:
         for gdf_tline in gdf_tline_list:
             if create_line(self, tline=gdf_tline):
                 c += 1
-        Logger.log_to_selected(
-            f"{c} out of {len(gdf_tline_list)} line creations suceeded"
-        )
+        Logger.log_to_selected(f"{c} out of {len(gdf_tline_list)} line creations suceeded")
 
     def get_pf_model_object(self) -> PFModel:
         export_model = PFModel(
-            project_name=self.name, study_case_name=None, frequency=self.core_model.base_frequency
+            project_name=self.pf_project.GetAttribute("loc_name"),
+            study_case_name=self.app.GetActiveStudyCase().GetAttribute("loc_name"),
+            frequency=self.pf_grid.GetAttribute("frnom"),
         )
         return export_model
 
