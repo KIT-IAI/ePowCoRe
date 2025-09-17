@@ -41,6 +41,9 @@ class PowerFactoryExporter:
         self.pf_project = self.app.CreateProject(name, "grid")
         # Get library folders
         self.pf_library = self.app.GetProjectFolder("lib")
+        self.user = self.pf_project.GetParent()
+        self.database = self.user.GetParent()
+        self.pf_digsilent_library = self.database.GetContents("Lib.IntLibrary")[0]
         self.pf_type_library = self.pf_project.SearchObject(
             self.pf_library.GetFullName() + "\\Equipment Type Library"
         )
