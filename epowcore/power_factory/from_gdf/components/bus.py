@@ -12,7 +12,7 @@ def create_bus(self, bus: Bus) -> bool:
     :rtype: bool
     """
     # Conversion of bus type
-    bus_type = {BusType.JUNCTION: 0, BusType.BUSBAR: 1, BusType.INTERNAL: 2}
+    bus_type = {BusType.BUSBAR: 0, BusType.JUNCTION: 1, BusType.INTERNAL: 2}
     # lf_bus_type = {
     #     LFBusType.PQ: 1,
     #     LFBusType.PV: 2,
