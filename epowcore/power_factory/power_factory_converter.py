@@ -3,6 +3,7 @@ import powerfactory as pf
 from epowcore.power_factory.to_gdf.power_factory_extractor import PowerFactoryExtractor
 from epowcore.power_factory.from_gdf.power_factory_exporter import PowerFactoryExporter
 from epowcore.gdf.core_model import CoreModel
+from epowcore.generic.manipulation.flatten import flatten
 from epowcore.generic.converter_base import ConverterBase
 from epowcore.power_factory.power_factory_model import PFModel
 
@@ -22,6 +23,10 @@ class PowerFactoryConverter(ConverterBase[PFModel]):
         :param log_path: The path to the log file. If None, no log file will be created.
         """
         return super().to_gdf(model, log_path)
+
+    def _pre_export(self, core_model, name):
+        flatten(core_model)
+        return core_model
 
     def _export(self, core_model: CoreModel, name: str) -> PFModel:
         """Convert a GDF core model to a Powerfactory model.
