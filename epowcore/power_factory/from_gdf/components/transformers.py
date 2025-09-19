@@ -19,6 +19,10 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     :rtype: bool
     """
     success = True
+
+    # Create new trafo inside of grid
+    pf_trafo = self.pf_grid.CreateObject("ElmTr3", trafo.name)
+
     # Get the bus connected to the transformer on the high voltage side
     high_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="HV"
@@ -45,9 +49,11 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
             f"Three winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
         success = False
-
-    # Create new trafo inside of grid
-    pf_trafo = self.pf_grid.CreateObject("ElmTr3", trafo.name)
+    
+    # Set connections
+    pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
+    pf_trafo.SetAttribute("busmv", add_cubicle_to_bus(pf_mv_bus))
+    pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
 
     # Get transformer types folder
     pf_trafo_type_lib = self.pf_type_library.SearchObject(
@@ -80,11 +86,6 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
 
     # TODO: tap settings on the trafo itself missing
 
-    # Set connections
-    pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
-    pf_trafo.SetAttribute("busmv", add_cubicle_to_bus(pf_mv_bus))
-    pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
-
     # Set trafo type attribute to the newly created trafo type
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
 
@@ -101,6 +102,10 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     :rtype: bool
     """
     success = True
+    
+    # Create new trafo inside of grid
+    pf_trafo = self.pf_grid.CreateObject("ElmTr2", trafo.name)
+
     # Get the bus connected to the transformer on the high voltage side
     high_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="HV"
@@ -122,9 +127,10 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
             f"Two winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
         success = False
-
-    # Create new trafo inside of grid
-    pf_trafo = self.pf_grid.CreateObject("ElmTr2", trafo.name)
+    
+    # Set connections
+    pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
+    pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
 
     # Get transformer types folder
     pf_trafo_type_lib = self.pf_type_library.SearchObject(
@@ -154,9 +160,5 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     pf_trafo.SetAttribute("nntap", trafo.tap_initial)  # Attribute of the transformer itself
     # Set trafo type attribut to the newly created trafo type
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
-
-    # Set connections
-    pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
-    pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
 
     return success

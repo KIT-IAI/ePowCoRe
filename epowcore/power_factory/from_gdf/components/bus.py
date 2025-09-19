@@ -11,6 +11,8 @@ def create_bus(self, bus: Bus) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
+    # Create bus inside of network
+    pf_bus = self.pf_grid.CreateObject("ElmTerm")
     # Conversion of bus type
     bus_type = {BusType.BUSBAR: 0, BusType.JUNCTION: 1, BusType.INTERNAL: 2}
     # lf_bus_type = {
@@ -23,8 +25,6 @@ def create_bus(self, bus: Bus) -> bool:
     #         f"Bus {bus.name} can not be converted because the load flow type is ISOLATED"
     #     )
     #     return False
-    # Create bus inside of network
-    pf_bus = self.pf_grid.CreateObject("ElmTerm")
     # Set attributes for newly created bus
     pf_bus.SetAttribute("loc_name", bus.name)
     pf_bus.SetAttribute("uknom", bus.nominal_voltage)

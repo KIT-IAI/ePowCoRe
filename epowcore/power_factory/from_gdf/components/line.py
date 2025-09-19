@@ -13,6 +13,9 @@ def create_line(self, tline: TLine) -> bool:
     """
     success = True
 
+    # Create new line inside of grid
+    pf_line = self.pf_grid.CreateObject("ElmLne", tline.name)
+
     from_bus = self.core_model.get_neighbors(component=tline, follow_links=True, connector="A")[0]
     to_bus = self.core_model.get_neighbors(component=tline, follow_links=True, connector="B")[0]
     if from_bus is None or to_bus is None:
@@ -30,12 +33,15 @@ def create_line(self, tline: TLine) -> bool:
             f"At least one bus not found inside of powerfactory for tline {tline.name}"
         )
         success = False
+
+    # Set connections
+    pf_line.SetAttribute("bus1", add_cubicle_to_bus(pf_from_bus))
+    pf_line.SetAttribute("bus2", add_cubicle_to_bus(pf_to_bus))
+
     # Helper function for converting zero sequence values that use None inside of the gdf
     def zero_sequence_transform(a):
         return 0 if a is None else a
 
-    # Create new line inside of grid
-    pf_line = self.pf_grid.CreateObject("ElmLne", tline.name)
     # Get line types folder
     pf_line_type_lib = self.pf_type_library.SearchObject(
         self.pf_type_library.GetFullName() + "\\Line Types"
@@ -59,9 +65,5 @@ def create_line(self, tline: TLine) -> bool:
 
     # Set line type attribut to the newly crated line type
     pf_line.SetAttribute("typ_id", pf_line_type)
-
-    # Set connections
-    pf_line.SetAttribute("bus1", add_cubicle_to_bus(pf_from_bus))
-    pf_line.SetAttribute("bus2", add_cubicle_to_bus(pf_to_bus))
 
     return success
