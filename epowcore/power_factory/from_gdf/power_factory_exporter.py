@@ -4,6 +4,7 @@ from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.load import Load
+from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
@@ -11,6 +12,7 @@ from epowcore.gdf.generators.static_generator import StaticGenerator
 from epowcore.power_factory.from_gdf.components.bus import create_bus
 from epowcore.power_factory.from_gdf.components.line import create_line
 from epowcore.power_factory.from_gdf.components.load import create_load
+from epowcore.power_factory.from_gdf.components.shunt import create_shunt
 from epowcore.power_factory.from_gdf.components.transformers import create_two_wdg_trafo
 from epowcore.power_factory.from_gdf.components.transformers import create_three_wdg_trafo
 from epowcore.power_factory.from_gdf.components.generators import create_synchronous_machine
@@ -79,6 +81,15 @@ class PowerFactoryExporter:
             if create_load(self=self, load=gdf_load):
                 c += 1
         Logger.log_to_selected(f"{c} out of {len(gdf_load_list)} load creations suceeded")
+
+        # Converting all shunts
+        Logger.log_to_selected("Converting shunts into the Powerfactory network")
+        gdf_shunt_list = self.core_model.type_list(Shunt)
+        c = 0
+        for gdf_shunt in gdf_shunt_list:
+            if create_shunt(self=self, shunt=gdf_shunt):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_shunt_list)} shunt creations suceeded")
 
         # Creating transformer type folder
         pf_trafo_type_lib = self.pf_type_library.CreateObject("IntPrjfolder", "Transformer Types")
