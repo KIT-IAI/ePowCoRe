@@ -11,3 +11,4 @@ class Platform(Enum):
     POWERFACTORY = "PowerFactory"
     RSCAD = "RSCAD"
     SIMSCAPE = "Simscape"
+    PANDAPOWER = "Pandapower"
