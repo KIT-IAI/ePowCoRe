@@ -1,0 +1,17 @@
+TLine:
+  zero_sequence_factor: 3
+  temperature_degree_celsius: 80
+  alpha: 0.004
+TwoWindingTransformer:
+  si0_hv_partial: 0.9
+  mag0_rx: 0
+  mag0_percent: 100
+ThreeWindingTransformer:
+  vk_percent: 10.4
+  vkr_hv_percent: 0.28
+  vkr_mv_percent: 0.32
+  vkr_lv_percent: 0.35
+Load:
+  type: "wye"
+  const_z_percent: 0  # pandapower convert says 100 but loadflows dont converge then
+  const_i_percent: 0
