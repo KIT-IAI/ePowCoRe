@@ -142,7 +142,10 @@ class PandapowerModel:
         # pandapower powerfactory converter: uk0tr
         vk0_percent = vk_percent
         # ur0tr in pandapower powerfactory converter
-        vkr0_percent = vk_percent / (transformer.r1pu / transformer.x1pu)
+        if transformer.r1pu == 0 or transformer.x1pu == 0:
+            vkr0_percent = 0.0
+        else:
+            vkr0_percent = vk_percent / (transformer.r1pu / transformer.x1pu)
         # Create transformer in pandapower network
         pandapower.create_transformer_from_parameters(
             net=self.network,
