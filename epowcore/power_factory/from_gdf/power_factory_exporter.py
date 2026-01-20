@@ -5,6 +5,8 @@ from epowcore.gdf.bus import Bus
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.load import Load
 from epowcore.gdf.shunt import Shunt
+from epowcore.gdf.switch import Switch
+from epowcore.gdf.pv_system import PVSystem
 from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
@@ -17,6 +19,8 @@ from epowcore.power_factory.from_gdf.components.transformers import create_two_w
 from epowcore.power_factory.from_gdf.components.transformers import create_three_wdg_trafo
 from epowcore.power_factory.from_gdf.components.generators import create_synchronous_machine
 from epowcore.power_factory.from_gdf.components.generators import create_static_generator
+from epowcore.power_factory.from_gdf.components.switch import create_switch
+from epowcore.power_factory.from_gdf.components.pv_system import create_pv_system
 from epowcore.power_factory.power_factory_model import PFModel
 from epowcore.generic.logger import Logger
 
@@ -155,6 +159,23 @@ class PowerFactoryExporter:
             if create_line(self, tline=gdf_tline):
                 c += 1
         Logger.log_to_selected(f"{c} out of {len(gdf_tline_list)} line creations suceeded")
+        # Converting all switches
+        Logger.log_to_selected("Converting switches into the Powerfactory network")
+        gdf_switch_list = self.core_model.type_list(Switch)
+        c = 0
+        for gdf_switch in gdf_switch_list:
+            if create_switch(self, switch=gdf_switch):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_switch_list)} switch creations suceeded")
+
+        # Converting all pv systems
+        Logger.log_to_selected("Converting pv systems into the Powerfactory network")
+        gdf_pv_system_list = self.core_model.type_list(PVSystem)
+        c = 0
+        for gdf_pv_system in gdf_pv_system_list:
+            if create_pv_system(self, pv_system=gdf_pv_system):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_pv_system_list)} pv system creations suceeded")
 
     def get_pf_model_object(self) -> PFModel:
         export_model = PFModel(
