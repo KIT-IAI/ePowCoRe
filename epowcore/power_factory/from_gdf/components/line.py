@@ -62,6 +62,8 @@ def create_line(self, tline: TLine) -> bool:
     pf_line.SetAttribute("nlnum", tline.parallel_lines)
     pf_line.SetAttribute("dline", tline.length)
     pf_line.SetAttribute("loc_name", tline.name)
+    pf_line.GPSlon = tline.coords[0]
+    pf_line.GPSlat = tline.coords[1]
 
     # Set line type attribut to the newly crated line type
     pf_line.SetAttribute("typ_id", pf_line_type)

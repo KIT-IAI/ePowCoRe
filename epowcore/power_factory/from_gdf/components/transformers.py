@@ -83,6 +83,8 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     pf_trafo_type.SetAttribute("nt3ag_h", trafo.phase_shift_30_hv)
     pf_trafo_type.SetAttribute("nt3ag_m", trafo.phase_shift_30_mv)
     pf_trafo_type.SetAttribute("nt3ag_l", trafo.phase_shift_30_lv)
+    pf_trafo.GPSlon = trafo.coords[0]
+    pf_trafo.GPSlat = trafo.coords[1]
 
     # TODO: tap settings on the trafo itself missing
 
@@ -155,6 +157,8 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     pf_trafo_type.SetAttribute("ntpmn", trafo.tap_min)
     pf_trafo_type.SetAttribute("ntpmx", trafo.tap_max)
     pf_trafo_type.SetAttribute("nntap0", trafo.tap_neutral)
+    pf_trafo.GPSlon = trafo.coords[0]
+    pf_trafo.GPSlat = trafo.coords[1]
 
     # Set attribute of trafo itself
     pf_trafo.SetAttribute("nntap", trafo.tap_initial)  # Attribute of the transformer itself

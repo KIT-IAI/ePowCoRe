@@ -43,5 +43,7 @@ def create_load(self, load: Load) -> bool:
     pf_load.SetAttribute("qlini", load.reactive_power)
     pf_load.SetAttribute("u0", 1)
     pf_load.SetAttribute("scale0", 1)
+    pf_load.GPSlon = load.coords[0]
+    pf_load.GPSlat = load.coords[1]
 
     return success

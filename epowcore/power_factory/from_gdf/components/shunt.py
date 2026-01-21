@@ -40,6 +40,8 @@ def create_shunt(self, shunt: Shunt) -> bool:
     # Set attributes for newly created shunt
     pf_shunt.SetAttribute("loc_name", shunt.name)
     pf_shunt.SetAttribute("e:Qact", shunt.q)
+    pf_shunt.GPSlon = shunt.coords[0]
+    pf_shunt.GPSlat = shunt.coords[1]
 
 
     return success

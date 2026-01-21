@@ -30,6 +30,8 @@ def create_bus(self, bus: Bus) -> bool:
     pf_bus.SetAttribute("uknom", bus.nominal_voltage)
     pf_bus.SetAttribute("iUsage", bus_type[bus.bus_type])
     pf_bus.SetAttribute("systype", 0)  # 0: AC
+    pf_bus.GPSlon = bus.coords[0]
+    pf_bus.GPSlat = bus.coords[1]
     # pf_bus.SetAttribute("busType", lf_bus_type[bus.lf_bus_type]) Unknown name of attribute
     # In import deriaved from the ElmTerm.GetBusType() function
 

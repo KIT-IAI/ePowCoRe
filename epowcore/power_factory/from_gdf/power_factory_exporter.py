@@ -58,6 +58,21 @@ class PowerFactoryExporter:
             self.pf_project.GetFullName()
             + "\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\grid.ElmNet"
         )
+        # Select Geografic or create a new one
+        equipment_lib = app.GetProjectFolder("equip")
+        diagram_folder = app.GetProjectFolder("dia")
+        library = equipment_lib.GetParent()
+        project = library.GetParent()
+        project.SetGeoCoordinateSystem(4326)
+        geo_diagram = diagram_folder.CreateObject("IntGrfnet", "Geographic")
+        geo_diagram.iType = 2
+        geo_diagram.Show()
+        geo_diagram.Close()
+        layers = geo_diagram.GetContents("Layers")[0]
+        geo_layer = layers.CreateObject("IntGrflayer", "Geographical Layer")
+        geo_layer.layerType = 4
+        geo_layer.layerId = 100
+        geo_diagram.Show()
 
     def convert_model(self) -> None:
         # Set grid base frequency
