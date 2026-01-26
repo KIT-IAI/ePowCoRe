@@ -71,6 +71,6 @@ def add_cubicle_to_bus(bus: pf.DataObject) -> pf.DataObject:
     :rtype: pf.DataObject
     """
     cubicles = bus.GetConnectedCubicles(1)
-    cubicle = bus.CreateObject("StaCubic", "Cub_" + str(len(cubicles) + 1))
+    cubicle = bus.CreateObject("StaCubic", f"{bus.loc_name}_Cub_{len(cubicles) + 1}")
     # The bus of the cubicle (cterm attribute) is automatically set
     return cubicle

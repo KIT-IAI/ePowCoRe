@@ -134,8 +134,9 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
     pf_gen.SetAttribute("cQ_max", gen.qc1_max)
     pf_gen.SetAttribute("cQ_min", gen.qc2_min)
     pf_gen.SetAttribute("cQ_max", gen.qc2_max)
-    pf_gen.GPSlon = gen.coords[0]
-    pf_gen.GPSlat = gen.coords[1]
+    if gen.coords is not None:
+        pf_gen.GPSlon = gen.coords[1]
+        pf_gen.GPSlat = gen.coords[0]
 
     # Set gen type attribute to the newly crated gen type
     pf_gen.SetAttribute("typ_id", pf_gen_type)
@@ -188,7 +189,8 @@ def create_static_generator(self, gen: StaticGenerator) -> bool:
     pf_gen.SetAttribute("P_max", gen.p_max)
     pf_gen.SetAttribute("cQ_min", gen.q_min)
     pf_gen.SetAttribute("cQ_max", gen.q_max)
-    pf_gen.GPSlon = gen.coords[0]
-    pf_gen.GPSlat = gen.coords[1]
+    if gen.coords is not None:
+        pf_gen.GPSlon = gen.coords[0]
+        pf_gen.GPSlat = gen.coords[1]
 
     return success

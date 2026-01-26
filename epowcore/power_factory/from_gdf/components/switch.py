@@ -15,8 +15,8 @@ def create_switch(self, switch: Switch) -> bool:
     # Create new switch inside of grid
     pf_switch = self.pf_grid.CreateObject("ElmCoup", switch.name)
 
-    from_bus= self.core_model.get_neighbors(component=switch, follow_links=True, connector="A")[0]
-    to_bus = self.core_model.get_neighbors(component=switch, follow_links=True, connector="B")[0]
+    from_bus= self.core_model.get_neighbors(component=switch, follow_links=True)[0]
+    to_bus = self.core_model.get_neighbors(component=switch, follow_links=True)[1]
     if from_bus is None or to_bus is None:
         Logger.log_to_selected(
             f"At least one connection not found inside of the gdf for switch {switch.name}"
@@ -37,5 +37,8 @@ def create_switch(self, switch: Switch) -> bool:
     pf_switch.SetAttribute("bus1", add_cubicle_to_bus(pf_from_bus))
     pf_switch.SetAttribute("bus2", add_cubicle_to_bus(pf_to_bus))
     pf_switch.SetAttribute("on_off", 1 if switch.closed else 0)
+    if switch.coords is not None:
+        pf_switch.GPSlon = switch.coords[1]
+        pf_switch.GPSlat = switch.coords[0]
 
     return success

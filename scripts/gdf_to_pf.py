@@ -12,7 +12,7 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def main() -> None:
-    model_name = "IEEE39"
+    model_name = "roegling_no_sites_v2"
 
     start = time.perf_counter()
 
@@ -21,7 +21,7 @@ def main() -> None:
         os.makedirs("output/power_factory")
 
     with open(
-        PATH.parent / f"tests/models/gdf/{model_name}_gdf.json", "r", encoding="utf-8"
+        PATH.parent / f"output/gdf/{model_name}_gdf.json", "r", encoding="utf-8"
     ) as file:
         data_str = file.read()
         data = json.loads(data_str)
@@ -33,7 +33,7 @@ def main() -> None:
         converter = PowerFactoryConverter(debug=False)
         power_factory_model = converter.from_gdf(
             core_model,
-            f"{model_name}_first_conversion",
+            f"{model_name}_second_conversion",
             log_path=str(PATH.parent / "power_factory.log"),
         )
         print(power_factory_model)

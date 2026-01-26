@@ -1,5 +1,6 @@
 import powerfactory as pf
 
+from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.tline import TLine
@@ -12,6 +13,7 @@ from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 from epowcore.gdf.generators.static_generator import StaticGenerator
 from epowcore.power_factory.from_gdf.components.bus import create_bus
+from epowcore.power_factory.from_gdf.components.external_grid import create_external_grid
 from epowcore.power_factory.from_gdf.components.line import create_line
 from epowcore.power_factory.from_gdf.components.load import create_load
 from epowcore.power_factory.from_gdf.components.shunt import create_shunt
@@ -58,6 +60,8 @@ class PowerFactoryExporter:
             self.pf_project.GetFullName()
             + "\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\grid.ElmNet"
         )
+        # Standard Type for PV
+        self.standard_pv_type = self.pf_digsilent_library.GetContents("Aleo S19.230.TypPvpanel", 1)[0]
         # Select Geografic or create a new one
         equipment_lib = app.GetProjectFolder("equip")
         diagram_folder = app.GetProjectFolder("dia")
@@ -191,6 +195,14 @@ class PowerFactoryExporter:
             if create_pv_system(self, pv_system=gdf_pv_system):
                 c += 1
         Logger.log_to_selected(f"{c} out of {len(gdf_pv_system_list)} pv system creations suceeded")
+        # Converting external grids
+        Logger.log_to_selected("Converting external grids into the Powerfactory network")
+        gdf_external_grid_list = self.core_model.type_list(ExternalGrid)
+        c = 0
+        for gdf_external_grid in gdf_external_grid_list:
+            if create_external_grid(self, external_grid=gdf_external_grid):
+                c += 1
+        Logger.log_to_selected(f"{c} out of {len(gdf_external_grid_list)} external grid creations suceeded")
 
     def get_pf_model_object(self) -> PFModel:
         export_model = PFModel(

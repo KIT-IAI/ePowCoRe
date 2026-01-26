@@ -13,7 +13,7 @@ def create_pv_system(self, pv_system: PVSystem) -> bool:
     success = True
 
     # Create new switch1 inside of grid
-    pf_pv_system = self.pf_grid.CreateObject("ElmCoup", pv_system.name)
+    pf_pv_system = self.pf_grid.CreateObject("ElmPvsys", pv_system.name)
 
     from_bus= self.core_model.get_neighbors(component=pv_system, follow_links=True)[0]
     if from_bus is None:
@@ -34,16 +34,14 @@ def create_pv_system(self, pv_system: PVSystem) -> bool:
     # Set connections
     pf_pv_system.SetAttribute("bus1", add_cubicle_to_bus(pf_from_bus))
 
-    # PV type in PowrFactory has no values that can be set from the GDF model, therefore a standard type in the PowerFactory Library is used
-    # Get pv types folder --> Geht das aktuell so?
-    pf_pv_type_lib = self.pf_digsilent_library.GetContents("Aleo S19.230.TypPvpanel", 1)[0]
+    # PV type in PowerFactory has no values that can be set from the GDF model, therefore a standard type in the PowerFactory Library is used
     # Create new type
-    standard_pv_panel = pf_pv_type_lib.GetContents("Aleo S19.230.TypPvpanel", 1)[0]
-    pf_pv_system.SetAttribute("typ_id", standard_pv_panel)
-    pf_pv_system.SetAttribute("real_power_output", pv_system.rated_power/1000)
-    pf_pv_system.GPSlon = pv_system.coords[0]
-    pf_pv_system.GPSlat = pv_system.coords[1]
+    pf_pv_system.SetAttribute("typ_id", self.standard_pv_type)
+    pf_pv_system.SetAttribute("sgn", pv_system.rated_power/1000)
+    if pv_system.coords is not None:
+        pf_pv_system.GPSlon = pv_system.coords[1]
+        pf_pv_system.GPSlat = pv_system.coords[0]
     # Model solar calculation
-    pv_system.SetAttribute("mode_pgi", 1)
+    pf_pv_system.SetAttribute("mode_pgi", 1)
 
     return success
