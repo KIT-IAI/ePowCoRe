@@ -9,11 +9,11 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def main():
-    model_name = "roegling_no_sites_v2"
+    model_name = "roegling_no_sites_v4"
 
     start = time.perf_counter()
 
-    model = PFModel("roegling_no_sites_v2",None,  frequency = 50)
+    model = PFModel("roegling_no_sites_v4",None,  frequency = 50)
     converter = PowerFactoryConverter()
     core_model = converter.to_gdf(model, log_path=str(PATH.parent / f"pf_{model_name}.log"))
 

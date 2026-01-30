@@ -12,7 +12,7 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def main() -> None:
-    model_name = "roegling_no_sites_v2"
+    model_name = ""
 
     start = time.perf_counter()
 
@@ -33,7 +33,7 @@ def main() -> None:
         converter = PowerFactoryConverter(debug=False)
         power_factory_model = converter.from_gdf(
             core_model,
-            f"{model_name}_second_conversion",
+            f"{model_name}",
             log_path=str(PATH.parent / "power_factory.log"),
         )
         print(power_factory_model)
