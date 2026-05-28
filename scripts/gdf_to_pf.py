@@ -12,7 +12,7 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def main() -> None:
-    model_name = ""
+    model_name = "GredlerAreal4_1"
 
     start = time.perf_counter()
 
@@ -33,7 +33,7 @@ def main() -> None:
         converter = PowerFactoryConverter(debug=False)
         power_factory_model = converter.from_gdf(
             core_model,
-            f"{model_name}",
+            f"{model_name}_epowcore_conversion",
             log_path=str(PATH.parent / "power_factory.log"),
         )
         print(power_factory_model)

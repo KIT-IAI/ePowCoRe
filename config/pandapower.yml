@@ -15,3 +15,5 @@ Load:
   type: "wye"
   const_z_percent: 0  # pandapower convert says 100 but loadflows dont converge then
   const_i_percent: 0
+Switch:
+  in_ka: 0.27 # in MVA 

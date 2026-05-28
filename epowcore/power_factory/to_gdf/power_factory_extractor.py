@@ -80,6 +80,7 @@ class PowerFactoryExtractor:
         self.extract_pv_systems()
         self.extract_external_grids()
         self.extract_switches()
+        self.extract_fuses()
         self.extract_shunts()
 
         self.set_core_model_graph()
@@ -274,6 +275,15 @@ class PowerFactoryExtractor:
             self.uid += 1
             self._component_dict[pf_switch] = switch
             self.graph.add_node(pf_switch)
+    
+    def extract_fuses(self) -> None:
+        """Extract the PowerFactory fuses to the data format. Currently represented as a switch for the gdf"""
+        pf_fuses = self.app.GetCalcRelevantObjects("RelFuse")
+        for pf_fuse in pf_fuses:
+            switch = Components.create_switch(pf_fuse, self.uid)
+            self.uid += 1
+            self._component_dict[pf_fuse] = switch
+            self.graph.add_node(pf_fuse)
 
     def extract_shunts(self) -> None:
         """Extract the PowerFactory shunts to the data format"""

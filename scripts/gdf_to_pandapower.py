@@ -10,11 +10,11 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def main() -> None:
-    model_name = "IEEE39"
+    model_name = "GredlerAreal4_1"
 
     start = time.perf_counter()
 
-    with open(PATH.parent / f"tests/models/gdf/{model_name}_gdf.json", "r", encoding="utf-8") as file:
+    with open(PATH.parent / f"output/gdf/{model_name}_gdf.json", "r", encoding="utf-8") as file:
         data_str = file.read()
         data = json.loads(data_str)
         core_model = CoreModel.import_dict(data)

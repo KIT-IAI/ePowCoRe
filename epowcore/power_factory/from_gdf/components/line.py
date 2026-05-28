@@ -54,10 +54,7 @@ def create_line(self, tline: TLine) -> bool:
     pf_line_type.SetAttribute("bline", tline.b1)
     # Standard type cables for low voltage grids have a rating of 1kV
     rating_from_bus = pf_from_bus.GetAttribute("uknom") #kV
-    if rating_from_bus < 1:
-        rating_from_bus = 1
     pf_line_type.SetAttribute("uline", rating_from_bus)
-    # TODO: Check if PowerFactory extractor uses the right unit as by definition this is false (MVA/kV), but from the value right
     pf_line_type.SetAttribute("sline", tline.rating / (rating_from_bus))
     pf_line_type.SetAttribute("rline0", zero_sequence_transform(tline.r0))
     pf_line_type.SetAttribute("xline0", zero_sequence_transform(tline.x0))

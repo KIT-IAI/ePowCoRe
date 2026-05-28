@@ -12,17 +12,20 @@ from epowcore.gdf.bus import Bus, BusType, LFBusType
 from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
+from epowcore.gdf.generators.static_generator import StaticGenerator
 from epowcore.gdf.load import Load
 from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.switch import Switch
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
+from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.utils import get_connected_bus
 from epowcore.gdf.ward import Ward
 from epowcore.generic.logger import Logger
 
-
+# TODO: General check how to handle values that are only present in some models
+#       (e.g. r0 and x0 in TLine) which are not in the IEEE39 but in other models
 @dataclass(kw_only=True)
 class PandapowerModel:
     """Wrapper class around a Pandapower Network,
@@ -76,7 +79,7 @@ class PandapowerModel:
         load_bus = get_connected_bus(core_model.graph, load, max_depth=1)
         # If no load bus was found the function fails
         if load_bus is None:
-            Logger.log_to_selected("Their was no bus found connected to the load")
+            Logger.log_to_selected("There was no bus found connected to the load")
             return False
         # Create the pandapower load in the network
         pandapower.create_load(
@@ -91,7 +94,7 @@ class PandapowerModel:
             sn_mva=np.nan,
             scaling=1.0,
             in_service=True,
-            type=load.get_default(attr=type),
+            type=load.get_default(attr="type"),
             max_p_mw=np.nan,
             min_p_mw=np.nan,
             max_q_mvar=np.nan,
@@ -131,14 +134,20 @@ class PandapowerModel:
             return False
         # Calculate parameters
         # uktrr in pandapower powerfactory converter
-        vkr_percent = (
-            math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)
-            * 100
-            * transformer.r1pu
-            / transformer.x1pu
-        )
+        if transformer.x1pu == 0:
+            vkr_percent = 0.0
+        else:
+            vkr_percent = (
+                math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)
+                * 100
+                * transformer.r1pu
+                / transformer.x1pu
+            )
         # uktr in pandapower powerfactory converter
+        # TODO: Check if this calculation is correct
         vk_percent = math.sqrt(transformer.r1pu**2 + transformer.x1pu**2) * 100
+        if vk_percent > 20.0:
+            vk_percent = 12.0
         # pandapower powerfactory converter: uk0tr
         vk0_percent = vk_percent
         # ur0tr in pandapower powerfactory converter
@@ -357,6 +366,82 @@ class PandapowerModel:
             slack_weight=0.0,
         )
         return True
+    
+    def create_static_generator_from_gdf_static_generator(
+        self, core_model: CoreModel, static_generator: StaticGenerator
+    ) -> bool:
+        """Create a generator in the pandapower network equivalent to
+        the given static generator in gdf format. Returns True if static generator
+        bus is found, if not returns False and doesn't create a generator in the
+        pandapower network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param static_generator: Static generator in the core mode that will
+                                    be converted and added to the converted
+                                    pandapower model.
+        :type static_generator: StaticGenerator
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
+        """        # Getting the bus the generator is connected to
+        static_generator_bus = get_connected_bus(
+            core_model.graph, static_generator, max_depth=1
+        )
+        # If the bus wasnt found the function fails
+        if static_generator_bus is None:
+            Logger.log_to_selected("Failed to convert static_generator")
+            return False
+
+        # Create generator in pandapower network
+        pandapower.create_sgen(
+            net=self.network,
+            name=static_generator.name,
+            bus=static_generator_bus.uid,
+            p_mw=static_generator.active_power,
+            q_mvar=static_generator.reactive_power,
+            max_p_mw =static_generator.p_max,
+            min_p_mw=static_generator.p_min,
+            max_q_mvar=static_generator.q_max,
+            min_q_mvar=static_generator.q_min,
+            generator_type="async",
+        )
+        return True
+    
+    def create_external_grid_from_gdf(
+        self, core_model: CoreModel, external_grid: ExternalGrid
+    ) -> bool:
+        """Create an external grid in the pandapower network equivalent to
+        the given external grid in gdf format. Returns True if external grid
+        bus is found, if not returns False and doesn't create an external grid in the
+        pandapower network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param external_grid: External grid in the core mode that will
+                                    be converted and added to the converted
+                                    pandapower model.
+        :type external_grid: Component          
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
+        """
+        # Getting the bus the external grid is connected to
+        external_grid_bus = get_connected_bus(
+            core_model.graph, external_grid, max_depth=3
+        )
+        # If the bus wasnt found the function fails
+        if external_grid_bus is None:
+            Logger.log_to_selected("Failed to convert external_grid")
+            return False
+
+        # Create external grid in pandapower network; is assumed to be slack by default in pandapower
+        pandapower.create_ext_grid(
+            net=self.network,
+            name=external_grid.name,
+            index=external_grid.uid,
+            bus=external_grid_bus.uid,
+            vm_pu=external_grid.u_setp,
+        )
+        return True
 
     def create_line_from_gdf_tline(self, core_model: CoreModel, tline: TLine) -> bool:
         """Create a pandapower line in the network equivalent to a gdf
@@ -378,39 +463,45 @@ class PandapowerModel:
         to_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="B")[0]
         # Conversion fails if one of the buses isn't found
         if from_bus is None or to_bus is None:
-            print("Conversion of " + tline.name + " failed")
+            Logger.log_to_selected("Conversion of " + tline.name + " failed")
             return False
-        network_frequency = core_model.base_frequency
-        # Calculate rated current
-        voltage = from_bus.nominal_voltage
-        rated_current = tline.rating / voltage
-        # Create line in pandapower network
-        pandapower.create_line_from_parameters(
-            net=self.network,
-            name=tline.name,
-            index=tline.uid,
-            geodata=tline.coords,
-            from_bus=from_bus.uid,
-            to_bus=to_bus.uid,
-            length_km=tline.length,
-            r_ohm_per_km=tline.r1,
-            x_ohm_per_km=tline.x1,
-            c_nf_per_km=(tline.b1 * 1e3) / (2 * math.pi * network_frequency),
-            max_i_ka=rated_current,
-            type=None,
-            in_service=True,
-            df=1.0,
-            parallel=tline.parallel_lines,
-            g_us_per_km=0.0,
-            max_loading_percent=np.nan,
-            alpha=tline.get_default(attr="alpha"),
-            temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius"),
-            r0_ohm_per_km=tline.r0_fb(),
-            x0_ohm_per_km=tline.x0_fb(),
-            c0_nf_per_km=np.nan,
-            g0_us_per_km=0,
-            endtemp_degree=np.nan,
-        )
+        # Pandapower cannot use lines with to short length as the impedance is too low, which leads to convergence problems because admittances are used
+        # Pandapower suggests to instead use a switch for those cases
+        if False:#tline.r1 * tline.length < 0.001 or tline.x1 * tline.length < 0.001:
+            self.create_switch_from_gdf_tline(core_model, tline)
+            Logger.log_to_selected(f"Line {tline.name} was converted to a switch because of its short length of {tline.length} km.")
+        else:
+            network_frequency = core_model.base_frequency
+            # Calculate rated current
+            voltage = from_bus.nominal_voltage
+            rated_current = tline.rating / voltage
+            # Create line in pandapower network
+            pandapower.create_line_from_parameters(
+                net=self.network,
+                name=tline.name,
+                index=tline.uid,
+                geodata=tline.coords,
+                from_bus=from_bus.uid,
+                to_bus=to_bus.uid,
+                length_km=tline.length,
+                r_ohm_per_km=tline.r1,
+                x_ohm_per_km=tline.x1,
+                c_nf_per_km=(tline.b1 * 1e3) / (2 * math.pi * network_frequency),
+                max_i_ka=rated_current,
+                type=None,
+                in_service=True,
+                df=1.0,
+                parallel=tline.parallel_lines,
+                g_us_per_km=0.0,
+                max_loading_percent=np.nan,
+                alpha=tline.get_default(attr="alpha"),
+                temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius"),
+                r0_ohm_per_km=tline.r0,
+                x0_ohm_per_km=tline.x0,
+                c0_nf_per_km=np.nan,
+                g0_us_per_km=0,
+                endtemp_degree=np.nan,
+            )
         return True
 
     def create_ward_from_gdf_ward(self, core_model: CoreModel, ward: Ward) -> bool:
@@ -516,11 +607,11 @@ class PandapowerModel:
         # If there are less than two neighbours found the function fails
         if len(neighbours) == 2:
             if isinstance(neighbours[0], Bus):
-                switch_bus = neighbours[0].uid
-                switch_other_component = neighbours[1].uid
+                switch_bus = neighbours[0]
+                switch_other_component = neighbours[1]
             else:
-                switch_bus = neighbours[1].uid
-                switch_other_component = neighbours[0].uid
+                switch_bus = neighbours[1]
+                switch_other_component = neighbours[0]
         else:
             return False
         # Get string mapped to the type of the other component
@@ -537,10 +628,56 @@ class PandapowerModel:
             net=self.network,
             name=switch.name,
             index=switch.uid,
-            bus=switch_bus,
-            element=switch_other_component,
+            bus=switch_bus.uid,
+            element=switch_other_component.uid,
             et=switch_et,
             closed=switch.closed,
-            in_ka=switch.rating_b * 1000 / voltage,
+            in_ka=switch.get_default(attr="in_ka") * 1000 / voltage,
+        )
+        return True
+
+    def create_switch_from_gdf_tline(self, core_model: CoreModel, tline: TLine) -> bool:
+        """Create a pandapower switch in the network from a given gdf transmission line.
+        Returns True if both neighbors are found, if not returns False and doesn't create
+        a switch in the pandapower network.
+
+        :param core_model: Core model to be converted.
+        :type core_model: CoreModel
+        :param tline: Transmission line in the gdf that will be converted and added to the 
+                      pandapower network.
+        :type tline: TLine
+        :return: Return False if the conversion fails and True if it suceeds.
+        :rtype: bool
+        """
+        neighbours = core_model.get_neighbors(component=tline, follow_links=True, connector=None)
+        # If there are less than two neighbours found the function fails
+        if len(neighbours) == 2:
+            if isinstance(neighbours[0], Bus):
+                switch_bus = neighbours[0]
+                switch_other_component = neighbours[1]
+            else:
+                switch_bus = neighbours[1]
+                switch_other_component = neighbours[0]
+        else:
+            return False
+        # Get string mapped to the type of the other component
+        switch_et = self._create_pandapower_switch_et(switch_other_component)
+        # If it wasn't possible to map the component the function fails
+        if not switch_et:
+            Logger.log_to_selected(
+                "Failed to convert " + tline.name + " because of the connected components"
+            )
+            return False
+        voltage = switch_bus.nominal_voltage
+        # Create swith in the pandapower network
+        pandapower.create_switch(
+            net=self.network,
+            name=tline.name,
+            index=tline.uid,
+            bus=switch_bus.uid,
+            element=switch_other_component.uid,
+            et=switch_et,
+            closed=True,
+            in_ka=tline.rating * 1000 / voltage,
         )
         return True

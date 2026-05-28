@@ -2,7 +2,10 @@ import pandapower
 
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.external_grid import ExternalGrid
+from epowcore.gdf.switch import Switch
 from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
+from epowcore.gdf.generators.static_generator import StaticGenerator
 from epowcore.gdf.load import Load
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
@@ -63,6 +66,19 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     Logger.log_to_selected(f"created {counter} out of {number_of_two_winding_transformers}")
 
     Logger.log_to_selected(
+        "Creating static generators from static machines in the Pandapower network"
+    )
+    counter = 0
+    gdf_static_generator_list = core_model.type_list(StaticGenerator)
+    number_of_static_generators = len(gdf_static_generator_list)
+    for gdf_static_generator in gdf_static_generator_list:
+        if pandapower_network.create_static_generator_from_gdf_static_generator(
+            core_model=core_model, static_generator=gdf_static_generator
+        ):
+            counter += 1
+    Logger.log_to_selected(f"created {counter} out of {number_of_static_generators}")
+
+    Logger.log_to_selected(
         "Creating static generators from synchronous machines in the Pandapower network"
     )
     counter = 0
@@ -83,5 +99,25 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
         if pandapower_network.create_line_from_gdf_tline(core_model=core_model, tline=gdf_tline):
             counter += 1
     Logger.log_to_selected(f"Created {counter} out of {number_of_tlines}")
+
+    Logger.log_to_selected("Creating switches in the pandapower network")
+    counter = 0
+    gdf_switch_list = core_model.type_list(Switch)
+    number_of_switches = len(gdf_switch_list)
+    for gdf_switch in gdf_switch_list:
+        if pandapower_network.create_switch_from_gdf_switch(core_model=core_model, switch=gdf_switch):
+            counter += 1
+    Logger.log_to_selected(f"Created {counter} out of {number_of_switches}")
+
+    Logger.log_to_selected("Create external grids in the pandapower network")
+    counter = 0
+    gdf_external_grid_list = core_model.type_list(ExternalGrid)
+    number_of_external_grids = len(gdf_external_grid_list)
+    for gdf_external_grid in gdf_external_grid_list:
+        if pandapower_network.create_external_grid_from_gdf(
+            core_model=core_model, external_grid=gdf_external_grid
+        ):
+            counter += 1
+    Logger.log_to_selected(f"Created {counter} out of {number_of_external_grids}")
 
     return pandapower_network
