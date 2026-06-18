@@ -24,10 +24,6 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
-
-    # Create generator inside of network
-    pf_gen = self.pf_grid.CreateObject("ElmSym", gen.name)
 
     # Get bus connected to the generator
     gdf_gen_bus = get_connected_bus(graph=self.core_model.graph, node=gen, max_depth=1)
@@ -36,29 +32,33 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
         Logger.log_to_selected(
             f"There was no generator bus found inside of the core_model network for the synchronous_machine {gen.name}"
         )
-        success = False
-    else:
-        match gdf_gen_bus.lf_bus_type:
-            case LFBusType.SL:
-                pf_gen.SetAttribute("ip_ctrl", 1)
-                pf_gen.SetAttribute("e:bustp", "SL")
-            case LFBusType.PQ:
-                pf_gen.SetAttribute("ip_ctrl", 0)
-                pf_gen.SetAttribute("e:bustp", "PQ")
-            case LFBusType.PV:
-                pf_gen.SetAttribute("ip_ctrl", 0)
-                pf_gen.SetAttribute("e:bustp", "PV")
-
+        return False
     pf_gen_bus = get_pf_grid_component(self, component_name=gdf_gen_bus.name)
     if pf_gen_bus is None:
         Logger.log_to_selected(
             f"There was no generator bus found inside of the powerfactory network for the synchronous_machine {gen.name}"
         )
-        success = False
+        return False
+    
+    # Create generator inside of network
+    pf_gen = self.pf_grid.CreateObject("ElmSym", gen.name)
+
+    match gdf_gen_bus.lf_bus_type:
+        case LFBusType.SL:
+            pf_gen.SetAttribute("ip_ctrl", 1)
+            pf_gen.SetAttribute("e:bustp", "SL")
+        case LFBusType.PQ:
+            pf_gen.SetAttribute("ip_ctrl", 0)
+            pf_gen.SetAttribute("e:bustp", "PQ")
+        case LFBusType.PV:
+            pf_gen.SetAttribute("ip_ctrl", 0)
+            pf_gen.SetAttribute("e:bustp", "PV")
+
+ 
 
     # If the bus was found set connection attribute
-    if success:
-        pf_gen.SetAttribute("bus1", add_cubicle_to_bus(pf_gen_bus))
+    
+    pf_gen.SetAttribute("bus1", add_cubicle_to_bus(pf_gen_bus))
 
     # Get generator types folder
     pf_gen_type_lib = self.pf_type_library.SearchObject(
@@ -141,7 +141,7 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
     # Set gen type attribute to the newly crated gen type
     pf_gen.SetAttribute("typ_id", pf_gen_type)
 
-    return success
+    return True
 
 def create_static_generator(self, gen: StaticGenerator) -> bool:
     """Convert and add the given gdf core model static generator to the given powerfactory network.

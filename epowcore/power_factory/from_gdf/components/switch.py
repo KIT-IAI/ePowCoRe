@@ -10,19 +10,18 @@ def create_switch(self, switch: Switch) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
 
-    # Create new switch inside of grid
-    pf_switch = self.pf_grid.CreateObject("ElmCoup", switch.name)
-
-    from_bus= self.core_model.get_neighbors(component=switch, follow_links=True)[0]
-    to_bus = self.core_model.get_neighbors(component=switch, follow_links=True)[1]
-    if from_bus is None or to_bus is None:
+    
+    connected_buses = self.core_model.get_neighbors(component=switch, follow_links=True)
+    
+    if len(connected_buses) < 2:
         Logger.log_to_selected(
             f"At least one connection not found inside of the gdf for switch {switch.name}"
         )
-        success = False
-
+        return False
+    from_bus= connected_buses[0]
+    to_bus = connected_buses[1]
+ 
     # Get powerfactory connections
     pf_from_bus = get_pf_grid_component(self, component_name=from_bus.name)
     pf_to_bus = get_pf_grid_component(self, component_name=to_bus.name)
@@ -31,8 +30,10 @@ def create_switch(self, switch: Switch) -> bool:
         Logger.log_to_selected(
             f"At least one connection not found inside of powerfactory for switch {switch.name}"
         )
-        success = False
-
+        return False
+    
+    # Create new switch inside of grid
+    pf_switch = self.pf_grid.CreateObject("ElmCoup", switch.name)
     # Set connections
     pf_switch.SetAttribute("bus1", add_cubicle_to_bus(pf_from_bus))
     pf_switch.SetAttribute("bus2", add_cubicle_to_bus(pf_to_bus))
@@ -41,4 +42,4 @@ def create_switch(self, switch: Switch) -> bool:
         pf_switch.GPSlon = switch.coords[1]
         pf_switch.GPSlat = switch.coords[0]
 
-    return success
+    return True

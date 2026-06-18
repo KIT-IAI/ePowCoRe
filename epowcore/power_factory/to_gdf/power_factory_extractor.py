@@ -181,10 +181,16 @@ class PowerFactoryExtractor:
         # Get the transmission lines from the study case
         pf_tlines = self.app.GetCalcRelevantObjects("ElmLne")
         for pf_tline in pf_tlines:
+            if pf_tline.bus1 is None or pf_tline.bus2 is None:
+                Logger.log_to_selected(
+                    f"Line {pf_tline.loc_name} is missing a connection and will be skipped."
+                )
+                continue
             line = Components.create_tline(pf_tline, self.uid)
             self.uid += 1
             # Add the mapping to dictionary and PowerFactory element to the graph
             self._component_dict[pf_tline] = line
+            # Check if line has both connections
             edge_dict = {pf_tline.bus1.cterm: ["A"], pf_tline.bus2.cterm: ["B"]}
             self._edge_dict[pf_tline] = edge_dict
             self.graph.add_node(pf_tline)

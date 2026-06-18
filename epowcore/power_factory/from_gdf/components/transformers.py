@@ -105,33 +105,30 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
     
-    # Create new trafo inside of grid
-    pf_trafo = self.pf_grid.CreateObject("ElmTr2", trafo.name)
-
     # Get the bus connected to the transformer on the high voltage side
     high_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="HV"
-    )[0]
+    )
     # Get the bus connected to the transformer on the low voltage side
     low_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="LV"
-    )[0]
+    )
     # If either bus wasnt found the function failed
-    if high_voltage_bus is None or low_voltage_bus is None:
+    if not high_voltage_bus or not low_voltage_bus:
         Logger.log_to_selected(f"Failled to convert two winding transformer {trafo.name}")
-        success = False
+        return False
     # Get powerfactory buses
-    pf_hv_bus = get_pf_grid_component(self, component_name=high_voltage_bus.name)
-    pf_lv_bus = get_pf_grid_component(self, component_name=low_voltage_bus.name)
+    pf_hv_bus = get_pf_grid_component(self, component_name=high_voltage_bus[0].name)
+    pf_lv_bus = get_pf_grid_component(self, component_name=low_voltage_bus[0].name)
     # Fails if no powerfactory buses are found
     if pf_hv_bus is None or pf_lv_bus is None:
         Logger.log_to_selected(
             f"Two winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
-        success = False
-    
+        return False
+    # Create new trafo inside of grid
+    pf_trafo = self.pf_grid.CreateObject("ElmTr2", trafo.name)
     # Set connections
     pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
     pf_trafo.SetAttribute("buslv", add_cubicle_to_bus(pf_lv_bus))
@@ -168,4 +165,4 @@ def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:
         pf_trafo.GPSlon = trafo.coords[1]
         pf_trafo.GPSlat = trafo.coords[0]
 
-    return success
+    return True
