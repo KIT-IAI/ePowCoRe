@@ -123,13 +123,13 @@ class PandapowerModel:
         # Get the bus connected to the transformer on the high voltage side
         high_voltage_bus = core_model.get_neighbors(
             component=transformer, follow_links=True, connector="HV"
-        )[0]
+        )
         # Get the bus connected to the transformer on the low voltage side
         low_voltage_bus = core_model.get_neighbors(
             component=transformer, follow_links=True, connector="LV"
-        )[0]
+        )
         # If either bus wasnt found the function failed
-        if high_voltage_bus is None or low_voltage_bus is None:
+        if not high_voltage_bus or not low_voltage_bus:
             Logger.log_to_selected("Failled to convert two winding transformer")
             return False
         # Calculate parameters
@@ -160,8 +160,8 @@ class PandapowerModel:
             net=self.network,
             name=transformer.name,
             index=transformer.uid,
-            hv_bus=high_voltage_bus.uid,
-            lv_bus=low_voltage_bus.uid,
+            hv_bus=high_voltage_bus[0].uid,
+            lv_bus=low_voltage_bus[0].uid,
             sn_mva=transformer.rating,
             vn_hv_kv=transformer.voltage_hv,
             vn_lv_kv=transformer.voltage_lv,
@@ -235,7 +235,7 @@ class PandapowerModel:
         # Get the bus connected to the transformer on the high voltage side
         high_voltage_bus = core_model.get_neighbors(
             component=transformer3w, follow_links=True, connector="HV"
-        )[0]
+        )
         # Get the bus connected to the transformer on the middle voltage side
         middle_voltage_bus = core_model.get_neighbors(
             component=transformer3w, follow_links=True, connector="MV"
@@ -243,9 +243,9 @@ class PandapowerModel:
         # Get the bus connected to the transformer on the low voltage side
         low_voltage_bus = core_model.get_neighbors(
             component=transformer3w, follow_links=True, connector="LV"
-        )[0]
+        )
         # If either bus wasnt found the function failed
-        if high_voltage_bus is None or low_voltage_bus is None or middle_voltage_bus is None:
+        if not high_voltage_bus or not low_voltage_bus or not middle_voltage_bus:
             Logger.log_to_selected("Failled to convert three winding transformer")
             return False
         # Create transformer in pandapower network
@@ -253,9 +253,9 @@ class PandapowerModel:
             net=self.network,
             name=transformer3w.name,
             index=transformer3w.uid,
-            hv_bus=high_voltage_bus.uid,
-            mv_bus=middle_voltage_bus.uid,
-            lv_bus=low_voltage_bus.uid,
+            hv_bus=high_voltage_bus[0].uid,
+            mv_bus=middle_voltage_bus[0].uid,
+            lv_bus=low_voltage_bus[0].uid,
             vn_hv_kv=transformer3w.voltage_hv,
             vn_mv_kv=transformer3w.voltage_mv,
             vn_lv_kv=transformer3w.voltage_lv,
@@ -459,13 +459,13 @@ class PandapowerModel:
         :rtype: bool
         """
         # Get the neigbours of the transmission line to know what it connects to
-        from_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="A")[0]
-        to_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="B")[0]
+        from_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="A")
+        to_bus = core_model.get_neighbors(component=tline, follow_links=True, connector="B")
         # Conversion fails if one of the buses isn't found
-        if from_bus is None or to_bus is None:
+        if not from_bus or not to_bus:
             Logger.log_to_selected("Conversion of " + tline.name + " failed")
             return False
-        # Pandapower cannot use lines with to short length as the impedance is too low, which leads to convergence problems because admittances are used
+        # Pandapower cannot use lines with too short length as the impedance is too low, which leads to convergence problems because admittances are used
         # Pandapower suggests to instead use a switch for those cases
         if False:#tline.r1 * tline.length < 0.001 or tline.x1 * tline.length < 0.001:
             self.create_switch_from_gdf_tline(core_model, tline)
@@ -473,7 +473,7 @@ class PandapowerModel:
         else:
             network_frequency = core_model.base_frequency
             # Calculate rated current
-            voltage = from_bus.nominal_voltage
+            voltage = from_bus[0].nominal_voltage
             rated_current = tline.rating / voltage
             # Create line in pandapower network
             pandapower.create_line_from_parameters(
@@ -481,8 +481,8 @@ class PandapowerModel:
                 name=tline.name,
                 index=tline.uid,
                 geodata=tline.coords,
-                from_bus=from_bus.uid,
-                to_bus=to_bus.uid,
+                from_bus=from_bus[0].uid,
+                to_bus=to_bus[0].uid,
                 length_km=tline.length,
                 r_ohm_per_km=tline.r1,
                 x_ohm_per_km=tline.x1,

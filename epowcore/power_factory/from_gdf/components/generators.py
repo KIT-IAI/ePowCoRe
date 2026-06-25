@@ -123,6 +123,7 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
 
     # Set attributes of the generator itself
     pf_gen.SetAttribute("pgini", gen.rated_active_power)
+    pf_gen.SetAttribute("qgini", gen.reactive_power)
     # pf_gen.SetAttribute("m:P:bus1", gen.active_power)   # Attributes only known based on powerflow
     # pf_gen.SetAttribute("m:Q:bus1", gen.reactive_power)
     pf_gen.SetAttribute("usetp", gen.voltage_set_point)
