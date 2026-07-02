@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epowcore"
+version = "0.1.0"
+description = "A converter between different power system model formats and a generic data format."
+authors = [
+    {name = "KIT-IAI-ESA"},
+]
+license = {text = ""}
+dependencies = [
+    "dataclasses",
+    "geojson",
+    "networkx",
+    "matplotlib",
+    "scipy",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+    "mypy",
+    "sphinx",
+    "sphinx_rtd_theme",
+    "pylint",
+    "isort",
+    "pre-commit",
+]
+simscape = [
+    "matlabengine==9.13.9",
+]
+
+[tool.setuptools.packages.find]
+include = ["epowcore", "epowcore.*"]
+
+[tool.setuptools]
+zip-safe = false
