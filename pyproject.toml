@@ -17,6 +17,7 @@ dependencies = [
     "matplotlib",
     "scipy",
     "pyyaml",
+    "pandapower"
 ]
 
 [project.optional-dependencies]
