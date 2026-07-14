@@ -33,6 +33,9 @@ dev = [
     "isort",
     "pre-commit",
 ]
+pypsa = [
+    "pypsa>=0.35.2",
+]
 simscape = [
     "matlabengine==9.13.9",
 ]
