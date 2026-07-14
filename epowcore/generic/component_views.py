@@ -52,7 +52,7 @@ class ComponentEdgeView:
     """
 
     def __init__(
-        self, edge_view: nx.classes.reportviews.EdgeView
+        self, edge_view: nx.classes.reportviews.EdgeView | nx.classes.reportviews.OutEdgeView
     ) -> None:
         self._edge_view = edge_view
 
