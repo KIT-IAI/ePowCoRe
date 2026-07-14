@@ -22,6 +22,8 @@ class PyPSAExporter:
         self.method_mapping = {Bus: self.add_bus_from_gdf}
 
     def export(self):
+        self.pypsa_model = Network(name=self.model_name)
+
         self.convert_component(Bus)
 
     @staticmethod
@@ -45,4 +47,19 @@ class PyPSAExporter:
         )
 
     def add_bus_from_gdf(self, bus: Bus) -> bool:
-        return False
+        name = self.pypsa_model.components.buses.add(
+            name=bus.uid,
+            return_names=True,
+            v_nom=bus.nominal_voltage,
+            type=bus.bus_type,
+            x=bus.coords[0],
+            y=bus.coords[1],
+            carrier="AC",
+            # unit
+            # location
+            # v_mag_pu_set=
+            # v_mag_pu_min
+            # v_mag_pu_max
+        )
+        if name != bus.id:
+            return False
