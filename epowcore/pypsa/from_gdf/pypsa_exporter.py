@@ -8,7 +8,9 @@ from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.generators import EPowGenerator, StaticGenerator, SynchronousMachine
 from epowcore.gdf.load import Load
 from epowcore.gdf.tline import TLine
+from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.utils import get_connected_bus
+from epowcore.generic.constants import Platform
 from epowcore.generic.logger import Logger
 
 
@@ -23,13 +25,26 @@ class PyPSAExporter:
         self.core_model = core_model
         self.model_name = name
 
-        self.method_mapping = {Bus: self.add_bus_from_gdf, TLine: self.add_line_from_gdf}
+        self.method_mapping = {
+            Bus: self.add_bus_from_gdf,
+            TLine: self.add_line_from_gdf,
+            Load: self.add_load_from_gdf,
+            TwoWindingTransformer: self.add_transformer_from_gdf,
+            EPowGenerator: self.add_generator_from_gdf,
+            StaticGenerator: self.add_generator_from_gdf_staticgenerator,
+            SynchronousMachine: self.add_generator_from_gdf_synchronousmachine,
+        }
 
     def export(self):
         self.pypsa_model = Network(name=self.model_name)
 
         self.convert_component(Bus)
         self.convert_component(TLine)
+        self.convert_component(Load)
+        self.convert_component(TwoWindingTransformer)
+        self.convert_component(EPowGenerator)
+        self.convert_component(StaticGenerator)
+        self.convert_component(SynchronousMachine)
 
     @staticmethod
     def export_pypsa(core_model: CoreModel, name: str) -> Network:
@@ -215,4 +230,50 @@ class PyPSAExporter:
             q_set=generator.reactive_power,
             sign=(1 if generator.rated_active_power >= 0 else -1),
             carrier=generator.category.value,
+        )
+
+    def add_transformer_from_gdf(self, trafo: TwoWindingTransformer) -> bool:
+        # Get the bus connected to the transformer on the high voltage side
+        high_voltage_bus = self.core_model.get_neighbors(
+            component=trafo, follow_links=True, connector="HV"
+        )
+        # Get the bus connected to the transformer on the low voltage side
+        low_voltage_bus = self.core_model.get_neighbors(
+            component=trafo, follow_links=True, connector="LV"
+        )
+        if not high_voltage_bus or not low_voltage_bus:
+            Logger.log_to_selected(
+                "Failled to convert two winding transformer as a bus was not found"
+            )
+            return False
+        else:
+            low_voltage_bus = low_voltage_bus[0]
+            high_voltage_bus = high_voltage_bus[0]
+
+        self.pypsa_model.components.transformers.add(
+            name=trafo.uid,
+            bus0=high_voltage_bus.uid,
+            bus1=low_voltage_bus,
+            type="",
+            model=trafo.get_default(attr="model", platform=Platform.PYPSA),
+            x=trafo.x1pu,
+            r=trafo.r1pu,
+            g=trafo.gm_pu(),  # ignores other shunt loses besides magnitizing looses
+            b=trafo.bm_pu(),  # ignores other shunt effects besides magnitizing effects
+            s_nom=trafo.rating,
+            # s_nom_mod=0,
+            s_nom_extendable=False,
+            # s_nom_min=
+            # s_nom_max
+            # s_nom_set
+            s_max_pu=(
+                trafo.rating / trafo.rating_short_term
+            ),  # not exactly equal in meaning, could also be rating_emergency
+            num_parallel=1,
+            tap_ratio=trafo.tap_ratio,
+            # tap_side= # unclear in epowcore
+            tap_position=trafo.tap_initial,
+            phase_shift=trafo.phase_shift(),
+            v_ang_min=trafo.angle_min,
+            v_ang_max=trafo.angle_max,
         )
