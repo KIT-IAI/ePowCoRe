@@ -108,7 +108,10 @@ class PyPSAExporter:
         if load_bus is None:
             Logger.log_to_selected("There was no bus found connected to the load")
             return False
+        # PyPsa "sign" parameter defaults to -1, so it was assumed sign being -1
+        # represents a normal load which consumes power
         sign = -1 if load.active_power >= 0 else 1
+
         name = self.pypsa_model.components.loads.add(
             name=load.uid,
             bus=load_bus.uid,
