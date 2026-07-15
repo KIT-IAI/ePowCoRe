@@ -5,7 +5,9 @@ from pypsa import Network
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.load import Load
 from epowcore.gdf.tline import TLine
+from epowcore.gdf.utils import get_connected_bus
 from epowcore.generic.logger import Logger
 
 
@@ -98,4 +100,23 @@ class PyPSAExporter:
             v_ang_max=line.angle_max,
         )
         if name != line.id:
+            return False
+
+    def add_load_from_gdf(self, load: Load) -> bool:
+        load_bus = get_connected_bus(self.core_model.graph, load, max_depth=1)
+        # If no load bus was found the function fails
+        if load_bus is None:
+            Logger.log_to_selected("There was no bus found connected to the load")
+            return False
+        sign = -1 if load.active_power >= 0 else 1
+        name = self.pypsa_model.components.loads.add(
+            name=load.uid,
+            bus=load_bus.uid,
+            type=",",
+            p_set=abs(load.active_power),
+            q_set=abs(load.reactive_power),
+            sign=sign,
+            active=True,
+        )
+        if name != load.id:
             return False
