@@ -1,0 +1,2 @@
+TwoWindingTransformer:
+  model: "t" # following the pypsa default and which follows digsilent powerfactory
