@@ -5,6 +5,7 @@ from pypsa import Network
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.generators import EPowGenerator, StaticGenerator, SynchronousMachine
 from epowcore.gdf.load import Load
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.utils import get_connected_bus
@@ -123,3 +124,95 @@ class PyPSAExporter:
         )
         if name != load.id:
             return False
+
+    def add_generator_from_gdf(
+        self, generator: EPowGenerator | SynchronousMachine | StaticGenerator
+    ) -> bool:
+        generator_bus = get_connected_bus(self.core_model.graph, generator, max_depth=1)
+        if generator_bus is None:
+            Logger.log_to_selected(
+                "Failed to convert generator because generator bus was not found"
+            )
+            return False
+
+        if generator_bus.lf_bus_type.value == "ISOLATED":
+            Logger.log_to_selected(
+                "Conversion failed as Loadflow bus type can not be represented in generator control type"
+            )
+            return False
+
+        if isinstance(generator, EPowGenerator):
+            return self.add_generator_from_gdf_epowgenerator(generator, generator_bus)
+        if isinstance(generator, SynchronousMachine):
+            return self.add_generator_from_gdf_synchronousmachine(generator, generator_bus)
+        if isinstance(generator, StaticGenerator):
+            return self.add_generator_from_gdf_staticgenerator(generator, generator_bus)
+        Logger.log_to_selected("Given generator does not match any ePowCoRe Generator type")
+        return False
+
+    def add_generator_from_gdf_epowgenerator(self, generator: EPowGenerator, bus: Bus) -> bool:
+        self.pypsa_model.components.generators.add(
+            name=generator.uid,
+            bus=bus.uid,
+            control=bus.lf_bus_type.value,
+            type="",
+            p_nom=generator.maximumRealPowerOutput,  # previously basemva
+            # p_nom_mod=
+            p_nom_extendable=False,  # was previously set to True with the values below
+            # unsure if these should be set because they represent a change in the
+            # nominal power capacity of the generator
+            # p_nom_min=generator.minimumRealPowerOutput,
+            # p_nom_max=generator.maximumRealPowerOutput,
+            # p_nom_set=generator.realPowerOutput,
+            p_min_pu=(generator.minimumRealPowerOutput / generator.maximumRealPowerOutput),
+            p_max_pu=(generator.maximumRealPowerOutput / generator.maximumRealPowerOutput),
+            p_set=generator.realPowerOutput,
+            p_init=generator.realPowerOutput,
+            q_set=generator.reactivePowerOutput,
+            sign=(1 if generator.baseMVA >= 0 else -1),
+            carrier=generator.category.value,
+        )
+
+    def add_generator_from_gdf_synchronousmachine(
+        self, generator: SynchronousMachine, bus: Bus
+    ) -> bool:
+        self.pypsa_model.generators.add(
+            name=generator.uid,
+            bus=bus.uid,
+            control=bus.lf_bus_type.value,
+            type="",
+            p_nom=generator.rated_active_power,
+            # p_nom_mod=
+            p_nom_extendable=False,  # previously set to True with the values below
+            # p_nom_min=generator.p_min,
+            # p_nom_max=generator.p_max,
+            # p_nom_set=generator.rated_active_power,
+            p_min_pu=(generator.p_min / generator.rated_active_power),
+            p_max_pu=(generator.p_min / generator.rated_active_power),
+            p_set=generator.active_power,
+            p_init=generator.active_power,
+            q_set=generator.reactive_power,
+            sign=(1 if generator.rated_active_power >= 0 else -1),
+            carrier=generator.category.value,
+        )
+
+    def add_generator_from_gdf_staticgenerator(self, generator: StaticGenerator, bus: Bus) -> bool:
+        self.pypsa_model.generators.add(
+            name=generator.uid,
+            bus=bus.uid,
+            control=bus.lf_bus_type.value,
+            type="",
+            p_nom=generator.rated_active_power,
+            # p_nom_mod=
+            p_nom_extendable=False,
+            # p_nom_min=generator.p_min,
+            # p_nom_max=generator.p_max,
+            # p_nom_set=generator.rated_active_power,
+            p_min_pu=(generator.p_min / generator.rated_active_power),
+            p_max_pu=(generator.p_min / generator.rated_active_power),
+            p_set=generator.active_power,
+            p_init=generator.active_power,
+            q_set=generator.reactive_power,
+            sign=(1 if generator.rated_active_power >= 0 else -1),
+            carrier=generator.category.value,
+        )
