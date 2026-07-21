@@ -211,13 +211,13 @@ class PyPSAExporter:
     ) -> bool:
 
         gen_rated_active_power = generator.rated_active_power
-        if gen_rated_active_power == 0:
-            gen_rated_active_power = generator.rated_apparent_power * generator.get_default(
-                attr="power_factor", platform=Platform.PYPSA
-            )
-            Logger.log_to_selected(
-                "Defaulted generator rated active power to a multiplication of rated apparent power because it was zero."
-            )
+        # if gen_rated_active_power == 0:
+        #    gen_rated_active_power = generator.rated_apparent_power * generator.get_default(
+        #        attr="power_factor", platform=Platform.PYPSA
+        #    )
+        #    Logger.log_to_selected(
+        #        "Defaulted generator rated active power to a multiplication of rated apparent power because it was zero."
+        #    )
 
         self.pypsa_model.components.generators.add(
             name=generator.uid,
@@ -227,11 +227,15 @@ class PyPSAExporter:
             p_nom=gen_rated_active_power,
             # p_nom_mod=
             p_nom_extendable=False,  # previously set to True with the values below
-            # p_nom_min=generator.p_min,
-            # p_nom_max=generator.p_max,
+            p_nom_min=gen_rated_active_power,  # generator.p_min,
+            p_nom_max=gen_rated_active_power,  # generator.p_max,
             # p_nom_set=gen_rated_active_power,
-            p_min_pu=(generator.p_min / gen_rated_active_power),
-            p_max_pu=(generator.p_max / gen_rated_active_power),
+            p_min_pu=(
+                (generator.p_min / gen_rated_active_power) if gen_rated_active_power != 0 else 0
+            ),
+            p_max_pu=(
+                (generator.p_max / gen_rated_active_power) if gen_rated_active_power != 0 else 0
+            ),
             p_set=generator.active_power,
             # p_init=generator.active_power,
             q_set=generator.reactive_power,
