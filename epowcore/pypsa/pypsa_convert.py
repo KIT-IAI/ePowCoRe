@@ -1,3 +1,4 @@
+import pypsa
 from pypsa import network as pypsa_network
 
 from epowcore.gdf.core_model import CoreModel
