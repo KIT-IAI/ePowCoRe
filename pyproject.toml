@@ -34,14 +34,13 @@ dev = [
     "pre-commit",
 ]
 pypsa = [
-    "pypsa>=0.35.2",
+    "pypsa",
 ]
 simscape = [
     "matlabengine==9.13.9",
 ]
 
-[tool.setuptools.packages.find]
-include = ["epowcore", "epowcore.*"]
-
 [tool.setuptools]
+py-modules = ["epowcore"]
+packages.find.include = ["epowcore", "epowcore.*", "epowcore*"]
 zip-safe = false

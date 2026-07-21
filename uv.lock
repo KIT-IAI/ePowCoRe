@@ -381,7 +381,7 @@ dev = [
     { name = "sphinx" },
     { name = "sphinx-rtd-theme" },
 ]
-pypsa = [{ name = "pypsa", specifier = ">=0.35.2" }]
+pypsa = [{ name = "pypsa" }]
 simscape = [{ name = "matlabengine", specifier = "==9.13.9" }]
 
 [[package]]
