@@ -38,6 +38,8 @@ class PyPSAExporter:
     def export(self) -> None:
         self.pypsa_model = Network(name=self.model_name)
 
+        self.pypsa_model.components.carriers.add("AC")
+
         self.convert_component(Bus)
         self.convert_component(TLine)
         self.convert_component(Load)
