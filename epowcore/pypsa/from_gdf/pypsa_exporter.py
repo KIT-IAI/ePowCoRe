@@ -19,7 +19,7 @@ class PyPSAExporter:
     model_name: str
     pypsa_model: Network
     core_model: CoreModel
-    method_mapping: dict[type, Callable[[Component], bool]]
+    method_mapping: dict[Component, Callable[[Component], bool]]
 
     def __init__(self, core_model: CoreModel, name: str):
         self.core_model = core_model
@@ -35,7 +35,7 @@ class PyPSAExporter:
             SynchronousMachine: self.add_generator_from_gdf_synchronousmachine,
         }
 
-    def export(self):
+    def export(self) -> None:
         self.pypsa_model = Network(name=self.model_name)
 
         self.convert_component(Bus)
@@ -52,7 +52,7 @@ class PyPSAExporter:
         exporter.export()
         return exporter.pypsa_model
 
-    def convert_component(self, component_type: type):
+    def convert_component(self, component_type: type) -> None:
         Logger.log_to_selected(f"Converting {str(component_type.__name__)} components")
 
         component_list = self.core_model.type_list(component_type)
@@ -83,6 +83,7 @@ class PyPSAExporter:
         )
         if name != bus.id:
             return False
+        return True
 
     def add_line_from_gdf(self, line: TLine) -> bool:
 
@@ -139,6 +140,7 @@ class PyPSAExporter:
         )
         if name != load.id:
             return False
+        return True
 
     def add_generator_from_gdf(
         self, generator: EPowGenerator | SynchronousMachine | StaticGenerator
