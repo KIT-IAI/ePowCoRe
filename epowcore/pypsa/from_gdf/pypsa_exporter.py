@@ -31,8 +31,8 @@ class PyPSAExporter:
             Load: self.add_load_from_gdf,
             TwoWindingTransformer: self.add_transformer_from_gdf,
             EPowGenerator: self.add_generator_from_gdf,
-            StaticGenerator: self.add_generator_from_gdf_staticgenerator,
-            SynchronousMachine: self.add_generator_from_gdf_synchronousmachine,
+            StaticGenerator: self.add_generator_from_gdf,
+            SynchronousMachine: self.add_generator_from_gdf,
         }
 
     def export(self) -> None:
@@ -57,7 +57,8 @@ class PyPSAExporter:
     def convert_component(self, component_type: type) -> None:
         Logger.log_to_selected(f"Converting {str(component_type.__name__)} components")
 
-        component_list = self.core_model.type_list(component_type)
+        component_list: list[component_type] = self.core_model.type_list(component_type)
+        counter = 0
 
         for component in component_list:
             if self.method_mapping[component_type](component):
@@ -69,13 +70,17 @@ class PyPSAExporter:
         )
 
     def add_bus_from_gdf(self, bus: Bus) -> bool:
+
+        bus_x = bus.coords[0] if not bus.coords is None else None
+        bus_y = bus.coords[1] if not bus.coords is None else None
+
         name = self.pypsa_model.components.buses.add(
             name=bus.uid,
             return_names=True,
             v_nom=bus.nominal_voltage,
             type=bus.bus_type,
-            x=bus.coords[0],
-            y=bus.coords[1],
+            x=bus_x,
+            y=bus_y,
             carrier="AC",
             # unit
             # location
@@ -83,28 +88,31 @@ class PyPSAExporter:
             # v_mag_pu_min
             # v_mag_pu_max
         )
-        if name != bus.uid:
-            return False
-        return True
+        return str(bus.uid) in self.pypsa_model.components.buses.static.index
 
     def add_line_from_gdf(self, line: TLine) -> bool:
 
-        bus0 = self.core_model.get_neighbors(component=line, follow_links=True, connector="A")
-        bus1 = self.core_model.get_neighbors(component=line, follow_links=True, connector="B")
+        bus0_list = self.core_model.get_neighbors(component=line, follow_links=True, connector="A")
+        bus1_list = self.core_model.get_neighbors(component=line, follow_links=True, connector="B")
 
-        if not bus0 or not bus1:
+        if not bus0_list or not bus1_list:
             Logger.log_to_selected("Conversion failed because connected busses were not found")
             return False
 
+        bus0 = bus0_list[0]
+        bus1 = bus1_list[0]
+
         name = self.pypsa_model.components.lines.add(
             name=line.uid,
+            return_names=True,
+            f_nom=self.core_model.base_frequency,
             bus0=bus0.uid,
             bus1=bus1.uid,
             type="",
-            x=line.x1,
-            r=line.r1,
+            x=line.x1 * (line.length if not line.length is None else 1),  # ohm per km vs ohm error
+            r=line.r1 * (line.length if not line.length is None else 1),
             # g=line.g,
-            b=line.b1,
+            b=line.b1 * (line.length if not line.length is None else 1) * 10e6,
             s_nom=line.rating,
             # snom_mod
             # s_nom_extendable # for optimization
@@ -118,8 +126,11 @@ class PyPSAExporter:
             v_ang_min=line.angle_min,
             v_ang_max=line.angle_max,
         )
-        if name != line.id:
-            return False
+        # Logger.log_to_selected("Transimission lines")
+        # Logger.log_to_selected(str(line.uid))
+        # Logger.log_to_selected(str(self.pypsa_model.components.lines.static.index))
+        # Logger.log_to_selected(str(line.uid) in self.pypsa_model.components.lines.static.index)
+        return str(line.uid) in self.pypsa_model.components.lines.static.index
 
     def add_load_from_gdf(self, load: Load) -> bool:
         load_bus = get_connected_bus(self.core_model.graph, load, max_depth=1)
@@ -134,15 +145,13 @@ class PyPSAExporter:
         name = self.pypsa_model.components.loads.add(
             name=load.uid,
             bus=load_bus.uid,
-            type=",",
-            p_set=abs(load.active_power),
-            q_set=abs(load.reactive_power),
-            sign=sign,
+            type="",
+            p_set=load.active_power,  # abs(load.active_power),
+            q_set=load.reactive_power,  # abs(load.reactive_power),
+            # sign=sign,
             active=True,
         )
-        if name != load.uid:
-            return False
-        return True
+        return str(load.uid) in self.pypsa_model.components.loads.static.index
 
     def add_generator_from_gdf(
         self, generator: EPowGenerator | SynchronousMachine | StaticGenerator
@@ -161,11 +170,15 @@ class PyPSAExporter:
             return False
 
         if isinstance(generator, EPowGenerator):
-            return self.add_generator_from_gdf_epowgenerator(generator, generator_bus)
+            return self.add_generator_from_gdf_epowgenerator(generator=generator, bus=generator_bus)
         if isinstance(generator, SynchronousMachine):
-            return self.add_generator_from_gdf_synchronousmachine(generator, generator_bus)
+            return self.add_generator_from_gdf_synchronousmachine(
+                generator=generator, bus=generator_bus
+            )
         if isinstance(generator, StaticGenerator):
-            return self.add_generator_from_gdf_staticgenerator(generator, generator_bus)
+            return self.add_generator_from_gdf_staticgenerator(
+                generator=generator, bus=generator_bus
+            )
         Logger.log_to_selected("Given generator does not match any ePowCoRe Generator type")
         return False
 
@@ -191,32 +204,44 @@ class PyPSAExporter:
             sign=(1 if generator.baseMVA >= 0 else -1),
             carrier=generator.category.value,
         )
+        return str(generator.uid) in self.pypsa_model.components.generators.static.index
 
     def add_generator_from_gdf_synchronousmachine(
         self, generator: SynchronousMachine, bus: Bus
     ) -> bool:
-        self.pypsa_model.generators.add(
+
+        gen_rated_active_power = generator.rated_active_power
+        if gen_rated_active_power == 0:
+            gen_rated_active_power = generator.rated_apparent_power * generator.get_default(
+                attr="power_factor", platform=Platform.PYPSA
+            )
+            Logger.log_to_selected(
+                "Defaulted generator rated active power to a multiplication of rated apparent power because it was zero."
+            )
+
+        self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=bus.lf_bus_type.value,
             type="",
-            p_nom=generator.rated_active_power,
+            p_nom=gen_rated_active_power,
             # p_nom_mod=
             p_nom_extendable=False,  # previously set to True with the values below
             # p_nom_min=generator.p_min,
             # p_nom_max=generator.p_max,
-            # p_nom_set=generator.rated_active_power,
-            p_min_pu=(generator.p_min / generator.rated_active_power),
-            p_max_pu=(generator.p_min / generator.rated_active_power),
+            # p_nom_set=gen_rated_active_power,
+            p_min_pu=(generator.p_min / gen_rated_active_power),
+            p_max_pu=(generator.p_max / gen_rated_active_power),
             p_set=generator.active_power,
-            p_init=generator.active_power,
+            # p_init=generator.active_power,
             q_set=generator.reactive_power,
-            sign=(1 if generator.rated_active_power >= 0 else -1),
-            carrier=generator.category.value,
+            # sign=(1 if gen_rated_active_power >= 0 else -1),
+            # carrier=generator.category.value,
         )
+        return str(generator.uid) in self.pypsa_model.components.generators.static.index
 
     def add_generator_from_gdf_staticgenerator(self, generator: StaticGenerator, bus: Bus) -> bool:
-        self.pypsa_model.generators.add(
+        self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=bus.lf_bus_type.value,
@@ -235,49 +260,52 @@ class PyPSAExporter:
             sign=(1 if generator.rated_active_power >= 0 else -1),
             carrier=generator.category.value,
         )
+        return str(generator.uid) in self.pypsa_model.components.generators.static.index
 
     def add_transformer_from_gdf(self, trafo: TwoWindingTransformer) -> bool:
         # Get the bus connected to the transformer on the high voltage side
-        high_voltage_bus = self.core_model.get_neighbors(
+        high_voltage_bus_list = self.core_model.get_neighbors(
             component=trafo, follow_links=True, connector="HV"
         )
         # Get the bus connected to the transformer on the low voltage side
-        low_voltage_bus = self.core_model.get_neighbors(
+        low_voltage_bus_list = self.core_model.get_neighbors(
             component=trafo, follow_links=True, connector="LV"
         )
-        if not high_voltage_bus or not low_voltage_bus:
+        if not high_voltage_bus_list or not low_voltage_bus_list:
             Logger.log_to_selected(
                 "Failled to convert two winding transformer as a bus was not found"
             )
             return False
         else:
-            low_voltage_bus = low_voltage_bus[0]
-            high_voltage_bus = high_voltage_bus[0]
+            low_voltage_bus = low_voltage_bus_list[0]
+            high_voltage_bus = high_voltage_bus_list[0]
 
         self.pypsa_model.components.transformers.add(
             name=trafo.uid,
             bus0=high_voltage_bus.uid,
-            bus1=low_voltage_bus,
+            bus1=low_voltage_bus.uid,
+            f_nom=self.core_model.base_frequency,
             type="",
             model=trafo.get_default(attr="model", platform=Platform.PYPSA),
             x=trafo.x1pu,
             r=trafo.r1pu,
-            g=trafo.gm_pu(),  # ignores other shunt loses besides magnitizing looses
-            b=trafo.bm_pu(),  # ignores other shunt effects besides magnitizing effects
+            g=trafo.gm_pu,  # ignores other shunt loses besides magnitizing looses
+            b=trafo.bm_pu,  # ignores other shunt effects besides magnitizing effects
             s_nom=trafo.rating,
             # s_nom_mod=0,
             s_nom_extendable=False,
             # s_nom_min=
             # s_nom_max
             # s_nom_set
-            s_max_pu=(
-                trafo.rating / trafo.rating_short_term
-            ),  # not exactly equal in meaning, could also be rating_emergency
+            # s_max_pu=(
+            #    trafo.rating / trafo.rating_short_term
+            # ),  # not exactly equal in meaning, could also be rating_emergency
             num_parallel=1,
             tap_ratio=trafo.tap_ratio,
             # tap_side= # unclear in epowcore
             tap_position=trafo.tap_initial,
-            phase_shift=trafo.phase_shift(),
+            phase_shift=trafo.phase_shift,
             v_ang_min=trafo.angle_min,
             v_ang_max=trafo.angle_max,
         )
+        return str(trafo.uid) in self.pypsa_model.components.transformers.static.index
