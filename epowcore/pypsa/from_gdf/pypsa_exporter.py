@@ -83,7 +83,7 @@ class PyPSAExporter:
             # v_mag_pu_min
             # v_mag_pu_max
         )
-        if name != bus.id:
+        if name != bus.uid:
             return False
         return True
 
@@ -140,7 +140,7 @@ class PyPSAExporter:
             sign=sign,
             active=True,
         )
-        if name != load.id:
+        if name != load.uid:
             return False
         return True
 
