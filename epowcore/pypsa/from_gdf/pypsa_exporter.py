@@ -112,7 +112,7 @@ class PyPSAExporter:
             x=line.x1 * (line.length if not line.length is None else 1),  # ohm per km vs ohm error
             r=line.r1 * (line.length if not line.length is None else 1),
             # g=line.g,
-            b=line.b1 * (line.length if not line.length is None else 1) * 10e6,
+            b=line.b1 * (line.length if not line.length is None else 1) / 10e6,
             s_nom=line.rating,
             # snom_mod
             # s_nom_extendable # for optimization
@@ -222,7 +222,7 @@ class PyPSAExporter:
         self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
-            control=bus.lf_bus_type.value,
+            control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             type="",
             p_nom=gen_rated_active_power,
             # p_nom_mod=
