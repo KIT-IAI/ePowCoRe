@@ -1,6 +1,7 @@
 import json
 import os
 import pathlib
+import pprint
 import time
 
 import numpy as np
@@ -8,6 +9,8 @@ import pandas as pd
 from pypsa import network
 
 from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
+from epowcore.gdf.load import Load
 from epowcore.pypsa.pypsa_convert import PyPSAConverter
 
 PATH = pathlib.Path(__file__).parent.resolve()
@@ -41,24 +44,13 @@ def main() -> None:
 
         print(f"conversion took {time.perf_counter() - start:.1f}s")
 
-        # print(pypsa_model.components.transformers.static)
-        # print(pypsa_model.components.buses.static)
-
-        print(core_model)
-        print(pypsa_model)
-
         pypsa_model.consistency_check()
-        pypsa_model.lpf()
-        pypsa_model.pf()
-        # pypsa_model.pf(use_seed=True) now = n.snapshots[0]  #
-        # now = pypsa_model.snapshots[0]
-        # angle_diff = pd.Series(
-        #    pypsa_model.buses_t.v_ang.loc[now, pypsa_model.lines.bus0].values
-        #    - pypsa_model.buses_t.v_ang.loc[now, pypsa_model.lines.bus1].values,
-        #    index=pypsa_model.lines.index,
-        # )
-        # (angle_diff * 180 / np.pi).describe()  # D doctest: +SKIP
-        # print((angle_diff * 180 / np.pi))
+        # pypsa_model.lpf()
+        # pypsa_model.optimize()
+        # pypsa_model.fix_optimal_dispatch()
+
+        result = pypsa_model.pf()
+        print(result)
 
 
 if __name__ == "__main__":
