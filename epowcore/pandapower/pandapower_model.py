@@ -1,4 +1,4 @@
-﻿"""pandapower_model module providing the PandapowerModel class used to create
+"""pandapower_model module providing the PandapowerModel class used to create
 the converted pandapower network.
 """
 
@@ -496,8 +496,8 @@ class PandapowerModel:
                 max_loading_percent=np.nan,
                 alpha=tline.get_default(attr="alpha"),
                 temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius"),
-                r0_ohm_per_km=tline.r0 if tline.r0 is not None else np.nan,
-                x0_ohm_per_km=tline.x0 if tline.x0 is not None else np.nan,
+                r0_ohm_per_km=tline.r0,
+                x0_ohm_per_km=tline.x0,
                 c0_nf_per_km=np.nan,
                 g0_us_per_km=0,
                 endtemp_degree=np.nan,
