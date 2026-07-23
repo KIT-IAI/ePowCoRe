@@ -6,13 +6,19 @@ In this test for the IEEE39 network.
 import json
 import pathlib
 import unittest
+from typing import ClassVar
 
 import pandapower
 import pandas
+from numpy import int64
+from pandapower import pandapowerNet
+from pandas import DataFrame
+from pypsa import Network
 
 from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.logger import Logger
 from epowcore.pandapower.pandapower_converter import PandapowerConverter
+from epowcore.pandapower.pandapower_model import PandapowerModel
 from epowcore.pypsa.pypsa_convert import PyPSAConverter
 
 
@@ -22,10 +28,23 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
     and the powerfactory veresion are compared.
     """
 
+    PYPSA_PREFIX = "pypsa_"
+    PANDAPOWER_PREFIX = "pp_"
+
+    core_model: ClassVar[CoreModel]
+    pandapower_model: ClassVar[pandapowerNet]
+    percent_deviation: ClassVar[float] = 0.05
+    pyPSA_model: ClassVar[Network]
+
+    pandapower_bus_results: ClassVar[DataFrame]
+    pyPSA_bus_results: ClassVar[dict[str, DataFrame]]
+    pandapower_line_results: ClassVar[DataFrame]
+    pyPSA_line_results: ClassVar[dict[str, DataFrame]]
+    pandapower_gen_results: ClassVar[DataFrame]
+    pyPSA_gen_results: ClassVar[dict[str, DataFrame]]
+
     @classmethod
     def setUpClass(cls) -> None:
-        cls.percent_deviation = 0.05
-
         PATH = pathlib.Path(__file__).parent.parent.resolve()
         with open(PATH.parent / "tests/models/gdf/IEEE39_gdf.json", "r", encoding="utf-8") as file:
             data_str = file.read()
@@ -36,8 +55,7 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         cls.pandapower_model = pp_converter.from_gdf(
             core_model=cls.core_model, name="IEEE39", log_path=None
         ).network
-        pandapower.runpp(net=cls.pandapower_model)
-        print(cls.pandapower_model["res_bus"])
+        pandapower.runpp(net=cls.pandapower_model, numba=False)
 
         pyPSA_converter = PyPSAConverter()
         cls.pyPSA_model = pyPSA_converter.from_gdf(
@@ -45,102 +63,126 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         )
         cls.pyPSA_model.pf()
 
-        print(cls.pyPSA_model.components.buses.static)
+        cls.pandapower_bus_results = cls.pandapower_model["res_bus"]
+        cls.pyPSA_bus_results = cls.pyPSA_model.components.buses.dynamic
 
-        print(cls.pyPSA_model.components.buses)
+        cls.pandapower_line_results = cls.pandapower_model["res_line"]
+        cls.pyPSA_line_results = cls.pyPSA_model.components.lines.dynamic
+
+        cls.pandapower_gen_results = cls.pandapower_model["res_gen"]
+        cls.pyPSA_gen_results = cls.pyPSA_model.components.generators.dynamic
+
+    def convert_pypsa_data(self, data: dict[str, DataFrame]) -> DataFrame:
+        result_table: DataFrame
+        for index, (key, table) in enumerate(data.items()):
+            table = table.transpose()
+            table = table.rename(columns={"now": key})
+            table.columns.name = None
+
+            if index == 0:
+                result_table = table
+            else:
+                result_table = pandas.concat([result_table, table], axis=1)
+        # change dtype of index
+        result_table.index = result_table.index.map(int64)
+
+        # change name of index
+        result_table = result_table.rename_axis(index={"Bus": None})
+
+        return result_table
 
     def test_bus_pf_data(self) -> None:
         """Test to check the bus result values of the loadflow"""
-        pf_data = pandas.merge(
-            self.pandapower_model["res_bus"],
-            (self.pyPSA_model.components.buses.static),
+
+        new_table = self.convert_pypsa_data(self.pyPSA_bus_results)
+
+        new_table = new_table.rename(columns=lambda a: self.PYPSA_PREFIX + str(a))
+        self.pandapower_bus_results = self.pandapower_bus_results.rename(
+            columns=lambda a: self.PANDAPOWER_PREFIX + str(a)
+        )
+
+        pf_data = self.pandapower_bus_results.merge(
+            new_table,
             left_index=True,
             right_index=True,
         )
-        print(pf_data)
 
-        self.pandapower_model["res_bus"] = pandas.concat(
-            [self.pandapower_model["res_bus"], self.pandapower_model["bus"]["name"]], axis=1
-        )
-        for _, row in self.pf_data["Bus"].iterrows():
-            try:
-                pandapower_row = self.pandapower_model["res_bus"].loc[
-                    self.pandapower_model["res_bus"]["name"] == row["name"]
-                ]
-            except KeyError:
-                Logger.log_to_selected(
-                    f"GDF Bus: {row['name']} wasn't found in pandapower converted model."
-                )
+        for index, row in pf_data.iterrows():
+            pp_value = row[self.PANDAPOWER_PREFIX + "vm_pu"]
+            pypsa_value = row[self.PYPSA_PREFIX + "v_mag_pu"]
             self.assertAlmostEqual(
-                row["voltage_magnitude[pu]"],
-                pandapower_row.iloc[0]["vm_pu"],
-                delta=abs(row["voltage_magnitude[pu]"] * self.percent_deviation),
-                msg=f"voltage_magnitude[pu] of {row['name']} is deviating by more then {self.percent_deviation*100} percent.",
+                pp_value,
+                pypsa_value,
+                delta=abs(pp_value * self.percent_deviation),
+                msg=f"voltage magnitue of bus {index} uid is deviating by more then {self.percent_deviation*100} percent",
             )
 
-    # def test_line_pf_data(self):
-    #    """Test to check the line result values of the loadflow"""
-    #    self.pandapower_model["res_line"] = pandas.concat(
-    #        [self.pandapower_model["res_line"], self.pandapower_model["line"]["name"]], axis=1
-    #    )
-    #    for _, row in self.pf_data["TLine"].iterrows():
-    #        try:
-    #            pandapower_row = self.pandapower_model["res_line"].loc[
-    #                self.pandapower_model["res_line"]["name"] == row["name"]
-    #            ]
-    #        except KeyError:
-    #            Logger.log_to_selected(
-    #                f"GDF TLine: {row['name']} wasn't found in pandapower converted model."
-    #            )
-    #        self.assertAlmostEqual(
-    #            row["p_from[MW]"],
-    #            pandapower_row.iloc[0]["p_from_mw"],
-    #            delta=abs(row["p_from[MW]"] * self.percent_deviation),
-    #            msg=f"p_from[MW] of {row['name']} is deviating by more then {self.percent_deviation*100} percent.",
-    #        )
-    #        self.assertAlmostEqual(
-    #            row["p_to[MW]"],
-    #            pandapower_row.iloc[0]["p_to_mw"],
-    #            delta=abs(row["p_to[MW]"] * self.percent_deviation),
-    #            msg=f"p_to[MW] of {row['name']} is deviating by more then {self.percent_deviation*100} percent.",
-    #        )
-    #        self.assertAlmostEqual(
-    #            row["q_from[MVar]"],
-    #            pandapower_row.iloc[0]["q_from_mvar"],
-    #            delta=abs(row["q_from[MVar]"] * self.percent_deviation),
-    #            msg=f"q_from[MVar] of {row['name']} is deviating by more then {self.percent_deviation*100} percent.",
-    #        )
-    #        self.assertAlmostEqual(
-    #            row["q_to[MVar]"],
-    #            pandapower_row.iloc[0]["q_to_mvar"],
-    #            delta=abs(row["q_to[MVar]"] * self.percent_deviation),
-    #            msg=f"q_to[MVar] of {row['name']} is deviating by more then {self.percent_deviation*100} percent.",
-    #        )
+    def test_line_pf_data(self) -> None:
+        """Test to check the line result values of the loadflow"""
+        new_table = self.convert_pypsa_data(self.pyPSA_line_results)
 
-    # def test_gen_pf_data(self):
-    #    """Test to check the gen result values of the loadflow"""
-    #    self.pandapower_model["res_gen"] = pandas.concat(
-    #        [self.pandapower_model["res_gen"], self.pandapower_model["gen"]["name"]], axis=1
-    #    )
-    #    for _, row in self.pf_data["SynchronousMachine"].iterrows():
-    #        try:
-    #            pandapower_row = self.pandapower_model["res_gen"].loc[
-    #                self.pandapower_model["res_gen"]["name"] == row["name"]
-    #            ]
-    #        except KeyError:
-    #            Logger.log_to_selected(
-    #                f"GDF SynchronousMachine: {row['name']} wasn't found in pandapower converted model."
-    #            )
+        new_table = new_table.rename(columns=lambda a: self.PYPSA_PREFIX + str(a))
+        self.pandapower_line_results = self.pandapower_bus_results.rename(
+            columns=lambda a: self.PANDAPOWER_PREFIX + str(a)
+        )
 
-    #        self.assertAlmostEqual(
-    #            row["p_from[MW]"],
-    #            pandapower_row.iloc[0]["p_mw"],
-    #            delta=abs(row["p_from[MW]"] * self.percent_deviation),
-    #            msg=f"p_from[MW] of {row['name']} is deviating by more then {self.percent_deviation*100} percent.",
-    #        )
-    #        self.assertAlmostEqual(
-    #            row["q_from[MVar]"],
-    #            pandapower_row.iloc[0]["q_mvar"],
-    #            delta=abs(row["q_from[MVar]"] * self.percent_deviation),
-    #            msg=f"q_from[MVar] of {row['name']} is deviating by more then {self.percent_deviation*100} percent.",
-    #        )
+        pf_data = self.pandapower_line_results.merge(
+            new_table,
+            left_index=True,
+            right_index=True,
+        )
+        for index, row in pf_data.iterrows():
+            self.assertAlmostEqual(
+                row[self.PANDAPOWER_PREFIX + "p_from_mw"],
+                row[self.PYPSA_PREFIX + "p0"],
+                delta=abs(row[self.PANDAPOWER_PREFIX + "p_from_mw"] * self.percent_deviation),
+                msg=f"p0 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+            )
+            self.assertAlmostEqual(
+                row[self.PANDAPOWER_PREFIX + "p_to_mw"],
+                row[self.PYPSA_PREFIX + "p1"],
+                delta=abs(row[self.PANDAPOWER_PREFIX + "p_to_mw"] * self.percent_deviation),
+                msg=f"p1 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+            )
+            self.assertAlmostEqual(
+                row[self.PANDAPOWER_PREFIX + "q_from_mvar"],
+                row[self.PYPSA_PREFIX + "q0"],
+                delta=abs(row[self.PANDAPOWER_PREFIX + "q_from_mvar"] * self.percent_deviation),
+                msg=f"q0 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+            )
+            self.assertAlmostEqual(
+                row[self.PANDAPOWER_PREFIX + "q_to_mvar"],
+                row[self.PYPSA_PREFIX + "q1"],
+                delta=abs(row[self.PANDAPOWER_PREFIX + "q_to_mvar"] * self.percent_deviation),
+                msg=f"q1 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+            )
+
+    def test_gen_pf_data(self) -> None:
+        """Test to check the gen result values of the loadflow"""
+        new_table = self.convert_pypsa_data(self.pyPSA_gen_results)
+
+        new_table = new_table.rename(columns=lambda a: self.PYPSA_PREFIX + str(a))
+        self.pandapower_gen_results = self.pandapower_bus_results.rename(
+            columns=lambda a: self.PANDAPOWER_PREFIX + str(a)
+        )
+
+        pf_data = self.pandapower_gen_results.merge(
+            new_table,
+            left_index=True,
+            right_index=True,
+        )
+
+        for index, row in pf_data.iterrows():
+
+            self.assertAlmostEqual(
+                row[self.PANDAPOWER_PREFIX + "p_mw"],
+                row[self.PYPSA_PREFIX + "p"],
+                delta=abs(row[self.PANDAPOWER_PREFIX + "p_mw"] * self.percent_deviation),
+                msg=f"p of gen {index} is deviating by more then {self.percent_deviation*100} percent.",
+            )
+            self.assertAlmostEqual(
+                row[self.PANDAPOWER_PREFIX + "q_mvar"],
+                row[self.PYPSA_PREFIX + "q"],
+                delta=abs(row[self.PANDAPOWER_PREFIX + "q_mvar"] * self.percent_deviation),
+                msg=f"q of gen {index} is deviating by more then {self.percent_deviation*100} percent.",
+            )

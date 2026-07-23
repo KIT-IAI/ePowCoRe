@@ -1,4 +1,3 @@
-import pypsa
 from pypsa import network as pypsa_network
 
 from epowcore.gdf.core_model import CoreModel
@@ -30,3 +29,6 @@ class PyPSAConverter(ConverterBase[pypsa_network]):
 
     def to_gdf(self, model: pypsa_network, log_path: str | None = None) -> CoreModel:
         return NotImplementedError
+
+    def _import(self, model: pypsa_network) -> CoreModel:
+        raise NotImplementedError

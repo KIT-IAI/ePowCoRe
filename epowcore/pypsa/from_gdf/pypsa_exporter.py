@@ -7,6 +7,7 @@ from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.generators import EPowGenerator, StaticGenerator, SynchronousMachine
 from epowcore.gdf.load import Load
+from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers import TwoWindingTransformer
 from epowcore.gdf.utils import get_connected_bus
@@ -15,6 +16,37 @@ from epowcore.generic.logger import Logger
 
 
 class PyPSAExporter:
+    """Class responsible for exporting from GDF to PyPSA
+
+    Currently supported GDF component types:
+
+    - [x] Bus
+    - [ ] CommonImpedance
+    - [ ] ExtendedWard
+    - [ ] ExternalGrid
+    - [ ] Impedance
+    - [x] Load
+    - [ ] PVSytem
+    - [x] Shunt
+    - [ ] Switch
+    - [x] TLine
+    - [ ] VoltageSource
+    - [ ] Ward
+    - [ ] Subsystem
+    - [x] Generator
+        - [x] EPowGenerator: Cost Model still todo
+        - [x] StaticGenerator
+        - [x] SynchronousMachine
+    - [x] Transformers
+        - [x] ThreeWindingTransformer -> before export all ThreeWindingTransformers are converted to TwoWindingTransformers
+        - [x] TwoWindingTransformer
+    - [ ] Exciters
+    - [ ] Govenors
+    - [ ] Power Sytem Stabilizers
+
+    :return: _description_
+    :rtype: _type_
+    """
 
     model_name: str
     pypsa_model: Network
@@ -33,6 +65,7 @@ class PyPSAExporter:
             EPowGenerator: self.add_generator_from_gdf,
             StaticGenerator: self.add_generator_from_gdf,
             SynchronousMachine: self.add_generator_from_gdf,
+            Shunt: self.add_shunt_from_gdf,
         }
 
     def export(self) -> None:
@@ -47,6 +80,7 @@ class PyPSAExporter:
         self.convert_component(EPowGenerator)
         self.convert_component(StaticGenerator)
         self.convert_component(SynchronousMachine)
+        self.convert_component(Shunt)
 
     @staticmethod
     def export_pypsa(core_model: CoreModel, name: str) -> Network:
@@ -210,36 +244,31 @@ class PyPSAExporter:
         self, generator: SynchronousMachine, bus: Bus
     ) -> bool:
 
-        gen_rated_active_power = generator.rated_active_power
-        # if gen_rated_active_power == 0:
-        #    gen_rated_active_power = generator.rated_apparent_power * generator.get_default(
-        #        attr="power_factor", platform=Platform.PYPSA
-        #    )
-        #    Logger.log_to_selected(
-        #        "Defaulted generator rated active power to a multiplication of rated apparent power because it was zero."
-        #    )
-
         self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             type="",
-            p_nom=gen_rated_active_power,
+            p_nom=generator.rated_active_power,
             # p_nom_mod=
             p_nom_extendable=False,  # previously set to True with the values below
-            p_nom_min=gen_rated_active_power,  # generator.p_min,
-            p_nom_max=gen_rated_active_power,  # generator.p_max,
-            # p_nom_set=gen_rated_active_power,
+            p_nom_min=generator.rated_active_power,  # generator.p_min,
+            p_nom_max=generator.rated_active_power,  # generator.p_max,
+            # p_nom_set=generator.rated_active_power,
             p_min_pu=(
-                (generator.p_min / gen_rated_active_power) if gen_rated_active_power != 0 else 0
+                (generator.p_min / generator.rated_active_power)
+                if generator.rated_active_power != 0
+                else 0
             ),
             p_max_pu=(
-                (generator.p_max / gen_rated_active_power) if gen_rated_active_power != 0 else 0
+                (generator.p_max / generator.rated_active_power)
+                if generator.rated_active_power != 0
+                else 0
             ),
             p_set=generator.active_power,
             # p_init=generator.active_power,
             q_set=generator.reactive_power,
-            # sign=(1 if gen_rated_active_power >= 0 else -1),
+            # sign=(1 if generator.rated_active_power >= 0 else -1),
             # carrier=generator.category.value,
         )
         return str(generator.uid) in self.pypsa_model.components.generators.static.index
@@ -313,3 +342,19 @@ class PyPSAExporter:
             v_ang_max=trafo.angle_max,
         )
         return str(trafo.uid) in self.pypsa_model.components.transformers.static.index
+
+    def add_shunt_from_gdf(self, shunt: Shunt) -> bool:
+        shunt_bus = get_connected_bus(self.core_model.graph, shunt, max_depth=1)
+        # If no load bus was found the function fails
+        if shunt_bus is None:
+            Logger.log_to_selected("There was no bus found connected to the load")
+            return False
+
+        self.pypsa_model.components.shunt_impedances.add(
+            name=shunt.uid,
+            bus=shunt_bus.uid,
+            g=shunt.p / (shunt_bus.nominal_voltage**2),
+            b=shunt.q / (shunt_bus.nominal_voltage**2),
+        )
+
+        return str(shunt.uid) in self.pypsa_model.components.shunt_impedances.static.index
