@@ -5,6 +5,7 @@ from pypsa import Network
 from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
+from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.generators import EPowGenerator, StaticGenerator, SynchronousMachine
 from epowcore.gdf.load import Load
 from epowcore.gdf.pv_system import PVSystem
@@ -24,7 +25,7 @@ class PyPSAExporter:
     - [x] Bus
     - [ ] CommonImpedance
     - [ ] ExtendedWard
-    - [ ] ExternalGrid
+    - [x] ExternalGrid
     - [ ] Impedance
     - [x] Load
     - [x] PVSytem untested
@@ -68,6 +69,7 @@ class PyPSAExporter:
             SynchronousMachine: self.add_generator_from_gdf,
             Shunt: self.add_shunt_from_gdf,
             PVSystem: self.add_generator_from_gdf,
+            ExternalGrid: self.add_generator_from_gdf,
         }
 
     def export(self) -> None:
@@ -85,6 +87,7 @@ class PyPSAExporter:
         self.convert_component(SynchronousMachine)
         self.convert_component(Shunt)
         self.convert_component(PVSystem)
+        self.convert_component(ExternalGrid)
 
     @staticmethod
     def export_pypsa(core_model: CoreModel, name: str) -> Network:
@@ -325,6 +328,34 @@ class PyPSAExporter:
         )
 
         return str(pvsystem.uid) in self.pypsa_model.components.generators.static.index
+
+    def add_generator_from_gdf_external_grid(self, external_grid: ExternalGrid, bus: Bus) -> bool:
+
+        # Maybe a custom constraint for the reactive power should be added
+        # as pypsa does not feature and min and max reactive power
+
+        self.pypsa_model.components.add(
+            name=external_grid.uid,
+            bus=bus.uid,
+            control=(
+                external_grid.bus_type.value if external_grid.bus_type.value != "SL" else "Slack"
+            ),  # This is weird, as there is a lf type on the bus and on the external grid
+            p_nom_extendable=False,
+            p_min_pu=(
+                (external_grid.p_min / external_grid.p)
+                if not external_grid.p_min is None
+                else external_grid.p
+            ),
+            p_max_pu=(
+                (external_grid.p_max / external_grid.p)
+                if not external_grid.p_max is None
+                else external_grid.p
+            ),
+            p_set=external_grid.p,
+            q_set=external_grid.q,
+        )
+
+        return str(external_grid.uid) in self.pypsa_model.components.generators.static.index
 
     def add_transformer_from_gdf(self, trafo: TwoWindingTransformer) -> bool:
         # Get the bus connected to the transformer on the high voltage side
