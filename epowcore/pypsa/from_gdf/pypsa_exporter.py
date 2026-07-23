@@ -34,7 +34,8 @@ class PyPSAExporter:
     - [x] TLine
     - [ ] VoltageSource
     - [ ] Ward
-    - [ ] Subsystem
+    - [x] Subsystem: maybe take a look again but from what I can tell a pypsa Sub-network is a
+            physically defined object and not something logically like in epowcore
     - [x] Generator
         - [x] EPowGenerator: Cost Model still todo; untested
         - [x] StaticGenerator untested

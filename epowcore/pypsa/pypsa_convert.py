@@ -5,6 +5,7 @@ from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.generic.configuration import Configuration
 from epowcore.generic.constants import Platform
 from epowcore.generic.converter_base import ConverterBase
+from epowcore.generic.manipulation.flatten import flatten
 from epowcore.pypsa.from_gdf.pypsa_exporter import PyPSAExporter
 
 
@@ -16,6 +17,8 @@ class PyPSAConverter(ConverterBase[pypsa_network]):
         return super().from_gdf(core_model, name, log_path)
 
     def _pre_export(self, core_model: CoreModel, name: str) -> CoreModel:
+
+        flatten(core_model)
 
         # Replace all three winding transformers as they are not supported by pypsa
         three_winding_transformers = core_model.type_list(ThreeWindingTransformer)
