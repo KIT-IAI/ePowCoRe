@@ -7,6 +7,7 @@ from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.generators import EPowGenerator, StaticGenerator, SynchronousMachine
 from epowcore.gdf.load import Load
+from epowcore.gdf.pv_system import PVSystem
 from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers import TwoWindingTransformer
@@ -26,16 +27,16 @@ class PyPSAExporter:
     - [ ] ExternalGrid
     - [ ] Impedance
     - [x] Load
-    - [ ] PVSytem
-    - [x] Shunt
+    - [x] PVSytem untested
+    - [x] Shunt untested
     - [ ] Switch
     - [x] TLine
     - [ ] VoltageSource
     - [ ] Ward
     - [ ] Subsystem
     - [x] Generator
-        - [x] EPowGenerator: Cost Model still todo
-        - [x] StaticGenerator
+        - [x] EPowGenerator: Cost Model still todo; untested
+        - [x] StaticGenerator untested
         - [x] SynchronousMachine
     - [x] Transformers
         - [x] ThreeWindingTransformer -> before export all ThreeWindingTransformers are converted to TwoWindingTransformers
@@ -66,12 +67,14 @@ class PyPSAExporter:
             StaticGenerator: self.add_generator_from_gdf,
             SynchronousMachine: self.add_generator_from_gdf,
             Shunt: self.add_shunt_from_gdf,
+            PVSystem: self.add_generator_from_gdf,
         }
 
     def export(self) -> None:
         self.pypsa_model = Network(name=self.model_name)
 
         self.pypsa_model.components.carriers.add("AC")
+        self.pypsa_model.components.carriers.add("solar")
 
         self.convert_component(Bus)
         self.convert_component(TLine)
@@ -81,6 +84,7 @@ class PyPSAExporter:
         self.convert_component(StaticGenerator)
         self.convert_component(SynchronousMachine)
         self.convert_component(Shunt)
+        self.convert_component(PVSystem)
 
     @staticmethod
     def export_pypsa(core_model: CoreModel, name: str) -> Network:
@@ -213,6 +217,8 @@ class PyPSAExporter:
             return self.add_generator_from_gdf_staticgenerator(
                 generator=generator, bus=generator_bus
             )
+        if isinstance(generator, PVSystem):
+            return self.add_generator_from_gdf_pvsystem(pvsystem=generator, bus=generator_bus)
         Logger.log_to_selected("Given generator does not match any ePowCoRe Generator type")
         return False
 
@@ -294,6 +300,27 @@ class PyPSAExporter:
             carrier=generator.category.value,
         )
         return str(generator.uid) in self.pypsa_model.components.generators.static.index
+
+    def add_generator_from_gdf_pvsystem(self, pvsystem: PVSystem, bus: Bus) -> bool:
+
+        nominal_power = pvsystem.rated_power * pvsystem.get_default(
+            attr="power_factor", platform=Platform.PYPSA
+        )
+
+        self.pypsa_model.components.generators.add(
+            name=pvsystem.uid,
+            bus=bus.uid,
+            p_nom=nominal_power,
+            p_nom_extendable=False,
+            p_min_pu=pvsystem.minimum_real_power_output / nominal_power,
+            p_max_pu=pvsystem.maximum_real_power_output / nominal_power,
+            p_set=pvsystem.real_power_output,
+            q_set=pvsystem.reactive_power_output,
+            carrier="solar",
+            sign=1,
+        )
+
+        return str(pvsystem.uid) in self.pypsa_model.components.generators.static.index
 
     def add_transformer_from_gdf(self, trafo: TwoWindingTransformer) -> bool:
         # Get the bus connected to the transformer on the high voltage side
