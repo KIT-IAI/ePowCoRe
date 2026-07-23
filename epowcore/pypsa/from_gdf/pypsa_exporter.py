@@ -226,7 +226,7 @@ class PyPSAExporter:
         self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
-            control=bus.lf_bus_type.value,
+            control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             type="",
             p_nom=generator.maximumRealPowerOutput,  # previously basemva
             # p_nom_mod=
@@ -283,7 +283,7 @@ class PyPSAExporter:
         self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
-            control=bus.lf_bus_type.value,
+            control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             type="",
             p_nom=generator.rated_active_power,
             # p_nom_mod=
@@ -311,6 +311,7 @@ class PyPSAExporter:
             name=pvsystem.uid,
             bus=bus.uid,
             p_nom=nominal_power,
+            control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             p_nom_extendable=False,
             p_min_pu=pvsystem.minimum_real_power_output / nominal_power,
             p_max_pu=pvsystem.maximum_real_power_output / nominal_power,
