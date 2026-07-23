@@ -303,6 +303,9 @@ class PyPSAExporter:
 
     def add_generator_from_gdf_pvsystem(self, pvsystem: PVSystem, bus: Bus) -> bool:
 
+        # Maybe a custom constraint for the reactive power should be added
+        # as pypsa does not feature and min and max reactive power
+
         nominal_power = pvsystem.rated_power * pvsystem.get_default(
             attr="power_factor", platform=Platform.PYPSA
         )
