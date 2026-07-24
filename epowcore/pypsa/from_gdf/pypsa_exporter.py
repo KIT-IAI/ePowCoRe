@@ -12,7 +12,8 @@ from epowcore.gdf.pv_system import PVSystem
 from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers import TwoWindingTransformer
-from epowcore.gdf.utils import get_connected_bus
+from epowcore.gdf.utils import get_connected_bus, get_z_base
+from epowcore.gdf.voltage_source import VoltageSource
 from epowcore.generic.constants import Platform
 from epowcore.generic.logger import Logger
 
@@ -24,16 +25,16 @@ class PyPSAExporter:
 
     - [x] Bus
     - [ ] CommonImpedance
-    - [ ] ExtendedWard
+    - [x] ExtendedWard -> conversion by replacement
     - [x] ExternalGrid
-    - [ ] Impedance
+    - [x] Impedance -> conversion by replacement
     - [x] Load
     - [x] PVSytem untested
     - [x] Shunt untested
     - [ ] Switch
     - [x] TLine
-    - [ ] VoltageSource
-    - [ ] Ward
+    - [x] VoltageSource -> experimental conversion following Thevenin Theorem
+    - [x] Ward -> conversion by replacement
     - [x] Subsystem: maybe take a look again but from what I can tell a pypsa Sub-network is a
             physically defined object and not something logically like in epowcore
     - [x] Generator
@@ -421,3 +422,53 @@ class PyPSAExporter:
         )
 
         return str(shunt.uid) in self.pypsa_model.components.shunt_impedances.static.index
+
+    def add_generator_impedance_from_gdf_voltage_source(
+        self, voltage_source: VoltageSource
+    ) -> bool:
+        voltage_source_bus = get_connected_bus(self.core_model.graph, voltage_source, max_depth=1)
+
+        z_base = get_z_base(voltage_source, self.core_model)
+
+        if voltage_source_bus is None:
+            Logger.log_to_selected("There was no bus found connected to the voltage source")
+            return False
+
+        new_line_uid = self.core_model.get_valid_id()
+        new_bus_uid = self.core_model.get_valid_id()
+
+        self.pypsa_model.components.buses.add(
+            name=new_bus_uid,
+            v_nom=voltage_source.u_setp * voltage_source_bus.nominal_voltage,
+            carrier="AC",
+        )
+
+        self.pypsa_model.components.generators.add(
+            name=voltage_source.uid,
+            bus=new_bus_uid,
+            control="Slack",  # could also be PV
+            # p_nom # defualts to 0, but maybe should be high so the generator actually holds the network voltage?
+        )
+
+        self.pypsa_model.components.lines.add(
+            name=new_line_uid,
+            bus0=new_bus_uid,
+            bus1=voltage_source_bus,
+            r=voltage_source.r_pu * z_base,
+            x=voltage_source.x_pu * z_base,
+            # s_nom   # should maybe also be limited
+        )
+
+        if not (
+            str(new_line_uid) in self.pypsa_model.components.lines.index
+            and str(new_bus_uid) in self.pypsa_model.components.buses.index
+            and str(voltage_source.uid) in self.pypsa_model.components.generators.index
+        ):
+            return False
+
+        Logger.log_to_selected(
+            f"EXPERIMENTAL: Conversion from voltage source to Slack Generator with line impedance and bus took place \n"
+            + f"The generator received the uid {voltage_source.uid} of the voltage source and the bus and line the new uids {new_bus_uid} and {new_line_uid} respectively"
+        )
+
+        return True
