@@ -34,7 +34,7 @@ class PyPSAConverter(ConverterBase[pypsa_network]):
 
         extended_wards = core_model.type_list(ExtendedWard)
         for extended_ward in extended_wards:
-            extended_ward.replace_with_load_shunt_vsource(core_model)
+            extended_ward.replace_with_load_shunt_vsource(core_model, core_model.base_mva)
 
         impedances = core_model.type_list(Impedance)
         for impedance in impedances:
