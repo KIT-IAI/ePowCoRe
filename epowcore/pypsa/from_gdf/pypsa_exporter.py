@@ -31,7 +31,7 @@ class PyPSAExporter:
     - [x] Load
     - [x] PVSytem untested
     - [x] Shunt untested
-    - [ ] Switch
+    - [x] Switch
     - [x] TLine
     - [x] VoltageSource -> experimental conversion following Thevenin Theorem
     - [x] Ward -> conversion by replacement

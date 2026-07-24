@@ -3,6 +3,7 @@ from pypsa import network as pypsa_network
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.extended_ward import ExtendedWard
 from epowcore.gdf.impedance import Impedance
+from epowcore.gdf.switch import Switch
 from epowcore.gdf.transformers import ThreeWindingTransformer
 from epowcore.gdf.ward import Ward
 from epowcore.generic.configuration import Configuration
@@ -39,6 +40,10 @@ class PyPSAConverter(ConverterBase[pypsa_network]):
         impedances = core_model.type_list(Impedance)
         for impedance in impedances:
             impedance.replace_with_line(core_model, Platform.PYPSA)
+
+        switches = core_model.type_list(Switch)
+        for switch in switches:
+            switch.replace_with_line_if_closed(core_model, Platform.PYPSA)
 
         return core_model
 
