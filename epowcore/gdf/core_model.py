@@ -1,9 +1,10 @@
-from ast import literal_eval as make_tuple
-from dataclasses import dataclass, field, asdict
 import importlib
+from ast import literal_eval as make_tuple
+from dataclasses import asdict, dataclass, field
 from typing import TypeVar
 
 import networkx as nx
+
 from epowcore.generic.component_graph import ComponentGraph
 from epowcore.generic.configuration import Configuration
 from epowcore.generic.constants import GDF_VERSION, Platform
@@ -269,8 +270,8 @@ class CoreModel:
         :return: A list of components connected to to given [component].
         :rtype: list[Component]
         """
-        from epowcore.gdf.subsystem import Subsystem
         from epowcore.gdf.port import Port
+        from epowcore.gdf.subsystem import Subsystem
 
         _, graph = self.get_component_by_id(component.uid)
         if graph is None:
@@ -339,6 +340,12 @@ class CoreModel:
         :return: True if the model is valid, else False.
         """
 
+        def check_neighbors(node: Component, connector_name: str) -> bool:
+            try:
+                return self.get_neighbors(node, True, connector_name) != []
+            except KeyError:
+                return False
+
         graph_sanity = self.graph.sanity_check()
         # Check if the edges have the required connectors
         connector_check = all(
@@ -346,7 +353,7 @@ class CoreModel:
                 lambda node: len(node.connector_names) == 0
                 or all(
                     map(
-                        lambda x: self.has_connected_to(node, x),
+                        lambda x: check_neighbors(node, x),
                         node.connector_names,
                     )
                 ),
