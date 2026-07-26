@@ -1,11 +1,12 @@
-from collections.abc import Iterable
 import copy as cp
+from collections.abc import Iterable
 from functools import cached_property
+from pprint import pp
 from typing import Iterator
 
 import networkx as nx
-from epowcore.gdf.component import Component
 
+from epowcore.gdf.component import Component
 from epowcore.generic.component_views import ComponentEdgeView, ComponentNodeView
 
 
@@ -141,16 +142,22 @@ class ComponentGraph:
         """
         # Check the types of the components
         node_type_check = all(isinstance(node, Component) for node in self._graph.nodes)
+        print(f"node_type_check: {node_type_check}")
 
-        # Check the types of the edge data
-        data_keys = [
-            a for b in map(lambda edge: list(edge[2].keys()), self._graph.edges.data()) for a in b
-        ]
-        data_values = [
-            a for b in map(lambda edge: list(edge[2].values()), self._graph.edges.data()) for a in b
-        ]
-        edge_type_check = all(isinstance(x, list) for x in data_keys) and all(
-            isinstance(x, list) for x in data_values
+        # The edge data ist a list of tuples,
+        # each tuple contains the two components on index 0 and 1 and a dictionary on index 2.
+        # This dictionary maps the integer uid of both components each to a list of connector name strings.
+        # The different connectors are connected in order of the lists.
+        # The goal of the following code is to verify the value types of the dictionary.
+        edge_data = list(self._graph.edges.data())
+        data_components = [item for tuple in edge_data for item in tuple[:2]]
+        data_keys = [a for b in map(lambda edge: list(edge[2].keys()), edge_data) for a in b]
+        data_values = [a for b in map(lambda edge: list(edge[2].values()), edge_data) for a in b]
+        edge_type_check = (
+            all(isinstance(component, Component) for component in data_components)
+            and all(isinstance(edge, tuple) for edge in edge_data)
+            and all(isinstance(x, int) for x in data_keys)
+            and all(isinstance(x, list) and all(isinstance(y, str) for y in x) for x in data_values)
         )
 
         return node_type_check and edge_type_check
