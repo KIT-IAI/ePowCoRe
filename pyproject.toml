@@ -41,6 +41,7 @@ simscape = [
 ]
 
 [tool.setuptools]
-py-modules = ["epowcore"]
-packages.find.include = ["epowcore", "epowcore.*", "epowcore*"]
 zip-safe = false
+
+[tool.setuptools.packages.find]
+include = ["epowcore", "epowcore.*"]
