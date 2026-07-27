@@ -138,7 +138,10 @@ class PyPSAExporter:
             y=bus_y,
             carrier="AC",
         )
-        return str(bus.uid) in self.pypsa_model.components.buses.static.index
+        creation_result = str(bus.uid) in self.pypsa_model.components.buses.static.index
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for Bus {bus.uid}")
+        return creation_result
 
     def add_line_from_gdf(self, line: TLine) -> bool:
         """Method for converting GDF TLine components to PyPSA line components.
@@ -177,7 +180,10 @@ class PyPSAExporter:
             v_ang_min=line.angle_min,
             v_ang_max=line.angle_max,
         )
-        return str(line.uid) in self.pypsa_model.components.lines.static.index
+        creation_result = str(line.uid) in self.pypsa_model.components.lines.static.index
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for TLine {line.uid}")
+        return creation_result
 
     def add_load_from_gdf(self, load: Load) -> bool:
         """Method for convering GDF load components to PyPSA load components.
@@ -208,7 +214,10 @@ class PyPSAExporter:
             sign=sign,
             active=True,
         )
-        return str(load.uid) in self.pypsa_model.components.loads.static.index
+        creation_result = str(load.uid) in self.pypsa_model.components.loads.static.index
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for Load {load.uid}")
+        return creation_result
 
     def add_generator_from_gdf(
         self, generator: EPowGenerator | SynchronousMachine | StaticGenerator
@@ -281,7 +290,10 @@ class PyPSAExporter:
             sign=(1 if generator.baseMVA >= 0 else -1),
             carrier=generator.category.value,
         )
-        return str(generator.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = str(generator.uid) in self.pypsa_model.components.generators.static.index
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for EPowGenerator {generator.uid}")
+        return creation_result
 
     def add_generator_from_gdf_synchronousmachine(
         self, generator: SynchronousMachine, bus: Bus
@@ -321,7 +333,12 @@ class PyPSAExporter:
             sign=(1 if generator.rated_active_power >= 0 else -1),
             # carrier=generator.category.value,
         )
-        return str(generator.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = str(generator.uid) in self.pypsa_model.components.generators.static.index
+        if not creation_result:
+            Logger.log_to_selected(
+                f"Creation in PyPSA failed for SynchronousMachine {generator.uid}"
+            )
+        return creation_result
 
     def add_generator_from_gdf_staticgenerator(self, generator: StaticGenerator, bus: Bus) -> bool:
         """Method responsible for converting a GDF StaticGenerator.
@@ -350,7 +367,10 @@ class PyPSAExporter:
             sign=(1 if generator.rated_active_power >= 0 else -1),
             carrier=generator.category.value,
         )
-        return str(generator.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = str(generator.uid) in self.pypsa_model.components.generators.static.index
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for StaticGenerator {generator.uid}")
+        return creation_result
 
     def add_generator_from_gdf_pvsystem(self, pvsystem: PVSystem, bus: Bus) -> bool:
         """Method responsible for converting a GDF PVSystem.
@@ -389,7 +409,10 @@ class PyPSAExporter:
             sign=1,
         )
 
-        return str(pvsystem.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = str(pvsystem.uid) in self.pypsa_model.components.generators.static.index
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for PVSystem {pvsystem.uid}")
+        return creation_result
 
     def add_generator_from_gdf_external_grid(self, external_grid: ExternalGrid, bus: Bus) -> bool:
         """Method responsible for converting a GDF ExternalGrid.
@@ -425,7 +448,12 @@ class PyPSAExporter:
             q_set=external_grid.q,
         )
 
-        return str(external_grid.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = (
+            str(external_grid.uid) in self.pypsa_model.components.generators.static.index
+        )
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for ExternalGrid {external_grid.uid}")
+        return creation_result
 
     def add_transformer_from_gdf(self, trafo: TwoWindingTransformer) -> bool:
         """Method for converting GDF TwoWindingTransformer components
@@ -476,7 +504,12 @@ class PyPSAExporter:
             v_ang_min=trafo.angle_min,
             v_ang_max=trafo.angle_max,
         )
-        return str(trafo.uid) in self.pypsa_model.components.transformers.static.index
+        creation_result = str(trafo.uid) in self.pypsa_model.components.transformers.static.index
+        if not creation_result:
+            Logger.log_to_selected(
+                f"Creation in PyPSA failed for TwoWindingTransformer {trafo.uid}"
+            )
+        return creation_result
 
     def add_shunt_from_gdf(self, shunt: Shunt) -> bool:
         """Method for converting GDF Shunt components to PyPSA shunts
@@ -501,7 +534,12 @@ class PyPSAExporter:
             b=shunt.q / (shunt_bus.nominal_voltage**2),
         )
 
-        return str(shunt.uid) in self.pypsa_model.components.shunt_impedances.static.index
+        creation_result = (
+            str(shunt.uid) in self.pypsa_model.components.shunt_impedances.static.index
+        )
+        if not creation_result:
+            Logger.log_to_selected(f"Creation in PyPSA failed for Shunt {shunt.uid}")
+        return creation_result
 
     def add_generator_impedance_from_gdf_voltage_source(
         self, voltage_source: VoltageSource
@@ -557,8 +595,8 @@ class PyPSAExporter:
             and str(voltage_source.uid) in self.pypsa_model.components.generators.index
         ):
             Logger.log_to_selected(
-                "Conversion of voltage source failed because at least one substitution component"
-                + " was not found after creation"
+                f"Conversion of VoltageSource {voltage_source.uid} failed because at "
+                + "least one substitution component was not found after creation"
             )
             return False
 
