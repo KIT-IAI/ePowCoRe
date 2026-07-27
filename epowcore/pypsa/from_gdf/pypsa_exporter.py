@@ -19,43 +19,16 @@ from epowcore.generic.logger import Logger
 
 
 class PyPSAExporter:
-    """Class responsible for exporting from GDF to PyPSA
-
-    Currently supported GDF component types:
-
-    - [x] Bus
-    - [ ] CommonImpedance
-    - [x] ExtendedWard -> conversion by replacement
-    - [x] ExternalGrid
-    - [x] Impedance -> conversion by replacement
-    - [x] Load
-    - [x] PVSytem untested
-    - [x] Shunt untested
-    - [x] Switch
-    - [x] TLine
-    - [x] VoltageSource -> experimental conversion following Thevenin Theorem
-    - [x] Ward -> conversion by replacement
-    - [x] Subsystem: maybe take a look again but from what I can tell a pypsa Sub-network is a
-            physically defined object and not something logically like in epowcore
-    - [x] Generator
-        - [x] EPowGenerator: Cost Model still todo; untested
-        - [x] StaticGenerator untested
-        - [x] SynchronousMachine
-    - [x] Transformers
-        - [x] ThreeWindingTransformer -> before export all ThreeWindingTransformers are converted to TwoWindingTransformers
-        - [x] TwoWindingTransformer
-    - [ ] Exciters
-    - [ ] Govenors
-    - [ ] Power Sytem Stabilizers
-
-    :return: _description_
-    :rtype: _type_
-    """
+    """Class responsible for exporting from GDF to PyPSA"""
 
     model_name: str
+    """Name of the model being exported"""
     pypsa_model: Network
+    """Conversion target PyPSA model being built"""
     core_model: CoreModel
-    method_mapping: dict[Component, Callable[[Component], bool]]
+    """Conversion source GDF model being read and converted to PyPSA"""
+    method_mapping: dict[type, Callable[[Component], bool]]
+    """Mapping from GDF component type to conversion method"""
 
     def __init__(self, core_model: CoreModel, name: str):
         self.core_model = core_model
@@ -75,7 +48,9 @@ class PyPSAExporter:
         }
 
     def export(self) -> None:
-        """Export method responsible for the general export process, calling all included methods."""
+        """Export method responsible for the general export
+        process, calling all included methods
+        """
 
         self.pypsa_model = Network(name=self.model_name)
 
@@ -114,6 +89,11 @@ class PyPSAExporter:
     def convert_component(self, component_type: type) -> None:
         """Generic method to convert a certain component type.
 
+        This method takes a GDF component type,
+        retrieves all components of the type from the GDF model and calls the conversion method
+        mapped to the type in the method_mapping for each component.
+        How many components of the type are sucessfully converted is automatically logged.
+
         :param component_type: GDF component type of which all components should be converted
         :type component_type: type
         """
@@ -127,16 +107,23 @@ class PyPSAExporter:
                 counter += 1
 
         Logger.log_to_selected(
-            f"Successfully converted {counter} of {len(component_list)}"
+            f"successfuly converted {counter} of {len(component_list)}"
             + f" {str(component_type.__name__)} components"
         )
 
     def add_bus_from_gdf(self, bus: Bus) -> bool:
+        """Method for converting GDF bus components to PyPSA bus components.
+
+        :param bus: GDF bus to convert
+        :type bus: Bus
+        :return: True if sucessfull else false
+        :rtype: bool
+        """
 
         bus_x = bus.coords[0] if not bus.coords is None else None
         bus_y = bus.coords[1] if not bus.coords is None else None
 
-        name = self.pypsa_model.components.buses.add(
+        self.pypsa_model.components.buses.add(
             name=bus.uid,
             return_names=True,
             v_nom=bus.nominal_voltage,
@@ -144,15 +131,17 @@ class PyPSAExporter:
             x=bus_x,
             y=bus_y,
             carrier="AC",
-            # unit
-            # location
-            # v_mag_pu_set=
-            # v_mag_pu_min
-            # v_mag_pu_max
         )
         return str(bus.uid) in self.pypsa_model.components.buses.static.index
 
     def add_line_from_gdf(self, line: TLine) -> bool:
+        """Method for converting GDF TLine components to PyPSA line components.
+
+        :param line: GDF TLine to convert
+        :type line: TLine
+        :return: True if successful else false
+        :rtype: bool
+        """
 
         bus0_list = self.core_model.get_neighbors(component=line, follow_links=True, connector="A")
         bus1_list = self.core_model.get_neighbors(component=line, follow_links=True, connector="B")
@@ -164,37 +153,33 @@ class PyPSAExporter:
         bus0 = bus0_list[0]
         bus1 = bus1_list[0]
 
-        name = self.pypsa_model.components.lines.add(
+        self.pypsa_model.components.lines.add(
             name=line.uid,
             return_names=True,
             f_nom=self.core_model.base_frequency,
             bus0=bus0.uid,
             bus1=bus1.uid,
             type="",
-            x=line.x1 * (line.length if not line.length is None else 1),  # ohm per km vs ohm error
+            x=line.x1 * (line.length if not line.length is None else 1),
             r=line.r1 * (line.length if not line.length is None else 1),
-            # g=line.g,
             b=line.b1 * (line.length if not line.length is None else 1) / 10e6,
             s_nom=line.rating,
-            # snom_mod
-            # s_nom_extendable # for optimization
-            # s_nom_min
-            # s_nom_max # this list is not complete
-            # s_nom_set
-            # s_max_pu
             length=line.length,
             carrier="AC",
             num_parallel=line.parallel_lines,
             v_ang_min=line.angle_min,
             v_ang_max=line.angle_max,
         )
-        # Logger.log_to_selected("Transimission lines")
-        # Logger.log_to_selected(str(line.uid))
-        # Logger.log_to_selected(str(self.pypsa_model.components.lines.static.index))
-        # Logger.log_to_selected(str(line.uid) in self.pypsa_model.components.lines.static.index)
         return str(line.uid) in self.pypsa_model.components.lines.static.index
 
     def add_load_from_gdf(self, load: Load) -> bool:
+        """Method for convering GDF load components to PyPSA load components.
+
+        :param load: GDF load to convert
+        :type load: Load
+        :return: True if successful else false
+        :rtype: bool
+        """
         load_bus = get_connected_bus(self.core_model.graph, load, max_depth=1)
         # If no load bus was found the function fails
         if load_bus is None:
@@ -204,13 +189,13 @@ class PyPSAExporter:
         # represents a normal load which consumes power
         sign = -1 if load.active_power >= 0 else 1
 
-        name = self.pypsa_model.components.loads.add(
+        self.pypsa_model.components.loads.add(
             name=load.uid,
             bus=load_bus.uid,
             type="",
-            p_set=load.active_power,  # abs(load.active_power),
-            q_set=load.reactive_power,  # abs(load.reactive_power),
-            # sign=sign,
+            p_set=abs(load.active_power),
+            q_set=abs(load.reactive_power),
+            sign=sign,
             active=True,
         )
         return str(load.uid) in self.pypsa_model.components.loads.static.index
@@ -218,6 +203,15 @@ class PyPSAExporter:
     def add_generator_from_gdf(
         self, generator: EPowGenerator | SynchronousMachine | StaticGenerator
     ) -> bool:
+        """Method for converting any type of GDF generator to a PyPSA generator.
+        For this, the method retrievesd the connected bus and calls sub methods,
+        depending on the type of the given GDF generator.
+
+        :param generator: GDF generator of some kind to convert to PyPSA
+        :type generator: EPowGenerator | SynchronousMachine | StaticGenerator
+        :return: True if successful else false
+        :rtype: bool
+        """
         generator_bus = get_connected_bus(self.core_model.graph, generator, max_depth=1)
         if generator_bus is None:
             Logger.log_to_selected(
@@ -227,39 +221,45 @@ class PyPSAExporter:
 
         if generator_bus.lf_bus_type.value == "ISOLATED":
             Logger.log_to_selected(
-                "Conversion failed as Loadflow bus type can not be represented in generator control type"
+                "Conversion failed as Loadflow bus type can not be represented "
+                + "in generator control type"
             )
             return False
 
         if isinstance(generator, EPowGenerator):
             return self.add_generator_from_gdf_epowgenerator(generator=generator, bus=generator_bus)
-        if isinstance(generator, SynchronousMachine):
+        elif isinstance(generator, SynchronousMachine):
             return self.add_generator_from_gdf_synchronousmachine(
                 generator=generator, bus=generator_bus
             )
-        if isinstance(generator, StaticGenerator):
+        elif isinstance(generator, StaticGenerator):
             return self.add_generator_from_gdf_staticgenerator(
                 generator=generator, bus=generator_bus
             )
-        if isinstance(generator, PVSystem):
+        elif isinstance(generator, PVSystem):
             return self.add_generator_from_gdf_pvsystem(pvsystem=generator, bus=generator_bus)
         Logger.log_to_selected("Given generator does not match any ePowCoRe Generator type")
         return False
 
     def add_generator_from_gdf_epowgenerator(self, generator: EPowGenerator, bus: Bus) -> bool:
+        """Method responsible for converting a GDF EPowGenerator.
+        This method takes the connected bus and the EPowGenerator instance and creates
+        a equal PyPSA generator which is connected to the PyPSA bus representing the
+        given GDF bus.
+
+        :param generator: GDF EPowGenerator to convert to PyPSA
+        :type generator: EPowGenerator
+        :param bus: GDF bus connected to the given generator
+        :type bus: Bus
+        :return: True if successful else false
+        :rtype: bool
+        """
         self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             type="",
-            p_nom=generator.maximumRealPowerOutput,  # previously basemva
-            # p_nom_mod=
-            p_nom_extendable=False,  # was previously set to True with the values below
-            # unsure if these should be set because they represent a change in the
-            # nominal power capacity of the generator
-            # p_nom_min=generator.minimumRealPowerOutput,
-            # p_nom_max=generator.maximumRealPowerOutput,
-            # p_nom_set=generator.realPowerOutput,
+            p_nom=generator.maximumRealPowerOutput,
             p_min_pu=(generator.minimumRealPowerOutput / generator.maximumRealPowerOutput),
             p_max_pu=(generator.maximumRealPowerOutput / generator.maximumRealPowerOutput),
             p_set=generator.realPowerOutput,
@@ -273,6 +273,18 @@ class PyPSAExporter:
     def add_generator_from_gdf_synchronousmachine(
         self, generator: SynchronousMachine, bus: Bus
     ) -> bool:
+        """Method responsible for converting a GDF SynchronousMachine.
+        This method takes the connected bus and the SynchronousMachine instance and creates
+        a equal PyPSA generator which is connected to the PyPSA bus representing the
+        given GDF bus.
+
+        :param generator: GDF SynchronousMachine to convert to PyPSA
+        :type generator: SynchronousMachine
+        :param bus: GDF bus connected to the given generator
+        :type bus: Bus
+        :return: True if successful else false
+        :rtype: bool
+        """
 
         self.pypsa_model.components.generators.add(
             name=generator.uid,
@@ -280,11 +292,6 @@ class PyPSAExporter:
             control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             type="",
             p_nom=generator.rated_active_power,
-            # p_nom_mod=
-            p_nom_extendable=False,  # previously set to True with the values below
-            p_nom_min=generator.rated_active_power,  # generator.p_min,
-            p_nom_max=generator.rated_active_power,  # generator.p_max,
-            # p_nom_set=generator.rated_active_power,
             p_min_pu=(
                 (generator.p_min / generator.rated_active_power)
                 if generator.rated_active_power != 0
@@ -296,25 +303,32 @@ class PyPSAExporter:
                 else 0
             ),
             p_set=generator.active_power,
-            # p_init=generator.active_power,
+            p_init=generator.active_power,
             q_set=generator.reactive_power,
-            # sign=(1 if generator.rated_active_power >= 0 else -1),
+            sign=(1 if generator.rated_active_power >= 0 else -1),
             # carrier=generator.category.value,
         )
         return str(generator.uid) in self.pypsa_model.components.generators.static.index
 
     def add_generator_from_gdf_staticgenerator(self, generator: StaticGenerator, bus: Bus) -> bool:
+        """Method responsible for converting a GDF StaticGenerator.
+        This method takes the connected bus and the StaticGenerator instance and creates
+        a equal PyPSA generator which is connected to the PyPSA bus representing the
+        given GDF bus.
+
+        :param generator: GDF StaticGenerator to convert to PyPSA
+        :type generator: StaticGenerator
+        :param bus: GDF bus connected to the given generator
+        :type bus: Bus
+        :return: True if successful else false
+        :rtype: bool
+        """
         self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
             type="",
             p_nom=generator.rated_active_power,
-            # p_nom_mod=
-            p_nom_extendable=False,
-            # p_nom_min=generator.p_min,
-            # p_nom_max=generator.p_max,
-            # p_nom_set=generator.rated_active_power,
             p_min_pu=(generator.p_min / generator.rated_active_power),
             p_max_pu=(generator.p_min / generator.rated_active_power),
             p_set=generator.active_power,
@@ -326,7 +340,18 @@ class PyPSAExporter:
         return str(generator.uid) in self.pypsa_model.components.generators.static.index
 
     def add_generator_from_gdf_pvsystem(self, pvsystem: PVSystem, bus: Bus) -> bool:
+        """Method responsible for converting a GDF PVSystem.
+        This method takes the connected bus and the PVSystem instance and creates
+        a equal PyPSA generator which is connected to the PyPSA bus representing the
+        given GDF bus.
 
+        :param pvsystem: GDF PVSystem to converto PyPSA
+        :type pvsystem: PVSystem
+        :param bus: GDF bus connected to the given PVSystem
+        :type bus: Bus
+        :return: True if successful else false
+        :rtype: bool
+        """
         # Maybe a custom constraint for the reactive power should be added
         # as pypsa does not feature and min and max reactive power
 
@@ -351,6 +376,18 @@ class PyPSAExporter:
         return str(pvsystem.uid) in self.pypsa_model.components.generators.static.index
 
     def add_generator_from_gdf_external_grid(self, external_grid: ExternalGrid, bus: Bus) -> bool:
+        """Method responsible for converting a GDF ExternalGrid.
+        This method takes the connected bus and the ExternalGrid instance and creates
+        a equal PyPSA generator which is connected to the PyPSA bus representing the
+        given GDF bus.
+
+        :param external_grid: _description_
+        :type external_grid: ExternalGrid
+        :param bus: GDF bus connected to the given ExternalGrid
+        :type bus: Bus
+        :return: True if successful else false
+        :rtype: bool
+        """
 
         # Maybe a custom constraint for the reactive power should be added
         # as pypsa does not feature and min and max reactive power
@@ -360,7 +397,7 @@ class PyPSAExporter:
             bus=bus.uid,
             control=(
                 external_grid.bus_type.value if external_grid.bus_type.value != "SL" else "Slack"
-            ),  # This is weird, as there is a lf type on the bus and on the external grid
+            ),
             p_nom_extendable=False,
             p_min_pu=(
                 (external_grid.p_min / external_grid.p)
@@ -379,6 +416,14 @@ class PyPSAExporter:
         return str(external_grid.uid) in self.pypsa_model.components.generators.static.index
 
     def add_transformer_from_gdf(self, trafo: TwoWindingTransformer) -> bool:
+        """Method for converting GDF TwoWindingTransformer components
+        to PyPSA transformer components.
+
+        :param trafo: GDF TwoWindingTransformer to convert
+        :type trafo: TwoWindingTransformer
+        :return: True if succesful else False
+        :rtype: bool
+        """
         # Get the bus connected to the transformer on the high voltage side
         high_voltage_bus_list = self.core_model.get_neighbors(
             component=trafo, follow_links=True, connector="HV"
@@ -408,17 +453,13 @@ class PyPSAExporter:
             g=trafo.gm_pu,  # ignores other shunt loses besides magnitizing looses
             b=trafo.bm_pu,  # ignores other shunt effects besides magnitizing effects
             s_nom=trafo.rating,
-            # s_nom_mod=0,
-            s_nom_extendable=False,
-            # s_nom_min=
-            # s_nom_max
-            # s_nom_set
-            # s_max_pu=(
-            #    trafo.rating / trafo.rating_short_term
-            # ),  # not exactly equal in meaning, could also be rating_emergency
+            s_max_pu=(
+                (trafo.rating / trafo.rating_short_term)
+                if not trafo.rating_short_term is None
+                else None
+            ),  # not exactly equal in meaning, could also be rating_emergency
             num_parallel=1,
             tap_ratio=trafo.tap_ratio,
-            # tap_side= # unclear in epowcore
             tap_position=trafo.tap_initial,
             phase_shift=trafo.phase_shift,
             v_ang_min=trafo.angle_min,
@@ -427,6 +468,13 @@ class PyPSAExporter:
         return str(trafo.uid) in self.pypsa_model.components.transformers.static.index
 
     def add_shunt_from_gdf(self, shunt: Shunt) -> bool:
+        """Method for converting GDF Shunt components to PyPSA shunts
+
+        :param shunt: GDF Shunt component to convert
+        :type shunt: Shunt
+        :return: True if successful else False
+        :rtype: bool
+        """
         shunt_bus = get_connected_bus(self.core_model.graph, shunt, max_depth=1)
         # If no load bus was found the function fails
         if shunt_bus is None:
@@ -445,6 +493,14 @@ class PyPSAExporter:
     def add_generator_impedance_from_gdf_voltage_source(
         self, voltage_source: VoltageSource
     ) -> bool:
+        """Method for converting GDF VoltageSource to combination of generator and impedance
+        in PyPSA.
+
+        :param voltage_source: GDF VoltageSource to convert
+        :type voltage_source: VoltageSource
+        :return: True if successful else False
+        :rtype: bool
+        """
         voltage_source_bus = get_connected_bus(self.core_model.graph, voltage_source, max_depth=1)
 
         z_base = get_z_base(voltage_source, self.core_model)
@@ -466,7 +522,8 @@ class PyPSAExporter:
             name=voltage_source.uid,
             bus=new_bus_uid,
             control="Slack",  # could also be PV
-            # p_nom # defualts to 0, but maybe should be high so the generator actually holds the network voltage?
+            # p_nom # defualts to 0, but maybe should be high
+            # so the generator actually holds the network voltage?
         )
 
         self.pypsa_model.components.lines.add(
@@ -486,8 +543,10 @@ class PyPSAExporter:
             return False
 
         Logger.log_to_selected(
-            f"EXPERIMENTAL: Conversion from voltage source to Slack Generator with line impedance and bus took place \n"
-            + f"The generator received the uid {voltage_source.uid} of the voltage source and the bus and line the new uids {new_bus_uid} and {new_line_uid} respectively"
+            "[EXPERIMENTAL]: Conversion from voltage source to Slack Generator"
+            + "with line impedance and bus took place \n"
+            + f"The generator received the uid {voltage_source.uid} of the voltage source"
+            + f" and the bus and line the new uids {new_bus_uid} and {new_line_uid} respectively"
         )
 
         return True
