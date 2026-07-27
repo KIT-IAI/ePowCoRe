@@ -1,4 +1,6 @@
-from typing import Callable
+"""Module responsible for PyPSA export process, stores the PyPSAExporter class"""
+
+from typing import Callable, TypeVar
 
 from pypsa import Network
 
@@ -16,6 +18,8 @@ from epowcore.gdf.utils import get_connected_bus, get_z_base
 from epowcore.gdf.voltage_source import VoltageSource
 from epowcore.generic.constants import Platform
 from epowcore.generic.logger import Logger
+
+C = TypeVar("C", bound=Component)
 
 
 class PyPSAExporter:
@@ -86,7 +90,7 @@ class PyPSAExporter:
         exporter.export()
         return exporter.pypsa_model
 
-    def convert_component(self, component_type: type) -> None:
+    def convert_component(self, component_type: type[C]) -> None:
         """Generic method to convert a certain component type.
 
         This method takes a GDF component type,
@@ -99,7 +103,7 @@ class PyPSAExporter:
         """
         Logger.log_to_selected(f"Converting {str(component_type.__name__)} components")
 
-        component_list: list[component_type] = self.core_model.type_list(component_type)
+        component_list: list[C] = self.core_model.type_list(component_type)
         counter = 0
 
         for component in component_list:
