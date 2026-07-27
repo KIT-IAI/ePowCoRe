@@ -75,6 +75,8 @@ class PyPSAExporter:
         }
 
     def export(self) -> None:
+        """Export method responsible for the general export process, calling all included methods."""
+
         self.pypsa_model = Network(name=self.model_name)
 
         self.pypsa_model.components.carriers.add("AC")
@@ -93,11 +95,28 @@ class PyPSAExporter:
 
     @staticmethod
     def export_pypsa(core_model: CoreModel, name: str) -> Network:
+        """Static method as outside API for export process.
+
+        During this process, the method creates a PyPSAExporter Object, calls is export method
+        and returns its converted PyPSA model.
+
+        :param core_model: GDF model to be exported to PyPSA
+        :type core_model: CoreModel
+        :param name: Name of the model
+        :type name: str
+        :return: Exported PyPSA model converted from the GDF model
+        :rtype: Network
+        """
         exporter = PyPSAExporter(core_model=core_model, name=name)
         exporter.export()
         return exporter.pypsa_model
 
     def convert_component(self, component_type: type) -> None:
+        """Generic method to convert a certain component type.
+
+        :param component_type: GDF component type of which all components should be converted
+        :type component_type: type
+        """
         Logger.log_to_selected(f"Converting {str(component_type.__name__)} components")
 
         component_list: list[component_type] = self.core_model.type_list(component_type)
