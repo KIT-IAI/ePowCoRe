@@ -86,8 +86,10 @@ class PyPSAExporter:
         :return: Exported PyPSA model converted from the GDF model
         :rtype: Network
         """
+        Logger.log_to_selected("Starting PyPSA Export")
         exporter = PyPSAExporter(core_model=core_model, name=name)
         exporter.export()
+        Logger.log_to_selected("PyPSA Export finished")
         return exporter.pypsa_model
 
     def convert_component(self, component_type: type[C]) -> None:
@@ -151,7 +153,9 @@ class PyPSAExporter:
         bus1_list = self.core_model.get_neighbors(component=line, follow_links=True, connector="B")
 
         if not bus0_list or not bus1_list:
-            Logger.log_to_selected("Conversion failed because connected busses were not found")
+            Logger.log_to_selected(
+                f"Conversion of line (uid {line.uid}) failed because a connected bus not found"
+            )
             return False
 
         bus0 = bus0_list[0]
@@ -186,7 +190,10 @@ class PyPSAExporter:
         load_bus = get_connected_bus(self.core_model.graph, load, max_depth=1)
         # If no load bus was found the function fails
         if load_bus is None:
-            Logger.log_to_selected("There was no bus found connected to the load")
+            Logger.log_to_selected(
+                f"Conversion of the load (uid {load.uid} failed"
+                + " because its connected bus was not found)"
+            )
             return False
         # PyPsa "sign" parameter defaults to -1, so it was assumed sign being -1
         # represents a normal load which consumes power
@@ -207,7 +214,7 @@ class PyPSAExporter:
         self, generator: EPowGenerator | SynchronousMachine | StaticGenerator
     ) -> bool:
         """Method for converting any type of GDF generator to a PyPSA generator.
-        For this, the method retrievesd the connected bus and calls sub methods,
+        For this, the method retrieved the connected bus and calls sub methods,
         depending on the type of the given GDF generator.
 
         :param generator: GDF generator of some kind to convert to PyPSA
@@ -218,14 +225,15 @@ class PyPSAExporter:
         generator_bus = get_connected_bus(self.core_model.graph, generator, max_depth=1)
         if generator_bus is None:
             Logger.log_to_selected(
-                "Failed to convert generator because generator bus was not found"
+                f"Conversion of the generator (uid {generator.uid}) failed"
+                + " because generator bus was not found"
             )
             return False
 
         if generator_bus.lf_bus_type.value == "ISOLATED":
             Logger.log_to_selected(
-                "Conversion failed as Loadflow bus type can not be represented "
-                + "in generator control type"
+                f"Conversion of the generator (uid {generator.uid}) failed because the 'ISOLATED'"
+                + " bus loadflow-type cannot be represented by the PyPSA generator control type"
             )
             return False
 
@@ -241,7 +249,9 @@ class PyPSAExporter:
             )
         elif isinstance(generator, PVSystem):
             return self.add_generator_from_gdf_pvsystem(pvsystem=generator, bus=generator_bus)
-        Logger.log_to_selected("Given generator does not match any ePowCoRe Generator type")
+        Logger.log_to_selected(
+            f"The given generator (uid {generator.uid}) does not match any ePowCoRe generator type"
+        )
         return False
 
     def add_generator_from_gdf_epowgenerator(self, generator: EPowGenerator, bus: Bus) -> bool:
@@ -361,6 +371,9 @@ class PyPSAExporter:
         nominal_power = pvsystem.rated_power * pvsystem.get_default(
             attr="power_factor", platform=Platform.PYPSA
         )
+        Logger.log_to_selected(
+            "Used default power_factor to calculate nominal power of PVSystem from its rated power"
+        )
 
         self.pypsa_model.components.generators.add(
             name=pvsystem.uid,
@@ -433,12 +446,12 @@ class PyPSAExporter:
         )
         if not high_voltage_bus_list or not low_voltage_bus_list:
             Logger.log_to_selected(
-                "Failled to convert two winding transformer as a bus was not found"
+                f"Conversion of TwoWindingTransformer (uid {trafo.uid}) because"
+                + " a connected bus was not found"
             )
             return False
-        else:
-            low_voltage_bus = low_voltage_bus_list[0]
-            high_voltage_bus = high_voltage_bus_list[0]
+        low_voltage_bus = low_voltage_bus_list[0]
+        high_voltage_bus = high_voltage_bus_list[0]
 
         self.pypsa_model.components.transformers.add(
             name=trafo.uid,
@@ -476,7 +489,9 @@ class PyPSAExporter:
         shunt_bus = get_connected_bus(self.core_model.graph, shunt, max_depth=1)
         # If no load bus was found the function fails
         if shunt_bus is None:
-            Logger.log_to_selected("There was no bus found connected to the load")
+            Logger.log_to_selected(
+                f"Conversion of shunt (uid {shunt.uid}) failed because bus was not found"
+            )
             return False
 
         self.pypsa_model.components.shunt_impedances.add(
@@ -504,7 +519,10 @@ class PyPSAExporter:
         z_base = get_z_base(voltage_source, self.core_model)
 
         if voltage_source_bus is None:
-            Logger.log_to_selected("There was no bus found connected to the voltage source")
+            Logger.log_to_selected(
+                f"Conversion of voltage source (uid {voltage_source.uid}) failed"
+                + " because bus was not found"
+            )
             return False
 
         new_line_uid = self.core_model.get_valid_id()
@@ -538,6 +556,10 @@ class PyPSAExporter:
             and str(new_bus_uid) in self.pypsa_model.components.buses.index
             and str(voltage_source.uid) in self.pypsa_model.components.generators.index
         ):
+            Logger.log_to_selected(
+                "Conversion of voltage source failed because at least one substitution component"
+                + " was not found after creation"
+            )
             return False
 
         Logger.log_to_selected(
