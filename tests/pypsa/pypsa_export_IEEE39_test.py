@@ -16,9 +16,7 @@ from pandas import DataFrame
 from pypsa import Network
 
 from epowcore.gdf.core_model import CoreModel
-from epowcore.generic.logger import Logger
 from epowcore.pandapower.pandapower_converter import PandapowerConverter
-from epowcore.pandapower.pandapower_model import PandapowerModel
 from epowcore.pypsa.pypsa_convert import PyPSAConverter
 
 
@@ -29,11 +27,11 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
     """
 
     PYPSA_PREFIX = "pypsa_"
-    PANDAPOWER_PREFIX = "pp_"
+    PP_PREFIX = "pp_"
 
     core_model: ClassVar[CoreModel]
     pandapower_model: ClassVar[pandapowerNet]
-    percent_deviation: ClassVar[float] = 0.05
+    deviation: ClassVar[float] = 0.05
     pyPSA_model: ClassVar[Network]
 
     pandapower_bus_results: ClassVar[DataFrame]
@@ -101,7 +99,7 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
 
         new_table = new_table.rename(columns=lambda a: self.PYPSA_PREFIX + str(a))
         self.pandapower_bus_results = self.pandapower_bus_results.rename(
-            columns=lambda a: self.PANDAPOWER_PREFIX + str(a)
+            columns=lambda a: self.PP_PREFIX + str(a)
         )
 
         pf_data = self.pandapower_bus_results.merge(
@@ -111,13 +109,14 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         )
 
         for index, row in pf_data.iterrows():
-            pp_value = row[self.PANDAPOWER_PREFIX + "vm_pu"]
+            pp_value = row[self.PP_PREFIX + "vm_pu"]
             pypsa_value = row[self.PYPSA_PREFIX + "v_mag_pu"]
             self.assertAlmostEqual(
                 pp_value,
                 pypsa_value,
-                delta=abs(pp_value * self.percent_deviation),
-                msg=f"voltage magnitue of bus {index} uid is deviating by more then {self.percent_deviation*100} percent",
+                delta=abs(pp_value * self.deviation),
+                msg=f"Voltage magnitue of bus {index} uid is deviating by more then "
+                + f"{self.deviation*100} percent ({(1-(pypsa_value/pp_value))*100}%).",
             )
 
     def test_line_pf_data(self) -> None:
@@ -126,7 +125,7 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
 
         new_table = new_table.rename(columns=lambda a: self.PYPSA_PREFIX + str(a))
         self.pandapower_line_results = self.pandapower_bus_results.rename(
-            columns=lambda a: self.PANDAPOWER_PREFIX + str(a)
+            columns=lambda a: self.PP_PREFIX + str(a)
         )
 
         pf_data = self.pandapower_line_results.merge(
@@ -136,28 +135,32 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         )
         for index, row in pf_data.iterrows():
             self.assertAlmostEqual(
-                row[self.PANDAPOWER_PREFIX + "p_from_mw"],
+                row[self.PP_PREFIX + "p_from_mw"],
                 row[self.PYPSA_PREFIX + "p0"],
-                delta=abs(row[self.PANDAPOWER_PREFIX + "p_from_mw"] * self.percent_deviation),
-                msg=f"p0 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+                delta=abs(row[self.PP_PREFIX + "p_from_mw"] * self.deviation),
+                msg=f"p0 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'p0']/row[self.PP_PREFIX + 'p_from_mw']))*100}%).",
             )
             self.assertAlmostEqual(
-                row[self.PANDAPOWER_PREFIX + "p_to_mw"],
+                row[self.PP_PREFIX + "p_to_mw"],
                 row[self.PYPSA_PREFIX + "p1"],
-                delta=abs(row[self.PANDAPOWER_PREFIX + "p_to_mw"] * self.percent_deviation),
-                msg=f"p1 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+                delta=abs(row[self.PP_PREFIX + "p_to_mw"] * self.deviation),
+                msg=f"p1 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'p1']/row[self.PP_PREFIX + 'p_to_mw']))*100}%).",
             )
             self.assertAlmostEqual(
-                row[self.PANDAPOWER_PREFIX + "q_from_mvar"],
+                row[self.PP_PREFIX + "q_from_mvar"],
                 row[self.PYPSA_PREFIX + "q0"],
-                delta=abs(row[self.PANDAPOWER_PREFIX + "q_from_mvar"] * self.percent_deviation),
-                msg=f"q0 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+                delta=abs(row[self.PP_PREFIX + "q_from_mvar"] * self.deviation),
+                msg=f"q0 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'q0']/row[self.PP_PREFIX + 'q_from_mvar']))*100}%).",
             )
             self.assertAlmostEqual(
-                row[self.PANDAPOWER_PREFIX + "q_to_mvar"],
+                row[self.PP_PREFIX + "q_to_mvar"],
                 row[self.PYPSA_PREFIX + "q1"],
-                delta=abs(row[self.PANDAPOWER_PREFIX + "q_to_mvar"] * self.percent_deviation),
-                msg=f"q1 of line {index} is deviating by more then {self.percent_deviation*100} percent.",
+                delta=abs(row[self.PP_PREFIX + "q_to_mvar"] * self.deviation),
+                msg=f"q1 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'q1']/row[self.PP_PREFIX + 'q_to_mvar']))*100}%).",
             )
 
     def test_gen_pf_data(self) -> None:
@@ -166,7 +169,7 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
 
         new_table = new_table.rename(columns=lambda a: self.PYPSA_PREFIX + str(a))
         self.pandapower_gen_results = self.pandapower_bus_results.rename(
-            columns=lambda a: self.PANDAPOWER_PREFIX + str(a)
+            columns=lambda a: self.PP_PREFIX + str(a)
         )
 
         pf_data = self.pandapower_gen_results.merge(
@@ -178,14 +181,16 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         for index, row in pf_data.iterrows():
 
             self.assertAlmostEqual(
-                row[self.PANDAPOWER_PREFIX + "p_mw"],
+                row[self.PP_PREFIX + "p_mw"],
                 row[self.PYPSA_PREFIX + "p"],
-                delta=abs(row[self.PANDAPOWER_PREFIX + "p_mw"] * self.percent_deviation),
-                msg=f"p of gen {index} is deviating by more then {self.percent_deviation*100} percent.",
+                delta=abs(row[self.PP_PREFIX + "p_mw"] * self.deviation),
+                msg=f"p of gen {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'p']/row[self.PP_PREFIX + 'p_mw']))*100}%).",
             )
             self.assertAlmostEqual(
-                row[self.PANDAPOWER_PREFIX + "q_mvar"],
+                row[self.PP_PREFIX + "q_mvar"],
                 row[self.PYPSA_PREFIX + "q"],
-                delta=abs(row[self.PANDAPOWER_PREFIX + "q_mvar"] * self.percent_deviation),
-                msg=f"q of gen {index} is deviating by more then {self.percent_deviation*100} percent.",
+                delta=abs(row[self.PP_PREFIX + "q_mvar"] * self.deviation),
+                msg=f"q of gen {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'q']/row[self.PP_PREFIX + 'q_mvar']))*100}%).",
             )
