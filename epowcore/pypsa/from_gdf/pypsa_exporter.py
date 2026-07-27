@@ -160,7 +160,6 @@ class PyPSAExporter:
         self.pypsa_model.components.lines.add(
             name=line.uid,
             return_names=True,
-            f_nom=self.core_model.base_frequency,
             bus0=bus0.uid,
             bus1=bus1.uid,
             type="",
@@ -449,7 +448,6 @@ class PyPSAExporter:
             name=trafo.uid,
             bus0=high_voltage_bus.uid,
             bus1=low_voltage_bus.uid,
-            f_nom=self.core_model.base_frequency,
             type="",
             model=trafo.get_default(attr="model", platform=Platform.PYPSA),
             x=trafo.x1pu,
