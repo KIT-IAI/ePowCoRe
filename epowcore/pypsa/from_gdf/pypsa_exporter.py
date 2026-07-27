@@ -403,14 +403,10 @@ class PyPSAExporter:
             ),
             p_nom_extendable=False,
             p_min_pu=(
-                (external_grid.p_min / external_grid.p)
-                if not external_grid.p_min is None
-                else external_grid.p
+                (external_grid.p_min / external_grid.p) if not external_grid.p_min is None else None
             ),
             p_max_pu=(
-                (external_grid.p_max / external_grid.p)
-                if not external_grid.p_max is None
-                else external_grid.p
+                (external_grid.p_max / external_grid.p) if not external_grid.p_max is None else None
             ),
             p_set=external_grid.p,
             q_set=external_grid.q,
