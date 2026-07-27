@@ -72,6 +72,9 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         cls.pandapower_gen_results = cls.pandapower_model["res_gen"]
         cls.pyPSA_gen_results = cls.pyPSA_model.components.generators.dynamic
 
+    def test_model_consistency(self) -> None:
+        self.pyPSA_model.consistency_check(strict="all")
+
     def convert_pypsa_data(self, data: dict[str, DataFrame]) -> DataFrame:
         result_table: DataFrame
         for index, (key, table) in enumerate(data.items()):
