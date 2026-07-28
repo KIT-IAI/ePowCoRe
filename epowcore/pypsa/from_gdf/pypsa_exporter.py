@@ -2,6 +2,7 @@
 
 from typing import Callable, TypeVar
 
+import pypsa
 from pypsa import Network
 
 from epowcore.gdf.bus import Bus
@@ -35,6 +36,8 @@ class PyPSAExporter:
     """Mapping from GDF component type to conversion method"""
 
     def __init__(self, core_model: CoreModel, name: str):
+        pypsa.set_option("params.add.return_names", True)
+
         self.core_model = core_model
         self.model_name = name
 
@@ -129,7 +132,7 @@ class PyPSAExporter:
         bus_x = bus.coords[0] if not bus.coords is None else None
         bus_y = bus.coords[1] if not bus.coords is None else None
 
-        self.pypsa_model.components.buses.add(
+        bus_name = self.pypsa_model.components.buses.add(
             name=bus.uid,
             return_names=True,
             v_nom=bus.nominal_voltage,
@@ -138,7 +141,7 @@ class PyPSAExporter:
             y=bus_y,
             carrier="AC",
         )
-        creation_result = str(bus.uid) in self.pypsa_model.components.buses.static.index
+        creation_result = bus_name[0] in self.pypsa_model.components.buses.static.index
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for Bus {bus.uid}")
         return creation_result
@@ -164,7 +167,7 @@ class PyPSAExporter:
         bus0 = bus0_list[0]
         bus1 = bus1_list[0]
 
-        self.pypsa_model.components.lines.add(
+        line_name = self.pypsa_model.components.lines.add(
             name=line.uid,
             return_names=True,
             bus0=bus0.uid,
@@ -180,7 +183,7 @@ class PyPSAExporter:
             v_ang_min=line.angle_min,
             v_ang_max=line.angle_max,
         )
-        creation_result = str(line.uid) in self.pypsa_model.components.lines.static.index
+        creation_result = line_name[0] in self.pypsa_model.components.lines.static.index
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for TLine {line.uid}")
         return creation_result
@@ -205,7 +208,7 @@ class PyPSAExporter:
         # represents a normal load which consumes power
         sign = -1 if load.active_power >= 0 else 1
 
-        self.pypsa_model.components.loads.add(
+        load_name = self.pypsa_model.components.loads.add(
             name=load.uid,
             bus=load_bus.uid,
             type="",
@@ -214,7 +217,7 @@ class PyPSAExporter:
             sign=sign,
             active=True,
         )
-        creation_result = str(load.uid) in self.pypsa_model.components.loads.static.index
+        creation_result = load_name[0] in self.pypsa_model.components.loads.static.index
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for Load {load.uid}")
         return creation_result
@@ -276,7 +279,7 @@ class PyPSAExporter:
         :return: True if successful else false
         :rtype: bool
         """
-        self.pypsa_model.components.generators.add(
+        generator_name = self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
@@ -290,7 +293,7 @@ class PyPSAExporter:
             sign=(1 if generator.baseMVA >= 0 else -1),
             carrier=generator.category.value,
         )
-        creation_result = str(generator.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = generator_name[0] in self.pypsa_model.components.generators.static.index
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for EPowGenerator {generator.uid}")
         return creation_result
@@ -311,7 +314,7 @@ class PyPSAExporter:
         :rtype: bool
         """
 
-        self.pypsa_model.components.generators.add(
+        generator_name = self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
@@ -333,7 +336,7 @@ class PyPSAExporter:
             sign=(1 if generator.rated_active_power >= 0 else -1),
             # carrier=generator.category.value,
         )
-        creation_result = str(generator.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = generator_name[0] in self.pypsa_model.components.generators.static.index
         if not creation_result:
             Logger.log_to_selected(
                 f"Creation in PyPSA failed for SynchronousMachine {generator.uid}"
@@ -353,7 +356,7 @@ class PyPSAExporter:
         :return: True if successful else false
         :rtype: bool
         """
-        self.pypsa_model.components.generators.add(
+        generator_name = self.pypsa_model.components.generators.add(
             name=generator.uid,
             bus=bus.uid,
             control=(bus.lf_bus_type.value if bus.lf_bus_type.value != "SLACK" else "Slack"),
@@ -367,7 +370,7 @@ class PyPSAExporter:
             sign=(1 if generator.rated_active_power >= 0 else -1),
             carrier=generator.category.value,
         )
-        creation_result = str(generator.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = generator_name[0] in self.pypsa_model.components.generators.static.index
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for StaticGenerator {generator.uid}")
         return creation_result
@@ -395,7 +398,7 @@ class PyPSAExporter:
             "Used default power_factor to calculate nominal power of PVSystem from its rated power"
         )
 
-        self.pypsa_model.components.generators.add(
+        pvsystem_name = self.pypsa_model.components.generators.add(
             name=pvsystem.uid,
             bus=bus.uid,
             p_nom=nominal_power,
@@ -409,7 +412,7 @@ class PyPSAExporter:
             sign=1,
         )
 
-        creation_result = str(pvsystem.uid) in self.pypsa_model.components.generators.static.index
+        creation_result = pvsystem_name[0] in self.pypsa_model.components.generators.static.index
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for PVSystem {pvsystem.uid}")
         return creation_result
@@ -431,7 +434,7 @@ class PyPSAExporter:
         # Maybe a custom constraint for the reactive power should be added
         # as pypsa does not feature and min and max reactive power
 
-        self.pypsa_model.components.add(
+        external_grid_name = self.pypsa_model.components.generators.add(
             name=external_grid.uid,
             bus=bus.uid,
             control=(
@@ -449,7 +452,7 @@ class PyPSAExporter:
         )
 
         creation_result = (
-            str(external_grid.uid) in self.pypsa_model.components.generators.static.index
+            external_grid_name[0] in self.pypsa_model.components.generators.static.index
         )
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for ExternalGrid {external_grid.uid}")
@@ -481,7 +484,7 @@ class PyPSAExporter:
         low_voltage_bus = low_voltage_bus_list[0]
         high_voltage_bus = high_voltage_bus_list[0]
 
-        self.pypsa_model.components.transformers.add(
+        trafo_name = self.pypsa_model.components.transformers.add(
             name=trafo.uid,
             bus0=high_voltage_bus.uid,
             bus1=low_voltage_bus.uid,
@@ -504,7 +507,7 @@ class PyPSAExporter:
             v_ang_min=trafo.angle_min,
             v_ang_max=trafo.angle_max,
         )
-        creation_result = str(trafo.uid) in self.pypsa_model.components.transformers.static.index
+        creation_result = trafo_name[0] in self.pypsa_model.components.transformers.static.index
         if not creation_result:
             Logger.log_to_selected(
                 f"Creation in PyPSA failed for TwoWindingTransformer {trafo.uid}"
@@ -527,16 +530,14 @@ class PyPSAExporter:
             )
             return False
 
-        self.pypsa_model.components.shunt_impedances.add(
+        shunt_name = self.pypsa_model.components.shunt_impedances.add(
             name=shunt.uid,
             bus=shunt_bus.uid,
             g=shunt.p / (shunt_bus.nominal_voltage**2),
             b=shunt.q / (shunt_bus.nominal_voltage**2),
         )
 
-        creation_result = (
-            str(shunt.uid) in self.pypsa_model.components.shunt_impedances.static.index
-        )
+        creation_result = shunt_name[0] in self.pypsa_model.components.shunt_impedances.static.index
         if not creation_result:
             Logger.log_to_selected(f"Creation in PyPSA failed for Shunt {shunt.uid}")
         return creation_result
@@ -566,13 +567,13 @@ class PyPSAExporter:
         new_line_uid = self.core_model.get_valid_id()
         new_bus_uid = self.core_model.get_valid_id()
 
-        self.pypsa_model.components.buses.add(
+        bus_name = self.pypsa_model.components.buses.add(
             name=new_bus_uid,
             v_nom=voltage_source.u_setp * voltage_source_bus.nominal_voltage,
             carrier="AC",
         )
 
-        self.pypsa_model.components.generators.add(
+        voltage_source_name = self.pypsa_model.components.generators.add(
             name=voltage_source.uid,
             bus=new_bus_uid,
             control="Slack",  # could also be PV
@@ -580,7 +581,7 @@ class PyPSAExporter:
             # so the generator actually holds the network voltage?
         )
 
-        self.pypsa_model.components.lines.add(
+        line_name = self.pypsa_model.components.lines.add(
             name=new_line_uid,
             bus0=new_bus_uid,
             bus1=voltage_source_bus,
@@ -590,9 +591,9 @@ class PyPSAExporter:
         )
 
         if not (
-            str(new_line_uid) in self.pypsa_model.components.lines.index
-            and str(new_bus_uid) in self.pypsa_model.components.buses.index
-            and str(voltage_source.uid) in self.pypsa_model.components.generators.index
+            line_name[0] in self.pypsa_model.components.lines.index
+            and bus_name[0] in self.pypsa_model.components.buses.index
+            and voltage_source_name[0] in self.pypsa_model.components.generators.index
         ):
             Logger.log_to_selected(
                 f"Conversion of VoltageSource {voltage_source.uid} failed because at "
