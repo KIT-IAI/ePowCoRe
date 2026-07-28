@@ -10,17 +10,37 @@ from typing import ClassVar
 
 import pandapower
 import pandas
+import pytest
 from numpy import int64
 from pandapower import pandapowerNet
 from pandas import DataFrame
 from pypsa import Network
+from pytest import approx
 
 from epowcore.gdf.core_model import CoreModel
 from epowcore.pandapower.pandapower_converter import PandapowerConverter
 from epowcore.pypsa.pypsa_convert import PyPSAConverter
 
 
-class PyPSAExportIEEE39Test(unittest.TestCase):
+@pytest.fixture(
+    scope="class",
+    params=["gdf/IEEE39_gdf.json", "gdf/IEEE9_gdf.json"],
+)
+def model_subpath(request):
+    return request.param
+
+
+@pytest.fixture(scope="class")
+def test_model(model_subpath) -> CoreModel:
+    PATH = pathlib.Path(__file__).parent.parent.resolve()
+    with open(PATH.parent / f"tests/models/{model_subpath}", "r", encoding="utf-8") as file:
+        data_str = file.read()
+        data = json.loads(data_str)
+        return CoreModel.import_dict(data)
+
+
+@pytest.mark.usefixtures("test_model")
+class TestPyPSAExportIEEE39:
     """Unittest testcase child class to provide a test where the IEEE39 testcase
     is exported to pandapower and the loadflow results from the pandapower conversion
     and the powerfactory veresion are compared.
@@ -42,12 +62,9 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
     pyPSA_gen_results: ClassVar[dict[str, DataFrame]]
 
     @classmethod
-    def setUpClass(cls) -> None:
-        PATH = pathlib.Path(__file__).parent.parent.resolve()
-        with open(PATH.parent / "tests/models/gdf/IEEE39_gdf.json", "r", encoding="utf-8") as file:
-            data_str = file.read()
-            data = json.loads(data_str)
-            cls.core_model = CoreModel.import_dict(data)
+    @pytest.fixture(autouse=True)
+    def prepare_model_data(cls, test_model) -> None:
+        cls.core_model = test_model
 
         pp_converter = PandapowerConverter()
         cls.pandapower_model = pp_converter.from_gdf(
@@ -111,12 +128,9 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         for index, row in pf_data.iterrows():
             pp_value = row[self.PP_PREFIX + "vm_pu"]
             pypsa_value = row[self.PYPSA_PREFIX + "v_mag_pu"]
-            self.assertAlmostEqual(
-                pp_value,
-                pypsa_value,
-                delta=abs(pp_value * self.deviation),
-                msg=f"Voltage magnitue of bus {index} uid is deviating by more then "
-                + f"{self.deviation*100} percent ({(1-(pypsa_value/pp_value))*100}%).",
+            assert pp_value == approx(pypsa_value, abs(pp_value * self.deviation)), (
+                f"Voltage magnitue of bus {index} uid is deviating by more then "
+                + f"{self.deviation*100} percent ({(1-(pypsa_value/pp_value))*100}%)."
             )
 
     def test_line_pf_data(self) -> None:
@@ -134,33 +148,32 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
             right_index=True,
         )
         for index, row in pf_data.iterrows():
-            self.assertAlmostEqual(
-                row[self.PP_PREFIX + "p_from_mw"],
+            assert row[self.PP_PREFIX + "p_from_mw"] == approx(
                 row[self.PYPSA_PREFIX + "p0"],
-                delta=abs(row[self.PP_PREFIX + "p_from_mw"] * self.deviation),
-                msg=f"p0 of line {index} is deviating by more then {self.deviation*100} percent"
-                + f" ({(1-(row[self.PYPSA_PREFIX + 'p0']/row[self.PP_PREFIX + 'p_from_mw']))*100}%).",
+                abs(row[self.PP_PREFIX + "p_from_mw"] * self.deviation),
+            ), (
+                f"p0 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'p0']/row[self.PP_PREFIX + 'p_from_mw']))*100}%)."
             )
-            self.assertAlmostEqual(
-                row[self.PP_PREFIX + "p_to_mw"],
-                row[self.PYPSA_PREFIX + "p1"],
-                delta=abs(row[self.PP_PREFIX + "p_to_mw"] * self.deviation),
-                msg=f"p1 of line {index} is deviating by more then {self.deviation*100} percent"
-                + f" ({(1-(row[self.PYPSA_PREFIX + 'p1']/row[self.PP_PREFIX + 'p_to_mw']))*100}%).",
+            assert row[self.PP_PREFIX + "p_to_mw"] == approx(
+                row[self.PYPSA_PREFIX + "p1"], abs(row[self.PP_PREFIX + "p_to_mw"] * self.deviation)
+            ), (
+                f"p1 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'p1']/row[self.PP_PREFIX + 'p_to_mw']))*100}%)."
             )
-            self.assertAlmostEqual(
-                row[self.PP_PREFIX + "q_from_mvar"],
+            assert row[self.PP_PREFIX + "q_from_mvar"] == approx(
                 row[self.PYPSA_PREFIX + "q0"],
-                delta=abs(row[self.PP_PREFIX + "q_from_mvar"] * self.deviation),
-                msg=f"q0 of line {index} is deviating by more then {self.deviation*100} percent"
-                + f" ({(1-(row[self.PYPSA_PREFIX + 'q0']/row[self.PP_PREFIX + 'q_from_mvar']))*100}%).",
+                abs(row[self.PP_PREFIX + "q_from_mvar"] * self.deviation),
+            ), (
+                f"q0 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'q0']/row[self.PP_PREFIX + 'q_from_mvar']))*100}%)."
             )
-            self.assertAlmostEqual(
-                row[self.PP_PREFIX + "q_to_mvar"],
+            assert row[self.PP_PREFIX + "q_to_mvar"] == approx(
                 row[self.PYPSA_PREFIX + "q1"],
-                delta=abs(row[self.PP_PREFIX + "q_to_mvar"] * self.deviation),
-                msg=f"q1 of line {index} is deviating by more then {self.deviation*100} percent"
-                + f" ({(1-(row[self.PYPSA_PREFIX + 'q1']/row[self.PP_PREFIX + 'q_to_mvar']))*100}%).",
+                abs(row[self.PP_PREFIX + "q_to_mvar"] * self.deviation),
+            ), (
+                f"q1 of line {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'q1']/row[self.PP_PREFIX + 'q_to_mvar']))*100}%)."
             )
 
     def test_gen_pf_data(self) -> None:
@@ -179,18 +192,15 @@ class PyPSAExportIEEE39Test(unittest.TestCase):
         )
 
         for index, row in pf_data.iterrows():
-
-            self.assertAlmostEqual(
-                row[self.PP_PREFIX + "p_mw"],
-                row[self.PYPSA_PREFIX + "p"],
-                delta=abs(row[self.PP_PREFIX + "p_mw"] * self.deviation),
-                msg=f"p of gen {index} is deviating by more then {self.deviation*100} percent"
-                + f" ({(1-(row[self.PYPSA_PREFIX + 'p']/row[self.PP_PREFIX + 'p_mw']))*100}%).",
+            assert row[self.PP_PREFIX + "p_mw"] == approx(
+                row[self.PYPSA_PREFIX + "p"], abs(row[self.PP_PREFIX + "p_mw"] * self.deviation)
+            ), (
+                f"p of gen {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'p']/row[self.PP_PREFIX + 'p_mw']))*100}%)."
             )
-            self.assertAlmostEqual(
-                row[self.PP_PREFIX + "q_mvar"],
-                row[self.PYPSA_PREFIX + "q"],
-                delta=abs(row[self.PP_PREFIX + "q_mvar"] * self.deviation),
-                msg=f"q of gen {index} is deviating by more then {self.deviation*100} percent"
-                + f" ({(1-(row[self.PYPSA_PREFIX + 'q']/row[self.PP_PREFIX + 'q_mvar']))*100}%).",
+            assert row[self.PP_PREFIX + "q_mvar"] == approx(
+                row[self.PYPSA_PREFIX + "q"], abs(row[self.PP_PREFIX + "q_mvar"] * self.deviation)
+            ), (
+                f"q of gen {index} is deviating by more then {self.deviation*100} percent"
+                + f" ({(1-(row[self.PYPSA_PREFIX + 'q']/row[self.PP_PREFIX + 'q_mvar']))*100}%)."
             )
