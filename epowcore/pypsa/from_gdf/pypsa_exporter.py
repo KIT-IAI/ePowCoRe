@@ -52,6 +52,7 @@ class PyPSAExporter:
             Shunt: self.add_shunt_from_gdf,
             PVSystem: self.add_generator_from_gdf,
             ExternalGrid: self.add_generator_from_gdf,
+            VoltageSource: self.add_generator_impedance_from_gdf_voltage_source,
         }
 
     def export(self) -> None:
@@ -86,6 +87,7 @@ class PyPSAExporter:
         self.convert_component(Shunt)
         self.convert_component(PVSystem)
         self.convert_component(ExternalGrid)
+        self.convert_component(VoltageSource)
 
     @staticmethod
     def export_pypsa(core_model: CoreModel, name: str) -> Network:
