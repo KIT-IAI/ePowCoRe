@@ -13,7 +13,7 @@ General Power System Components
    :widths: 15, 10, 10, 10, 10, 10, 10
 
    "Bus",               "|:heavy_check_mark:|", "|:heavy_check_mark:|", "|:heavy_check_mark:|", "|:heavy_check_mark:|", "|:heavy_check_mark:|", "|:heavy_check_mark:|"
-   "Extended Ward",     "|:wavy_dash:|",        "|:heavy_check_mark:|", "|:x:|",                "|:x:|",               "",                     "|:x:|"
+   "Extended Ward",     "|:wavy_dash:|",        "|:heavy_check_mark:|", "|:x:|",                "|:x:|",               "",                     "|:wavy_dash:|"
    "External Grid",     "",                     "",                     "",                     "",                   "|:heavy_check_mark:|", "|:wavy_dash:|"
    "Impedance",         "",                     "",                     "",                     "",                   "",                     "|:wavy_dash:|"
    "Load",              "",                     "",                     "",                     "",                   "|:heavy_check_mark:|", "|:heavy_check_mark:|"
