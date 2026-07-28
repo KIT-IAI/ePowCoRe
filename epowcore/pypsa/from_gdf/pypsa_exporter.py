@@ -223,7 +223,8 @@ class PyPSAExporter:
         return creation_result
 
     def add_generator_from_gdf(
-        self, generator: EPowGenerator | SynchronousMachine | StaticGenerator
+        self,
+        generator: EPowGenerator | SynchronousMachine | StaticGenerator | PVSystem | ExternalGrid,
     ) -> bool:
         """Method for converting any type of GDF generator to a PyPSA generator.
         For this, the method retrieved the connected bus and calls sub methods,
@@ -261,6 +262,10 @@ class PyPSAExporter:
             )
         elif isinstance(generator, PVSystem):
             return self.add_generator_from_gdf_pvsystem(pvsystem=generator, bus=generator_bus)
+        elif isinstance(generator, ExternalGrid):
+            return self.add_generator_from_gdf_external_grid(
+                external_grid=generator, bus=generator_bus
+            )
         Logger.log_to_selected(
             f"The given generator (uid {generator.uid}) does not match any ePowCoRe generator type"
         )
