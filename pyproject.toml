@@ -29,6 +29,7 @@ dev = [
     "mypy",
     "sphinx",
     "sphinx_rtd_theme",
+    "sphinxemoji",
     "pylint",
     "isort",
     "pre-commit",
