@@ -250,26 +250,30 @@ class PyPSAExporter:
             )
             return False
 
-        if isinstance(generator, EPowGenerator):
-            return self.add_generator_from_gdf_epowgenerator(generator=generator, bus=generator_bus)
-        elif isinstance(generator, SynchronousMachine):
-            return self.add_generator_from_gdf_synchronousmachine(
-                generator=generator, bus=generator_bus
-            )
-        elif isinstance(generator, StaticGenerator):
-            return self.add_generator_from_gdf_staticgenerator(
-                generator=generator, bus=generator_bus
-            )
-        elif isinstance(generator, PVSystem):
-            return self.add_generator_from_gdf_pvsystem(pvsystem=generator, bus=generator_bus)
-        elif isinstance(generator, ExternalGrid):
-            return self.add_generator_from_gdf_external_grid(
-                external_grid=generator, bus=generator_bus
-            )
-        Logger.log_to_selected(
-            f"The given generator (uid {generator.uid}) does not match any ePowCoRe generator type"
-        )
-        return False
+        match generator:
+            case EPowGenerator():
+                return self.add_generator_from_gdf_epowgenerator(
+                    generator=generator, bus=generator_bus
+                )
+            case SynchronousMachine():
+                return self.add_generator_from_gdf_synchronousmachine(
+                    generator=generator, bus=generator_bus
+                )
+            case StaticGenerator():
+                return self.add_generator_from_gdf_staticgenerator(
+                    generator=generator, bus=generator_bus
+                )
+            case PVSystem():
+                return self.add_generator_from_gdf_pvsystem(pvsystem=generator, bus=generator_bus)
+            case ExternalGrid():
+                return self.add_generator_from_gdf_external_grid(
+                    external_grid=generator, bus=generator_bus
+                )
+            case _:
+                Logger.log_to_selected(
+                    f"The given generator (uid {generator.uid}) does not match any ePowCoRe generator type"
+                )
+                return False
 
     def add_generator_from_gdf_epowgenerator(self, generator: EPowGenerator, bus: Bus) -> bool:
         """Method responsible for converting a GDF EPowGenerator.
