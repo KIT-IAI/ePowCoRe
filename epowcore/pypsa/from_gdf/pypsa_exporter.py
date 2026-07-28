@@ -9,7 +9,7 @@ from epowcore.gdf.bus import Bus
 from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
 from epowcore.gdf.external_grid import ExternalGrid
-from epowcore.gdf.generators import EPowGenerator, StaticGenerator, SynchronousMachine
+from epowcore.gdf.generators import EPowGenerator, Generator, StaticGenerator, SynchronousMachine
 from epowcore.gdf.load import Load
 from epowcore.gdf.pv_system import PVSystem
 from epowcore.gdf.shunt import Shunt
@@ -61,8 +61,20 @@ class PyPSAExporter:
 
         self.pypsa_model = Network(name=self.model_name)
 
+        # default for busses
         self.pypsa_model.components.carriers.add("AC")
-        self.pypsa_model.components.carriers.add("solar")
+        if self.core_model.type_list(PVSystem):
+            self.pypsa_model.components.carriers.add("Solar")
+            Logger.log_to_selected(
+                "The 'Solar' carrier has been added becuase a PVSystem is in the grid"
+            )
+        generator_carriers = {gen.category.value for gen in self.core_model.type_list(Generator)}
+        for carrier in generator_carriers:
+            if not carrier in self.pypsa_model.components.carriers.static.index:
+                self.pypsa_model.components.carriers.add(carrier)
+        Logger.log_to_selected(
+            f"The following generator carriers have been added: {generator_carriers}"
+        )
 
         self.convert_component(Bus)
         self.convert_component(TLine)
@@ -343,7 +355,7 @@ class PyPSAExporter:
             p_init=generator.active_power,
             q_set=generator.reactive_power,
             sign=(1 if generator.rated_active_power >= 0 else -1),
-            # carrier=generator.category.value,
+            carrier=generator.category.value,
         )
         creation_result = generator_name[0] in self.pypsa_model.components.generators.static.index
         if not creation_result:
