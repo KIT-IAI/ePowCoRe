@@ -514,7 +514,11 @@ class PyPSAExporter:
             type="",
             model=trafo.get_default(attr="model", platform=Platform.PYPSA),
             x=trafo.x1pu,
-            r=trafo.r1pu,
+            r=(
+                trafo.r1pu
+                if trafo.r1pu != 0
+                else trafo.get_default(attr="r", platform=Platform.PYPSA)
+            ),
             g=trafo.gm_pu,  # ignores other shunt loses besides magnitizing looses
             b=trafo.bm_pu,  # ignores other shunt effects besides magnitizing effects
             s_nom=trafo.rating,
