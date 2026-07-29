@@ -76,7 +76,8 @@ class TestPyPSAExportIEEE39:
         cls.pyPSA_model = pyPSA_converter.from_gdf(
             core_model=cls.core_model, name="IEEE39", log_path=None
         )
-        cls.pyPSA_model.pf()
+        cls.pyPSA_model.lpf()
+        cls.pyPSA_model.pf(use_seed=True)
 
         cls.pandapower_bus_results = cls.pandapower_model["res_bus"]
         cls.pyPSA_bus_results = cls.pyPSA_model.components.buses.dynamic
