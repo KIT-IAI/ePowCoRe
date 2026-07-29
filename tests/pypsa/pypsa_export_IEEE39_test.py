@@ -5,7 +5,6 @@ In this test for the IEEE39 network.
 
 import json
 import pathlib
-import unittest
 from typing import ClassVar
 
 import pandapower
@@ -43,7 +42,7 @@ def test_model(model_subpath) -> CoreModel:
 
 
 @pytest.mark.usefixtures("test_model")
-class TestPyPSAExportIEEE39:
+class TestExportLoadflow:
     """Unittest testcase child class to provide a test where the IEEE39 testcase
     is exported to pandapower and the loadflow results from the pandapower conversion
     and the powerfactory veresion are compared.
