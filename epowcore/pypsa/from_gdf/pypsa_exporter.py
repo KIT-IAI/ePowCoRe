@@ -431,7 +431,7 @@ class PyPSAExporter:
             p_max_pu=pvsystem.maximum_real_power_output / nominal_power,
             p_set=pvsystem.real_power_output,
             q_set=pvsystem.reactive_power_output,
-            carrier="solar",
+            carrier="Solar",
             sign=1,
         )
 
