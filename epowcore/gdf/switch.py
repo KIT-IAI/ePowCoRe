@@ -46,5 +46,5 @@ class Switch(Component):
         buses = list(core_model.graph.neighbors(self))
 
         core_model.add_component(line)
-        core_model.add_connection(buses[0], line)
-        core_model.add_connection(buses[1], line)
+        core_model.add_connection(buses[0], line, None, "A")
+        core_model.add_connection(buses[1], line, None, "B")
