@@ -24,7 +24,10 @@ from epowcore.pypsa.pypsa_convert import PyPSAConverter
 
 @pytest.fixture(
     scope="class",
-    params=["gdf/IEEE39_gdf.json", "gdf/IEEE9_gdf.json"],
+    params=[
+        "gdf/IEEE39_gdf.json",
+        "gdf/IEEE9_pf_gdf.json",
+    ],
 )
 def model_subpath(request):
     return request.param
