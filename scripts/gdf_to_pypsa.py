@@ -1,16 +1,12 @@
 import json
 import os
 import pathlib
-import pprint
 import time
 
-import numpy as np
 import pandas as pd
 from pypsa import network
 
 from epowcore.gdf.core_model import CoreModel
-from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
-from epowcore.gdf.load import Load
 from epowcore.pypsa.pypsa_convert import PyPSAConverter
 
 PATH = pathlib.Path(__file__).parent.resolve()
