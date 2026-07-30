@@ -31,3 +31,4 @@ virtualenv/
 *.slxc
 /*.slx
 /*.slx.autosave
+plausibility_results/*
