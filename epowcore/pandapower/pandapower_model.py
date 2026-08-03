@@ -465,14 +465,25 @@ class PandapowerModel:
             return False
         # Pandapower cannot use lines with too short length as the impedance is too low, which leads to convergence problems because admittances are used
         # Pandapower suggests to instead use a switch for those cases
-        if False:#tline.r1 * tline.length < 0.001 or tline.x1 * tline.length < 0.001:
+        if False:
             self.create_switch_from_gdf_tline(core_model, tline)
-            Logger.log_to_selected(f"Line {tline.name} was converted to a switch because of its short length of {tline.length} km.")
+            Logger.log_to_selected(
+                f"Line {tline.name} was converted to a switch because of its "
+                f"short length of {tline.length} km."
+            )
         else:
             network_frequency = core_model.base_frequency
             # Calculate rated current
             voltage = from_bus[0].nominal_voltage
-            rated_current = tline.rating / voltage
+
+            if voltage <= 0:
+                raise ValueError(
+                    f"Line '{tline.name}' cannot be exported because the nominal "
+                    f"voltage must be greater than zero, got {voltage} kV."
+                )
+
+            rated_current = tline.rating / (math.sqrt(3) * voltage)
+
             # Create line in pandapower network
             pandapower.create_line_from_parameters(
                 net=self.network,
@@ -484,7 +495,8 @@ class PandapowerModel:
                 length_km=tline.length,
                 r_ohm_per_km=tline.r1,
                 x_ohm_per_km=tline.x1,
-                c_nf_per_km=(tline.b1 * 1e3) / (2 * math.pi * network_frequency),
+                c_nf_per_km=(tline.b1 * 1e3)
+                / (2 * math.pi * network_frequency),
                 max_i_ka=rated_current,
                 type=None,
                 in_service=True,
@@ -493,7 +505,9 @@ class PandapowerModel:
                 g_us_per_km=0.0,
                 max_loading_percent=np.nan,
                 alpha=tline.get_default(attr="alpha"),
-                temperature_degree_celsius=tline.get_default(attr="temperature_degree_celsius"),
+                temperature_degree_celsius=tline.get_default(
+                    attr="temperature_degree_celsius"
+                ),
                 r0_ohm_per_km=tline.r0 if tline.r0 is not None else np.nan,
                 x0_ohm_per_km=tline.x0 if tline.x0 is not None else np.nan,
                 c0_nf_per_km=np.nan,
