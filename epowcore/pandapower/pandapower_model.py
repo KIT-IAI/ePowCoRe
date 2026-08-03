@@ -2,27 +2,28 @@
 the converted pandapower network.
 """
 
-from dataclasses import dataclass
 import math
-import numpy as np
+from dataclasses import dataclass
 
+import numpy as np
 import pandapower
 
 from epowcore.gdf.bus import Bus, BusType, LFBusType
 from epowcore.gdf.component import Component
 from epowcore.gdf.core_model import CoreModel
-from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
+from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.generators.static_generator import StaticGenerator
+from epowcore.gdf.generators.synchronous_machine import SynchronousMachine
 from epowcore.gdf.load import Load
 from epowcore.gdf.shunt import Shunt
 from epowcore.gdf.switch import Switch
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
-from epowcore.gdf.external_grid import ExternalGrid
 from epowcore.gdf.utils import get_connected_bus
 from epowcore.gdf.ward import Ward
 from epowcore.generic.logger import Logger
+
 
 # TODO: General check how to handle values that are only present in some models
 #       (e.g. r0 and x0 in TLine) which are not in the IEEE39 but in other models
@@ -116,7 +117,7 @@ class PandapowerModel:
         :param core_model: Core model to be converted.
         :type core_model: CoreModel
         :param transformer: Two winding transformer in the core model that
-                            will be converted and added to the converted 
+                            will be converted and added to the converted
                             pandapower model.
         :type transformer: TwoWindingTransformer
         :return: Return False if the conversion fails and True if it suceeds.
@@ -364,7 +365,7 @@ class PandapowerModel:
             slack_weight=0.0,
         )
         return True
-    
+
     def create_static_generator_from_gdf_static_generator(
         self, core_model: CoreModel, static_generator: StaticGenerator
     ) -> bool:
@@ -381,10 +382,8 @@ class PandapowerModel:
         :type static_generator: StaticGenerator
         :return: Return False if the conversion fails and True if it suceeds.
         :rtype: bool
-        """        # Getting the bus the generator is connected to
-        static_generator_bus = get_connected_bus(
-            core_model.graph, static_generator, max_depth=1
-        )
+        """  # Getting the bus the generator is connected to
+        static_generator_bus = get_connected_bus(core_model.graph, static_generator, max_depth=1)
         # If the bus wasnt found the function fails
         if static_generator_bus is None:
             Logger.log_to_selected("Failed to convert static_generator")
@@ -397,14 +396,14 @@ class PandapowerModel:
             bus=static_generator_bus.uid,
             p_mw=static_generator.active_power,
             q_mvar=static_generator.reactive_power,
-            max_p_mw =static_generator.p_max,
+            max_p_mw=static_generator.p_max,
             min_p_mw=static_generator.p_min,
             max_q_mvar=static_generator.q_max,
             min_q_mvar=static_generator.q_min,
             generator_type="async",
         )
         return True
-    
+
     def create_external_grid_from_gdf(
         self, core_model: CoreModel, external_grid: ExternalGrid
     ) -> bool:
@@ -418,14 +417,12 @@ class PandapowerModel:
         :param external_grid: External grid in the core mode that will
                                     be converted and added to the converted
                                     pandapower model.
-        :type external_grid: Component          
+        :type external_grid: Component
         :return: Return False if the conversion fails and True if it suceeds.
         :rtype: bool
         """
         # Getting the bus the external grid is connected to
-        external_grid_bus = get_connected_bus(
-            core_model.graph, external_grid, max_depth=3
-        )
+        external_grid_bus = get_connected_bus(core_model.graph, external_grid, max_depth=3)
         # If the bus wasnt found the function fails
         if external_grid_bus is None:
             Logger.log_to_selected("Failed to convert external_grid")
@@ -446,7 +443,7 @@ class PandapowerModel:
         transmission line. Returns True if a bus is found at both ends of the
         transmission line, if not returns False and doesn't create a line in
         the pandapower network.
-        
+
 
         :param core_model: Core model to be converted.
         :type core_model: CoreModel
@@ -555,7 +552,7 @@ class PandapowerModel:
 
         :param core_model: Core model to be converted.
         :type core_model: CoreModel
-        :param shunt: Shunt in the gdf that will be converted and added to the 
+        :param shunt: Shunt in the gdf that will be converted and added to the
                       converted pandapower network.
         :type shunt: Shunt
         :return: Return False if the conversion fails and True if it suceeds.
@@ -604,12 +601,12 @@ class PandapowerModel:
     def create_switch_from_gdf_switch(self, core_model: CoreModel, switch: Switch) -> bool:
         """Create a pandapower switch in the network from a given gdf switch.
         Returns True if both neighbors are found and if the the switch et variable
-        can be found, if not returns False and doesn't create a switch in the pandapower 
+        can be found, if not returns False and doesn't create a switch in the pandapower
         network.
 
         :param core_model: Core model to be converted.
         :type core_model: CoreModel
-        :param switch: Switch in the gdf that will be converted and added to the 
+        :param switch: Switch in the gdf that will be converted and added to the
                        pandapower network.
         :type switch: Switch
         :return: Return False if the conversion fails and True if it suceeds.
@@ -655,7 +652,7 @@ class PandapowerModel:
 
         :param core_model: Core model to be converted.
         :type core_model: CoreModel
-        :param tline: Transmission line in the gdf that will be converted and added to the 
+        :param tline: Transmission line in the gdf that will be converted and added to the
                       pandapower network.
         :type tline: TLine
         :return: Return False if the conversion fails and True if it suceeds.

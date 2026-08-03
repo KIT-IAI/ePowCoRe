@@ -29,16 +29,20 @@ dev = [
     "mypy",
     "sphinx",
     "sphinx_rtd_theme",
+    "sphinxemoji",
     "pylint",
     "isort",
     "pre-commit",
+]
+pypsa = [
+    "pypsa",
 ]
 simscape = [
     "matlabengine==9.13.9",
 ]
 
-[tool.setuptools.packages.find]
-include = ["epowcore", "epowcore.*"]
-
 [tool.setuptools]
 zip-safe = false
+
+[tool.setuptools.packages.find]
+include = ["epowcore", "epowcore.*"]
