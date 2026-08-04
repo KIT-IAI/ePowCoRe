@@ -1,12 +1,13 @@
 from math import acos, tan
+
 import powerfactory as pf
 
-from epowcore.gdf.load import Load
+from epowcore.gdf.load import Load, LoadType
 from epowcore.power_factory.utils import get_coords
 
 
 def create_load(pf_load: pf.DataObject, uid: int) -> Load:
-    """Sets the attributes of Load from a PowerFactory load"""
+    """Sets the attributes of Load from a PowerFactory load."""
 
     return Load(
         uid,
@@ -18,7 +19,7 @@ def create_load(pf_load: pf.DataObject, uid: int) -> Load:
 
 
 def create_load_lv(pf_load: pf.DataObject, uid: int) -> Load:
-    """Sets the attributes of Load from a PowerFactory load"""
+    """Sets the attributes of a low-voltage Load from a PowerFactory load."""
 
     active_power = pf_load.plini_a / 1000
 
@@ -28,4 +29,5 @@ def create_load_lv(pf_load: pf.DataObject, uid: int) -> Load:
         get_coords(pf_load),
         active_power=active_power,
         reactive_power=active_power * tan(acos(pf_load.coslini_a)),
+        load_type=LoadType.LOW_VOLTAGE,
     )
