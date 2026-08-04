@@ -53,7 +53,6 @@ class PandapowerModel:
             name=bus.name,
             index=bus.uid,
             geodata=bus.coords,
-            coords=bus.coords,
             vn_kv=bus.nominal_voltage,
             type=pandapower_type,
             zone=None,

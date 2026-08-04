@@ -1,25 +1,83 @@
 import pandapower
 
+from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.configuration import Configuration
 from epowcore.generic.constants import Platform
-from epowcore.gdf.core_model import CoreModel
 from epowcore.generic.converter_base import ConverterBase
-from epowcore.pandapower.from_gdf.pandapower_export import export_pandapower
+from epowcore.generic.logger import Logger
+from epowcore.pandapower.from_gdf.pandapower_export import (
+    export_pandapower,
+)
 from epowcore.pandapower.pandapower_model import PandapowerModel
+from epowcore.plausibility.pandapower_checker import (
+    PandapowerPlausibilityChecker,
+)
+from epowcore.plausibility.plausibility_result import PlausibilityResult
 
 
 class PandapowerConverter(ConverterBase[PandapowerModel]):
+    def __init__(
+        self,
+        debug: bool = False,
+        run_plausibility_check: bool = False,
+        plausibility_output_path: str | None = None,
+    ) -> None:
+        super().__init__(debug=debug)
+        self.run_plausibility_check = run_plausibility_check
+        self.plausibility_output_path = plausibility_output_path
+        self.plausibility_result: PlausibilityResult | None = None
+
     def from_gdf(
-        self, core_model: CoreModel, name: str, log_path: str | None = None
+        self,
+        core_model: CoreModel,
+        name: str,
+        log_path: str | None = None,
     ) -> PandapowerModel:
         Configuration().default_platform = Platform.PANDAPOWER
-        return super().from_gdf(core_model, name, log_path)
+        return super().from_gdf(
+            core_model,
+            name,
+            log_path,
+        )
 
-    def _export(self, core_model: CoreModel, name: str) -> PandapowerModel:
+    def _export(
+        self,
+        core_model: CoreModel,
+        name: str,
+    ) -> PandapowerModel:
         return export_pandapower(core_model)
 
-    def write_to_pandapower_json(self, model: PandapowerModel, filepath: str):
-        pandapower.to_json(net=model.network, filename=filepath)
+    def _post_export(
+        self,
+        model: PandapowerModel,
+        name: str,
+    ) -> PandapowerModel:
+        if not self.run_plausibility_check:
+            return model
+
+        checker = PandapowerPlausibilityChecker()
+
+        self.plausibility_result = checker.run(
+            model=model.network,
+            output_path=self.plausibility_output_path,
+            name=name,
+        )
+
+        Logger.log_to_selected(
+            self.plausibility_result.summary()
+        )
+
+        return model
+
+    def write_to_pandapower_json(
+        self,
+        model: PandapowerModel,
+        filepath: str,
+    ) -> None:
+        pandapower.to_json(
+            net=model.network,
+            filename=filepath,
+        )
 
     def _import(self, model):
         return model
