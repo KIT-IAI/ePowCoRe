@@ -9,6 +9,10 @@ Impedance:
   b0_line: 1.e-10
 Switch:
   in_service: True
+  tline_r1: 1.e-4
+  tline_x1: 1.e-4
+  tline_b1: 0.0
+  tline_rating: 1000
 TLine:
   zero_sequence_factor: 3.0
 TwoWindingTransformer:

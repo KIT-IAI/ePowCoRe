@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 GDF_VERSION = 1
 
 
@@ -12,3 +11,4 @@ class Platform(Enum):
     RSCAD = "RSCAD"
     SIMSCAPE = "Simscape"
     PANDAPOWER = "Pandapower"
+    PYPSA = "PyPSA"

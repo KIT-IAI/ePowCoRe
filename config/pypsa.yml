@@ -1,0 +1,7 @@
+TwoWindingTransformer:
+  model: "t" # following the pypsa default and which follows digsilent powerfactory
+  r: 0.001
+SynchronousMachine:
+  power_factor: 0.9
+PVSystem:
+  power_factor: 1.0
