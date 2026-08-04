@@ -35,7 +35,7 @@ def test_post_export_check_is_disabled_by_default() -> None:
 def test_post_export_check_runs_when_enabled(tmp_path) -> None:
     converter = PandapowerConverter(
         run_plausibility_check=True,
-        plausibility_output_dir=str(tmp_path),
+        plausibility_output_path=str(tmp_path),
     )
     model = create_simple_model()
 

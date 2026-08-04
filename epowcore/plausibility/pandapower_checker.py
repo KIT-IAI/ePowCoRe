@@ -1,15 +1,25 @@
 import json
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import networkx
 import pandapower
 from pandapower.topology import create_nxgraph, unsupplied_buses
 
-from epowcore.plausibility.result import PlausibilityResult
+from epowcore.plausibility.checker import PlausibilityChecker
+from epowcore.plausibility.plausibility_result import PlausibilityResult
 
 
-class PandapowerPlausibilityChecker:
-    def check(self, net) -> PlausibilityResult:
+class PandapowerPlausibilityChecker(
+    PlausibilityChecker[pandapower.pandapowerNet]
+):
+    """Run plausibility checks on a pandapower network."""
+
+    def check(
+        self,
+        model: pandapower.pandapowerNet,
+    ) -> PlausibilityResult:
+        net = model
         result = PlausibilityResult()
 
         isolated_buses = set(
@@ -29,7 +39,9 @@ class PandapowerPlausibilityChecker:
 
             result.isolated_areas = [
                 sorted(int(bus) for bus in component)
-                for component in networkx.connected_components(isolated_graph)
+                for component in networkx.connected_components(
+                    isolated_graph
+                )
             ]
 
         try:
@@ -86,16 +98,21 @@ class PandapowerPlausibilityChecker:
 
     def plot_isolated_areas(
         self,
-        net,
+        model: pandapower.pandapowerNet,
         result: PlausibilityResult,
-        filepath: str,
+        filepath: Path,
     ) -> None:
+        net = model
+
         if not result.isolated_areas:
             return
 
         fig, ax = plt.subplots()
 
-        for area_number, area in enumerate(result.isolated_areas, start=1):
+        for area_number, area in enumerate(
+            result.isolated_areas,
+            start=1,
+        ):
             x_values = []
             y_values = []
 
