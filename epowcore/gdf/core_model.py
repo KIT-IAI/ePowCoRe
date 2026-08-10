@@ -335,37 +335,44 @@ class CoreModel:
         return max_id + 1
 
     def sanity_check(self) -> bool:
-        """Checks the validity of the model.
+        """Checks the validity of the model, including subsystem graphs."""
 
-        :return: True if the model is valid, else False.
-        """
+        from epowcore.gdf.subsystem import Subsystem
 
-        def check_neighbors(node: Component, connector_name: str) -> bool:
-            try:
-                return self.get_neighbors(node, True, connector_name) != []
-            except KeyError:
-                return False
+        def check_graph(graph: ComponentGraph) -> bool:
+            graph_sanity = graph.sanity_check()
 
-        graph_sanity = self.graph.sanity_check()
-        # Check if the edges have the required connectors
-        connector_check = all(
-            map(
-                lambda node: len(node.connector_names) == 0
+            connector_check = all(
+                len(node.connector_names) == 0
                 or all(
-                    map(
-                        lambda x: check_neighbors(node, x),
-                        node.connector_names,
-                    )
-                ),
-                self.graph.nodes,
+                    connector_name in [
+                        connector
+                        for _, _, data in graph.edges.data(node)
+                        for connector in data.get(node.uid, [])
+                    ]
+                    for connector_name in node.connector_names
+                )
+                for node in graph.nodes
             )
-        )
 
-        # Check if the nodes have unique IDs
-        unique_ids_check = len(self.graph.nodes) == len(
-            set((node.uid for node in self.graph.nodes))
-        )
-        return graph_sanity and connector_check and unique_ids_check
+            unique_ids_check = len(graph.nodes) == len(
+                {node.uid for node in graph.nodes}
+            )
+
+            subsystem_check = all(
+                check_graph(node.graph)
+                for node in graph.nodes
+                if isinstance(node, Subsystem)
+            )
+
+            return (
+                graph_sanity
+                and connector_check
+                and unique_ids_check
+                and subsystem_check
+            )
+
+        return check_graph(self.graph)
 
     def export_dict(self) -> dict:
         """Export the whole model as a dictionary.
