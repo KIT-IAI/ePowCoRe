@@ -149,7 +149,7 @@ class ComponentGraph:
         data_values = [
             a for b in map(lambda edge: list(edge[2].values()), self._graph.edges.data()) for a in b
         ]
-        edge_type_check = all(isinstance(x, list) for x in data_keys) and all(
+        edge_type_check = all(isinstance(x, int) for x in data_keys) and all(
             isinstance(x, list) for x in data_values
         )
 

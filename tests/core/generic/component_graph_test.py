@@ -174,6 +174,14 @@ class ComponentGraphTest(unittest.TestCase):
         self.assertEqual(len(edges_with_1), 1)
         self.assertIn(node1, edges_with_1[0])
 
+    def test_sanity_check_with_edge_data(self) -> None:
+        tgraph = ComponentGraph()
+        node1 = Component(0, "One", None)
+        node2 = Component(1, "Two", None)
+        tgraph.add_edge(node1, node2)
+        tgraph.edges.update(node1, node2, {0: ["A"], 1: ["B"]})
+
+        self.assertTrue(tgraph.sanity_check())
 
 if __name__ == "__main__":
     unittest.main()
