@@ -99,6 +99,18 @@ class UtilsTest(unittest.TestCase):
 
         self.assertFalse(core_model.sanity_check())
 
+    def test_sanity_check_IEEE399_valid(self) -> None:
+        path = pathlib.Path(__file__).parent.parent.resolve()
+
+        with open(
+            path.parent.parent / "tests/models/gdf/IEEE399_gdf.json",
+            "r",
+            encoding="utf-8",
+        ) as file:
+            data = json.load(file)
+            core_model = CoreModel.import_dict(data)
+
+        self.assertTrue(core_model.sanity_check())
 
 if __name__ == "__main__":
     unittest.main()
