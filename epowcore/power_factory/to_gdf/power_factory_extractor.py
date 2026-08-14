@@ -322,6 +322,7 @@ class PowerFactoryExtractor:
             self._component_dict[pss] = generic_pss
             self.graph.add_node(pss)
             # Create edge with the appropriate generator
+            self.graph.add_edge(pss, generator)
             self.graph.edges[pss, generator].update(
                 {
                     generic_pss.uid: generic_pss.connector_names.copy(),
@@ -352,6 +353,7 @@ class PowerFactoryExtractor:
             self._component_dict[avr] = generic_avr
             self.graph.add_node(avr)
             # Create edge with the appropriate generator
+            self.graph.add_edge(avr, generator)
             self.graph.edges[avr, generator].update(
                 {
                     generic_avr.uid: generic_avr.connector_names.copy(),
@@ -391,6 +393,7 @@ class PowerFactoryExtractor:
             self._component_dict[gov] = generic_gov
             self.graph.add_node(gov)
             # Create edge with the appropriate generator
+            self.graph.add_edge(gov, generator)
             self.graph.edges[gov, generator].update(
                 {
                     generic_gov.uid: generic_gov.connector_names.copy(),
