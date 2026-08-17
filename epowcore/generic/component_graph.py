@@ -142,7 +142,6 @@ class ComponentGraph:
         """
         # Check the types of the components
         node_type_check = all(isinstance(node, Component) for node in self._graph.nodes)
-        print(f"node_type_check: {node_type_check}")
 
         # The edge data ist a list of tuples,
         # each tuple contains the two components on index 0 and 1 and a dictionary on index 2.
