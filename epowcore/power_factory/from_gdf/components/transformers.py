@@ -18,15 +18,11 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
-
-    # Create new trafo inside of grid
-    pf_trafo = self.pf_grid.CreateObject("ElmTr3", trafo.name)
 
     # Get the bus connected to the transformer on the high voltage side
     high_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="HV"
-    )[0]
+    )
     # Get the bus connected to the transformer on the middle voltage side
     middle_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="MV"
@@ -34,22 +30,36 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     # Get the bus connected to the transformer on the low voltage side
     low_voltage_bus = self.core_model.get_neighbors(
         component=trafo, follow_links=True, connector="LV"
-    )[0]
+    )
+
     # If either bus wasnt found the function failed
-    if high_voltage_bus is None or low_voltage_bus is None or middle_voltage_bus is None:
-        Logger.log_to_selected(f"Failled to convert three winding transformer {trafo.name}")
-        success = False
+    if not high_voltage_bus or not middle_voltage_bus or not low_voltage_bus:
+        Logger.log_to_selected(
+            f"Failled to convert three winding transformer {trafo.name}"
+        )
+        return False
+
     # Get powerfactory buses
-    pf_hv_bus = get_pf_grid_component(self, component_name=high_voltage_bus.name)
-    pf_mv_bus = get_pf_grid_component(self, component_name=middle_voltage_bus.name)
-    pf_lv_bus = get_pf_grid_component(self, component_name=low_voltage_bus.name)
+    pf_hv_bus = get_pf_grid_component(
+        self, component_name=high_voltage_bus[0].name
+    )
+    pf_mv_bus = get_pf_grid_component(
+        self, component_name=middle_voltage_bus[0].name
+    )
+    pf_lv_bus = get_pf_grid_component(
+        self, component_name=low_voltage_bus[0].name
+    )
+
     # Fails if no powerfactory buses are found
     if pf_hv_bus is None or pf_mv_bus is None or pf_lv_bus is None:
         Logger.log_to_selected(
             f"Three winding transformer {trafo.name} could not be converted because atleast one bus wasn't found."
         )
-        success = False
-    
+        return False
+
+    # Create new trafo inside of grid only after all checks succeeded
+    pf_trafo = self.pf_grid.CreateObject("ElmTr3", trafo.name)
+
     # Set connections
     pf_trafo.SetAttribute("bushv", add_cubicle_to_bus(pf_hv_bus))
     pf_trafo.SetAttribute("busmv", add_cubicle_to_bus(pf_mv_bus))
@@ -77,9 +87,15 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
     pf_trafo_type.SetAttribute("r1_lh", trafo.r1pu_l)
     pf_trafo_type.SetAttribute("pfe_kw", trafo.pfe_kw)
     pf_trafo_type.SetAttribute("curm3", trafo.no_load_current)
-    pf_trafo_type.SetAttribute("tr3cn_h", REVERSE_WINDING_CONFIG_MAPPING[trafo.connection_type_hv])
-    pf_trafo_type.SetAttribute("tr3cn_m", REVERSE_WINDING_CONFIG_MAPPING[trafo.connection_type_mv])
-    pf_trafo_type.SetAttribute("tr3cn_l", REVERSE_WINDING_CONFIG_MAPPING[trafo.connection_type_lv])
+    pf_trafo_type.SetAttribute(
+        "tr3cn_h", REVERSE_WINDING_CONFIG_MAPPING[trafo.connection_type_hv]
+    )
+    pf_trafo_type.SetAttribute(
+        "tr3cn_m", REVERSE_WINDING_CONFIG_MAPPING[trafo.connection_type_mv]
+    )
+    pf_trafo_type.SetAttribute(
+        "tr3cn_l", REVERSE_WINDING_CONFIG_MAPPING[trafo.connection_type_lv]
+    )
     pf_trafo_type.SetAttribute("nt3ag_h", trafo.phase_shift_30_hv)
     pf_trafo_type.SetAttribute("nt3ag_m", trafo.phase_shift_30_mv)
     pf_trafo_type.SetAttribute("nt3ag_l", trafo.phase_shift_30_lv)
@@ -88,12 +104,11 @@ def create_three_wdg_trafo(self, trafo: ThreeWindingTransformer) -> bool:
 
     # Set trafo type attribute to the newly created trafo type
     pf_trafo.SetAttribute("typ_id", pf_trafo_type)
-    if  trafo.coords is not None:
+    if trafo.coords is not None:
         pf_trafo.GPSlon = trafo.coords[1]
         pf_trafo.GPSlat = trafo.coords[0]
 
-
-    return success
+    return True
 
 
 def create_two_wdg_trafo(self, trafo: TwoWindingTransformer) -> bool:

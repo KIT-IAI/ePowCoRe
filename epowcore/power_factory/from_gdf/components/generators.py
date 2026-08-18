@@ -152,33 +152,32 @@ def create_static_generator(self, gen: StaticGenerator) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
-
-    # Create generator inside of network
-    pf_gen = self.pf_grid.CreateObject("ElmGenstat", gen.name)
 
     # Get bus connected to the generator
-    gdf_gen_bus = get_connected_bus(graph=self.core_model.graph, node=gen, max_depth=1)
+    gdf_gen_bus = get_connected_bus(
+        graph=self.core_model.graph, node=gen, max_depth=1
+    )
 
     if gdf_gen_bus is None:
         Logger.log_to_selected(
             f"There was no generator bus found inside of the core_model network for the static generator {gen.name}"
         )
-        success = False
-    else:
-        if gdf_gen_bus.lf_bus_type == "SLACK":
-            pf_gen.SetAttribute("ip_ctrl", 1)
+        return False
 
     pf_gen_bus = get_pf_grid_component(self, component_name=gdf_gen_bus.name)
     if pf_gen_bus is None:
         Logger.log_to_selected(
             f"There was no generator bus found inside of the powerfactory network for the static generator {gen.name}"
         )
-        success = False
+        return False
 
-    # If the bus was found set connection attribute
-    if success:
-        pf_gen.SetAttribute("bus1", add_cubicle_to_bus(pf_gen_bus))
+    # Create generator only after all checks succeeded
+    pf_gen = self.pf_grid.CreateObject("ElmGenstat", gen.name)
+
+    if gdf_gen_bus.lf_bus_type == "SLACK":
+        pf_gen.SetAttribute("ip_ctrl", 1)
+
+    pf_gen.SetAttribute("bus1", add_cubicle_to_bus(pf_gen_bus))
 
     # Set attributes of the generator itself
     pf_gen.SetAttribute("sgn", gen.rated_apparent_power)
@@ -194,4 +193,4 @@ def create_static_generator(self, gen: StaticGenerator) -> bool:
         pf_gen.GPSlon = gen.coords[0]
         pf_gen.GPSlat = gen.coords[1]
 
-    return success
+    return True

@@ -11,26 +11,32 @@ def create_external_grid(self, external_grid: ExternalGrid) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
 
-    # Create new switch inside of grid
-    pf_external_grid = self.pf_grid.CreateObject("ElmXnet", external_grid.name)
+    connection = self.core_model.get_neighbors(
+        component=external_grid, follow_links=True
+    )
 
-    connection = self.core_model.get_neighbors(component=external_grid, follow_links=True)[0]
-    if connection  is None:
+    if not connection:
         Logger.log_to_selected(
             f"Connection not found inside of the gdf for external grid {external_grid.name}"
         )
-        success = False
+        return False
 
     # Get powerfactory connections
-    pf_connection = get_pf_grid_component(self, component_name=connection.name)
+    pf_connection = get_pf_grid_component(
+        self, component_name=connection[0].name
+    )
 
     if pf_connection is None:
         Logger.log_to_selected(
             f"Connection not found inside of powerfactory for external grid {external_grid.name}"
         )
-        success = False
+        return False
+
+    # Create external grid only after all checks succeeded
+    pf_external_grid = self.pf_grid.CreateObject(
+        "ElmXnet", external_grid.name
+    )
 
     # Set connections
     pf_external_grid.SetAttribute("bus1", add_cubicle_to_bus(pf_connection))
@@ -40,9 +46,9 @@ def create_external_grid(self, external_grid: ExternalGrid) -> bool:
     pf_external_grid.qgini = external_grid.q
     pf_external_grid.cQ_min = external_grid.q_min
     pf_external_grid.cQ_max = external_grid.q_max
-    pf_external_grid.bustp =  external_grid.bus_type.value
+    pf_external_grid.bustp = external_grid.bus_type.value
     if external_grid.coords is not None:
         pf_external_grid.GPSlon = external_grid.coords[1]
         pf_external_grid.GPSlat = external_grid.coords[0]
 
-    return success
+    return True

@@ -529,6 +529,9 @@ class PandapowerModel:
         ward_bus = get_connected_bus(core_model.graph, ward, max_depth=1)
         # If there was no ward_bus found the function failed and terminates
         if ward_bus is None:
+            Logger.log_to_selected(
+                f"There was no bus found connected to ward {ward.name}"
+            )
             return False
         # Create ward in pandapower network
         pandapower.create_ward(
@@ -561,6 +564,9 @@ class PandapowerModel:
         shunt_bus = get_connected_bus(core_model.graph, shunt, max_depth=1)
         # If there was no shunt_bus found the function failed and terminates
         if shunt_bus is None:
+            Logger.log_to_selected(
+                f"There was no bus found connected to shunt {shunt.name}"
+            )
             return False
         # Create shunt in pandapower network
         pandapower.create_shunt(
@@ -621,6 +627,9 @@ class PandapowerModel:
                 switch_bus = neighbours[1]
                 switch_other_component = neighbours[0]
         else:
+            Logger.log_to_selected(
+                f"Failed to convert {switch.name} because fewer than two connections were found"
+            )
             return False
         # Get string mapped to the type of the other component
         switch_et = self._create_pandapower_switch_et(switch_other_component)
@@ -667,6 +676,9 @@ class PandapowerModel:
                 switch_bus = neighbours[1]
                 switch_other_component = neighbours[0]
         else:
+            Logger.log_to_selected(
+                f"Failed to convert {tline.name} because fewer than two connections were found"
+            )
             return False
         # Get string mapped to the type of the other component
         switch_et = self._create_pandapower_switch_et(switch_other_component)

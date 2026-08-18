@@ -11,28 +11,32 @@ def create_line(self, tline: TLine) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
 
-    # Create new line inside of grid
-    pf_line = self.pf_grid.CreateObject("ElmLne", tline.name)
+    from_bus = self.core_model.get_neighbors(
+        component=tline, follow_links=True, connector="A"
+    )
+    to_bus = self.core_model.get_neighbors(
+        component=tline, follow_links=True, connector="B"
+    )
 
-    from_bus = self.core_model.get_neighbors(component=tline, follow_links=True, connector="A")[0]
-    to_bus = self.core_model.get_neighbors(component=tline, follow_links=True, connector="B")[0]
-    if from_bus is None or to_bus is None:
+    if not from_bus or not to_bus:
         Logger.log_to_selected(
             f"At least one bus not found inside of the gdf for tline {tline.name}"
         )
-        success = False
+        return False
 
     # Get powerfactory buses
-    pf_from_bus = get_pf_grid_component(self, component_name=from_bus.name)
-    pf_to_bus = get_pf_grid_component(self, component_name=to_bus.name)
+    pf_from_bus = get_pf_grid_component(self, component_name=from_bus[0].name)
+    pf_to_bus = get_pf_grid_component(self, component_name=to_bus[0].name)
 
     if pf_from_bus is None or pf_to_bus is None:
         Logger.log_to_selected(
             f"At least one bus not found inside of powerfactory for tline {tline.name}"
         )
-        success = False
+        return False
+
+    # Create new line inside of grid only after all checks succeeded
+    pf_line = self.pf_grid.CreateObject("ElmLne", tline.name)
 
     # Set connections
     pf_line.SetAttribute("bus1", add_cubicle_to_bus(pf_from_bus))
@@ -53,9 +57,9 @@ def create_line(self, tline: TLine) -> bool:
     pf_line_type.SetAttribute("xline", tline.x1)
     pf_line_type.SetAttribute("bline", tline.b1)
     # Standard type cables for low voltage grids have a rating of 1kV
-    rating_from_bus = pf_from_bus.GetAttribute("uknom") #kV
+    rating_from_bus = pf_from_bus.GetAttribute("uknom")  # kV
     pf_line_type.SetAttribute("uline", rating_from_bus)
-    pf_line_type.SetAttribute("sline", tline.rating / (rating_from_bus))
+    pf_line_type.SetAttribute("sline", tline.rating / rating_from_bus)
     pf_line_type.SetAttribute("rline0", zero_sequence_transform(tline.r0))
     pf_line_type.SetAttribute("xline0", zero_sequence_transform(tline.x0))
     pf_line_type.SetAttribute("bline0", zero_sequence_transform(tline.b0))
@@ -64,9 +68,9 @@ def create_line(self, tline: TLine) -> bool:
     pf_line.SetAttribute("nlnum", tline.parallel_lines)
     pf_line.SetAttribute("dline", tline.length)
     pf_line.SetAttribute("loc_name", tline.name)
-    if  tline.coords is not None:
-        pf_line.GPScoords = [[coords[0],coords[1]] for coords in tline.coords]
+    if tline.coords is not None:
+        pf_line.GPScoords = [[coords[0], coords[1]] for coords in tline.coords]
     # Set line type attribut to the newly crated line type
     pf_line.SetAttribute("typ_id", pf_line_type)
 
-    return success
+    return True

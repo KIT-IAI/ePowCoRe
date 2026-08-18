@@ -12,31 +12,34 @@ def create_shunt(self, shunt: Shunt) -> bool:
     :return: Return true if the conversion succeded, false if it didn't.
     :rtype: bool
     """
-    success = True
-
-    # Create shunt inside the pf network
-    pf_shunt = self.pf_grid.CreateObject("ElmShnt")
 
     # Get connected bus
-    gdf_shunt_bus = get_connected_bus(graph=self.core_model.graph, node=shunt, max_depth=1)
+    gdf_shunt_bus = get_connected_bus(
+        graph=self.core_model.graph, node=shunt, max_depth=1
+    )
+
     # Check if the connected bus exists
     if gdf_shunt_bus is None:
         Logger.log_to_selected(
             f"There was no shunt bus found inside of the core_model network for the load {shunt.name}"
         )
-        success = False
-    else:
-        # Find the power factory bus with the same name
-        pf_shunt_bus = get_pf_grid_component(self, component_name=gdf_shunt_bus.name)
-        if pf_shunt_bus is None:
-            Logger.log_to_selected(
-                f"Something went wrong with the conversion of the shunt {shunt.name}, because its bus was found inside of the gdf network but not in the powerfactory network"
-            )
-            success = False
-        else:
-            pf_shunt.SetAttribute("bus1", add_cubicle_to_bus(pf_shunt_bus))
+        return False
 
-        
+    # Find the power factory bus with the same name
+    pf_shunt_bus = get_pf_grid_component(
+        self, component_name=gdf_shunt_bus.name
+    )
+
+    if pf_shunt_bus is None:
+        Logger.log_to_selected(
+            f"Something went wrong with the conversion of the shunt {shunt.name}, because its bus was found inside of the gdf network but not in the powerfactory network"
+        )
+        return False
+
+    # Create shunt only after all checks succeeded
+    pf_shunt = self.pf_grid.CreateObject("ElmShnt")
+    pf_shunt.SetAttribute("bus1", add_cubicle_to_bus(pf_shunt_bus))
+
     # Set attributes for newly created shunt
     pf_shunt.SetAttribute("loc_name", shunt.name)
     pf_shunt.SetAttribute("e:Qact", shunt.q)
@@ -44,5 +47,4 @@ def create_shunt(self, shunt: Shunt) -> bool:
         pf_shunt.GPSlon = shunt.coords[1]
         pf_shunt.GPSlat = shunt.coords[0]
 
-
-    return success
+    return True
