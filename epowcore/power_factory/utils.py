@@ -4,17 +4,36 @@ from typing import Any
 
 def get_coords(obj: Any) -> tuple[float, float] | list[tuple[float, float]] | None:
     """Try to get the coordinates of a given PowerFactory object."""
-    if not (hasattr(obj, "GPSlat") and hasattr(obj, "GPSlon")) and not hasattr(obj, "GPScoords"):
+
+    if not (hasattr(obj, "GPSlat") and hasattr(obj, "GPSlon")) and not hasattr(
+        obj, "GPScoords"
+    ):
         return None
+
     if hasattr(obj, "GPScoords"):
         lat = [x[0] for x in obj.GPScoords if len(x) > 1]
         lon = [x[1] for x in obj.GPScoords if len(x) > 1]
+
         if len(lat) == 0 or len(lon) == 0:
             return None
+
         return list(zip(lat, lon))
-    if obj.GPSlat == 0.0 and obj.GPSlon == 0.0:
+
+    if obj.GPSlat != 0.0 or obj.GPSlon != 0.0:
+        return (obj.GPSlat, obj.GPSlon)
+
+    parent = obj.GetParent()
+
+    if parent is None or parent.GetClassName() != "ElmSite":
         return None
-    return (obj.GPSlat, obj.GPSlon)
+
+    if not (hasattr(parent, "GPSlat") and hasattr(parent, "GPSlon")):
+        return None
+
+    if parent.GPSlat == 0.0 and parent.GPSlon == 0.0:
+        return None
+
+    return (parent.GPSlat, parent.GPSlon)
 
 
 def get_ctrl_param(ctrl_obj: Any, param: str | list[str]) -> Any:

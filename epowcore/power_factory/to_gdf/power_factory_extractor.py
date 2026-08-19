@@ -281,7 +281,7 @@ class PowerFactoryExtractor:
             self.uid += 1
             self._component_dict[pf_switch] = switch
             self.graph.add_node(pf_switch)
-    
+
     def extract_fuses(self) -> None:
         """Extract the PowerFactory fuses to the data format. Currently represented as a switch for the gdf"""
         pf_fuses = self.app.GetCalcRelevantObjects("RelFuse")
@@ -323,6 +323,12 @@ class PowerFactoryExtractor:
             self.graph.add_node(pss)
             # Create edge with the appropriate generator
             self.graph.add_edge(pss, generator)
+            self.graph.edges[pss, generator].update(
+                {
+                    generic_pss.uid: generic_pss.connector_names.copy(),
+                    self._component_dict[generator].uid: [],
+                }
+            )
 
     def select_avr_type(self, generator: Any) -> None:
         """Selects one of the currently supported Exciter to extract"""
@@ -348,6 +354,12 @@ class PowerFactoryExtractor:
             self.graph.add_node(avr)
             # Create edge with the appropriate generator
             self.graph.add_edge(avr, generator)
+            self.graph.edges[avr, generator].update(
+                {
+                    generic_avr.uid: generic_avr.connector_names.copy(),
+                    self._component_dict[generator].uid: [],
+                }
+            )
 
     def select_gov_type(self, generator: Any) -> None:
         """Selects one of the currently supported Governor to extract"""
@@ -382,6 +394,12 @@ class PowerFactoryExtractor:
             self.graph.add_node(gov)
             # Create edge with the appropriate generator
             self.graph.add_edge(gov, generator)
+            self.graph.edges[gov, generator].update(
+                {
+                    generic_gov.uid: generic_gov.connector_names.copy(),
+                    self._component_dict[generator].uid: [],
+                }
+            )
 
     def set_core_model_graph(self) -> None:
         """This creates the graph for the GenericCoreModel"""
