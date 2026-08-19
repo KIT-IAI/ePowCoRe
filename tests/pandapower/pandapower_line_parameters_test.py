@@ -71,3 +71,23 @@ def test_line_export_rejects_zero_nominal_voltage() -> None:
             name="invalid_voltage_test",
             log_path=None,
         )
+
+def test_line_with_missing_connection_is_skipped() -> None:
+    creator = GdfTestComponentCreator(base_frequency=50.0)
+
+    bus_a = creator.create_bus(name="Bus A")
+    line = creator.create_tline(name="Incomplete Line")
+
+    creator.core_model.add_connection(line, bus_a, "A")
+
+    network = (
+        PandapowerConverter()
+        .from_gdf(
+            core_model=creator.core_model,
+            name="missing_connection_test",
+            log_path=None,
+        )
+        .network
+    )
+
+    assert "Incomplete Line" not in network.line["name"].values

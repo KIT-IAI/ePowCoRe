@@ -12,30 +12,34 @@ def create_load(self, load: Load) -> bool:
     :return: Return true if the conversion suceeded, false if it didn't.
     :rtype: bool
     """
-    success = True
-
-    # Create load inside of network
-    pf_load = self.pf_grid.CreateObject("ElmLod")
 
     # Get connected bus
     # Maybe change this so the load gets converted without a connected bus if it is not found?
-    gdf_load_bus = get_connected_bus(graph=self.core_model.graph, node=load, max_depth=1)
+    gdf_load_bus = get_connected_bus(
+        graph=self.core_model.graph, node=load, max_depth=1
+    )
+
     # Check if connected bus exists
     if gdf_load_bus is None:
         Logger.log_to_selected(
             f"There was no load bus found inside of the core_model network for the load {load.name}"
         )
-        success = False
-    else:
-        # Find the power factory bus with the same name
-        pf_load_bus = get_pf_grid_component(self, component_name=gdf_load_bus.name)
-        if pf_load_bus is None:
-            Logger.log_to_selected(
-                f"Something went wrong with the conversion of the load {load.name}, because its bus was found inside of the gdf network but not in the powerfactory network"
-            )
-            success = False
-        else:
-            pf_load.SetAttribute("bus1", add_cubicle_to_bus(pf_load_bus))
+        return False
+
+    # Find the power factory bus with the same name
+    pf_load_bus = get_pf_grid_component(
+        self, component_name=gdf_load_bus.name
+    )
+
+    if pf_load_bus is None:
+        Logger.log_to_selected(
+            f"Something went wrong with the conversion of the load {load.name}, because its bus was found inside of the gdf network but not in the powerfactory network"
+        )
+        return False
+
+    # Create load only after all checks succeeded
+    pf_load = self.pf_grid.CreateObject("ElmLod")
+    pf_load.SetAttribute("bus1", add_cubicle_to_bus(pf_load_bus))
 
     # Set attributes for newly created load
     pf_load.SetAttribute("loc_name", load.name)
@@ -47,4 +51,4 @@ def create_load(self, load: Load) -> bool:
         pf_load.GPSlon = load.coords[1]
         pf_load.GPSlat = load.coords[0]
 
-    return success
+    return True
