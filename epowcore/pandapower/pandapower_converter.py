@@ -9,6 +9,7 @@ from epowcore.pandapower.from_gdf.pandapower_export import (
     export_pandapower,
 )
 from epowcore.pandapower.pandapower_model import PandapowerModel
+from epowcore.pandapower.to_gdf.pandapower_extractor import PandapowerExtractor
 from epowcore.plausibility.pandapower_checker import (
     PandapowerPlausibilityChecker,
 )
@@ -79,5 +80,6 @@ class PandapowerConverter(ConverterBase[PandapowerModel]):
             filename=filepath,
         )
 
-    def _import(self, model):
-        return model
+    def _import(self, model: PandapowerModel) -> CoreModel:
+        extractor = PandapowerExtractor(model.network)
+        return extractor.get_core_model()
