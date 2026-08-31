@@ -17,8 +17,8 @@ class PFConverterTest(unittest.TestCase):
         converter = PowerFactoryConverter()
         core_model = converter.to_gdf(PFModel("Minimal", "Base", 50.0))
 
-        self.assertEqual(len(core_model.graph.nodes), 8)
-        self.assertEqual(len(core_model.graph.edges), 7)
+        self.assertEqual(len(core_model.graph.nodes), 10)
+        self.assertEqual(len(core_model.graph.edges), 9)
 
         two_winding_id = core_model.type_list(TwoWindingTransformer)[0].uid
 
