@@ -51,13 +51,9 @@ def get_ctrl_param(ctrl_obj: Any, param: str | list[str]) -> Any:
     :rtype: Any
     """
     model_params = ctrl_obj.GetAttribute("parameterNames")
-
-    if isinstance(model_params, str):
-        model_params = model_params.split(",")
-    elif isinstance(model_params, list):
-        model_params = model_params[0].split(",")
-    else:
-        raise TypeError("Expected parameterNames to be a string or list")
+    if not isinstance(model_params, list):
+        raise TypeError("Expected params to be a list: ['A,B,C']")
+    model_params = model_params[0].split(",")
 
     if isinstance(param, str):
         if param not in model_params:
