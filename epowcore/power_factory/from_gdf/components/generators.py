@@ -75,29 +75,72 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
     power_system_stabilizers = list(filter(lambda x: True if isinstance(x, PowerSystemStabilizer) else False, self.core_model.get_neighbors(component=gen) ))
 
     #lib = self.app.GetGlobalLibrary("BlkDef")
-    pf_standard_power_plant_type = self.pf_digsilent_library.SearchObject("Arch\\PF 2022 Models\\DynPsse\\Frm\\SYM Frame_no droop.BlkDef")
-    pf_power_plant.SetAttribute("typ_id", pf_standard_power_plant_type)
+    pf_standard_power_plant_type = next(
+        (
+            frame
+            for frame in self.pf_digsilent_library.GetContents("*.BlkDef", 1)
+            if frame.GetFullName().endswith(
+                r"\Arch\PF 2022 Models\DynPsse\Frm\SYM Frame_no droop.BlkDef"
+            )
+        ),
+        None,
+    )
 
+    if pf_standard_power_plant_type is None:
+        raise ValueError(
+            "Could not find SYM Frame_no droop frame in PowerFactory library."
+        )
+
+    pf_power_plant.SetAttribute("typ_id", pf_standard_power_plant_type)
 
     pf_power_plant_pelm = []
     pf_power_plant_pblk = []
-    
-    pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Sym Slot.BlkSlot", 1)[0])
+
+    pf_power_plant_pblk.append(
+        pf_standard_power_plant_type.GetContents("Sym Slot.BlkSlot", 1)[0]
+    )
     pf_power_plant_pelm.append(pf_gen)
 
     for exciter in exciters:
-        pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Avr Slot.BlkSlot", 1)[0])
-        pf_power_plant_pelm.append(create_exciter(self, exciter, pf_power_plant))
+        pf_power_plant_pblk.append(
+            pf_standard_power_plant_type.GetContents("Avr Slot.BlkSlot", 1)[0]
+        )
+        pf_power_plant_pelm.append(
+            create_exciter(self, exciter, pf_power_plant)
+        )
 
     for governor in governors:
-        pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Gov Slot.BlkSlot", 1)[0])
-        pf_power_plant_pelm.append(create_governor(self, governor, pf_power_plant))
+        pf_power_plant_pblk.append(
+            pf_standard_power_plant_type.GetContents("Gov Slot.BlkSlot", 1)[0]
+        )
+        pf_power_plant_pelm.append(
+            create_governor(self, governor, pf_power_plant)
+        )
 
     for pss in power_system_stabilizers:
-        pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Pss Slot.BlkSlot", 1)[0])
-        pf_power_plant_pelm.append(create_pss(self, pss, pf_power_plant))
+        pf_power_plant_pblk.append(
+            pf_standard_power_plant_type.GetContents("Pss Slot.BlkSlot", 1)[0]
+        )
+        pf_power_plant_pelm.append(
+            create_pss(self, pss, pf_power_plant)
+        )
 
-    pf_power_plant.SetAttribute("pblk", pf_power_plant_pblk)
+    print("Power plant:", pf_power_plant.GetFullName())
+    print("pblk new:", pf_power_plant_pblk)
+    print("pelm new:", pf_power_plant_pelm)
+
+    frame_slots = pf_standard_power_plant_type.GetContents("*.BlkSlot", 1)
+
+    print("FRAME SLOT COUNT:", len(frame_slots))
+    for index, slot in enumerate(frame_slots):
+        print(index, slot.loc_name, slot.GetFullName())
+
+    print("CURRENT PBLK:", pf_power_plant.GetAttribute("pblk"))
+    print("CURRENT PELM:", pf_power_plant.GetAttribute("pelm"))
+    print("NEW PBLK LENGTH:", len(pf_power_plant_pblk))
+    print("NEW PELM LENGTH:", len(pf_power_plant_pelm))
+
+    #pf_power_plant.SetAttribute("pblk", pf_power_plant_pblk)
     pf_power_plant.SetAttribute("pelm", pf_power_plant_pelm)
 
     # Set attributes for newly crated gen type
