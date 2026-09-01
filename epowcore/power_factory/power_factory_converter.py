@@ -46,6 +46,6 @@ class PowerFactoryConverter(ConverterBase[PFModel]):
 
     def _import(self, model: PFModel) -> CoreModel:
         extractor = PowerFactoryExtractor(
-            model.project_name, model.study_case_name, model.frequency, app=self.app
+            model.project_name, model.study_case_name, app=self.app
         )
         return extractor.get_core_model()

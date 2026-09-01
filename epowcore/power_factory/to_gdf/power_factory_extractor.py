@@ -23,8 +23,7 @@ class PowerFactoryExtractor:
     def __init__(
         self,
         project_name: str,
-        study_case_name: str | None,
-        frequency: float,
+        study_case_name: str | None = None,
         app: pf.Application | None = None,
     ) -> None:
         self._component_dict: dict[pf.DataObject, Component] = {}
@@ -35,8 +34,6 @@ class PowerFactoryExtractor:
         """Id for the elements extracted to the core model"""
         self.graph = nx.Graph()
         """Graph for PowerFactory elements"""
-        self.core_model = CoreModel(base_frequency=frequency)
-        """Collects the extracted values"""
 
         # Get the PowerFactory Application
         if app is None:
@@ -47,19 +44,63 @@ class PowerFactoryExtractor:
         if self.app is None:
             raise ValueError("No PowerFactory Application found!")
 
-        # Activate Project
+
+        # Activate project
         self.app.ActivateProject(project_name)
         self.project = self.app.GetActiveProject()
-        # Get studycase and activate it
-        study_case_folder = self.app.GetProjectFolder("study")
-        if study_case_name is not None:
-            case = study_case_folder.GetContents(study_case_name + ".IntCase")[0]
-            case.Activate()
 
-        # Do a loadflow to get the correct bustype for the buses
-        # and potentially for generators
-        loadflow = self.app.GetFromStudyCase("ComLdf")
-        loadflow.Execute()
+        if self.project is None:
+            raise ValueError(f"PowerFactory project '{project_name}' could not be activated.")
+
+        # Get grid and read its nominal frequency
+        pf_grids = self.project.GetContents("*.ElmNet", 1)
+        if not pf_grids:
+            raise ValueError(f"No ElmNet found in PowerFactory project '{project_name}'.")
+
+        self.pf_grid = next(
+            (
+                grid
+                for grid in pf_grids
+                if "\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\" in grid.GetFullName()
+            ),
+            None,
+        )
+
+        if self.pf_grid is None:
+            raise ValueError(f"No network ElmNet found in PowerFactory project '{project_name}'.")
+        self.core_model = CoreModel(
+            base_frequency=float(self.pf_grid.GetAttribute("frnom"))
+        )
+
+        use_load_flow = Configuration().get("PowerFactory.USE_LOAD_FLOW")
+
+        if use_load_flow and study_case_name is None:
+            raise ValueError(
+                "A study case is required when PowerFactory.USE_LOAD_FLOW is enabled."
+            )
+
+        if study_case_name is not None:
+            study_case_folder = self.app.GetProjectFolder("study")
+            if study_case_folder is None:
+                raise ValueError(
+                    f"No study case folder found in project '{project_name}'."
+                )
+
+            cases = study_case_folder.GetContents(study_case_name + ".IntCase")
+            if not cases:
+                raise ValueError(
+                    f"Study case '{study_case_name}' not found in project '{project_name}'."
+                )
+
+            cases[0].Activate()
+
+        if use_load_flow:
+            loadflow = self.app.GetFromStudyCase("ComLdf")
+            if loadflow is None:
+                raise ValueError(
+                    f"No load flow command found for study case '{study_case_name}'."
+                )
+            loadflow.Execute()
 
     def get_core_model(self) -> CoreModel:
         """Starts the extraction of elements and returns them in the GenericCoreModel format"""
@@ -112,7 +153,10 @@ class PowerFactoryExtractor:
         """Extract the PowerFactory buses to the data format"""
 
         # Get the buses from the studycase
-        pf_buses = self.app.GetCalcRelevantObjects("ElmTerm")
+        pf_buses = self.project.GetContents("*.ElmTerm", 1)
+
+
+
         for pf_bus in pf_buses:
             try:
                 bus = Components.create_bus(pf_bus, self.uid, use_station_name)
@@ -121,6 +165,7 @@ class PowerFactoryExtractor:
                 self._component_dict[pf_bus] = bus
                 self.graph.add_node(pf_bus)
             except ValueError as e:
+                print("BUS ERROR:", pf_bus.GetFullName(), e)
                 Logger.log_to_selected(str(e))
 
     def extract_load(self) -> None:
