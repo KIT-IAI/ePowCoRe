@@ -2,18 +2,35 @@ TLine:
   zero_sequence_factor: 3
   temperature_degree_celsius: 80
   alpha: 0.004
+
 TwoWindingTransformer:
   si0_hv_partial: 0.9
   mag0_rx: 0
   mag0_percent: 100
+
 ThreeWindingTransformer:
   vk_percent: 10.4
   vkr_hv_percent: 0.28
   vkr_mv_percent: 0.32
   vkr_lv_percent: 0.35
+
 Load:
   type: "wye"
   const_z_percent: 0  # pandapower convert says 100 but loadflows dont converge then
   const_i_percent: 0
+
 Switch:
-  in_ka: 0.27 # in MVA 
+  in_ka: 0.27 # in MVA
+
+SynchronousMachine:
+  inertia_constant: 4.475
+  zero_sequence_resistance: 0.0
+  zero_sequence_reactance: 0.1
+  stator_leakage_reactance: 0.2432
+  stator_resistance: 0.0
+  synchronous_reactance_x: 1.996
+  transient_reactance_x: 0.4248
+  subtransient_reactance_x: 0.36
+  synchronous_reactance_q: 1.896
+  transient_reactance_q: 0.7008
+  subtransient_reactance_q: 0.36
