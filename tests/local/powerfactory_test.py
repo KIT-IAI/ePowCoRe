@@ -2,8 +2,8 @@ import os
 import sys
 
 
-PF_ROOT = r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP4"
-PF_PY = r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP4\Python\3.11"
+PF_ROOT = r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP2"
+PF_PY = r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP2\Python\3.10"
 
 
 sys.path.append(PF_PY)
