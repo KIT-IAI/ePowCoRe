@@ -1,5 +1,5 @@
 import pandapower
-
+from pathlib import Path
 from epowcore.plausibility.pandapower_checker import (
     PandapowerPlausibilityChecker,
 )
@@ -26,9 +26,6 @@ def test_converging_network() -> None:
 
     result = PandapowerPlausibilityChecker().check(net)
 
-    print("Converged:", result.converged)
-    print("Errors:", result.errors)
-
     assert result.converged
     assert not result.errors
 
@@ -54,72 +51,10 @@ def test_detects_voltage_violation() -> None:
 
     result = PandapowerPlausibilityChecker().check(net)
 
-    print("Soft voltage violations:", result.soft_voltage_violations)
-
     assert result.converged
     assert result.soft_voltage_violations
     assert not result.hard_voltage_violations
 
-
-def test_detects_overloaded_line() -> None:
-    net = pandapower.create_empty_network()
-
-    bus_1 = pandapower.create_bus(net, vn_kv=20.0)
-    bus_2 = pandapower.create_bus(net, vn_kv=20.0)
-
-    pandapower.create_ext_grid(net, bus=bus_1, vm_pu=1.0)
-    pandapower.create_line_from_parameters(
-        net,
-        from_bus=bus_1,
-        to_bus=bus_2,
-        length_km=1.0,
-        r_ohm_per_km=0.1,
-        x_ohm_per_km=0.1,
-        c_nf_per_km=0.0,
-        max_i_ka=0.01,
-    )
-    pandapower.create_load(net, bus=bus_2, p_mw=1.0, q_mvar=0.2)
-
-    result = PandapowerPlausibilityChecker().check(net)
-
-    print("Overloaded lines:", result.overloaded_lines)
-
-    assert result.converged
-    assert result.overloaded_lines
-
-
-def test_detects_overloaded_transformer() -> None:
-    net = pandapower.create_empty_network()
-
-    bus_hv = pandapower.create_bus(net, vn_kv=110.0)
-    bus_lv = pandapower.create_bus(net, vn_kv=20.0)
-
-    pandapower.create_ext_grid(net, bus=bus_hv, vm_pu=1.0)
-    pandapower.create_transformer_from_parameters(
-        net,
-        hv_bus=bus_hv,
-        lv_bus=bus_lv,
-        sn_mva=0.1,
-        vn_hv_kv=110.0,
-        vn_lv_kv=20.0,
-        vk_percent=10.0,
-        vkr_percent=0.5,
-        pfe_kw=0.0,
-        i0_percent=0.0,
-    )
-    pandapower.create_load(
-        net,
-        bus=bus_lv,
-        p_mw=0.2,
-        q_mvar=0.05,
-    )
-
-    result = PandapowerPlausibilityChecker().check(net)
-
-    print("Overloaded transformers:", result.overloaded_transformers)
-
-    assert result.converged
-    assert result.overloaded_transformers
 
 def test_detects_hard_voltage_violation() -> None:
     net = pandapower.create_empty_network()
@@ -147,17 +82,174 @@ def test_detects_hard_voltage_violation() -> None:
 
     result = PandapowerPlausibilityChecker().check(net)
 
-    print("Hard voltage violations:", result.hard_voltage_violations)
-
     assert result.converged
     assert result.hard_voltage_violations
+
+
+def test_detects_generator_soft_voltage_violation() -> None:
+    net = pandapower.create_empty_network()
+
+    slack_bus = pandapower.create_bus(net, vn_kv=20.0)
+    generator_bus = pandapower.create_bus(net, vn_kv=20.0)
+
+    pandapower.create_ext_grid(net, bus=slack_bus, vm_pu=1.0)
+
+    pandapower.create_line_from_parameters(
+        net,
+        from_bus=slack_bus,
+        to_bus=generator_bus,
+        length_km=1.0,
+        r_ohm_per_km=0.1,
+        x_ohm_per_km=0.1,
+        c_nf_per_km=0.0,
+        max_i_ka=1.0,
+    )
+
+    pandapower.create_gen(
+        net,
+        bus=generator_bus,
+        p_mw=1.0,
+        vm_pu=1.15,
+        name="Test Generator",
+    )
+
+    result = PandapowerPlausibilityChecker().check(net)
+
+    assert len(result.generator_soft_voltage_violations) == 1
+    assert not result.generator_hard_voltage_violations
+
+    violation = result.generator_soft_voltage_violations[0]
+
+    assert violation["component"] == "gen"
+    assert violation["name"] == "Test Generator"
+    assert violation["vm_pu"] == 1.15
+
+
+def test_detects_generator_hard_voltage_violation() -> None:
+    net = pandapower.create_empty_network()
+
+    slack_bus = pandapower.create_bus(net, vn_kv=20.0)
+    generator_bus = pandapower.create_bus(net, vn_kv=20.0)
+
+    pandapower.create_ext_grid(net, bus=slack_bus, vm_pu=1.0)
+
+    pandapower.create_line_from_parameters(
+        net,
+        from_bus=slack_bus,
+        to_bus=generator_bus,
+        length_km=1.0,
+        r_ohm_per_km=0.1,
+        x_ohm_per_km=0.1,
+        c_nf_per_km=0.0,
+        max_i_ka=1.0,
+    )
+
+    pandapower.create_gen(
+        net,
+        bus=generator_bus,
+        p_mw=1.0,
+        vm_pu=1.25,
+        name="Test Generator",
+    )
+
+    result = PandapowerPlausibilityChecker().check(net)
+
+    assert not result.generator_soft_voltage_violations
+    assert len(result.generator_hard_voltage_violations) == 1
+
+    violation = result.generator_hard_voltage_violations[0]
+
+    assert violation["component"] == "gen"
+    assert violation["name"] == "Test Generator"
+    assert violation["vm_pu"] == 1.25
+
+
+def test_detects_overloaded_line() -> None:
+    net = pandapower.create_empty_network()
+
+    bus_1 = pandapower.create_bus(net, vn_kv=20.0)
+    bus_2 = pandapower.create_bus(net, vn_kv=20.0)
+
+    pandapower.create_ext_grid(net, bus=bus_1, vm_pu=1.0)
+
+    pandapower.create_line_from_parameters(
+        net,
+        from_bus=bus_1,
+        to_bus=bus_2,
+        length_km=1.0,
+        r_ohm_per_km=0.1,
+        x_ohm_per_km=0.1,
+        c_nf_per_km=0.0,
+        max_i_ka=0.01,
+    )
+
+    pandapower.create_load(
+        net,
+        bus=bus_2,
+        p_mw=1.0,
+        q_mvar=0.2,
+    )
+
+    result = PandapowerPlausibilityChecker().check(net)
+
+    assert result.converged
+    assert result.overloaded_lines
+
+
+def test_detects_overloaded_transformer() -> None:
+    net = pandapower.create_empty_network()
+
+    bus_hv = pandapower.create_bus(net, vn_kv=110.0)
+    bus_lv = pandapower.create_bus(net, vn_kv=20.0)
+
+    pandapower.create_ext_grid(net, bus=bus_hv, vm_pu=1.0)
+
+    pandapower.create_transformer_from_parameters(
+        net,
+        hv_bus=bus_hv,
+        lv_bus=bus_lv,
+        sn_mva=0.1,
+        vn_hv_kv=110.0,
+        vn_lv_kv=20.0,
+        vk_percent=10.0,
+        vkr_percent=0.5,
+        pfe_kw=0.0,
+        i0_percent=0.0,
+    )
+
+    pandapower.create_load(
+        net,
+        bus=bus_lv,
+        p_mw=0.2,
+        q_mvar=0.05,
+    )
+
+    result = PandapowerPlausibilityChecker().check(net)
+
+    assert result.converged
+    assert result.overloaded_transformers
+
 
 def test_detects_isolated_area() -> None:
     net = pandapower.create_empty_network()
 
-    supplied_bus = pandapower.create_bus(net, vn_kv=20.0)
-    isolated_bus_1 = pandapower.create_bus(net, vn_kv=20.0)
-    isolated_bus_2 = pandapower.create_bus(net, vn_kv=20.0)
+    supplied_bus = pandapower.create_bus(
+        net,
+        vn_kv=20.0,
+        name="Supplied Bus",
+    )
+
+    isolated_bus_1 = pandapower.create_bus(
+        net,
+        vn_kv=20.0,
+        name="Isolated Bus 1",
+    )
+
+    isolated_bus_2 = pandapower.create_bus(
+        net,
+        vn_kv=20.0,
+        name="Isolated Bus 2",
+    )
 
     pandapower.create_ext_grid(net, bus=supplied_bus, vm_pu=1.0)
 
@@ -175,7 +267,86 @@ def test_detects_isolated_area() -> None:
     result = PandapowerPlausibilityChecker().check(net)
 
     assert result.isolated_areas
-    assert result.isolated_areas[0] == [isolated_bus_1, isolated_bus_2]
+    assert result.isolated_areas[0] == [
+        {
+            "component": "bus",
+            "name": "Isolated Bus 1",
+            "index": isolated_bus_1,
+        },
+        {
+            "component": "bus",
+            "name": "Isolated Bus 2",
+            "index": isolated_bus_2,
+        },
+    ]
+
+
+def test_detects_multiple_isolated_areas() -> None:
+    net = pandapower.create_empty_network()
+
+    supplied_bus = pandapower.create_bus(
+        net,
+        vn_kv=20.0,
+        name="Supplied Bus",
+    )
+
+    island_1_bus_1 = pandapower.create_bus(
+        net,
+        vn_kv=20.0,
+        name="Isolated Area 1 Bus 1",
+    )
+
+    island_1_bus_2 = pandapower.create_bus(
+        net,
+        vn_kv=20.0,
+        name="Isolated Area 1 Bus 2",
+    )
+
+    island_2_bus = pandapower.create_bus(
+        net,
+        vn_kv=20.0,
+        name="Isolated Area 2 Bus",
+    )
+
+    pandapower.create_ext_grid(net, bus=supplied_bus, vm_pu=1.0)
+
+    pandapower.create_line_from_parameters(
+        net,
+        from_bus=island_1_bus_1,
+        to_bus=island_1_bus_2,
+        length_km=1.0,
+        r_ohm_per_km=0.1,
+        x_ohm_per_km=0.1,
+        c_nf_per_km=0.0,
+        max_i_ka=1.0,
+    )
+
+    result = PandapowerPlausibilityChecker().check(net)
+
+    assert len(result.isolated_areas) == 2
+
+    assert result.isolated_areas == [
+        [
+            {
+                "component": "bus",
+                "name": "Isolated Area 1 Bus 1",
+                "index": island_1_bus_1,
+            },
+            {
+                "component": "bus",
+                "name": "Isolated Area 1 Bus 2",
+                "index": island_1_bus_2,
+            },
+        ],
+        [
+            {
+                "component": "bus",
+                "name": "Isolated Area 2 Bus",
+                "index": island_2_bus,
+            },
+        ],
+    ]
+
 
 def test_successful_summary() -> None:
     net = pandapower.create_empty_network()
@@ -184,6 +355,7 @@ def test_successful_summary() -> None:
     bus_2 = pandapower.create_bus(net, vn_kv=20.0)
 
     pandapower.create_ext_grid(net, bus=bus_1, vm_pu=1.0)
+
     pandapower.create_line_from_parameters(
         net,
         from_bus=bus_1,
@@ -194,7 +366,13 @@ def test_successful_summary() -> None:
         c_nf_per_km=0.0,
         max_i_ka=1.0,
     )
-    pandapower.create_load(net, bus=bus_2, p_mw=0.1, q_mvar=0.05)
+
+    pandapower.create_load(
+        net,
+        bus=bus_2,
+        p_mw=0.1,
+        q_mvar=0.05,
+    )
 
     result = PandapowerPlausibilityChecker().check(net)
 
@@ -203,6 +381,7 @@ def test_successful_summary() -> None:
         "Plausibility check successful. No issues detected."
     )
 
+
 def test_summary_reports_issue_counts() -> None:
     net = pandapower.create_empty_network()
 
@@ -210,6 +389,7 @@ def test_summary_reports_issue_counts() -> None:
     bus_2 = pandapower.create_bus(net, vn_kv=20.0)
 
     pandapower.create_ext_grid(net, bus=bus_1, vm_pu=1.0)
+
     pandapower.create_line_from_parameters(
         net,
         from_bus=bus_1,
@@ -220,7 +400,13 @@ def test_summary_reports_issue_counts() -> None:
         c_nf_per_km=0.0,
         max_i_ka=0.01,
     )
-    pandapower.create_load(net, bus=bus_2, p_mw=1.0, q_mvar=0.2)
+
+    pandapower.create_load(
+        net,
+        bus=bus_2,
+        p_mw=1.0,
+        q_mvar=0.2,
+    )
 
     result = PandapowerPlausibilityChecker().check(net)
     summary = result.summary()
@@ -228,67 +414,6 @@ def test_summary_reports_issue_counts() -> None:
     assert "Overloaded lines: 1" in summary
     assert not result.successful
 
-def test_detects_multiple_isolated_areas() -> None:
-    net = pandapower.create_empty_network()
-
-    supplied_bus = pandapower.create_bus(net, vn_kv=20.0)
-    island_1_bus_1 = pandapower.create_bus(net, vn_kv=20.0)
-    island_1_bus_2 = pandapower.create_bus(net, vn_kv=20.0)
-    island_2_bus = pandapower.create_bus(net, vn_kv=20.0)
-
-    pandapower.create_ext_grid(net, bus=supplied_bus, vm_pu=1.0)
-
-    pandapower.create_line_from_parameters(
-        net,
-        from_bus=island_1_bus_1,
-        to_bus=island_1_bus_2,
-        length_km=1.0,
-        r_ohm_per_km=0.1,
-        x_ohm_per_km=0.1,
-        c_nf_per_km=0.0,
-        max_i_ka=1.0,
-    )
-
-    result = PandapowerPlausibilityChecker().check(net)
-
-    assert len(result.isolated_areas) == 2
-    assert sorted(result.isolated_areas) == sorted(
-        [
-            [island_1_bus_1, island_1_bus_2],
-            [island_2_bus],
-        ]
-    )
-
-def test_detects_multiple_isolated_areas() -> None:
-    net = pandapower.create_empty_network()
-
-    supplied_bus = pandapower.create_bus(net, vn_kv=20.0)
-    island_1_bus_1 = pandapower.create_bus(net, vn_kv=20.0)
-    island_1_bus_2 = pandapower.create_bus(net, vn_kv=20.0)
-    island_2_bus = pandapower.create_bus(net, vn_kv=20.0)
-
-    pandapower.create_ext_grid(net, bus=supplied_bus, vm_pu=1.0)
-
-    pandapower.create_line_from_parameters(
-        net,
-        from_bus=island_1_bus_1,
-        to_bus=island_1_bus_2,
-        length_km=1.0,
-        r_ohm_per_km=0.1,
-        x_ohm_per_km=0.1,
-        c_nf_per_km=0.0,
-        max_i_ka=1.0,
-    )
-
-    result = PandapowerPlausibilityChecker().check(net)
-
-    assert len(result.isolated_areas) == 2
-    assert sorted(result.isolated_areas) == sorted(
-        [
-            [island_1_bus_1, island_1_bus_2],
-            [island_2_bus],
-        ]
-    )
 
 def test_bus_geodata_is_exported() -> None:
     net = pandapower.create_empty_network()
@@ -299,25 +424,33 @@ def test_bus_geodata_is_exported() -> None:
         geodata=(1.0, 2.0),
     )
 
-    assert net.bus.at[bus_index, "geo"] is not None
+    assert bus_index in net.bus_geodata.index
+    assert net.bus_geodata.at[bus_index, "x"] == 1.0
+    assert net.bus_geodata.at[bus_index, "y"] == 2.0
+
 
 def test_plots_isolated_areas(tmp_path) -> None:
     net = pandapower.create_empty_network()
 
     supplied_bus = pandapower.create_bus(
         net,
-        vn_kv=20.0,
+        vn_kv=110.0,
         geodata=(0.0, 0.0),
+        name="Supplied Bus",
     )
-    isolated_bus_1 = pandapower.create_bus(
+
+    isolated_hv_bus = pandapower.create_bus(
         net,
-        vn_kv=20.0,
+        vn_kv=110.0,
         geodata=(1.0, 1.0),
+        name="Isolated HV Bus",
     )
-    isolated_bus_2 = pandapower.create_bus(
+
+    isolated_lv_bus = pandapower.create_bus(
         net,
         vn_kv=20.0,
         geodata=(2.0, 1.0),
+        name="Isolated LV Bus",
     )
 
     pandapower.create_ext_grid(
@@ -326,26 +459,37 @@ def test_plots_isolated_areas(tmp_path) -> None:
         vm_pu=1.0,
     )
 
-    pandapower.create_line_from_parameters(
+    pandapower.create_transformer_from_parameters(
         net,
-        from_bus=isolated_bus_1,
-        to_bus=isolated_bus_2,
-        length_km=1.0,
-        r_ohm_per_km=0.1,
-        x_ohm_per_km=0.1,
-        c_nf_per_km=0.0,
-        max_i_ka=1.0,
+        hv_bus=isolated_hv_bus,
+        lv_bus=isolated_lv_bus,
+        sn_mva=1.0,
+        vn_hv_kv=110.0,
+        vn_lv_kv=20.0,
+        vk_percent=10.0,
+        vkr_percent=0.5,
+        pfe_kw=0.0,
+        i0_percent=0.0,
+        name="Isolated Transformer",
+    )
+
+    pandapower.create_gen(
+        net,
+        bus=isolated_lv_bus,
+        p_mw=0.1,
+        vm_pu=1.0,
+        name="Isolated Generator",
     )
 
     checker = PandapowerPlausibilityChecker()
     result = checker.check(net)
 
-    output_file = tmp_path / "isolated_areas.png"
+    output_file = Path("tests/out/isolated_areas.png")
 
     checker.plot_isolated_areas(
         net,
         result,
-        str(output_file),
+        output_file,
     )
 
     assert output_file.exists()
