@@ -14,13 +14,11 @@ class PandapowerPlausibilityChecker(
 ):
     """Run plausibility checks on a pandapower network."""
 
-    def check(
-        self,
-        model: pandapower.pandapowerNet,
-    ) -> PlausibilityResult:
-        net = model
-        result = PlausibilityResult()
-
+    @staticmethod
+    def _get_isolated_components(
+        net: pandapower.pandapowerNet,
+    ) -> list[list[int]]:
+        """Return isolated network areas as pandapower bus indices."""
         isolated_buses = set(
             unsupplied_buses(
                 net,
@@ -28,27 +26,44 @@ class PandapowerPlausibilityChecker(
             )
         )
 
-        if isolated_buses:
-            graph = create_nxgraph(
-                net,
-                respect_switches=True,
+        if not isolated_buses:
+            return []
+
+        graph = create_nxgraph(
+            net,
+            respect_switches=True,
+        )
+
+        isolated_graph = graph.subgraph(isolated_buses)
+
+        return [
+            sorted(int(bus) for bus in component)
+            for component in networkx.connected_components(
+                isolated_graph
             )
+        ]
 
-            isolated_graph = graph.subgraph(isolated_buses)
+    def check(
+        self,
+        model: pandapower.pandapowerNet,
+    ) -> PlausibilityResult:
+        net = model
+        result = PlausibilityResult()
 
-            result.isolated_areas = [
-                [
-                    {
-                        "component": "bus",
-                        "name": str(net.bus.at[int(bus), "name"]),
-                        "index": int(bus),
-                    }
-                    for bus in sorted(component)
-                ]
-                for component in networkx.connected_components(
-                    isolated_graph
-                )
+        # Keep pandapower indices internal and only expose
+        # component type and object name in the result.
+        isolated_components = self._get_isolated_components(net)
+
+        result.isolated_areas = [
+            [
+                {
+                    "component": "bus",
+                    "name": str(net.bus.at[bus, "name"]),
+                }
+                for bus in component
             ]
+            for component in isolated_components
+        ]
 
         try:
             pandapower.runpp(net)
@@ -60,6 +75,7 @@ class PandapowerPlausibilityChecker(
         if not result.converged:
             return result
 
+        # Bus voltage plausibility checks
         for bus_index, row in net.res_bus.iterrows():
             vm_pu = float(row["vm_pu"])
             bus_name = str(net.bus.at[bus_index, "name"])
@@ -81,9 +97,12 @@ class PandapowerPlausibilityChecker(
                     }
                 )
 
+        # Generator voltage plausibility checks
         for generator_index, row in net.res_gen.iterrows():
             vm_pu = float(row["vm_pu"])
-            generator_name = str(net.gen.at[generator_index, "name"])
+            generator_name = str(
+                net.gen.at[generator_index, "name"]
+            )
 
             if vm_pu < 0.8 or vm_pu > 1.2:
                 result.generator_hard_voltage_violations.append(
@@ -102,6 +121,7 @@ class PandapowerPlausibilityChecker(
                     }
                 )
 
+        # Line loading plausibility checks
         for line_index, row in net.res_line.iterrows():
             loading_percent = float(row["loading_percent"])
             line_name = str(net.line.at[line_index, "name"])
@@ -115,6 +135,7 @@ class PandapowerPlausibilityChecker(
                     }
                 )
 
+        # Transformer loading plausibility checks
         for transformer_index, row in net.res_trafo.iterrows():
             loading_percent = float(row["loading_percent"])
             transformer_name = str(
@@ -143,6 +164,10 @@ class PandapowerPlausibilityChecker(
         if not result.isolated_areas:
             return
 
+        # Recompute the pandapower bus indices internally.
+        # These indices are not written to the plausibility result.
+        isolated_components = self._get_isolated_components(net)
+
         max_labels = 20
 
         fig, ax = plt.subplots()
@@ -162,16 +187,25 @@ class PandapowerPlausibilityChecker(
         x_margin = max((max_x - min_x) * 0.15, 0.05)
         y_margin = max((max_y - min_y) * 0.2, 0.05)
 
-        ax.set_xlim(min_x - x_margin, max_x + x_margin)
-        ax.set_ylim(min_y - y_margin, max_y + y_margin)
+        ax.set_xlim(
+            min_x - x_margin,
+            max_x + x_margin,
+        )
+        ax.set_ylim(
+            min_y - y_margin,
+            max_y + y_margin,
+        )
 
         y_midpoint = (min_y + max_y) / 2
 
-        for area_number, area in enumerate(
-            result.isolated_areas,
+        for area_number, (area, component) in enumerate(
+            zip(
+                result.isolated_areas,
+                isolated_components,
+            ),
             start=1,
         ):
-            area_bus_indices = {bus["index"] for bus in area}
+            area_bus_indices = set(component)
 
             x_values = []
             y_values = []
@@ -193,10 +227,18 @@ class PandapowerPlausibilityChecker(
                 ):
                     continue
 
-                from_x = float(net.bus_geodata.at[from_bus, "x"])
-                from_y = float(net.bus_geodata.at[from_bus, "y"])
-                to_x = float(net.bus_geodata.at[to_bus, "x"])
-                to_y = float(net.bus_geodata.at[to_bus, "y"])
+                from_x = float(
+                    net.bus_geodata.at[from_bus, "x"]
+                )
+                from_y = float(
+                    net.bus_geodata.at[from_bus, "y"]
+                )
+                to_x = float(
+                    net.bus_geodata.at[to_bus, "x"]
+                )
+                to_y = float(
+                    net.bus_geodata.at[to_bus, "y"]
+                )
 
                 ax.plot(
                     [from_x, to_x],
@@ -205,7 +247,8 @@ class PandapowerPlausibilityChecker(
 
             generator_labels = []
 
-            for generator_index, generator in net.gen.iterrows():
+            # Collect generator labels
+            for _, generator in net.gen.iterrows():
                 generator_bus = int(generator["bus"])
 
                 if generator_bus not in area_bus_indices:
@@ -214,8 +257,12 @@ class PandapowerPlausibilityChecker(
                 if generator_bus not in net.bus_geodata.index:
                     continue
 
-                x_value = float(net.bus_geodata.at[generator_bus, "x"])
-                y_value = float(net.bus_geodata.at[generator_bus, "y"])
+                x_value = float(
+                    net.bus_geodata.at[generator_bus, "x"]
+                )
+                y_value = float(
+                    net.bus_geodata.at[generator_bus, "y"]
+                )
 
                 generator_labels.append(
                     (
@@ -227,7 +274,8 @@ class PandapowerPlausibilityChecker(
 
             transformer_labels = []
 
-            for transformer_index, transformer in net.trafo.iterrows():
+            # Draw transformers and collect transformer labels
+            for _, transformer in net.trafo.iterrows():
                 hv_bus = int(transformer["hv_bus"])
                 lv_bus = int(transformer["lv_bus"])
 
@@ -243,10 +291,18 @@ class PandapowerPlausibilityChecker(
                 ):
                     continue
 
-                hv_x = float(net.bus_geodata.at[hv_bus, "x"])
-                hv_y = float(net.bus_geodata.at[hv_bus, "y"])
-                lv_x = float(net.bus_geodata.at[lv_bus, "x"])
-                lv_y = float(net.bus_geodata.at[lv_bus, "y"])
+                hv_x = float(
+                    net.bus_geodata.at[hv_bus, "x"]
+                )
+                hv_y = float(
+                    net.bus_geodata.at[hv_bus, "y"]
+                )
+                lv_x = float(
+                    net.bus_geodata.at[lv_bus, "x"]
+                )
+                lv_y = float(
+                    net.bus_geodata.at[lv_bus, "y"]
+                )
 
                 ax.plot(
                     [hv_x, lv_x],
@@ -267,17 +323,30 @@ class PandapowerPlausibilityChecker(
                 + len(transformer_labels)
             )
 
-            has_priority_labels = bool(generator_labels or transformer_labels)
-            show_bus_labels = not has_priority_labels and total_labels <= max_labels
+            has_priority_labels = bool(
+                generator_labels
+                or transformer_labels
+            )
 
-            for bus in area:
-                bus_index = bus["index"]
+            show_bus_labels = (
+                not has_priority_labels
+                and total_labels <= max_labels
+            )
 
+            # Draw buses
+            for bus, bus_index in zip(
+                area,
+                component,
+            ):
                 if bus_index not in net.bus_geodata.index:
                     continue
 
-                x_value = float(net.bus_geodata.at[bus_index, "x"])
-                y_value = float(net.bus_geodata.at[bus_index, "y"])
+                x_value = float(
+                    net.bus_geodata.at[bus_index, "x"]
+                )
+                y_value = float(
+                    net.bus_geodata.at[bus_index, "y"]
+                )
 
                 x_values.append(x_value)
                 y_values.append(y_value)
@@ -301,7 +370,11 @@ class PandapowerPlausibilityChecker(
                 )
 
             # Transformers and generators have label priority
-            for x_value, y_value, label in transformer_labels:
+            for (
+                x_value,
+                y_value,
+                label,
+            ) in transformer_labels:
                 ax.annotate(
                     label,
                     (x_value, y_value),
@@ -311,7 +384,11 @@ class PandapowerPlausibilityChecker(
                     va="bottom",
                 )
 
-            for x_value, y_value, label in generator_labels:
+            for (
+                x_value,
+                y_value,
+                label,
+            ) in generator_labels:
                 ax.annotate(
                     label,
                     (x_value, y_value),
@@ -319,20 +396,26 @@ class PandapowerPlausibilityChecker(
                     textcoords="offset points",
                     ha="left",
                     va="top",
-                )               
+                )
 
             if x_values:
                 ax.scatter(
-                x_values,
-                y_values,
-                label=f"Isolated area {area_number}",
-                zorder=3,
+                    x_values,
+                    y_values,
+                    label=f"Isolated area {area_number}",
+                    zorder=3,
                 )
 
-        ax.set_title("Isolated network areas", pad=12)
+        ax.set_title(
+            "Isolated network areas",
+            pad=12,
+        )
         ax.set_xlabel("X coordinate")
         ax.set_ylabel("Y coordinate")
-        ax.set_aspect("equal", adjustable="box")
+        ax.set_aspect(
+            "equal",
+            adjustable="box",
+        )
 
         if ax.has_data():
             ax.legend()

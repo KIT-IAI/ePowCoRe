@@ -271,12 +271,10 @@ def test_detects_isolated_area() -> None:
         {
             "component": "bus",
             "name": "Isolated Bus 1",
-            "index": isolated_bus_1,
         },
         {
             "component": "bus",
             "name": "Isolated Bus 2",
-            "index": isolated_bus_2,
         },
     ]
 
@@ -330,19 +328,16 @@ def test_detects_multiple_isolated_areas() -> None:
             {
                 "component": "bus",
                 "name": "Isolated Area 1 Bus 1",
-                "index": island_1_bus_1,
             },
             {
                 "component": "bus",
                 "name": "Isolated Area 1 Bus 2",
-                "index": island_1_bus_2,
             },
         ],
         [
             {
                 "component": "bus",
                 "name": "Isolated Area 2 Bus",
-                "index": island_2_bus,
             },
         ],
     ]
