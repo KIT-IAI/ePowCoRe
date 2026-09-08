@@ -87,4 +87,16 @@ Transformers
    "2-winding",    "", "", "", "", "|:heavy_check_mark:|", "|:heavy_check_mark:|"
 
 
+Coordinate convention
 
+The coords attribute of a GDF component stores geographic coordinates as:
+
+(latitude, longitude)
+
+For components with multiple coordinate points, the same ordering is used for each coordinate pair:
+
+[(latitude, longitude), (latitude, longitude), ...]
+
+When exporting GDF coordinates to formats that use (longitude, latitude) ordering, such as GeoJSON, the coordinate order is converted accordingly.
+
+The coordinate reference system used by GDF coordinates should be treated consistently across converters. Converters that do not currently provide coordinate information leave coords unset.
