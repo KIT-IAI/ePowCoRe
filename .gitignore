@@ -24,7 +24,7 @@ subsystem_test_model.slx
 slprj
 
 virtualenv/
-venv/
+
 *.drawio.bkp
 *.drawio.dtmp
 
