@@ -8,6 +8,15 @@ from pandapower.topology import create_nxgraph, unsupplied_buses
 from epowcore.plausibility.checker import PlausibilityChecker
 from epowcore.plausibility.plausibility_result import PlausibilityResult
 
+try:
+    import contextily as ctx
+    import geopandas as gpd
+    from shapely.geometry import Point
+except ImportError:
+    ctx = None
+    gpd = None
+    Point = None
+
 
 class PandapowerPlausibilityChecker(
     PlausibilityChecker[pandapower.pandapowerNet]
@@ -18,7 +27,6 @@ class PandapowerPlausibilityChecker(
     def _get_isolated_components(
         net: pandapower.pandapowerNet,
     ) -> list[list[int]]:
-        """Return isolated network areas as pandapower bus indices."""
         isolated_buses = set(
             unsupplied_buses(
                 net,
@@ -43,6 +51,38 @@ class PandapowerPlausibilityChecker(
             )
         ]
 
+    # STEP 4A: ADD THIS HERE
+    def _has_bus_geodata(
+        self,
+        net: pandapower.pandapowerNet,
+    ) -> bool:
+        return (
+            hasattr(net, "bus_geodata")
+            and not net.bus_geodata.empty
+            and "x" in net.bus_geodata.columns
+            and "y" in net.bus_geodata.columns
+        )
+
+    # STEP 4B: ADD THIS DIRECTLY BELOW
+    def _looks_like_lon_lat(
+        self,
+        net: pandapower.pandapowerNet,
+    ) -> bool:
+        if not self._has_bus_geodata(net):
+            return False
+
+        all_x = net.bus_geodata["x"].dropna().astype(float)
+        all_y = net.bus_geodata["y"].dropna().astype(float)
+
+        if all_x.empty or all_y.empty:
+            return False
+
+        return (
+            all_x.between(-180, 180).all()
+            and all_y.between(-90, 90).all()
+        )
+
+    # KEEP YOUR EXISTING CHECK METHOD HERE
     def check(
         self,
         model: pandapower.pandapowerNet,
@@ -50,8 +90,6 @@ class PandapowerPlausibilityChecker(
         net = model
         result = PlausibilityResult()
 
-        # Keep pandapower indices internal and only expose
-        # component type and object name in the result.
         isolated_components = self._get_isolated_components(net)
 
         result.isolated_areas = [
@@ -75,7 +113,7 @@ class PandapowerPlausibilityChecker(
         if not result.converged:
             return result
 
-        # Bus voltage plausibility checks
+        # Bus voltage checks
         for bus_index, row in net.res_bus.iterrows():
             vm_pu = float(row["vm_pu"])
             bus_name = str(net.bus.at[bus_index, "name"])
@@ -97,7 +135,7 @@ class PandapowerPlausibilityChecker(
                     }
                 )
 
-        # Generator voltage plausibility checks
+        # Generator voltage checks
         for generator_index, row in net.res_gen.iterrows():
             vm_pu = float(row["vm_pu"])
             generator_name = str(
@@ -121,7 +159,7 @@ class PandapowerPlausibilityChecker(
                     }
                 )
 
-        # Line loading plausibility checks
+        # Line loading checks
         for line_index, row in net.res_line.iterrows():
             loading_percent = float(row["loading_percent"])
             line_name = str(net.line.at[line_index, "name"])
@@ -135,7 +173,7 @@ class PandapowerPlausibilityChecker(
                     }
                 )
 
-        # Transformer loading plausibility checks
+        # Transformer loading checks
         for transformer_index, row in net.res_trafo.iterrows():
             loading_percent = float(row["loading_percent"])
             transformer_name = str(
@@ -153,6 +191,7 @@ class PandapowerPlausibilityChecker(
 
         return result
 
+    # STEP 5: REPLACE YOUR OLD plot_isolated_areas() WITH THIS
     def plot_isolated_areas(
         self,
         model: pandapower.pandapowerNet,
@@ -164,53 +203,107 @@ class PandapowerPlausibilityChecker(
         if not result.isolated_areas:
             return
 
-        # Recompute the pandapower bus indices internally.
-        # These indices are not written to the plausibility result.
+        fig, ax = plt.subplots(figsize=(10, 8))
+
+        has_geodata = self._has_bus_geodata(net)
+        use_osm = (
+            has_geodata
+            and self._looks_like_lon_lat(net)
+            and ctx is not None
+            and gpd is not None
+            and Point is not None
+        )
+
+        all_x = []
+        all_y = []
+
+        if has_geodata:
+            all_x = net.bus_geodata["x"].dropna().astype(float)
+            all_y = net.bus_geodata["y"].dropna().astype(float)
+
+        if use_osm:
+            points = []
+
+            for bus_index in net.bus_geodata.index:
+                x_value = float(net.bus_geodata.at[bus_index, "x"])
+                y_value = float(net.bus_geodata.at[bus_index, "y"])
+
+                points.append(
+                    Point(
+                        x_value,
+                        y_value,
+                    )
+                )
+
+            gdf = gpd.GeoDataFrame(
+                {
+                    "bus_index": list(net.bus_geodata.index),
+                },
+                geometry=points,
+                crs="EPSG:4326",
+            ).to_crs(epsg=3857)
+
+            min_x, min_y, max_x, max_y = gdf.total_bounds
+
+            x_margin = max(
+                (max_x - min_x) * 0.05,
+                100.0,
+            )
+            y_margin = max(
+                (max_y - min_y) * 0.05,
+                100.0,
+            )
+
+            ax.set_xlim(
+                min_x - x_margin,
+                max_x + x_margin,
+            )
+            ax.set_ylim(
+                min_y - y_margin,
+                max_y + y_margin,
+            )
+
+            ctx.add_basemap(
+                ax,
+                source=ctx.providers.CartoDB.Positron,
+            )
+
+        elif has_geodata and len(all_x) > 0 and len(all_y) > 0:
+            min_x = all_x.min()
+            max_x = all_x.max()
+            min_y = all_y.min()
+            max_y = all_y.max()
+
+            x_margin = max(
+                (max_x - min_x) * 0.05,
+                0.01,
+            )
+            y_margin = max(
+                (max_y - min_y) * 0.05,
+                0.01,
+            )
+
+            ax.set_xlim(
+                min_x - x_margin,
+                max_x + x_margin,
+            )
+            ax.set_ylim(
+                min_y - y_margin,
+                max_y + y_margin,
+            )
+
         isolated_components = self._get_isolated_components(net)
 
-        max_labels = 20
-
-        fig, ax = plt.subplots()
-
-        all_x = net.bus_geodata["x"].dropna().astype(float)
-        all_y = net.bus_geodata["y"].dropna().astype(float)
-
-        if all_x.empty or all_y.empty:
-            plt.close(fig)
-            return
-
-        min_x = all_x.min()
-        max_x = all_x.max()
-        min_y = all_y.min()
-        max_y = all_y.max()
-
-        x_margin = max((max_x - min_x) * 0.15, 0.05)
-        y_margin = max((max_y - min_y) * 0.2, 0.05)
-
-        ax.set_xlim(
-            min_x - x_margin,
-            max_x + x_margin,
-        )
-        ax.set_ylim(
-            min_y - y_margin,
-            max_y + y_margin,
-        )
-
-        y_midpoint = (min_y + max_y) / 2
-
-        for area_number, (area, component) in enumerate(
-            zip(
-                result.isolated_areas,
-                isolated_components,
-            ),
+        for area_number, component in enumerate(
+            isolated_components,
             start=1,
         ):
             area_bus_indices = set(component)
 
-            x_values = []
-            y_values = []
+            bus_x_values = []
+            bus_y_values = []
 
-            # Draw lines inside the isolated area
+            # LINES
             for _, line in net.line.iterrows():
                 from_bus = int(line["from_bus"])
                 to_bus = int(line["to_bus"])
@@ -240,41 +333,36 @@ class PandapowerPlausibilityChecker(
                     net.bus_geodata.at[to_bus, "y"]
                 )
 
-                ax.plot(
-                    [from_x, to_x],
-                    [from_y, to_y],
-                )
+                if use_osm:
+                    line_points = gpd.GeoSeries(
+                        [
+                            Point(from_x, from_y),
+                            Point(to_x, to_y),
+                        ],
+                        crs="EPSG:4326",
+                    ).to_crs(epsg=3857)
 
-            generator_labels = []
-
-            # Collect generator labels
-            for _, generator in net.gen.iterrows():
-                generator_bus = int(generator["bus"])
-
-                if generator_bus not in area_bus_indices:
-                    continue
-
-                if generator_bus not in net.bus_geodata.index:
-                    continue
-
-                x_value = float(
-                    net.bus_geodata.at[generator_bus, "x"]
-                )
-                y_value = float(
-                    net.bus_geodata.at[generator_bus, "y"]
-                )
-
-                generator_labels.append(
-                    (
-                        x_value,
-                        y_value,
-                        f'gen: {generator["name"]}',
+                    ax.plot(
+                        [
+                            line_points.iloc[0].x,
+                            line_points.iloc[1].x,
+                        ],
+                        [
+                            line_points.iloc[0].y,
+                            line_points.iloc[1].y,
+                        ],
+                        zorder=2,
                     )
-                )
+                else:
+                    ax.plot(
+                        [from_x, to_x],
+                        [from_y, to_y],
+                        zorder=2,
+                    )
 
-            transformer_labels = []
+            transformer_points = []
 
-            # Draw transformers and collect transformer labels
+            # TRANSFORMERS
             for _, transformer in net.trafo.iterrows():
                 hv_bus = int(transformer["hv_bus"])
                 lv_bus = int(transformer["lv_bus"])
@@ -304,40 +392,78 @@ class PandapowerPlausibilityChecker(
                     net.bus_geodata.at[lv_bus, "y"]
                 )
 
+                if use_osm:
+                    trafo_points_geo = gpd.GeoSeries(
+                        [
+                            Point(hv_x, hv_y),
+                            Point(lv_x, lv_y),
+                        ],
+                        crs="EPSG:4326",
+                    ).to_crs(epsg=3857)
+
+                    hv_plot_x = trafo_points_geo.iloc[0].x
+                    hv_plot_y = trafo_points_geo.iloc[0].y
+                    lv_plot_x = trafo_points_geo.iloc[1].x
+                    lv_plot_y = trafo_points_geo.iloc[1].y
+                else:
+                    hv_plot_x = hv_x
+                    hv_plot_y = hv_y
+                    lv_plot_x = lv_x
+                    lv_plot_y = lv_y
+
                 ax.plot(
-                    [hv_x, lv_x],
-                    [hv_y, lv_y],
+                    [hv_plot_x, lv_plot_x],
+                    [hv_plot_y, lv_plot_y],
+                    zorder=2,
                 )
 
-                transformer_labels.append(
+                transformer_points.append(
                     (
-                        (hv_x + lv_x) / 2,
-                        (hv_y + lv_y) / 2,
-                        f'trafo: {transformer["name"]}',
+                        (hv_plot_x + lv_plot_x) / 2,
+                        (hv_plot_y + lv_plot_y) / 2,
                     )
                 )
 
-            total_labels = (
-                len(area)
-                + len(generator_labels)
-                + len(transformer_labels)
-            )
+            generator_points = []
 
-            has_priority_labels = bool(
-                generator_labels
-                or transformer_labels
-            )
+            # GENERATORS
+            for _, generator in net.gen.iterrows():
+                generator_bus = int(generator["bus"])
 
-            show_bus_labels = (
-                not has_priority_labels
-                and total_labels <= max_labels
-            )
+                if generator_bus not in area_bus_indices:
+                    continue
 
-            # Draw buses
-            for bus, bus_index in zip(
-                area,
-                component,
-            ):
+                if generator_bus not in net.bus_geodata.index:
+                    continue
+
+                gen_x = float(
+                    net.bus_geodata.at[generator_bus, "x"]
+                )
+                gen_y = float(
+                    net.bus_geodata.at[generator_bus, "y"]
+                )
+
+                if use_osm:
+                    gen_point = gpd.GeoSeries(
+                        [Point(gen_x, gen_y)],
+                        crs="EPSG:4326",
+                    ).to_crs(epsg=3857)
+
+                    plot_x = gen_point.iloc[0].x
+                    plot_y = gen_point.iloc[0].y
+                else:
+                    plot_x = gen_x
+                    plot_y = gen_y
+
+                generator_points.append(
+                    (
+                        plot_x,
+                        plot_y,
+                    )
+                )
+
+            # BUSES
+            for bus_index in component:
                 if bus_index not in net.bus_geodata.index:
                     continue
 
@@ -348,81 +474,88 @@ class PandapowerPlausibilityChecker(
                     net.bus_geodata.at[bus_index, "y"]
                 )
 
-                x_values.append(x_value)
-                y_values.append(y_value)
+                if use_osm:
+                    bus_point = gpd.GeoSeries(
+                        [Point(x_value, y_value)],
+                        crs="EPSG:4326",
+                    ).to_crs(epsg=3857)
 
-                if not show_bus_labels:
-                    continue
 
-                if y_value >= y_midpoint:
-                    offset = (5, -8)
-                    vertical_alignment = "top"
+                    plot_x = bus_point.iloc[0].x
+                    plot_y = bus_point.iloc[0].y
                 else:
-                    offset = (5, 8)
-                    vertical_alignment = "bottom"
+                    plot_x = x_value
+                    plot_y = y_value
 
-                ax.annotate(
-                    f'{bus["component"]}: {bus["name"]}',
-                    (x_value, y_value),
-                    xytext=offset,
-                    textcoords="offset points",
-                    va=vertical_alignment,
-                )
+                bus_x_values.append(plot_x)
+                bus_y_values.append(plot_y)
 
-            # Transformers and generators have label priority
-            for (
-                x_value,
-                y_value,
-                label,
-            ) in transformer_labels:
-                ax.annotate(
-                    label,
-                    (x_value, y_value),
-                    xytext=(0, 14),
-                    textcoords="offset points",
-                    ha="center",
-                    va="bottom",
-                )
-
-            for (
-                x_value,
-                y_value,
-                label,
-            ) in generator_labels:
-                ax.annotate(
-                    label,
-                    (x_value, y_value),
-                    xytext=(8, -14),
-                    textcoords="offset points",
-                    ha="left",
-                    va="top",
-                )
-
-            if x_values:
+            # bus = circle
+            if bus_x_values:
                 ax.scatter(
-                    x_values,
-                    y_values,
-                    label=f"Isolated area {area_number}",
+                    bus_x_values,
+                    bus_y_values,
+                    marker="o",
+                    s=50,
+                    label="Bus",
                     zorder=3,
+                )
+
+            # transformer = square
+            if transformer_points:
+                ax.scatter(
+                    [x for x, _ in transformer_points],
+                    [y for _, y in transformer_points],
+                    marker="s",
+                    s=90,
+                    label="Transformer",
+                    zorder=4,
+                )
+
+            # generator = star
+            if generator_points:
+                ax.scatter(
+                    [x for x, _ in generator_points],
+                    [y for _, y in generator_points],
+                    marker="*",
+                    s=160,
+                    label="Generator",
+                    zorder=5,
                 )
 
         ax.set_title(
             "Isolated network areas",
             pad=12,
         )
-        ax.set_xlabel("X coordinate")
-        ax.set_ylabel("Y coordinate")
-        ax.set_aspect(
+
+        if use_osm:
+            ax.set_axis_off()
+        else:
+            ax.set_xlabel("X coordinate")
+            ax.set_ylabel("Y coordinate")
+            ax.set_aspect(
             "equal",
             adjustable="box",
-        )
+            )
 
         if ax.has_data():
-            ax.legend()
+            handles, labels = ax.get_legend_handles_labels()
+
+            unique = {}
+            for handle, label in zip(handles, labels):
+                if label not in unique:
+                    unique[label] = handle
+
+            ax.legend(
+                unique.values(),
+                unique.keys(),
+            )
 
         fig.tight_layout()
+
         fig.savefig(
             filepath,
             bbox_inches="tight",
         )
+
         plt.close(fig)
