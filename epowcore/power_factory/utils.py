@@ -1,5 +1,11 @@
-import powerfactory as pf
+from __future__ import annotations
+
 from typing import Any
+
+try:
+    import powerfactory as pf
+except ImportError:
+    pf = None
 
 
 def get_coords(obj: Any) -> tuple[float, float] | list[tuple[float, float]] | None:
@@ -24,7 +30,7 @@ def get_coords(obj: Any) -> tuple[float, float] | list[tuple[float, float]] | No
 
     parent = obj.GetParent()
 
-    if parent is None or parent.GetClassName() != "ElmSite":
+    if parent is None or parent.GetClassName() not in ("ElmSite", "ElmSubstat"):
         return None
 
     if not (hasattr(parent, "GPSlat") and hasattr(parent, "GPSlon")):
