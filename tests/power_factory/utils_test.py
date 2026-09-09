@@ -48,7 +48,7 @@ def test_get_coords_inherits_coordinates_from_site() -> None:
 
 def test_get_coords_inherits_coordinates_from_substation() -> None:
     substation = FakePFObject(
-        class_name="ElmSubStat",
+        class_name="ElmSubstat",
         gps_lat=49.04,
         gps_lon=8.44,
     )
@@ -91,7 +91,7 @@ def test_get_coords_returns_none_if_site_has_default_coordinates() -> None:
 
 def test_get_coords_returns_none_if_substation_has_default_coordinates() -> None:
     substation = FakePFObject(
-        class_name="ElmSubStat",
+        class_name="ElmSubstat",
     )
 
     component = FakePFObject(
