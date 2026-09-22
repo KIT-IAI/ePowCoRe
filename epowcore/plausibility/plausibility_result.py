@@ -8,8 +8,10 @@ class PlausibilityResult:
     hard_voltage_violations: list[dict] = field(default_factory=list)
     overloaded_lines: list[dict] = field(default_factory=list)
     overloaded_transformers: list[dict] = field(default_factory=list)
-    isolated_areas: list[list[int]] = field(default_factory=list)
+    isolated_areas: list[list[dict]] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    generator_soft_voltage_violations: list[dict] = field(default_factory=list)
+    generator_hard_voltage_violations: list[dict] = field(default_factory=list)
 
     @property
     def successful(self) -> bool:
@@ -21,6 +23,8 @@ class PlausibilityResult:
             and not self.overloaded_transformers
             and not self.isolated_areas
             and not self.errors
+            and not self.generator_soft_voltage_violations
+            and not self.generator_hard_voltage_violations
         )
 
     def summary(self) -> str:
@@ -35,6 +39,8 @@ class PlausibilityResult:
             f"Overloaded transformers: {len(self.overloaded_transformers)}",
             f"Isolated areas: {len(self.isolated_areas)}",
             f"Errors: {len(self.errors)}",
+            f"Generator soft voltage violations: {len(self.generator_soft_voltage_violations)}",
+            f"Generator hard voltage violations: {len(self.generator_hard_voltage_violations)}",
         ]
 
         return "\n".join(messages)

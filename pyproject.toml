@@ -19,6 +19,8 @@ dependencies = [
     "scipy",
     "pyyaml",
     "pandapower==2.14.11",
+    "geopandas",
+    "contextily",
 ]
 
 [dependency-groups]
