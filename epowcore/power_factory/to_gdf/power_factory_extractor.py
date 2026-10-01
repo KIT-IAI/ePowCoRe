@@ -94,13 +94,20 @@ class PowerFactoryExtractor:
 
             cases[0].Activate()
 
-        if use_load_flow:
+        if study_case_name is not None:
             loadflow = self.app.GetFromStudyCase("ComLdf")
             if loadflow is None:
                 raise ValueError(
                     f"No load flow command found for study case '{study_case_name}'."
                 )
-            loadflow.Execute()
+
+            loadflow_result = loadflow.Execute()
+
+            if loadflow_result != 0:
+                raise ValueError(
+                    f"Load flow for study case '{study_case_name}' failed "
+                    f"with error code {loadflow_result}."
+                )
 
     def get_core_model(self) -> CoreModel:
         """Starts the extraction of elements and returns them in the GenericCoreModel format"""

@@ -94,54 +94,40 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
     pf_power_plant.SetAttribute("typ_id", pf_standard_power_plant_type)
 
     pf_power_plant_pelm = []
-    pf_power_plant_pblk = []
 
-    pf_power_plant_pblk.append(
-        pf_standard_power_plant_type.GetContents("Sym Slot.BlkSlot", 1)[0]
-    )
     pf_power_plant_pelm.append(pf_gen)
 
     for exciter in exciters:
-        pf_power_plant_pblk.append(
-            pf_standard_power_plant_type.GetContents("Avr Slot.BlkSlot", 1)[0]
-        )
         pf_power_plant_pelm.append(
             create_exciter(self, exciter, pf_power_plant)
         )
 
     for governor in governors:
-        pf_power_plant_pblk.append(
-            pf_standard_power_plant_type.GetContents("Gov Slot.BlkSlot", 1)[0]
-        )
         pf_power_plant_pelm.append(
             create_governor(self, governor, pf_power_plant)
         )
 
     for pss in power_system_stabilizers:
-        pf_power_plant_pblk.append(
-            pf_standard_power_plant_type.GetContents("Pss Slot.BlkSlot", 1)[0]
-        )
         pf_power_plant_pelm.append(
             create_pss(self, pss, pf_power_plant)
         )
 
-    print("Power plant:", pf_power_plant.GetFullName())
-    print("pblk new:", pf_power_plant_pblk)
-    print("pelm new:", pf_power_plant_pelm)
+    current_pelm = pf_power_plant.GetAttribute("pelm")
 
-    frame_slots = pf_standard_power_plant_type.GetContents("*.BlkSlot", 1)
+    current_pelm[0] = pf_gen
 
-    print("FRAME SLOT COUNT:", len(frame_slots))
-    for index, slot in enumerate(frame_slots):
-        print(index, slot.loc_name, slot.GetFullName())
+    if exciters:
+        current_pelm[1] = pf_power_plant_pelm[1]
 
-    print("CURRENT PBLK:", pf_power_plant.GetAttribute("pblk"))
-    print("CURRENT PELM:", pf_power_plant.GetAttribute("pelm"))
-    print("NEW PBLK LENGTH:", len(pf_power_plant_pblk))
-    print("NEW PELM LENGTH:", len(pf_power_plant_pelm))
+    if governors:
+        governor_index = 1 + len(exciters)
+        current_pelm[2] = pf_power_plant_pelm[governor_index]
 
-    #pf_power_plant.SetAttribute("pblk", pf_power_plant_pblk)
-    pf_power_plant.SetAttribute("pelm", pf_power_plant_pelm)
+    if power_system_stabilizers:
+        pss_index = 1 + len(exciters) + len(governors)
+        current_pelm[3] = pf_power_plant_pelm[pss_index]
+
+    pf_power_plant.SetAttribute("pelm", current_pelm)
 
     # Set attributes for newly crated gen type
     pf_gen_type.SetAttribute("sgn", gen.rated_apparent_power)
