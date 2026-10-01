@@ -1,6 +1,7 @@
 *.egg-info
-.vscode/
-.vscode/settings.json
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 # Pycache
 __pycache__/
 */__pycache__/
