@@ -93,39 +93,37 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
 
     pf_power_plant.SetAttribute("typ_id", pf_standard_power_plant_type)
 
-    pf_power_plant_pelm = []
+    current_pblk = pf_power_plant.GetAttribute("pblk")
+    current_pelm = pf_power_plant.GetAttribute("pelm")
 
-    pf_power_plant_pelm.append(pf_gen)
+    def get_slot_index(extensions: list[str]) -> int:
+        for index, slot in enumerate(current_pblk):
+            filtmod = slot.GetAttribute("filtmod")
+
+            if any(extension in filtmod for extension in extensions):
+                return index
+
+        raise ValueError(
+            f"Could not find controller slot for {extensions} "
+            f"in frame '{pf_standard_power_plant_type.loc_name}'."
+        )
+
+    current_pelm[get_slot_index(["ElmSym"])] = pf_gen
 
     for exciter in exciters:
-        pf_power_plant_pelm.append(
-            create_exciter(self, exciter, pf_power_plant)
+        current_pelm[get_slot_index(["ElmAvr", "ElmVco"])] = create_exciter(
+            self, exciter, pf_power_plant
         )
 
     for governor in governors:
-        pf_power_plant_pelm.append(
-            create_governor(self, governor, pf_power_plant)
+        current_pelm[get_slot_index(["ElmGov", "ElmPcu"])] = create_governor(
+            self, governor, pf_power_plant
         )
 
     for pss in power_system_stabilizers:
-        pf_power_plant_pelm.append(
-            create_pss(self, pss, pf_power_plant)
+        current_pelm[get_slot_index(["ElmPss"])] = create_pss(
+            self, pss, pf_power_plant
         )
-
-    current_pelm = pf_power_plant.GetAttribute("pelm")
-
-    current_pelm[0] = pf_gen
-
-    if exciters:
-        current_pelm[1] = pf_power_plant_pelm[1]
-
-    if governors:
-        governor_index = 1 + len(exciters)
-        current_pelm[2] = pf_power_plant_pelm[governor_index]
-
-    if power_system_stabilizers:
-        pss_index = 1 + len(exciters) + len(governors)
-        current_pelm[3] = pf_power_plant_pelm[pss_index]
 
     pf_power_plant.SetAttribute("pelm", current_pelm)
 
