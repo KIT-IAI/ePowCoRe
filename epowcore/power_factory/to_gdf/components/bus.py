@@ -8,10 +8,15 @@ def create_bus(pf_bus: pf.DataObject, uid: int, use_station_name: bool = False) 
     """Create a bus from a PowerFactory bus object."""
 
     bus_name = pf_bus.loc_name if not use_station_name else pf_bus.cStatName
-    lf_bus_type = _PF_LF_BUS_TYPES[pf_bus.GetBusType()]
-    if lf_bus_type is None:
+    pf_lf_bus_type = pf_bus.GetBusType()
+
+    if pf_lf_bus_type == 0:
+        lf_bus_type = LFBusType.PQ
+    elif pf_lf_bus_type < len(_PF_LF_BUS_TYPES):
+        lf_bus_type = _PF_LF_BUS_TYPES[pf_lf_bus_type]
+    else:
         raise ValueError(
-            f"Bus {bus_name} has an unsupported load flow bus type: {pf_bus.GetBusType()}"
+            f"Bus {bus_name} has an unsupported load flow bus type: {pf_lf_bus_type}"
         )
 
     return Bus(

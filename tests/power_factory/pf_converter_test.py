@@ -15,10 +15,11 @@ class PFConverterTest(unittest.TestCase):
     def test_minimal_conversion_no_errors(self) -> None:
         """Test if the CoreModel extraction from the Minimal PF model throws errors."""
         converter = PowerFactoryConverter()
-        core_model = converter.to_gdf(PFModel("Minimal", "Base", 50.0))
+        core_model = converter.to_gdf(PFModel("Minimal"))
 
-        self.assertEqual(len(core_model.graph.nodes), 8)
-        self.assertEqual(len(core_model.graph.edges), 7)
+        self.assertEqual(core_model.base_frequency, 50.0)
+        self.assertEqual(len(core_model.graph.nodes), 10)
+        self.assertEqual(len(core_model.graph.edges), 9)
 
         two_winding_id = core_model.type_list(TwoWindingTransformer)[0].uid
 
@@ -53,6 +54,20 @@ class PFConverterTest(unittest.TestCase):
         self.assertFalse(result)
         exporter.pf_grid.CreateObject.assert_not_called()
 
+
+    def test_study_case_required_for_load_flow(self) -> None:
+        """Study case is required when load flow results are enabled."""
+        from unittest.mock import patch
+
+        with patch(
+            "epowcore.power_factory.to_gdf.power_factory_extractor.Configuration.get",
+            return_value=True,
+        ):
+            with self.assertRaisesRegex(
+                ValueError,
+                "A study case is required when PowerFactory.USE_LOAD_FLOW is enabled.",
+            ):
+                PowerFactoryConverter().to_gdf(PFModel("Minimal"))
 
 if __name__ == "__main__":
     unittest.main()

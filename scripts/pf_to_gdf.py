@@ -13,7 +13,7 @@ def main():
 
     start = time.perf_counter()
 
-    model = PFModel("GredlerAreal4_1", "Study Case", 50)
+    model = PFModel("GredlerAreal4_1", "Study Case")
     converter = PowerFactoryConverter()
     core_model = converter.to_gdf(model, log_path=str(PATH.parent / f"pf_{model_name}.log"))
 

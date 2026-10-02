@@ -208,7 +208,6 @@ class PowerFactoryExporter:
         export_model = PFModel(
             project_name=self.pf_project.GetAttribute("loc_name"),
             study_case_name=self.app.GetActiveStudyCase().GetAttribute("loc_name"),
-            frequency=self.pf_grid.GetAttribute("frnom"),
         )
         return export_model
 

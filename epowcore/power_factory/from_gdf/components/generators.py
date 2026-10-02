@@ -75,30 +75,57 @@ def create_synchronous_machine(self, gen: SynchronousMachine) -> bool:
     power_system_stabilizers = list(filter(lambda x: True if isinstance(x, PowerSystemStabilizer) else False, self.core_model.get_neighbors(component=gen) ))
 
     #lib = self.app.GetGlobalLibrary("BlkDef")
-    pf_standard_power_plant_type = self.pf_digsilent_library.SearchObject("Arch\\PF 2022 Models\\DynPsse\\Frm\\SYM Frame_no droop.BlkDef")
+    pf_standard_power_plant_type = next(
+        (
+            frame
+            for frame in self.pf_digsilent_library.GetContents("*.BlkDef", 1)
+            if frame.GetFullName().endswith(
+                r"\Arch\PF 2022 Models\DynPsse\Frm\SYM Frame_no droop.BlkDef"
+            )
+        ),
+        None,
+    )
+
+    if pf_standard_power_plant_type is None:
+        raise ValueError(
+            "Could not find SYM Frame_no droop frame in PowerFactory library."
+        )
+
     pf_power_plant.SetAttribute("typ_id", pf_standard_power_plant_type)
 
+    current_pblk = pf_power_plant.GetAttribute("pblk")
+    current_pelm = pf_power_plant.GetAttribute("pelm")
 
-    pf_power_plant_pelm = []
-    pf_power_plant_pblk = []
-    
-    pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Sym Slot.BlkSlot", 1)[0])
-    pf_power_plant_pelm.append(pf_gen)
+    def get_slot_index(extensions: list[str]) -> int:
+        for index, slot in enumerate(current_pblk):
+            filtmod = slot.GetAttribute("filtmod")
+
+            if any(extension in filtmod for extension in extensions):
+                return index
+
+        raise ValueError(
+            f"Could not find controller slot for {extensions} "
+            f"in frame '{pf_standard_power_plant_type.loc_name}'."
+        )
+
+    current_pelm[get_slot_index(["ElmSym"])] = pf_gen
 
     for exciter in exciters:
-        pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Avr Slot.BlkSlot", 1)[0])
-        pf_power_plant_pelm.append(create_exciter(self, exciter, pf_power_plant))
+        current_pelm[get_slot_index(["ElmAvr", "ElmVco"])] = create_exciter(
+            self, exciter, pf_power_plant
+        )
 
     for governor in governors:
-        pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Gov Slot.BlkSlot", 1)[0])
-        pf_power_plant_pelm.append(create_governor(self, governor, pf_power_plant))
+        current_pelm[get_slot_index(["ElmGov", "ElmPcu"])] = create_governor(
+            self, governor, pf_power_plant
+        )
 
     for pss in power_system_stabilizers:
-        pf_power_plant_pblk.append(self.pf_digsilent_library.GetContents("Pss Slot.BlkSlot", 1)[0])
-        pf_power_plant_pelm.append(create_pss(self, pss, pf_power_plant))
+        current_pelm[get_slot_index(["ElmPss"])] = create_pss(
+            self, pss, pf_power_plant
+        )
 
-    pf_power_plant.SetAttribute("pblk", pf_power_plant_pblk)
-    pf_power_plant.SetAttribute("pelm", pf_power_plant_pelm)
+    pf_power_plant.SetAttribute("pelm", current_pelm)
 
     # Set attributes for newly crated gen type
     pf_gen_type.SetAttribute("sgn", gen.rated_apparent_power)

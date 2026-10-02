@@ -12,7 +12,7 @@ PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def main() -> None:
-    model_name = "GredlerAreal4_1"
+    model_name = "14_Bus_System"
 
     start = time.perf_counter()
 
@@ -30,12 +30,17 @@ def main() -> None:
         cg = ComponentGraph(graph=core_model.graph)
         print("sanity: " + str(cg.sanity_check()))
 
+        print("before converter")
         converter = PowerFactoryConverter(debug=False)
+
+        print("before from_gdf")
         power_factory_model = converter.from_gdf(
             core_model,
             f"{model_name}_epowcore_conversion",
             log_path=str(PATH.parent / "power_factory.log"),
         )
+
+        print("after from_gdf")
         print(power_factory_model)
 
     print(f"conversion took {time.perf_counter() - start:.1f}s")
