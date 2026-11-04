@@ -13,6 +13,13 @@ from epowcore.generic.logger import Logger
 from epowcore.gdf.tline import TLine
 from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransformer
 from epowcore.gdf.switch import Switch
+from epowcore.gdf.shunt import Shunt
+from epowcore.gdf.transformers.three_winding_transformer import (
+    ThreeWindingTransformer,
+)
+from epowcore.gdf.transformers.transformer import WindingConfig
+from epowcore.gdf.extended_ward import ExtendedWard
+from epowcore.gdf.impedance import Impedance
 
 
 
@@ -26,7 +33,7 @@ class PandapowerExtractor:
             base_frequency=network.f_hz,
             base_mva=network.sn_mva,
         )
-
+        
         self.uid = 0
         self.bus_map: dict[int, Bus] = {}
         self.line_map: dict[int, TLine] = {}
@@ -39,7 +46,11 @@ class PandapowerExtractor:
         self._extract_synchronous_machines()
         self._extract_lines()
         self._extract_two_winding_transformers()
+        self._extract_shunts()
         self._extract_switches()
+        self._extract_three_winding_transformers()
+        self._extract_extended_wards()
+        self._extract_impedances()
 
 
     def _get_default(
@@ -542,6 +553,255 @@ class PandapowerExtractor:
                 self.bus_map[lv_bus_index],
                 connector_name1="LV",
             )
+
+            self.uid += 1
+
+    
+    def _extract_shunts(self) -> None:
+        """Extract pandapower shunts into the GDF CoreModel."""
+        for index, row in self.network.shunt.iterrows():
+            bus_index = int(row["bus"])
+
+            if bus_index not in self.bus_map:
+                raise ValueError(
+                    f"Shunt {index} references unknown bus {bus_index}"
+                )
+
+            name = row["name"]
+            if pd.isna(name):
+                name = f"Shunt {index}"
+
+            shunt = Shunt(
+                uid=self.uid,
+                name=str(name),
+                p=float(row["p_mw"]),
+                q=float(row["q_mvar"]),
+            )
+
+            self.core_model.add_component(shunt)
+
+            self.core_model.add_connection(
+                shunt,
+                self.bus_map[bus_index],
+            )
+
+            self.uid += 1
+
+    
+    def _extract_impedances(self) -> None:
+        """Extract pandapower series impedances into the GDF CoreModel."""
+
+        for index, row in self.network.impedance.iterrows():
+            from_bus_index = int(row["from_bus"])
+            to_bus_index = int(row["to_bus"])
+
+            if from_bus_index not in self.bus_map:
+                raise ValueError(
+                    f"Impedance {index} references unknown "
+                    f"from_bus {from_bus_index}"
+                )
+
+            if to_bus_index not in self.bus_map:
+                raise ValueError(
+                    f"Impedance {index} references unknown "
+                    f"to_bus {to_bus_index}"
+                )
+
+            name = row["name"]
+            if pd.isna(name):
+                name = f"Impedance {index}"
+
+            impedance = Impedance(
+                uid=self.uid,
+                name=str(name),
+                sn_mva=float(row["sn_mva"]),
+                r_pu=float(row["rft_pu"]),
+                x_pu=float(row["xft_pu"]),
+                r_pu_ba=float(row["rtf_pu"]),
+                x_pu_ba=float(row["xtf_pu"]),
+            )
+
+            self.core_model.add_component(impedance)
+
+            self.core_model.add_connection(
+                impedance,
+                self.bus_map[from_bus_index],
+                connector_name1="A",
+            )
+
+            self.core_model.add_connection(
+                impedance,
+                self.bus_map[to_bus_index],
+                connector_name1="B",
+            )
+
+            self.uid += 1
+
+
+    def _extract_shunts(self) -> None:
+        """Extract pandapower shunts into the GDF CoreModel."""
+        for index, row in self.network.shunt.iterrows():
+            bus_index = int(row["bus"])
+
+            if bus_index not in self.bus_map:
+                raise ValueError(
+                    f"Shunt {index} references unknown bus {bus_index}"
+                )
+
+            name = row["name"]
+            if pd.isna(name):
+                name = f"Shunt {index}"
+
+            shunt = Shunt(
+                uid=self.uid,
+                name=str(name),
+                p=float(row["p_mw"]),
+                q=float(row["q_mvar"]),
+            )
+
+            self.core_model.add_component(shunt)
+
+            self.core_model.add_connection(
+                shunt,
+                self.bus_map[bus_index],
+            )
+
+            self.uid += 1
+
+    # NEW: Extended wards
+    def _extract_extended_wards(self) -> None:
+        """Extract pandapower extended wards into GDF."""
+
+        for index, row in self.network.xward.iterrows():
+            bus_index = int(row["bus"])
+
+            if bus_index not in self.bus_map:
+                raise ValueError(
+                    f"Extended ward {index} references unknown bus {bus_index}"
+                )
+
+            name = row["name"]
+            if pd.isna(name):
+                name = f"XWard {index}"
+
+            xward = ExtendedWard(
+                uid=self.uid,
+                name=str(name),
+                p_load=float(row["ps_mw"]),
+                q_load=float(row["qs_mvar"]),
+                p_gen=0.0,
+                q_gen=0.0,
+                p_zload=float(row["pz_mw"]),
+                q_zload=float(row["qz_mvar"]),
+                u_setp=float(row["vm_pu"]),
+                r_ext=float(row["r_ohm"]),
+                x_ext=float(row["x_ohm"]),
+            )
+
+            self.core_model.add_component(xward)
+
+            self.core_model.add_connection(
+                xward,
+                self.bus_map[bus_index],
+            )
+
+            self.uid += 1
+
+    
+    def _extract_three_winding_transformers(self) -> None:
+        """Extract pandapower three-winding transformers into GDF."""
+
+        for index, row in self.network.trafo3w.iterrows():
+            bus_indices = {
+                side: int(row[f"{side}_bus"])
+                for side in ("hv", "mv", "lv")
+            }
+
+            for side, bus_index in bus_indices.items():
+                if bus_index not in self.bus_map:
+                    raise ValueError(
+                        f"Three-winding transformer {index}: "
+                        f"missing {side} bus {bus_index}"
+                    )
+
+            def impedance(vk_percent: float, vkr_percent: float):
+                r = float(vkr_percent) / 100.0
+                z = float(vk_percent) / 100.0
+                if z < abs(r):
+                    raise ValueError(
+                        f"Invalid transformer impedance: "
+                        f"vk={vk_percent}, vkr={vkr_percent}"
+                    )
+                x = math.sqrt(max(z**2 - r**2, 0.0))
+                return r, x
+
+            r_hm, x_hm = impedance(
+                row["vk_hv_percent"], row["vkr_hv_percent"]
+            )
+            r_ml, x_ml = impedance(
+                row["vk_mv_percent"], row["vkr_mv_percent"]
+            )
+            r_lh, x_lh = impedance(
+                row["vk_lv_percent"], row["vkr_lv_percent"]
+            )
+
+            def optional_int(value):
+                return None if pd.isna(value) else int(value)
+
+            def optional_float(value):
+                return None if pd.isna(value) else float(value)
+
+            name = row["name"]
+            if pd.isna(name):
+                name = f"Three Winding Transformer {index}"
+
+            transformer = ThreeWindingTransformer(
+                uid=self.uid,
+                name=str(name),
+                rating_hv=float(row["sn_hv_mva"]),
+                rating_mv=float(row["sn_mv_mva"]),
+                rating_lv=float(row["sn_lv_mva"]),
+                voltage_hv=float(row["vn_hv_kv"]),
+                voltage_mv=float(row["vn_mv_kv"]),
+                voltage_lv=float(row["vn_lv_kv"]),
+                r1_hm=r_hm,
+                r1_ml=r_ml,
+                r1_lh=r_lh,
+                x1_hm=x_hm,
+                x1_ml=x_ml,
+                x1_lh=x_lh,
+                pfe_kw=float(row["pfe_kw"]),
+                no_load_current=float(row["i0_percent"]),
+                connection_type_hv=WindingConfig.YN,
+                connection_type_mv=WindingConfig.YN,
+                connection_type_lv=WindingConfig.YN,
+                phase_shift_30_hv=0,
+                phase_shift_30_mv=round(float(row["shift_mv_degree"]) / 30),
+                phase_shift_30_lv=round(float(row["shift_lv_degree"]) / 30),
+                tap_side=(
+                    None if pd.isna(row["tap_side"])
+                    else str(row["tap_side"])
+                ),
+                tap_changer_voltage=(
+                    optional_float(row["tap_step_percent"]) / 100.0
+                    if not pd.isna(row["tap_step_percent"])
+                    else None
+                ),
+                tap_min=optional_int(row["tap_min"]),
+                tap_max=optional_int(row["tap_max"]),
+                tap_neutral=optional_int(row["tap_neutral"]),
+                tap_initial=optional_int(row["tap_pos"]),
+                tap_at_star_point=bool(row["tap_at_star_point"]),
+            )
+
+            self.core_model.add_component(transformer)
+
+            for side in ("hv", "mv", "lv"):
+                self.core_model.add_connection(
+                    transformer,
+                    self.bus_map[bus_indices[side]],
+                    connector_name1=side.upper(),
+                )
 
             self.uid += 1
 

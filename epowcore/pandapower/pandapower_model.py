@@ -23,6 +23,9 @@ from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransfor
 from epowcore.gdf.utils import get_connected_bus
 from epowcore.gdf.ward import Ward
 from epowcore.generic.logger import Logger
+from epowcore.gdf.extended_ward import ExtendedWard
+from epowcore.gdf.impedance import Impedance
+
 
 
 # TODO: General check how to handle values that are only present in some models
@@ -136,15 +139,7 @@ class PandapowerModel:
             return False
         # Calculate parameters
         # uktrr in pandapower powerfactory converter
-        if transformer.x1pu == 0:
-            vkr_percent = 0.0
-        else:
-            vkr_percent = (
-                math.sqrt(transformer.r1pu**2 + transformer.x1pu**2)
-                * 100
-                * transformer.r1pu
-                / transformer.x1pu
-            )
+        vkr_percent = transformer.r1pu * 100.0
         # uktr in pandapower powerfactory converter
         # TODO: Check if this calculation is correct
         vk_percent = math.sqrt(transformer.r1pu**2 + transformer.x1pu**2) * 100
@@ -178,7 +173,11 @@ class PandapowerModel:
             tap_neutral=transformer.tap_neutral,
             tap_max=transformer.tap_max,
             tap_min=transformer.tap_min,
-            tap_step_percent=transformer.tap_changer_voltage * 100,
+            tap_step_percent=(
+                transformer.tap_changer_voltage * 100
+                if transformer.tap_changer_voltage is not None
+                else np.nan
+            ),
             tap_step_degree=np.nan,
             tap_pos=transformer.tap_initial,
             tap_changer_type="Ratio",
@@ -213,89 +212,141 @@ class PandapowerModel:
         )
         return True
 
+    
     def create_three_winding_transformer_from_gdf(
         self, core_model: CoreModel, transformer3w: ThreeWindingTransformer
     ) -> bool:
-        """Create a thee winding pandapower transformer based on a given
-        three winding transformer from gdf and add it into the network. Returns
-        True if high, middle and low voltage bus are found, if not returns False
-        and doesn't create a three winding transformer in the pandapower network.
+        """Create a three-winding pandapower transformer from a GDF transformer.
 
+        The transformer is connected to the HV, MV and LV buses stored
+        in the CoreModel. Electrical impedance and tap-changer parameters
+        are reconstructed from the GDF values.
 
-        :param core_model: Core model to be converted.
-        :type core_model: CoreModel
-        :param transformer3w: Three winding transformer in the core model that
-                              will be converted and added to the converted
-                              pandapower model.
-        :type transformer3w: ThreeWindingTransformer
-        :return: Return False if the conversion fails and True if it suceeds.
-        :rtype: bool
+        Returns True if the transformer is created successfully,
+        or False if one of the connected buses is missing.
         """
-        # Get the bus connected to the transformer on the high voltage side
+
+        # Find the connected high-voltage bus
         high_voltage_bus = core_model.get_neighbors(
-            component=transformer3w, follow_links=True, connector="HV"
+            component=transformer3w,
+            follow_links=True,
+            connector="HV",
         )
-        # Get the bus connected to the transformer on the middle voltage side
+
+        # Find the connected medium-voltage bus
         middle_voltage_bus = core_model.get_neighbors(
-            component=transformer3w, follow_links=True, connector="MV"
+            component=transformer3w,
+            follow_links=True,
+            connector="MV",
         )
-        # Get the bus connected to the transformer on the low voltage side
+
+        # Find the connected low-voltage bus
         low_voltage_bus = core_model.get_neighbors(
-            component=transformer3w, follow_links=True, connector="LV"
+            component=transformer3w,
+            follow_links=True,
+            connector="LV",
         )
-        # If either bus wasnt found the function failed
-        if not high_voltage_bus or not low_voltage_bus or not middle_voltage_bus:
-            Logger.log_to_selected("Failled to convert three winding transformer")
+
+        # Verify that all three buses are available
+        if not high_voltage_bus or not middle_voltage_bus or not low_voltage_bus:
+            Logger.log_to_selected(
+                f"Failed to convert three-winding transformer {transformer3w.name}: "
+                "one or more connected buses are missing"
+            )
             return False
-        # Create transformer in pandapower network
-        pandapower.create.create_transformer3w_from_parameters(
+
+        # Convert GDF per-unit impedances to pandapower percentages
+        vk_hv_percent = 100.0 * math.hypot(
+            transformer3w.r1_hm,
+            transformer3w.x1_hm,
+        )
+
+        vk_mv_percent = 100.0 * math.hypot(
+            transformer3w.r1_ml,
+            transformer3w.x1_ml,
+        )
+
+        vk_lv_percent = 100.0 * math.hypot(
+            transformer3w.r1_lh,
+            transformer3w.x1_lh,
+        )
+
+        # Convert per-unit resistance to percentages
+        vkr_hv_percent = 100.0 * transformer3w.r1_hm
+        vkr_mv_percent = 100.0 * transformer3w.r1_ml
+        vkr_lv_percent = 100.0 * transformer3w.r1_lh
+
+        # Convert tap voltage change from per-unit to percent
+        tap_step_percent = (
+            transformer3w.tap_changer_voltage * 100.0
+            if transformer3w.tap_changer_voltage is not None
+            else np.nan
+        )
+
+        # Create the three-winding transformer in pandapower
+        pandapower.create_transformer3w_from_parameters(
             net=self.network,
             name=transformer3w.name,
             index=transformer3w.uid,
+
+            # Connected buses
             hv_bus=high_voltage_bus[0].uid,
             mv_bus=middle_voltage_bus[0].uid,
             lv_bus=low_voltage_bus[0].uid,
+
+            # Nominal voltages [kV]
             vn_hv_kv=transformer3w.voltage_hv,
             vn_mv_kv=transformer3w.voltage_mv,
             vn_lv_kv=transformer3w.voltage_lv,
+
+            # Rated apparent powers [MVA]
             sn_hv_mva=transformer3w.rating_hv,
             sn_mv_mva=transformer3w.rating_mv,
             sn_lv_mva=transformer3w.rating_lv,
-            vk_hv_percent=transformer3w.get_default(attr="vk_percent"),
-            vk_mv_percent=transformer3w.get_default(attr="vk_percent"),
-            vk_lv_percent=transformer3w.get_default(attr="vk_percent"),
-            vkr_hv_percent=transformer3w.get_default(attr="vkr_hv_percent"),
-            vkr_mv_percent=transformer3w.get_default(attr="vkr_hv_percent"),
-            vkr_lv_percent=transformer3w.get_default(attr="vkr_hv_percent"),
+
+            # Short-circuit voltage percentages
+            vk_hv_percent=vk_hv_percent,
+            vk_mv_percent=vk_mv_percent,
+            vk_lv_percent=vk_lv_percent,
+
+            # Resistive short-circuit voltage percentages
+            vkr_hv_percent=vkr_hv_percent,
+            vkr_mv_percent=vkr_mv_percent,
+            vkr_lv_percent=vkr_lv_percent,
+
+            # No-load losses
             pfe_kw=transformer3w.pfe_kw,
             i0_percent=transformer3w.no_load_current,
+
+            # Phase shifts [degrees]
             shift_mv_degree=transformer3w.phase_shift_30_mv * 30,
             shift_lv_degree=transformer3w.phase_shift_30_lv * 30,
-            tap_side="hv",
-            tap_step_percent=transformer3w.TapDetails.tap_changer_voltage * 100,
+
+            # Tap-changer configuration
+            tap_side=transformer3w.tap_side,
+            tap_neutral=transformer3w.tap_neutral,
+            tap_min=transformer3w.tap_min,
+            tap_max=transformer3w.tap_max,
+            tap_pos=transformer3w.tap_initial,
+            tap_step_percent=tap_step_percent,
             tap_step_degree=np.nan,
-            tap_pos=transformer3w.TapDetails.tap_initial,
-            tap_neutral=transformer3w.TapDetails.tap_neutral,
-            tap_max=transformer3w.TapDetails.tap_max,
-            tap_min=transformer3w.TapDetails.tap_min,
+            tap_changer_type=(
+                "Ratio" if transformer3w.tap_side is not None else None
+            ),
+            tap_at_star_point=transformer3w.tap_at_star_point,
+
+            # Additional settings
             in_service=True,
             max_loading_percent=np.nan,
-            tap_at_star_point=False,
-            vk0_hv_percent=np.nan,
-            vk0_mv_percent=np.nan,
-            vk0_lv_percent=np.nan,
-            vkr0_hv_percent=np.nan,
-            vkr0_mv_percent=np.nan,
-            vkr0_lv_percent=np.nan,
             vector_group=None,
-            vk_hv_percent_characteristic=None,
-            vkr_hv_percent_characteristic=None,
-            vk_mv_percent_characteristic=None,
-            vkr_mv_percent_characteristic=None,
-            vk_lv_percent_characteristic=None,
-            vkr_lv_percent_characteristic=None,
         )
+
+        Logger.log_to_selected(
+            f"Successfully created three-winding transformer: {transformer3w.name}"
+        )
+
         return True
+
 
     def create_generator_from_gdf_synchronous_machine(
         self, core_model: CoreModel, synchronous_machine: SynchronousMachine
@@ -512,6 +563,43 @@ class PandapowerModel:
             )
         return True
 
+    
+    def create_extended_ward_from_gdf(
+        self, core_model: CoreModel, xward: ExtendedWard
+    ) -> bool:
+        """Create a pandapower extended ward from a GDF ExtendedWard."""
+
+        xward_bus = get_connected_bus(
+            core_model.graph,
+            xward,
+            max_depth=1,
+        )
+
+        if xward_bus is None:
+            Logger.log_to_selected(
+                f"Failed to convert extended ward {xward.name}: "
+                "no connected bus found"
+            )
+            return False
+
+        pandapower.create_xward(
+            net=self.network,
+            index=xward.uid,
+            name=xward.name,
+            bus=xward_bus.uid,
+            ps_mw=xward.p_load - xward.p_gen,
+            qs_mvar=xward.q_load - xward.q_gen,
+            pz_mw=xward.p_zload,
+            qz_mvar=xward.q_zload,
+            r_ohm=xward.r_ext,
+            x_ohm=xward.x_ext,
+            vm_pu=xward.u_setp,
+            in_service=True,
+        )
+
+        return True
+
+
     def create_ward_from_gdf_ward(self, core_model: CoreModel, ward: Ward) -> bool:
         """Create a ward in the pandapower network equivalent to a given
         ward from the gdf. Returns True if ward bus is found, if not returns False
@@ -569,13 +657,18 @@ class PandapowerModel:
             )
             return False
         # Create shunt in pandapower network
+        
         pandapower.create_shunt(
             net=self.network,
             index=shunt.uid,
-            bus=shunt_bus,
+            bus=shunt_bus.uid,
+            name=shunt.name,
             p_mw=shunt.p,
             q_mvar=shunt.q,
+            vn_kv=shunt_bus.nominal_voltage,
+            in_service=True,
         )
+
         return True
 
     def _create_pandapower_switch_et(self, component: Component) -> str | bool:
@@ -595,7 +688,7 @@ class PandapowerModel:
             case Bus():
                 return "b"
             case TLine():
-                return "I"
+                return "l"
             case TwoWindingTransformer():
                 return "t"
             case ThreeWindingTransformer():
@@ -652,6 +745,64 @@ class PandapowerModel:
             in_ka=switch.get_default(attr="in_ka") * 1000 / voltage,
         )
         return True
+
+    
+    def create_impedance_from_gdf(
+        self, core_model: CoreModel, impedance: Impedance
+    ) -> bool:
+        """Create a pandapower series impedance from a GDF Impedance."""
+
+        # Find the bus connected to terminal A (from_bus)
+        from_bus = core_model.get_neighbors(
+            component=impedance,
+            follow_links=True,
+            connector="A",
+        )
+
+        # Find the bus connected to terminal B (to_bus)
+        to_bus = core_model.get_neighbors(
+            component=impedance,
+            follow_links=True,
+            connector="B",
+        )
+
+        if not from_bus or not to_bus:
+            Logger.log_to_selected(
+                f"Failed to convert impedance {impedance.name}: "
+                "one or both connected buses are missing"
+            )
+            return False
+
+        # Use forward values when reverse values are unspecified.
+        rtf_pu = (
+            impedance.r_pu_ba
+            if impedance.r_pu_ba is not None
+            else impedance.r_pu
+        )
+
+        xtf_pu = (
+            impedance.x_pu_ba
+            if impedance.x_pu_ba is not None
+            else impedance.x_pu
+        )
+
+        pandapower.create_impedance(
+            net=self.network,
+            index=impedance.uid,
+            name=impedance.name,
+            from_bus=from_bus[0].uid,
+            to_bus=to_bus[0].uid,
+            rft_pu=impedance.r_pu,
+            xft_pu=impedance.x_pu,
+            rtf_pu=rtf_pu,
+            xtf_pu=xtf_pu,
+            sn_mva=impedance.sn_mva,
+            in_service=True,
+        )
+
+        return True
+
+
 
     def create_switch_from_gdf_tline(self, core_model: CoreModel, tline: TLine) -> bool:
         """Create a pandapower switch in the network from a given gdf transmission line.
