@@ -202,6 +202,8 @@ class BranchDataEntry:
 class MatpowerModel:
     base_mva: float
     version: int = 2
+    name: str = ""
+    model_version: str = ""
     bus: list[BusDataEntry]
     branch: list[BranchDataEntry]  #  = np.array([], dtype=np.complex128),
     gen: list[GeneratorDataEntry]
@@ -221,6 +223,8 @@ class MatpowerModel:
             "mpc": {
                 "baseMVA": self.base_mva,
                 "version": self.version,
+                "name": self.name,
+                "model_version": self.model_version,
                 "bus": np.array([b.to_nparray() for b in self.bus], dtype=float),
                 "branch": np.array([b.to_nparray() for b in self.branch], dtype=float),
                 "gen": np.array([g.to_nparray() for g in self.gen], dtype=float),

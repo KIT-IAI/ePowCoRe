@@ -27,6 +27,11 @@ class CoreModel:
     """Graph of connection between elements."""
     version: int = GDF_VERSION
     """Version of the generic data format."""
+    name: str = ""
+    """Name of the grid model."""
+
+    model_version: str = ""
+    """Version of the grid model."""
 
     def base_mva_fb(self, platform: Platform | None = None) -> float:
         """Base rating for pu calculations in the project with fallback."""

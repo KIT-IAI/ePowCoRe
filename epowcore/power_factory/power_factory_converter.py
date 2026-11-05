@@ -39,7 +39,11 @@ class PowerFactoryConverter(ConverterBase[PFModel]):
         :rtype: PFModel
         """
 
-        exporter = PowerFactoryExporter(core_model=core_model, name=name, app=self.app)
+        exporter = PowerFactoryExporter(
+            core_model=core_model,
+            name=name,
+            app=self.app,
+        )
         exporter.convert_model()
         exporter.save_pf_model()
         return exporter.get_pf_model_object()

@@ -32,9 +32,13 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
     Logger.log_to_selected("Creating Pandapower network")
     pandapower_network = PandapowerModel(
         network=pandapower.create_empty_network(
-            f_hz=core_model.base_frequency, sn_mva=core_model.base_mva_fb(), add_stdtypes=False
+            name=core_model.name,
+            f_hz=core_model.base_frequency,
+            sn_mva=core_model.base_mva_fb(),
+            add_stdtypes=False,
         )
     )
+    pandapower_network.network["model_version"] = core_model.model_version
 
     Logger.log_to_selected("Creating buses in the Pandapower network")
     counter = 0

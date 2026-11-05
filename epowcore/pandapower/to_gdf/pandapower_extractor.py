@@ -25,6 +25,8 @@ class PandapowerExtractor:
         self.core_model = CoreModel(
             base_frequency=network.f_hz,
             base_mva=network.sn_mva,
+            name=network.get("name") or "",
+            model_version=network.get("model_version") or "",
         )
 
         self.uid = 0

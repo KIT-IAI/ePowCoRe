@@ -23,12 +23,31 @@ def import_jmdl(
     :param graph: Required for recursive calls to add components to correct graph.
     :type graph: ComponentGraph | None
     """
+    metadata = jmdl.data.entries_dict
+
+    name = str(metadata["modelName"].value or "") if "modelName" in metadata else ""
+    model_version = (
+        str(metadata["modelVersion"].value or "")
+        if "modelVersion" in metadata
+        else ""
+    )
+
     if graph is None:
-        core_model = CoreModel(base_frequency=jmdl.base_frequency, base_mva=jmdl.base_mva)
+        core_model = CoreModel(
+            base_frequency=jmdl.base_frequency,
+            base_mva=jmdl.base_mva,
+            name=name,
+            model_version=model_version,
+        )
     else:
         core_model = CoreModel(
-            base_frequency=jmdl.base_frequency, base_mva=jmdl.base_mva, graph=graph
+            base_frequency=jmdl.base_frequency,
+            base_mva=jmdl.base_mva,
+            graph=graph,
+            name=name,
+            model_version=model_version,
         )
+
 
     if base_core_model is None:
         base_core_model = core_model

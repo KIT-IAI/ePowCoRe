@@ -7,3 +7,4 @@ class PFModel:
     project_name: str
     study_case_name: str | None
     frequency: float
+    model_version: str = ""
