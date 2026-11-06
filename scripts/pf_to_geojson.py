@@ -17,7 +17,7 @@ def main() -> None:
 
     pf_converter = PowerFactoryConverter()
     core_model = pf_converter.to_gdf(
-        PFModel(model_name, study_case_name, frequency), log_path=log_path
+        PFModel(model_name, study_case_name), log_path=log_path
     )
 
     geo_converter = GeoJSONConverter()
