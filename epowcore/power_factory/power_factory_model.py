@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class PFModel:
     """A basic description for a PowerFactory project."""
