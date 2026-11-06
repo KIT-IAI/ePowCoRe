@@ -1,5 +1,11 @@
-import powerfactory as pf
+from __future__ import annotations
+
 from typing import Any
+
+try:
+    import powerfactory as pf
+except ImportError:
+    pf = None
 
 
 def get_coords(obj: Any) -> tuple[float, float] | list[tuple[float, float]] | None:
@@ -24,7 +30,7 @@ def get_coords(obj: Any) -> tuple[float, float] | list[tuple[float, float]] | No
 
     parent = obj.GetParent()
 
-    if parent is None or parent.GetClassName() != "ElmSite":
+    if parent is None or parent.GetClassName() not in ("ElmSite", "ElmSubstat"):
         return None
 
     if not (hasattr(parent, "GPSlat") and hasattr(parent, "GPSlon")):
@@ -51,9 +57,13 @@ def get_ctrl_param(ctrl_obj: Any, param: str | list[str]) -> Any:
     :rtype: Any
     """
     model_params = ctrl_obj.GetAttribute("parameterNames")
-    if not isinstance(model_params, list):
-        raise TypeError("Expected params to be a list: ['A,B,C']")
-    model_params = model_params[0].split(",")
+
+    if isinstance(model_params, str):
+        model_params = model_params.split(",")
+    elif isinstance(model_params, list):
+        model_params = model_params[0].split(",")
+    else:
+        raise TypeError("Expected parameterNames to be a string or list")
 
     if isinstance(param, str):
         if param not in model_params:

@@ -18,9 +18,9 @@ dependencies = [
     "matplotlib",
     "scipy",
     "pyyaml",
-    "pandapower==2.14.11",
     "geopandas",
     "contextily",
+    "pandapower==3.5.4",
 ]
 
 [dependency-groups]

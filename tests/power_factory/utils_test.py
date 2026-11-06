@@ -46,6 +46,21 @@ def test_get_coords_inherits_coordinates_from_site() -> None:
     assert get_coords(component) == (49.02, 8.42)
 
 
+def test_get_coords_inherits_coordinates_from_substation() -> None:
+    substation = FakePFObject(
+        class_name="ElmSubstat",
+        gps_lat=49.04,
+        gps_lon=8.44,
+    )
+
+    component = FakePFObject(
+        class_name="ElmLod",
+        parent=substation,
+    )
+
+    assert get_coords(component) == (49.04, 8.44)
+
+
 def test_get_coords_does_not_inherit_from_non_site_parent() -> None:
     parent = FakePFObject(
         class_name="ElmNet",
@@ -69,6 +84,19 @@ def test_get_coords_returns_none_if_site_has_default_coordinates() -> None:
     component = FakePFObject(
         class_name="ElmLod",
         parent=site,
+    )
+
+    assert get_coords(component) is None
+
+
+def test_get_coords_returns_none_if_substation_has_default_coordinates() -> None:
+    substation = FakePFObject(
+        class_name="ElmSubstat",
+    )
+
+    component = FakePFObject(
+        class_name="ElmLod",
+        parent=substation,
     )
 
     assert get_coords(component) is None
