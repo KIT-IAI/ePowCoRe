@@ -34,6 +34,11 @@ class PowerFactoryExtractor:
         """Id for the elements extracted to the core model"""
         self.graph = nx.Graph()
         """Graph for PowerFactory elements"""
+        self.core_model = CoreModel(
+            base_frequency=frequency,
+            name=project_name,
+        )
+        """Collects the extracted values"""
 
         # Get the PowerFactory Application
         if app is None:

@@ -39,7 +39,7 @@ class PyPSAExporter:
         pypsa.set_option("params.add.return_names", True)
 
         self.core_model = core_model
-        self.model_name = name
+        self.model_name = core_model.name or name
 
         self.method_mapping = {
             Bus: self.add_bus_from_gdf,
@@ -61,6 +61,7 @@ class PyPSAExporter:
         """
 
         self.pypsa_model = Network(name=self.model_name)
+        self.pypsa_model.meta["model_version"] = self.core_model.model_version
 
         # default for busses
         self.pypsa_model.components.carriers.add("AC")

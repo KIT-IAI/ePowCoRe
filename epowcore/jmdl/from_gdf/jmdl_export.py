@@ -72,6 +72,8 @@ def export_jmdl(
         Data("", DataType.FLOAT64, [], base_mva, None, "baseMVA"),
         Data("", DataType.INT64, [], core_model.base_frequency, None, "frequency"),
         Data("", DataType.STRING, [], "2", None, "mpcVersion"),
+        Data("", DataType.STRING, [], core_model.name, None, "modelName"),
+        Data("", DataType.STRING, [], core_model.model_version, None, "modelVersion"),
     ]
     data = Data("", DataType.GROUP, data_entries, None, None, "data")
 

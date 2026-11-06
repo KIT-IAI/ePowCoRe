@@ -6,4 +6,6 @@ class PFModel:
     """A basic description for a PowerFactory project."""
 
     project_name: str
-    study_case_name: str | None = None
+    study_case_name: str | None
+    frequency: float
+    model_version: str = ""

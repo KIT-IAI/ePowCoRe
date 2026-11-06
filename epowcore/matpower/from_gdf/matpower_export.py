@@ -138,6 +138,12 @@ def export_matpower(core_model: CoreModel) -> MatpowerModel:
             )
         )
 
+
     return MatpowerModel(
-        base_mva=base_mva, bus=list(buses.values()), gen=generators, branch=branches
+        base_mva=base_mva,
+        bus=list(buses.values()),
+        gen=generators,
+        branch=branches,
+        name=core_model.name,
+        model_version=core_model.model_version,
     )
