@@ -62,6 +62,28 @@ class ThreeWindingTransformer(Transformer):
     """Phase shift for secondary winding [30 deg]"""
     phase_shift_30_lv: int
     """Phase shift for tertiary winding [30 deg]"""
+    
+    tap_side: str | None = None
+    """Side containing the tap changer: hv, mv, or lv."""
+
+    tap_changer_voltage: float | None = None
+    """Voltage change per tap step [p.u.]."""
+
+    tap_min: int | None = None
+    """Minimum tap position."""
+
+    tap_max: int | None = None
+    """Maximum tap position."""
+
+    tap_neutral: int | None = None
+    """Neutral tap position."""
+
+    tap_initial: int | None = None
+    """Initial tap position."""
+
+    tap_at_star_point: bool = False
+    """Whether the tap changer is located at the star point."""
+
 
     @property
     def pfe_pu(self) -> float:

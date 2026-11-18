@@ -12,6 +12,10 @@ from epowcore.gdf.transformers.two_winding_transformer import TwoWindingTransfor
 from epowcore.generic.logger import Logger
 from epowcore.generic.manipulation.flatten import flatten
 from epowcore.pandapower.pandapower_model import PandapowerModel
+from epowcore.gdf.shunt import Shunt
+from epowcore.gdf.transformers.three_winding_transformer import ThreeWindingTransformer
+from epowcore.gdf.extended_ward import ExtendedWard
+from epowcore.gdf.impedance import Impedance
 
 
 def export_pandapower(core_model: CoreModel) -> PandapowerModel:
@@ -49,6 +53,27 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
         counter += 1
     Logger.log_to_selected(f"created {counter} out of {number_of_buses}")
 
+    
+    Logger.log_to_selected(
+        "Creating impedances in the Pandapower network"
+    )
+
+    counter = 0
+    gdf_impedance_list = core_model.type_list(Impedance)
+    number_of_impedances = len(gdf_impedance_list)
+
+    for gdf_impedance in gdf_impedance_list:
+        if pandapower_network.create_impedance_from_gdf(
+            core_model=core_model,
+            impedance=gdf_impedance,
+        ):
+            counter += 1
+
+    Logger.log_to_selected(
+        f"Created {counter} out of {number_of_impedances}"
+    )
+
+
     Logger.log_to_selected("Creating loads in the Pandapower network")
     counter = 0
     gdf_load_list = core_model.type_list(Load)
@@ -57,7 +82,40 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
         if pandapower_network.create_load_from_gdf(core_model=core_model, load=gdf_load):
             counter += 1
     Logger.log_to_selected(f"created {counter} out of {number_of_loads}")
+    Logger.log_to_selected(
+        "Creating extended wards in the Pandapower network"
+    )
 
+    counter = 0
+    gdf_extended_ward_list = core_model.type_list(ExtendedWard)
+
+    for gdf_extended_ward in gdf_extended_ward_list:
+        if pandapower_network.create_extended_ward_from_gdf(
+            core_model=core_model,
+            xward=gdf_extended_ward,
+        ):
+            counter += 1
+
+    Logger.log_to_selected(
+        f"Created {counter} out of {len(gdf_extended_ward_list)}"
+    )
+
+
+    Logger.log_to_selected("Creating shunts in the Pandapower network")
+    counter = 0
+    gdf_shunt_list = core_model.type_list(Shunt)
+    number_of_shunts = len(gdf_shunt_list)
+
+    for gdf_shunt in gdf_shunt_list:
+        if pandapower_network.create_shunt_from_gdf_shunt(
+            core_model=core_model,
+            shunt=gdf_shunt,
+        ):
+            counter += 1
+
+    Logger.log_to_selected(
+        f"Created {counter} out of {number_of_shunts}"
+    )
     Logger.log_to_selected("Creating transformer in the Pandapower network")
     counter = 0
     gdf_two_winding_transformer_list = core_model.type_list(TwoWindingTransformer)
@@ -68,6 +126,24 @@ def export_pandapower(core_model: CoreModel) -> PandapowerModel:
         ):
             counter += 1
     Logger.log_to_selected(f"created {counter} out of {number_of_two_winding_transformers}")
+    Logger.log_to_selected(
+        "Creating three-winding transformers in the Pandapower network"
+    )
+    counter = 0
+    gdf_three_winding_transformer_list = core_model.type_list(ThreeWindingTransformer)
+    number_of_three_winding_transformers = len(gdf_three_winding_transformer_list)
+
+    for gdf_three_winding_transformer in gdf_three_winding_transformer_list:
+        if pandapower_network.create_three_winding_transformer_from_gdf(
+            core_model=core_model,
+            transformer3w=gdf_three_winding_transformer,
+        ):
+            counter += 1
+
+    Logger.log_to_selected(
+        f"created {counter} out of {number_of_three_winding_transformers}"
+    )
+
 
     Logger.log_to_selected(
         "Creating static generators from static machines in the Pandapower network"
